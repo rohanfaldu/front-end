@@ -1,6 +1,6 @@
 
 'use client'
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from 'react';
 import AddClassBody from "../elements/AddClassBody"
 import BackToTop from '../elements/BackToTop'
 import ModalLogin from "../elements/ModalLogin"
@@ -24,6 +24,7 @@ export default function Layout({ headerStyle, hcls, footerStyle, breadcrumbTitle
 	}
 	// Login
 	const [isLogin, setLogin] = useState(false)
+	//localStorage.getItem('tokenExpiration')?setLogin(true):setLogin(false);
 	const handleLogin = () => {
 		setLogin(!isLogin)
 		!isLogin ? document.body.classList.add("modal-open") : document.body.classList.remove("modal-open")
@@ -54,6 +55,11 @@ export default function Layout({ headerStyle, hcls, footerStyle, breadcrumbTitle
 
 
 	useEffect(() => {
+
+		const loggedInStatus = localStorage.getItem('isLoggedIn');
+		if (loggedInStatus === 'true') {
+			setLogin(true);
+		}
 		const WOW = require('wowjs')
 		window.wow = new WOW.WOW({
 			live: false

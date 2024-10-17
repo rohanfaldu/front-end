@@ -1,8 +1,67 @@
+'use client'
 import Link from "next/link"
-
+import googleLogin from "../../components/api/Auth/Google"
+import React, { useEffect, useState } from 'react';
+import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+import { jwtDecode } from "jwt-decode";
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { usePathname } from 'next/navigation'
+import Dashboard from "@/app/dashboard/page";
 export default function ModalLogin({ isLogin, handleLogin, isRegister, handleRegister }) {
+	const [isLoggedIn, setIsLoggedIn] = useState(false);
+ 	const [user, setUser] = useState(null);
+ 	const base_url = process.env.APP_API_URL;
+	const clientId = '137209708934-r21oa7tpg8q2ef31qnge136u3pogt3hf.apps.googleusercontent.com';
+	
+  	const onSuccess = async (response) => {
+		const APP_API_URL = "http://localhost:7000";
+		const userObject = jwtDecode(response.credential); // Decode JWT to extract user info
+		console.log(userObject);
+		const userData = {
+			full_name: userObject.name, 
+			user_name: userObject.given_name, 
+			email_address: userObject.email, 
+			fcm_token: userObject.fcm_token, 
+			image_url: 	userObject.picture?userObject.picture : '', 
+			type: "user", 
+			mobile_number: '', 
+			password: ''
+		}
+		try {
+			const response = await axios.post(`${APP_API_URL}/auth/user`, userData, {
+				headers: {
+					'Content-Type': 'application/json'
+				},
+			});
+			console.log(response);
+			if(response.data.status === true) {
+				localStorage.setItem('token', response.data.token);
+				localStorage.setItem('user', JSON.stringify(response.data.data.userProfile));
+
+				// Set the token to expire in 1 hour (3600 seconds)
+				const expirationTime = Date.now() + 3600000; // 1 hour from now
+				localStorage.setItem('tokenExpiration', expirationTime);
+				localStorage.setItem('isLoggedIn', 'true');
+				window.location.href = '/dashboard';
+				//window.history.pushState({}, '', `/dashboard`);
+    			//setPage('dashboard');
+				//handleLogin();
+				//setIsLoggedIn(true);
+			}
+			
+		} catch (error) {
+			console.error('Error sending data:', error);
+		}
+	};
+
+	const onFailure = (response) => {
+		console.error('Login failed: res:', response);
+	};
+	
 	return (
 		<>
+		
 			<div className={`modal fade ${isLogin ? "show d-block" : ""}`} id="modalLogin">
 				<div className="modal-dialog modal-dialog-centered">
 					<div className="modal-content">
@@ -12,7 +71,7 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 							<form action="#">
 								<fieldset className="box-fieldset">
 									<label htmlFor="name">Your Names<span>*</span>:</label>
-									<input type="text" className="form-contact style-1" defaultValue="themesflat@gmail.com|" />
+									<input type="text" className="form-contact style-1" placeholder="Email Address" />
 								</fieldset>
 								<fieldset className="box-fieldset">
 									<label htmlFor="pass">Password<span>*</span>:</label>
@@ -41,11 +100,24 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 										<img src="/images/logo/google.jpg" alt="img" />
 										Continue with Google
 									</Link>
-									<Link href="#" className="btn-login-social">
-										<img src="/images/logo/tw.jpg" alt="img" />
-										Continue with Twitter
-									</Link>
+									<GoogleOAuthProvider clientId={clientId}>
+										<GoogleLogin
+											clientId={clientId}
+											onSuccess={onSuccess}
+											onFailure={onFailure}
+											cookiePolicy={'single_host_origin'}
+											className="btn-login-social"
+											icon={false}  // Removes the default Google icon
+											render={(renderProps) => (
+												<button onClick={renderProps.onClick} disabled={renderProps.disabled} className="btn-login-social">
+													<img src="/images/logo/google.jpg" alt="img" />
+													Continue with Google
+												</button>
+											)}
+										/>
+									</GoogleOAuthProvider>
 								</div>
+								<button type="button"  onClick={googleLogin()} className="tf-btn primary w-100">Login Google</button>
 								<button type="submit" className="tf-btn primary w-100">Login</button>
 								<div className="mt-12 text-variant-1 text-center noti">Not registered yet?
 									<a onClick={() => { handleLogin(); handleRegister() }} className="text-black fw-5">Sign Up</a>

@@ -1,16 +1,24 @@
 'use client'
 import Link from "next/link"
-import { useState } from "react"
+import React, { useEffect, useState } from 'react';
 import Menu from "../Menu"
 import MobileMenu from "../MobileMenu"
-
+import { capitalizeFirstChar, getRandomInt } from "../../../components/common/functions"
 export default function Header3({ scroll, isSidebar, handleSidebar, isMobileMenu, handleMobileMenu }) {
 	const [isToggled, setToggled] = useState(false)
 	const handleToggle = () => setToggled(!isToggled)
+	const [userName, setUserName] = useState('');
+	const [userImage, setUserImage] = useState('');
+	useEffect(() => {
+	  const userDetail = JSON.parse(localStorage.getItem('user'));
+	  setUserImage(userDetail.image)
+	  const capitalizedString = capitalizeFirstChar(userDetail.user_name);
+	  setUserName(capitalizedString)
+	}, []);
 	return (
 		<>
 
-			<header className="main-header fixed-header header-dashboard">
+			<header className="main-header fixed-header header-dashboard 8909">
 				{/* Header Lower */}
 				<div className="header-lower">
 					<div className="row">
@@ -35,9 +43,9 @@ export default function Header3({ scroll, isSidebar, handleSidebar, isMobileMenu
 								<div className="header-account">
 									<a onClick={handleToggle} className={`box-avatar dropdown-toggle ${isToggled ? "show" : ""}`}>
 										<div className="avatar avt-40 round">
-											<img src="/images/avatar/avt-2.jpg" alt="avt" />
+											{userImage? <img src={userImage} alt="avt" /> : <img src="/images/avatar/avt-2.jpg" alt="avt" />}
 										</div>
-										<p className="name">Tony Nguyen<span className="icon icon-arr-down" /></p>
+										<p className="name">{userName??""}<span className="icon icon-arr-down" /></p>
 									</a>
 									<div className={`dropdown-menu  ${isToggled ? "show" : ""}`} style={{ position: 'absolute', inset: '0px auto auto 0px', margin: 0, transform: 'translate(1494px, 62px)' }}>
 										<Link className="dropdown-item" href="/my-favorites">My Properties</Link>
