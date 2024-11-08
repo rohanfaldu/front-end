@@ -11,21 +11,51 @@ import Dashboard from "@/app/dashboard/page";
 export default function ModalLogin({ isLogin, handleLogin, isRegister, handleRegister }) {
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
  	const [user, setUser] = useState(null);
+    const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
  	const base_url = process.env.APP_API_URL;
 	const clientId = '137209708934-r21oa7tpg8q2ef31qnge136u3pogt3hf.apps.googleusercontent.com';
-	
+    const handleLoginSubmit = async (e) => {
+        const APP_API_URL = "http://localhost:7000";
+		e.preventDefault();
+		try {
+			const response = await axios.post(`${APP_API_URL}/auth/login`, {
+				email_address: email,
+				password: password
+			}, {
+				headers: {
+					'Content-Type': 'application/json'
+				},
+			});
+
+			if (response.data.status === true) {
+				localStorage.setItem('token', response.data.token);
+				localStorage.setItem('user', JSON.stringify(response.data.data.userProfile));
+
+				// Set token expiration
+				const expirationTime = Date.now() + 3600000;
+				localStorage.setItem('tokenExpiration', expirationTime);
+				localStorage.setItem('isLoggedIn', 'true');
+				navigate('/dashboard');
+			} else {
+				console.error('Login failed: ', response.data.message);
+			}
+		} catch (error) {
+			console.error('Error logging in:', error);
+		}
+	};
   	const onSuccess = async (response) => {
 		const APP_API_URL = "http://localhost:7000";
 		const userObject = jwtDecode(response.credential); // Decode JWT to extract user info
 		console.log(userObject);
 		const userData = {
-			full_name: userObject.name, 
-			user_name: userObject.given_name, 
-			email_address: userObject.email, 
-			fcm_token: userObject.fcm_token, 
-			image_url: 	userObject.picture?userObject.picture : '', 
-			type: "user", 
-			mobile_number: '', 
+			full_name: userObject.name,
+			user_name: userObject.given_name,
+			email_address: userObject.email,
+			fcm_token: userObject.fcm_token,
+			image_url: 	userObject.picture?userObject.picture : '',
+			type: "user",
+			mobile_number: '',
 			password: ''
 		}
 		try {
@@ -35,6 +65,8 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 				},
 			});
 			console.log(response);
+            const navigate = useNavigate(); // Hook for navigation
+
 			if(response.data.status === true) {
 				localStorage.setItem('token', response.data.token);
 				localStorage.setItem('user', JSON.stringify(response.data.data.userProfile));
@@ -43,13 +75,14 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 				const expirationTime = Date.now() + 3600000; // 1 hour from now
 				localStorage.setItem('tokenExpiration', expirationTime);
 				localStorage.setItem('isLoggedIn', 'true');
-				window.location.href = '/dashboard';
+                navigate('/dashboard');
+				//window.location.href = '/dashboard';
 				//window.history.pushState({}, '', `/dashboard`);
     			//setPage('dashboard');
 				//handleLogin();
 				//setIsLoggedIn(true);
 			}
-			
+
 		} catch (error) {
 			console.error('Error sending data:', error);
 		}
@@ -58,25 +91,37 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 	const onFailure = (response) => {
 		console.error('Login failed: res:', response);
 	};
-	
+
 	return (
 		<>
-		
+
 			<div className={`modal fade ${isLogin ? "show d-block" : ""}`} id="modalLogin">
 				<div className="modal-dialog modal-dialog-centered">
 					<div className="modal-content">
 						<div className="flat-account bg-surface">
 							<h3 className="title text-center">Log In</h3>
 							<span className="close-modal icon-close2" onClick={handleLogin} />
-							<form action="#">
+							<form action="#" onSubmit={handleLoginSubmit}>
 								<fieldset className="box-fieldset">
 									<label htmlFor="name">Your Names<span>*</span>:</label>
-									<input type="text" className="form-contact style-1" placeholder="Email Address" />
+									<input
+										type="text"
+										className="form-contact style-1"
+										placeholder="Email Address"
+										value={email}
+										onChange={(e) => setEmail(e.target.value)}
+									/>
 								</fieldset>
 								<fieldset className="box-fieldset">
 									<label htmlFor="pass">Password<span>*</span>:</label>
 									<div className="box-password">
-										<input type="password" className="form-contact style-1 password-field" placeholder="Password" />
+										<input
+											type="password"
+											className="form-contact style-1 password-field"
+											placeholder="Password"
+											value={password}
+											onChange={(e) => setPassword(e.target.value)}
+										/>
 										<span className="show-pass">
 											<i className="icon-pass icon-eye" />
 											<i className="icon-pass icon-eye-off" />

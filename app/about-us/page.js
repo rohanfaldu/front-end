@@ -88,7 +88,7 @@ export default function AboutUs() {
 							</div>
 							<div className="banner-video">
 								<img src="/images/banner/img-video.jpg" alt="img-video" />
-								
+
 								<VideoPopup another />
 							</div>
 						</div>
