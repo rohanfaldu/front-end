@@ -6,6 +6,7 @@ import BackToTop from '../elements/BackToTop'
 import Sidebar from "./Sidebar"
 import Footer2 from './footer/Footer2'
 import Header3 from "./header/Header3"
+import { useRouter } from 'next/navigation';
 
 export default function LayoutAdmin({ headerStyle, footerStyle, fixedfooter, children }) {
 	const [scroll, setScroll] = useState(0)
@@ -14,11 +15,19 @@ export default function LayoutAdmin({ headerStyle, footerStyle, fixedfooter, chi
 		setMobileMenu(!isMobileMenu)
 		!isMobileMenu ? document.body.classList.add("mobile-menu-visible") : document.body.classList.remove("mobile-menu-visible");
 	}
-
+	const router = useRouter();
 	const [isSidebar, setSidebar] = useState(false)
+	const [islogin, setLogin] = useState(true)
 	const handleSidebar = () => setSidebar(!isSidebar)
+	//const userDetail12 = JSON.parse(localStorage.getItem('user'));
+	
 
 	useEffect(() => {
+		// const loggedInStatus = localStorage.getItem('isLoggedIn');
+		// if (loggedInStatus) {
+		// 	setLogin(false);
+		// }
+
 		const WOW = require('wowjs')
 		window.wow = new WOW.WOW({
 			live: false
@@ -32,6 +41,12 @@ export default function LayoutAdmin({ headerStyle, footerStyle, fixedfooter, chi
 			}
 		})
 	}, [])
+	// console.log(islogin)
+	// if(islogin){
+	// 	router.push('/');
+	// 	return true;
+	// }
+
 	return (
 		<><div id="top" />
 			<AddClassBody />

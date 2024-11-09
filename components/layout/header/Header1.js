@@ -1,14 +1,35 @@
-import Link from "next/link"
-import Menu from "../Menu"
-import MobileMenu from "../MobileMenu"
+'use client'
+import Link from "next/link";
+import { useRouter } from 'next/navigation';
+import Menu from "../Menu";
+import MobileMenu from "../MobileMenu";
+import React, { useEffect, useState } from 'react';
+import { capitalizeFirstChar, getRandomInt } from "../../../components/common/functions";
 
 export default function Header1({ scroll, isMobileMenu, handleMobileMenu, isLogin, handleLogin, hcls, handleRegister }) {
+	const [userName, setUserName] = useState('');
+	const [userImage, setUserImage] = useState('');
+	const [userStatus, setUserStatus] = useState(false);
+	const router = useRouter();
+	const handDashboard = () => {
+		router.push('/dashboard');
+	}
+	useEffect(() => {
+		if( localStorage.getItem('isLoggedIn') ){
+			const userDetail = JSON.parse(localStorage.getItem('user'));
+			setUserImage(userDetail.image)
+			const capitalizedString = capitalizeFirstChar(userDetail.user_name);
+			setUserName(capitalizedString)
+			setUserStatus(localStorage.getItem('isLoggedIn'));
+		}
+	}, []);
+
 	return (
 		<>
 
 			<header className={`main-header fixed-header ${hcls ? "header-style-2" : ""} ${scroll ? "fixed-header is-fixed" : ""}`}>
 				{/* Header Lower */}
-				<div className="header-lower">
+				<div className="header-lower header-dashboard">
 					<div className="row">
 						<div className="col-lg-12">
 							<div className="inner-container d-flex justify-content-between align-items-center">
@@ -24,7 +45,7 @@ export default function Header1({ scroll, isMobileMenu, handleMobileMenu, isLogi
 										</Link>
 									</div>
 								</div>
-								<div className="nav-outer">
+								<div className="nav-outer ">
 									{/* Main Menu */}
 									<nav className="main-menu show navbar-expand-md">
 										<div className="navbar-collapse collapse clearfix" id="navbarSupportedContent">
@@ -35,11 +56,24 @@ export default function Header1({ scroll, isMobileMenu, handleMobileMenu, isLogi
 								</div>
 								<div className="header-account">
 									<div className="register">
-										<ul className="d-flex">
-											<li><a onClick={handleLogin}>Login</a></li>
-											<li>/</li>
-											<li><a onClick={handleRegister}>Register</a></li>
-										</ul>
+										{userStatus ? 
+												<>
+													<a className={`box-avatar dropdown-toggle `} onClick={handDashboard}>
+														<div className="avatar avt-40 round" >
+															{userImage? <img src={userImage} alt="avt" /> : <img src="/images/avatar/avt-2.jpg" alt="avt" />}
+														</div>
+														<p className="name">{userName??""}</p>
+													</a>
+												</> 
+											: 
+												<>
+													<ul className="d-flex">
+														<li><a onClick={handleLogin}>Login</a></li>
+														<li>/</li>
+														<li><a onClick={handleRegister}>Register</a></li>
+													</ul>
+												</>
+											}
 									</div>
 									<div className="flat-bt-top">
 										<Link className="tf-btn primary" href="/add-property">Submit Property</Link>
