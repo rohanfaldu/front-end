@@ -12,7 +12,7 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
  	const [user, setUser] = useState(null);
  	const base_url = process.env.APP_API_URL;
-	const clientId = '137209708934-r21oa7tpg8q2ef31qnge136u3pogt3hf.apps.googleusercontent.com';
+	const clientId = '392460483873-ipbdgjucm3hi8jrunsg2pno3l80vhk9n.apps.googleusercontent.com';
 	
   	const onSuccess = async (response) => {
 		const APP_API_URL = "http://localhost:7000";
