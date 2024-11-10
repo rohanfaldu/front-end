@@ -3,9 +3,18 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation';
 
 export default function Sidebar() {
-	const pathname = usePathname()
+	const pathname = usePathname();
+	const router = useRouter();
+	const handleLogout = () => {
+		localStorage.removeItem('token');
+		localStorage.removeItem('user');
+		localStorage.removeItem('tokenExpiration');
+		localStorage.removeItem('isLoggedIn');
+		router.push('/');
+	}
 	return (
 		<>
 			<div className="sidebar-menu-dashboard">
@@ -36,7 +45,7 @@ export default function Sidebar() {
 							Add Property</Link>
 					</li>
 					<li className={`nav-menu-item ${pathname === '/' ? 'active' : ''}`}>
-						<Link className="nav-menu-link" href="/"><span className="icon icon-sign-out" /> Logout</Link>
+						<Link className="nav-menu-link" onClick={handleLogout} href="/"><span className="icon icon-sign-out" /> Logout</Link>
 					</li>
 				</ul>
 			</div>

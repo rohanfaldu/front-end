@@ -57,8 +57,9 @@ export default function Layout({ headerStyle, hcls, footerStyle, breadcrumbTitle
 	useEffect(() => {
 
 		const loggedInStatus = localStorage.getItem('isLoggedIn');
-		if (loggedInStatus === 'true') {
-			setLogin(true);
+		if (loggedInStatus) {
+			setLogin(false);
+			setRegister(false);
 		}
 		const WOW = require('wowjs')
 		window.wow = new WOW.WOW({
@@ -73,6 +74,8 @@ export default function Layout({ headerStyle, hcls, footerStyle, breadcrumbTitle
 			}
 		})
 	}, [])
+
+	console.log(isLogin);
 	return (
 		<><div id="top" />
 			<AddClassBody />

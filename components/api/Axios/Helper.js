@@ -1,7 +1,7 @@
 // apiService.js
 import axios from 'axios';
 
-const API_URL = process.env.APP_API_URL; // Replace with your base API URL
+const API_URL = process.env.NEXT_PUBLIC_API_URL; // Replace with your base API URL
 
 // Function to handle GET requests
 export const getData = async (endpoint) => {

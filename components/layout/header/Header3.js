@@ -4,21 +4,34 @@ import React, { useEffect, useState } from 'react';
 import Menu from "../Menu"
 import MobileMenu from "../MobileMenu"
 import { capitalizeFirstChar, getRandomInt } from "../../../components/common/functions"
+import { usePathname } from 'next/navigation'
+import { useRouter } from 'next/navigation';
+
 export default function Header3({ scroll, isSidebar, handleSidebar, isMobileMenu, handleMobileMenu }) {
 	const [isToggled, setToggled] = useState(false)
 	const handleToggle = () => setToggled(!isToggled)
 	const [userName, setUserName] = useState('');
 	const [userImage, setUserImage] = useState('');
+	const router = useRouter();
 	useEffect(() => {
 	  const userDetail = JSON.parse(localStorage.getItem('user'));
 	  setUserImage(userDetail.image)
 	  const capitalizedString = capitalizeFirstChar(userDetail.user_name);
 	  setUserName(capitalizedString)
 	}, []);
+	const pathname = usePathname();
+
+	const handleLogout = () => {
+		localStorage.removeItem('token');
+		localStorage.removeItem('user');
+		localStorage.removeItem('tokenExpiration');
+		localStorage.removeItem('isLoggedIn');
+		router.push('/');
+	}
 	return (
 		<>
 
-			<header className="main-header fixed-header header-dashboard 8909">
+			<header className="main-header fixed-header header-dashboard">
 				{/* Header Lower */}
 				<div className="header-lower">
 					<div className="row">
@@ -35,7 +48,7 @@ export default function Header3({ scroll, isSidebar, handleSidebar, isMobileMenu
 									{/* Main Menu */}
 									<nav className="main-menu show navbar-expand-md">
 										<div className="navbar-collapse collapse clearfix" id="navbarSupportedContent">
-											<Menu />
+											{/* <Menu /> */}
 										</div>
 									</nav>
 									{/* Main Menu End*/}
@@ -47,14 +60,14 @@ export default function Header3({ scroll, isSidebar, handleSidebar, isMobileMenu
 										</div>
 										<p className="name">{userName??""}<span className="icon icon-arr-down" /></p>
 									</a>
-									<div className={`dropdown-menu  ${isToggled ? "show" : ""}`} style={{ position: 'absolute', inset: '0px auto auto 0px', margin: 0, transform: 'translate(1494px, 62px)' }}>
+									<div className={`dropdown-menu  ${isToggled ? "show" : ""}`} >
 										<Link className="dropdown-item" href="/my-favorites">My Properties</Link>
 										<Link className="dropdown-item" href="/my-invoices">My Invoices</Link>
 										<Link className="dropdown-item" href="/my-favorites">My Favorites</Link>
 										<Link className="dropdown-item" href="/reviews">Reviews</Link>
 										<Link className="dropdown-item" href="/my-profile">My Profile</Link>
 										<Link className="dropdown-item" href="/add-property">Add Property</Link>
-										<Link className="dropdown-item" href="/">Logout</Link>
+										<Link className="dropdown-item" onClick={handleLogout}  href="/">Logout</Link>
 									</div>
 
 									<div className="flat-bt-top">
