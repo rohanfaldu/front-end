@@ -213,9 +213,6 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 										/>
 									</GoogleOAuthProvider>
 								</div>
-								{/* <div className="mt-12 text-variant-1 text-center noti">Not registered yet?
-									<a onClick={() => { handleLogin(); handleRegister() }} className="text-black fw-5">Sign Up</a>
-								</div> */}
 							
 						</div>
 					</div>
