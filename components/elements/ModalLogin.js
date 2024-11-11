@@ -162,7 +162,7 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 													onClick={() => setShowPassword((prev) => !prev)}
 													className="show-password"
 													>
-													{showPassword ? <img src="/images/favicon/password-hide.png" /> : <img src="/images/favicon/password-show.png" /> }
+													{showPassword ? <img src="/images/favicon/password-show.png" /> : <img src="/images/favicon/password-hide.png" /> }
 												</span>
 												<ErrorMessage name="password" component="div" className="error" />
 											</fieldset>
@@ -176,7 +176,7 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 													/>
 													<label htmlFor="cb1" className="caption-1 text-variant-1">Remember me</label>
 												</fieldset>
-												<Link href="#modalForgotPassword" className="caption-1 text-primary" onClick={handleForgotPassword}>Forgot password?</Link>
+												<Link href="/" className="caption-1 text-primary" onClick={handleForgotPassword}>Forgot password?</Link>
 												<button type="submit" className="tf-btn primary w-100">Login</button>
 											</div>
 										</Form>
