@@ -10239,7 +10239,7 @@ tr {
   text-transform: math-auto !important;
 }
 
-.kep-login-facebook:hover, .S9gUrf-YoZ4jf:hover, .nsm7Bb-HzV7m-LgbsSe-bN97Pc-sM5MNb:hover{
+.kep-login-facebook:hover, .S9gUrf-YoZ4jf:hover, .nsm7Bb-HzV7m-LgbsSe-bN97Pc-sM5MNb:hover, .S9gUrf-YoZ4jf:hover .nsm7Bb-HzV7m-LgbsSe{
   background-color: #00a8c1 !important;
   color: #FFF !important;
 }
@@ -10267,6 +10267,11 @@ tr {
   background-color: #ffffff !important;
   width: 100%;
   text-transform: math-auto !important;
+}
+.nsm7Bb-HzV7m-LgbsSe-BPrWId{
+  font-size: 16px !important;
+  font-family: inherit !important;
+  font-weight: 700 !important;
 }
 .nsm7Bb-HzV7m-LgbsSe-BPrWId{
   display: contents !important;
@@ -10297,6 +10302,9 @@ tr {
   width: 100%;
   text-transform: math-auto !important;
 }
+.nsm7Bb-HzV7m-LgbsSe{
+  background: transparent !important;
+}
 .nsm7Bb-HzV7m-LgbsSe-bN97Pc-sM5MNb{
   font-size: calc(.27548vw + 12.71074px);
   font-weight: 700;
@@ -10316,3 +10324,7 @@ tr {
   background-color: #00a8c1;
   border: 5px solid #00a8c1;
 }
+/* button.kep-login-facebook.metro {
+  text-transform: capitalize; 
+  -webkit-font-smoothing: antialiased; 
+} */
