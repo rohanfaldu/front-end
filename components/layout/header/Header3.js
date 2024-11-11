@@ -13,6 +13,7 @@ export default function Header3({ scroll, isSidebar, handleSidebar, isMobileMenu
 	const [userName, setUserName] = useState('');
 	const [userImage, setUserImage] = useState('');
 	const router = useRouter();
+	const [userType, setUserType] = useState('')
 	useEffect(() => {
 	  const userDetail = JSON.parse(localStorage.getItem('user'));
 	  setUserImage(userDetail.image)
@@ -28,6 +29,10 @@ export default function Header3({ scroll, isSidebar, handleSidebar, isMobileMenu
 		localStorage.removeItem('isLoggedIn');
 		router.push('/');
 	}
+	useEffect(() => {
+		const loggedInStatus = JSON.parse(localStorage.getItem('user'));
+		setUserType(loggedInStatus.roles.name);
+	}, [])
 	return (
 		<>
 
@@ -54,12 +59,17 @@ export default function Header3({ scroll, isSidebar, handleSidebar, isMobileMenu
 									{/* Main Menu End*/}
 								</div>
 								<div className="header-account">
+									
 									<a onClick={handleToggle} className={`box-avatar dropdown-toggle ${isToggled ? "show" : ""}`}>
 										<div className="avatar avt-40 round">
-											{userImage? <img src={userImage} alt="avt" /> : <img src="/images/avatar/avt-2.jpg" alt="avt" />}
+											{userImage? <img src={userImage} alt="avt" /> : <div class="user-charcter">{userName.charAt(0)}</div>}
 										</div>
-										<p className="name">{userName??""}<span className="icon icon-arr-down" /></p>
+										<div>
+											<p className="name">{userName??""}<span className="icon icon-arr-down" /></p>
+											<span className="text-variant-1" >{userType.charAt(0).toUpperCase() + userType.slice(1)}</span>
+										</div>
 									</a>
+									
 									<div className={`dropdown-menu  ${isToggled ? "show" : ""}`} >
 										<Link className="dropdown-item" href="/my-favorites">My Properties</Link>
 										<Link className="dropdown-item" href="/my-invoices">My Invoices</Link>

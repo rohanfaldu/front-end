@@ -12,6 +12,7 @@ import Link from "next/link"
 export default function Dashboard() {
 	const [startDate, setStartDate] = useState(new Date())
 	const [endDate, setEndDate] = useState(new Date());
+	
 	return (
 		<>
 			<DeleteFile />
@@ -22,6 +23,7 @@ export default function Dashboard() {
 							<div className="box-icon w-68 round">
 								<span className="icon icon-list-dashes" />
 							</div>
+							
 							<div className="content-box">
 								<div className="title-count">your Listing</div>
 								<div className="d-flex align-items-end">

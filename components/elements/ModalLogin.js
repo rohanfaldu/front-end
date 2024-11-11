@@ -10,7 +10,7 @@ import { userType } from "../../components/common/functions";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
-export default function ModalLogin({ isLogin, handleLogin, isRegister, handleRegister }) {
+export default function ModalLogin({ isLogin, handleLogin, isRegister, handleRegister, handleForgotPassword }) {
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
  	const [user, setUser] = useState(null);
  	const [errorMessage, setErrorMessage] = useState('');
@@ -129,7 +129,6 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 
 	return (
 		<>
-		
 			<div className={`modal fade ${isLogin ? "show d-block" : ""}`} id="modalLogin">
 				<div className="modal-dialog modal-dialog-centered">
 					<div className="modal-content">
@@ -177,7 +176,7 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 													/>
 													<label htmlFor="cb1" className="caption-1 text-variant-1">Remember me</label>
 												</fieldset>
-												<Link href="#" className="caption-1 text-primary">Forgot password?</Link>
+												<Link href="#modalForgotPassword" className="caption-1 text-primary" onClick={handleForgotPassword}>Forgot password?</Link>
 												<button type="submit" className="tf-btn primary w-100">Login</button>
 											</div>
 										</Form>

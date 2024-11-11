@@ -5,6 +5,8 @@ import AddClassBody from "../elements/AddClassBody"
 import BackToTop from '../elements/BackToTop'
 import ModalLogin from "../elements/ModalLogin"
 import ModalRegister from "../elements/ModalRegister"
+import ModalForgotPassword from "../elements/ModalForgotPassword"
+import ModalUpdatePassword from "../elements/ModalUpdatePassword"
 import Breadcrumb from './Breadcrumb'
 import OffcanvasFilter from "./OffcanvasFilter"
 import OffcanvasMenu from "./OffcanvasMenu"
@@ -36,6 +38,20 @@ export default function Layout({ headerStyle, hcls, footerStyle, breadcrumbTitle
 		!isRegister ? document.body.classList.add("modal-open") : document.body.classList.remove("modal-open")
 	}
 
+	// forgot password
+	const [isForgotPassword, setForgotPassword] = useState(false)
+	const handleForgotPassword = () => {
+		setForgotPassword(!isForgotPassword)
+		!isForgotPassword ? document.body.classList.add("modal-open") : document.body.classList.remove("modal-open")
+		!isLogin ? document.body.classList.remove("modal-open") : ""
+	}
+
+	const [isUpdatePassword, setUpdatePassword] = useState(false)
+	const handleUpdatePassword = () => {
+		setUpdatePassword(!isUpdatePassword)
+		!isUpdatePassword ? document.body.classList.add("modal-open") : document.body.classList.remove("modal-open")
+	}
+
 	// 
 	const [isOffcanMenu, setOffcanMenu] = useState(false)
 	const handleOffcanMenu = () => setOffcanMenu(!isOffcanMenu)
@@ -51,11 +67,7 @@ export default function Layout({ headerStyle, hcls, footerStyle, breadcrumbTitle
 	// 
 	const [isOffcanMobile, setOffcanMobile] = useState(false)
 	const handleOffcanMobile = () => setOffcanMobile(!isOffcanMobile)
-
-
-
 	useEffect(() => {
-
 		const loggedInStatus = localStorage.getItem('isLoggedIn');
 		if (loggedInStatus) {
 			setLogin(false);
@@ -75,7 +87,6 @@ export default function Layout({ headerStyle, hcls, footerStyle, breadcrumbTitle
 		})
 	}, [])
 
-	console.log(isLogin);
 	return (
 		<><div id="top" />
 			<AddClassBody />
@@ -119,8 +130,10 @@ export default function Layout({ headerStyle, hcls, footerStyle, breadcrumbTitle
 				</div>
 			</div>
 			<BackToTop target="#top" />
-			<ModalLogin isLogin={isLogin} handleLogin={handleLogin} isRegister={isRegister} handleRegister={handleRegister} />
+			<ModalLogin isLogin={isLogin} handleLogin={handleLogin} isRegister={isRegister} handleRegister={handleRegister} handleForgotPassword={handleForgotPassword} />
 			<ModalRegister isRegister={isRegister} handleRegister={handleRegister} isLogin={isLogin} handleLogin={handleLogin} />
+			<ModalForgotPassword isLogin={isLogin} isForgotPassword={isForgotPassword} handleForgotPassword={handleForgotPassword} />
+			<ModalUpdatePassword isUpdatePassword={isUpdatePassword} handleUpdatePassword={handleUpdatePassword} />
 			<OffcanvasMenu
 				isOffcanMenu={isOffcanMenu}
 				handleOffcanMenu={handleOffcanMenu}

@@ -8411,6 +8411,11 @@ label {
 .header-dashboard {
   padding-left: 20px;
 }
+
+.fixed-header.header-dashboard {
+  padding: 15px;
+}
+
 .header-dashboard .logo-box {
   display: flex;
   align-items: center;
@@ -10296,4 +10301,18 @@ tr {
   font-size: calc(.27548vw + 12.71074px);
   font-weight: 700;
   font-family: inherit;
+}
+.user-charcter{
+	text-align: center;
+  padding-top: 5px;
+  top: 4px;
+  font-size: 25px;
+  font-weight: 500;
+  width: 45px;
+  height: 45px;
+  color: #fff;
+  margin: 0px auto;
+  border-radius: 50%;
+  background-color: #00a8c1;
+  border: 5px solid #00a8c1;
 }
