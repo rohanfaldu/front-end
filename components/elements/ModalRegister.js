@@ -2,7 +2,7 @@
 import Link from "next/link"
 import React, { useEffect, useState } from 'react';
 import { jwtDecode } from "jwt-decode";
-import axios from 'axios';
+
 import { useRouter } from 'next/navigation';
 import { userType } from "../../components/common/functions";
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -30,7 +30,7 @@ export default function ModalRegister({ isRegister, handleRegister, handleLogin 
 		  .required('Confirm Password is required'),
 		agreeToTerms: Yup.bool().oneOf([true], 'You must accept the terms and conditions'),
     });
-	const handleSubmit =async (values, {resetForm}) => {
+	const handleSubmit = async (values, {resetForm}) => {
 		const userData = {
 			full_name: values.user_name, 
 			user_name: values.user_name, 
