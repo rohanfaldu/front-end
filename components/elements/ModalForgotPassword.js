@@ -49,13 +49,19 @@ export default function ModalForgotPassword({ isLogin, isForgotPassword, handleF
 				if(sendMailResponse.data.status === true) {
 					setSucessMessage(true);	
 					setTimeout(() => {
+						const modalDiv1 = document.querySelector("#modalUpdatePassword");
+						modalDiv1.classList.add("show"); 
+						modalDiv1.classList.add("d-block"); 
+
 						const modalDiv = document.querySelector("#modalLogin");
 						modalDiv.classList.remove("show"); 
 						modalDiv.classList.remove("d-block"); 
 
-						const modalDiv1 = document.querySelector("#modalUpdatePassword");
-						modalDiv1.classList.add("show"); 
-						modalDiv1.classList.add("d-block"); 
+						const modalDiv2 = document.querySelector("#modalForgotPassword");
+						modalDiv2.classList.remove("show"); 
+						modalDiv2.classList.remove("d-block"); 
+
+						
 					}, 2000);
 					resetForm();
 				}

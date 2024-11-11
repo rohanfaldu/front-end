@@ -69,7 +69,7 @@ export default function ModalUpdatePassword({isUpdatePassword, handleUpdatePassw
 							<span className="close-modal icon-close2" onClick={handleUpdatePassword} />
 							{errorMessage && <div className={messageClass}>{errorMessage}</div>}
 								<Formik
-									initialValues={{ email_address: "", password: "" }}
+									initialValues={{ email_address: "", password: "", otp: "", confirmPassword: "" }}
 									validationSchema={validationSchema}
 									onSubmit={handleSubmit}
 									>
@@ -81,7 +81,7 @@ export default function ModalUpdatePassword({isUpdatePassword, handleUpdatePassw
 												<ErrorMessage name="email_address" component="div" className="error" />
 											</fieldset>
                                             <fieldset className="box-fieldset">
-												<label htmlFor="name">OTP<span>*</span>:</label>
+												<label htmlFor="otp">OTP<span>*</span>:</label>
 												<Field type="text" id="otp" name="otp" className="form-control style-1" />
 												<ErrorMessage name="otp" component="div" className="error" />
 											</fieldset>
@@ -99,7 +99,7 @@ export default function ModalUpdatePassword({isUpdatePassword, handleUpdatePassw
 													onClick={() => setShowPassword((prev) => !prev)}
 													className="show-password"
 													>
-													{showPassword ? <img src="/images/favicon/password-hide.png" /> : <img src="/images/favicon/password-show.png" /> }
+													{showPassword ? <img src="/images/favicon/password-show.png" /> : <img src="/images/favicon/password-hide.png" /> }
 												</span>
 												<ErrorMessage name="password" component="div" className="error" />
 											</fieldset>
@@ -116,7 +116,7 @@ export default function ModalUpdatePassword({isUpdatePassword, handleUpdatePassw
 												<span
 													onClick={() => setShowConfirmPassword((prev) => !prev)} className="show-password confirm-password" 
 												>
-													{showConfirmPassword ? <img src="/images/favicon/password-hide.png" /> : <img src="/images/favicon/password-show.png" />}
+													{showConfirmPassword ? <img src="/images/favicon/password-show.png" /> : <img src="/images/favicon/password-hide.png" />}
 												</span>
 												<ErrorMessage name="confirmPassword" component="div" className="error" />
 											</fieldset>
