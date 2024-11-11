@@ -10221,6 +10221,11 @@ tr {
 .show-password img{
   width: 20px;
 }
+.nsm7Bb-HzV7m-LgbsSe-BPrWId{
+  font-size: calc(.27548vw + 12.71074px) !important;
+  font-family: inherit !important;
+  font-weight: 700 !important;
+}
 .kep-login-facebook{
   margin-bottom: 10px;
   color: #000 !important;
@@ -10236,7 +10241,7 @@ tr {
   border-radius: 8px !important;
   background-color: #ffffff !important;
   width: 100%;
-  text-transform: math-auto !important;
+  text-transform: capitalize !important;
 }
 
 .kep-login-facebook:hover, .S9gUrf-YoZ4jf:hover, .nsm7Bb-HzV7m-LgbsSe-bN97Pc-sM5MNb:hover, .S9gUrf-YoZ4jf:hover .nsm7Bb-HzV7m-LgbsSe{
@@ -10268,11 +10273,7 @@ tr {
   width: 100%;
   text-transform: math-auto !important;
 }
-.nsm7Bb-HzV7m-LgbsSe-BPrWId{
-  font-size: 16px !important;
-  font-family: inherit !important;
-  font-weight: 700 !important;
-}
+
 .nsm7Bb-HzV7m-LgbsSe-BPrWId{
   display: contents !important;
 }
