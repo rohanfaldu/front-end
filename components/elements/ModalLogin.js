@@ -10,6 +10,7 @@ import { userType } from "../../components/common/functions";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
+
 export default function ModalLogin({ isLogin, handleLogin, isRegister, handleRegister, handleForgotPassword }) {
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
  	const [user, setUser] = useState(null);
