@@ -89,7 +89,6 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 			console.error('Error sending data:', error);
 		}
 	};
-
 	const onFailure = (response) => {
 		console.error('Login failed: res:', response);
 	};
