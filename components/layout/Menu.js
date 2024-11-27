@@ -3,10 +3,12 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import { useTranslation } from "react-i18next";
 
 export default function Menu() {
 	const pathname = usePathname()
 	const [currentMenuItem, setCurrentMenuItem] = useState("")
+	const { t } = useTranslation();
 
 	useEffect(() => {
 		setCurrentMenuItem(pathname)
@@ -18,10 +20,10 @@ export default function Menu() {
 	return (
 		<>
 			<ul className="navigation clearfix">
-				<li><Link href="/">Home</Link></li>
-				<li><Link href="/about-us">About Us</Link></li>
-				<li><Link href="/property-halfmap-list">Property</Link></li>
-				<li><Link href="/blog">Blog</Link></li>
+				<li><Link href="/">{t("home")}</Link></li>
+				<li><Link href="/about-us">{t("aboutus")}</Link></li>
+				<li><Link href="/property-halfmap-list">{t("property")}</Link></li>
+				<li><Link href="/blog">{t("blog")}</Link></li>
 			</ul>
 			{ /* 
 			<ul className="navigation clearfix">

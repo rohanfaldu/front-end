@@ -1,10 +1,43 @@
 'use client'
 import Link from "next/link"
-import { useState } from "react"
-
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+/*import userImage from "../../public/images/avatar/user.png";*/
 export default function Recommended1() {
 	const [isTab, setIsTab] = useState(1)
 	const [isVisible, setIsVisible] = useState(true)
+	
+	const [properties, setProperties] = useState(null); // To store fetched data
+ 	const [loading, setLoading] = useState(true); // To manage loading state
+  	const [error, setError] = useState(null); // To manage error state
+
+  	useEffect(() => {
+		const fetchData = async () => {
+		try {
+			const response = await axios.post(
+			`${process.env.NEXT_PUBLIC_API_URL}/api/property`,
+			{ /* Pass necessary payload here */ },
+			{
+				headers: {
+				'Content-Type': 'application/json',
+				},
+			}
+			);
+			setProperties(response.data.data); // Save data to state
+			setLoading(false); // Stop loading
+			setError(null); // Clear errors
+		} catch (err) {
+			setError(err.response?.data?.message || 'An error occurred'); // Handle error
+			setLoading(false); // Stop loading
+		}
+		};
+
+		fetchData(); // Fetch data on component mount
+	}, []); // Empty dependency array ensures this runs only once on mount
+
+	if (loading) return <p>Loading...</p>; // Show loading message
+  	if (error) return <p>Error: {error}</p>; 
+	console.log(properties);
 	const handleTab = (i) => {
 		setIsTab(i)
 		setIsVisible(false)
@@ -45,6 +78,82 @@ export default function Recommended1() {
 						<div className="tab-content">
 							<div style={{ opacity: isVisible ? 1 : 0 }} className={isTab == 1 ? "tab-pane fade show active" : "tab-pane fade"} id="viewAll" role="tabpanel">
 								<div className="row">
+									{properties.map((property) => (
+										<div key={property.id} className="col-xl-4 col-lg-6 col-md-6">
+											<div className="homeya-box">
+												<div className="archive-top">
+													<Link href={`/property/${property.id}`} className="images-group">
+														<div className="images-style">
+															<img src="https://staging.immofind.ma/images/banner/banner-property-1.jpg" alt="Property" />
+														</div>
+														<div className="top">
+															{property.transaction ? (
+																<>
+																	<ul className="d-flex gap-8">
+																		<li className={`flag-tag style-1}`}>
+																			{property.transaction}
+																		</li>
+																	</ul>
+																</>
+															):(<></>)}
+															
+															<ul className="d-flex gap-4">
+																<li className="box-icon w-32">
+																<span className="icon icon-arrLeftRight" />
+																</li>
+																<li className="box-icon w-32">
+																<span className="icon icon-heart" />
+																</li>
+																<li className="box-icon w-32">
+																<span className="icon icon-eye" />
+																</li>
+															</ul>
+														</div>
+														<div className="bottom">
+															<span className="flag-tag style-2">{property.type}</span>
+														</div>
+													</Link>
+													<div className="content">
+														<div className="h7 text-capitalize fw-7">
+															<Link href="/property-details-v1" className="link">
+																{property.title}
+															</Link>
+														</div>
+														{/* <div className="desc">
+															<i className="fs-16 icon icon-mapPin" />
+															<p>{property.location}</p>
+														</div> */}
+														<ul className="meta-list">
+															<li className="item">
+																<i className="icon icon-bed" />
+																<span>{property.bedRooms}</span>
+															</li>
+															<li className="item">
+																<i className="icon icon-bathtub" />
+																<span>{property.bathRooms}</span>
+															</li>
+															<li className="item">
+																<i className="icon icon-ruler" />
+																<span>{property.size} SqFT</span>
+															</li>
+														</ul>
+													</div>
+												</div>
+												<div className="archive-bottom d-flex justify-content-between align-items-center">
+													<div className="d-flex gap-8 align-items-center">
+														<div className="avatar avt-40 round">
+															<img src={property.user_image} alt="Owner Avatar" />
+														</div>
+														<span>{property.user_name}</span>
+													</div>
+													<div className="d-flex align-items-center">
+														<h6>${property.price}</h6>
+														{/* <span className="text-variant-1">{property.price.unit}</span> */}
+													</div>
+												</div>
+											</div>
+										</div>
+									))}
 									<div className="col-xl-4 col-lg-6 col-md-6">
 										<div className="homeya-box">
 											<div className="archive-top">

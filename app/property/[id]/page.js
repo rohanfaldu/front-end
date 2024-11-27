@@ -1,8 +1,11 @@
 'use client'
-import { useState } from "react"
 import { Autoplay, Navigation, Pagination } from "swiper/modules"
 import { Swiper, SwiperSlide } from "swiper/react"
 
+const toCapitalCase = (str) => {
+	if (!str) return '';
+	return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  }
 const swiperOptions = {
 	modules: [Autoplay, Pagination, Navigation],
 	autoplay: {
@@ -81,9 +84,67 @@ import TabNav from "@/components/elements/TabNav"
 import Layout from "@/components/layout/Layout"
 import Link from "next/link"
 import VideoPopup from "@/components/elements/VideoPopup"
-export default function PropertyDetailsV1() {
+import axios from 'axios';
+import {useParams} from "react-router-dom"
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Preloader from '@/components/elements/Preloader'
+export default function PropertyDetailsV1({ params }) {
+	const { id } = params; 
+	const [properties, setProperties] = useState(null); 
+ 	const [loading, setLoading] = useState(true);
+ 	const [metadetail, setMetaDetails] = useState(null);
+  	const [error, setError] = useState(null); 
 	const [isAccordion, setIsAccordion] = useState(1)
+  	useEffect(() => {
+		const fetchData = async () => {
+		try {
+			const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/property`,
+			{ /* Pass necessary payload here */ },
+				{
+					headers: {
+					'Content-Type': 'application/json',
+					},
+				}
+			);
 
+			const propertyList = response.data.data;
+			const result = propertyList.find(item => item.id === id);
+			setProperties(result);
+			console.log(result.meta_details);
+			const filteredDetails = result.meta_details.filter(
+				(propertyDetail) => propertyDetail.key !== 'bathrooms' && propertyDetail.key !== 'rooms'
+			);
+			const chunkArray = (array, size) => {
+				const result = [];
+				for (let i = 0; i < array.length; i += size) {
+				  result.push(array.slice(i, i + size));
+				}
+				return result;
+			  };
+			const metadetail = chunkArray(filteredDetails, Math.ceil(filteredDetails.length / 3));
+			setMetaDetails(metadetail);
+			 // Save data to state
+			setLoading(false); // Stop loading
+			setError(null); // Clear errors
+		} catch (err) {
+			setError(err.response?.data?.message || 'An error occurred'); // Handle error
+			setLoading(false); // Stop loading
+		}
+		};
+		console.log(properties);
+		fetchData(); // Fetch data on component mount
+	}, []); // Empty dependency array ensures this runs only once on mount
+
+	if(loading){
+		return (
+			<>
+				<Preloader />
+			</>
+		)
+	}else{
+		console.log(properties);
+	}
 	const handleAccordion = (key) => {
 		setIsAccordion(prevState => prevState === key ? null : key)
 	}
@@ -141,11 +202,11 @@ export default function PropertyDetailsV1() {
 							<div className="header-property-detail">
 								<div className="content-top d-flex justify-content-between align-items-center">
 									<div className="box-name">
-										<Link href="#" className="flag-tag primary">For Rent</Link>
-										<h4 className="title link">Lakeview Haven, Lake Tahoe</h4>
+										<Link href="#" className="flag-tag primary">{properties.transaction}</Link>
+										<h4 className="title link">{properties.title}</h4>
 									</div>
 									<div className="box-price d-flex align-items-center">
-										<h4>$250,00</h4>
+										<h4>${properties.price}</h4>
 										<span className="body-1 text-variant-1">/month</span>
 									</div>
 								</div>
@@ -153,15 +214,15 @@ export default function PropertyDetailsV1() {
 									<div className="info-box">
 										<div className="label">FEATUREs:</div>
 										<ul className="meta">
-											<li className="meta-item"><span className="icon icon-bed" /> 2 Bedroom</li>
-											<li className="meta-item"><span className="icon icon-bathtub" /> 2 Bathroom</li>
-											<li className="meta-item"><span className="icon icon-ruler" /> 6,000 SqFT</li>
+											<li className="meta-item"><span className="icon icon-bed" /> {properties.bedRooms} Bedroom</li>
+											<li className="meta-item"><span className="icon icon-bathtub" /> {properties.bathRooms} Bathroom</li>
+											<li className="meta-item"><span className="icon icon-ruler" /> {properties.size} SqFT</li>
 										</ul>
 									</div>
-									<div className="info-box">
+									{/* <div className="info-box">
 										<div className="label">LOCATION:</div>
 										<p className="meta-item"><span className="icon icon-mapPin" /> 8 Broadway, Brooklyn, New York</p>
-									</div>
+									</div> */}
 									<ul className="icon-box">
 										<li><Link href="#" className="item"><span className="icon icon-arrLeftRight" /> </Link></li>
 										<li><Link href="#" className="item"><span className="icon icon-share" /></Link></li>
@@ -173,69 +234,67 @@ export default function PropertyDetailsV1() {
 								<div className="col-lg-8">
 									<div className="single-property-element single-property-desc">
 										<div className="h7 title fw-7">Description</div>
-										<p className="body-2 text-variant-1">Located around an hour away from Paris, between the Perche and the Iton valley, in a beautiful wooded park bordered by a charming stream, this country property immediately seduces with its bucolic and soothing environment.</p>
-										<p className="mt-8 body-2 text-variant-1">An ideal choice for sports and leisure enthusiasts who will be able to take advantage of its swimming pool (11m x 5m), tennis court, gym and sauna.</p>
-										<Link href="#" className="btn-view"><span className="text">View More</span> </Link>
+										{properties.description}
 									</div>
 									<div className="single-property-element single-property-overview">
 										<div className="h7 title fw-7">Overview</div>
 										<ul className="info-box">
-											<li className="item">
+											{/* <li className="item">
 												<Link href="#" className="box-icon w-52"><i className="icon icon-house-line" /></Link>
 												<div className="content">
 													<span className="label">ID:</span>
 													<span>2297</span>
 												</div>
-											</li>
+											</li> */}
 											<li className="item">
 												<Link href="#" className="box-icon w-52"><i className="icon icon-arrLeftRight" /></Link>
 												<div className="content">
 													<span className="label">Type:</span>
-													<span>House</span>
+													<span>{toCapitalCase(properties.type)}</span>
 												</div>
 											</li>
 											<li className="item">
 												<Link href="#" className="box-icon w-52"><i className="icon icon-bed" /></Link>
 												<div className="content">
 													<span className="label">Bedrooms:</span>
-													<span>2 Rooms</span>
+													<span>{properties.bedRooms} Rooms</span>
 												</div>
 											</li>
 											<li className="item">
 												<Link href="#" className="box-icon w-52"><i className="icon icon-bathtub" /></Link>
 												<div className="content">
 													<span className="label">Bathrooms:</span>
-													<span>2 Rooms</span>
+													<span>{properties.bathRooms} Rooms</span>
 												</div>
 											</li>
-											<li className="item">
+											{/* <li className="item">
 												<Link href="#" className="box-icon w-52"><i className="icon icon-garage" /></Link>
 												<div className="content">
 													<span className="label">Garages:</span>
 													<span>2 Rooms</span>
 												</div>
-											</li>
+											</li> */}
 											<li className="item">
 												<Link href="#" className="box-icon w-52"><i className="icon icon-ruler" /></Link>
 												<div className="content">
 													<span className="label">Size:</span>
-													<span>900 SqFt</span>
+													<span>{properties.size} SqFt</span>
 												</div>
 											</li>
-											<li className="item">
+											{/* <li className="item">
 												<Link href="#" className="box-icon w-52"><i className="icon icon-crop" /></Link>
 												<div className="content">
 													<span className="label">Land Size:</span>
 													<span>2,000 SqFt</span>
 												</div>
-											</li>
-											<li className="item">
+											</li> */}
+											{/* <li className="item">
 												<Link href="#" className="box-icon w-52"><i className="icon icon-hammer" /></Link>
 												<div className="content">
 													<span className="label">Year Built:</span>
 													<span>2024</span>
 												</div>
-											</li>
+											</li> */}
 										</ul>
 									</div>
 									<div className="single-property-element single-property-video">
@@ -245,7 +304,7 @@ export default function PropertyDetailsV1() {
 											<VideoPopup />
 										</div>
 									</div>
-									<div className="single-property-element single-property-info">
+									{/* <div className="single-property-element single-property-info">
 										<div className="h7 title fw-7">Property Details</div>
 										<div className="row">
 											<div className="col-md-6">
@@ -321,81 +380,22 @@ export default function PropertyDetailsV1() {
 												</div>
 											</div>
 										</div>
-									</div>
+									</div> */}
 									<div className="single-property-element single-property-feature">
 										<div className="h7 title fw-7">Amenities and features</div>
 										<div className="wrap-feature">
-											<div className="box-feature">
-												<div className="fw-7">Home safety:</div>
-												<ul>
-													<li className="feature-item">
-														<span className="icon icon-smoke-alarm" />
-														Smoke alarm
-													</li>
-													<li className="feature-item">
-														<span className="icon icon-carbon" />
-														Carbon monoxide alarm
-													</li>
-													<li className="feature-item">
-														<span className="icon icon-kit" />
-														First aid kit
-													</li>
-													<li className="feature-item">
-														<span className="icon icon-lockbox" />
-														Self check-in with lockbox
-													</li>
-													<li className="feature-item">
-														<span className="icon icon-security" />
-														Security cameras
-													</li>
-												</ul>
-											</div>
-											<div className="box-feature">
-												<div className="fw-7">Bedroom:</div>
-												<ul>
-													<li className="feature-item">
-														<span className="icon icon-hanger" />
-														Hangers
-													</li>
-													<li className="feature-item">
-														<span className="icon icon-bed-line" />
-														Bed linens
-													</li>
-													<li className="feature-item">
-														<span className="icon icon-pillows" />
-														Extra pillows &amp; blankets
-													</li>
-													<li className="feature-item">
-														<span className="icon icon-iron" />
-														Iron
-													</li>
-													<li className="feature-item">
-														<span className="icon icon-tv" />
-														TV with standard cable
-													</li>
-												</ul>
-											</div>
-											<div className="box-feature">
-												<div className="fw-7">Kitchen:</div>
-												<ul>
-													<li className="feature-item">
-														<span className="icon icon-refrigerator" />
-														Refrigerator
-													</li>
-													<li className="feature-item">
-														<span className="icon icon-microwave" />
-														Microwave
-													</li>
-													<li className="feature-item">
-														<span className="icon icon-microwave" />
-														Dishwasher
-													</li>
-													<li className="feature-item">
-														<span className="icon icon-coffee" />
-														Coffee maker
-													</li>
-												</ul>
-											</div>
+											{metadetail.map((chunk, index) => (
+												<div key={index} className="box-feature">
+													<ul>
+													{chunk.map((propertyDetail) => (
+														<li key={propertyDetail.id} className="feature-item">
+														<span className="icon icon-list-dashes" />
+														{propertyDetail.name}
+														</li>
+													))}
+													</ul>
+												</div>
+											))}
 										</div>
 									</div>
 									<div className="single-property-element single-property-map">
@@ -416,7 +416,7 @@ export default function PropertyDetailsV1() {
 											</li>
 										</ul>
 									</div>
-									<div className="single-property-element single-property-floor">
+									{/* <div className="single-property-element single-property-floor">
 										<div className="h7 title fw-7">Floor plans</div>
 										<ul className="box-floor" id="parent-floor">
 											<li className="floor-item" onClick={() => handleAccordion(1)}>
@@ -493,8 +493,8 @@ export default function PropertyDetailsV1() {
 												</Link>
 											</div>
 										</div>
-									</div>
-									<div className="single-property-element single-property-explore">
+									</div> */}
+									{/* <div className="single-property-element single-property-explore">
 										<div className="h7 title fw-7">Explore Property</div>
 										<div className="box-img">
 											<img src="/images/banner/img-explore.jpg" alt="img" />
@@ -532,8 +532,8 @@ export default function PropertyDetailsV1() {
 												</div>
 											</div>
 										</form>
-									</div>
-									<div className="single-property-element single-property-nearby">
+									</div> */}
+									{/* <div className="single-property-element single-property-nearby">
 										<div className="h7 title fw-7">What’s nearby?</div>
 										<p className="body-2">Explore nearby amenities to precisely locate your property and identify surrounding conveniences, providing a comprehensive overview of the living environment and the property's convenience.</p>
 										<div className="grid-2 box-nearby">
@@ -574,7 +574,7 @@ export default function PropertyDetailsV1() {
 												</li>
 											</ul>
 										</div>
-									</div>
+									</div> */}
 									<div className="single-property-element single-wrapper-review">
 										<div className="box-title-review d-flex justify-content-between align-items-center flex-wrap gap-20">
 											<div className="h7 fw-7">Guest Reviews</div>
@@ -770,7 +770,7 @@ export default function PropertyDetailsV1() {
 										</div>
 									</div>
 								</div>
-								<div className="col-lg-4">
+								{/* <div className="col-lg-4">
 									<div className="widget-sidebar fixed-sidebar wrapper-sidebar-right">
 										<div className="widget-box single-property-contact bg-surface">
 											<div className="h7 title fw-7">Contact Sellers</div>
@@ -928,7 +928,7 @@ export default function PropertyDetailsV1() {
 											</ul>
 										</div>
 									</div>
-								</div >
+								</div > */}
 							</div >
 						</div >
 					</section >

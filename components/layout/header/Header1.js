@@ -5,15 +5,19 @@ import Menu from "../Menu";
 import MobileMenu from "../MobileMenu";
 import React, { useEffect, useState } from 'react';
 import { capitalizeFirstChar, getRandomInt } from "../../../components/common/functions";
+import LanguageSwitcher from "../langSwitcher";
+import { useTranslation } from "react-i18next";
 
 export default function Header1({ scroll, isMobileMenu, handleMobileMenu, isLogin, handleLogin, hcls, handleRegister }) {
 	const [userName, setUserName] = useState('');
 	const [userImage, setUserImage] = useState('');
 	const [userStatus, setUserStatus] = useState(false);
 	const router = useRouter();
+	const { t } = useTranslation();
 	const handDashboard = () => {
 		router.push('/dashboard');
 	}
+
 	useEffect(() => {
 		if( localStorage.getItem('isLoggedIn') ){
 			const userDetail = JSON.parse(localStorage.getItem('user'));
@@ -26,7 +30,6 @@ export default function Header1({ scroll, isMobileMenu, handleMobileMenu, isLogi
 
 	return (
 		<>
-
 			<header className={`main-header fixed-header ${hcls ? "header-style-2" : ""} ${scroll ? "fixed-header is-fixed" : ""}`}>
 				{/* Header Lower */}
 				<div className="header-lower header-dashboard">
@@ -54,7 +57,8 @@ export default function Header1({ scroll, isMobileMenu, handleMobileMenu, isLogi
 									</nav>
 									{/* Main Menu End*/}
 								</div>
-								<div className="header-account">
+								
+								<div className="header-account"> 
 									<div className="register">
 										{userStatus ? 
 												<>
@@ -68,13 +72,14 @@ export default function Header1({ scroll, isMobileMenu, handleMobileMenu, isLogi
 											: 
 												<>
 													<ul className="d-flex">
-														<li><a onClick={handleLogin}>Login</a></li>
+														<li><a onClick={handleLogin}>{t("login")}</a></li>
 														<li>/</li>
-														<li><a onClick={handleRegister}>Register</a></li>
+														<li><a onClick={handleRegister}>{t("register")}</a></li>
 													</ul>
 												</>
 											}
 									</div>
+									<LanguageSwitcher />
 									<div className="flat-bt-top">
 										<Link className="tf-btn primary" href="/add-property">Submit Property</Link>
 									</div>
