@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import { userType } from "../../components/common/functions";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-
+import { insertData } from "../../components/api/Axios/Helper";
 export default function ModalRegister({ isRegister, handleRegister, handleLogin }) {
 	const [showPassword, setShowPassword] = useState(false);
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -23,11 +23,6 @@ export default function ModalRegister({ isRegister, handleRegister, handleLogin 
 		mobile_number: Yup.string()
 			.matches(/^\d{10}$/, "Phone number must be exactly 10 digits")
 			.required("Phone Number is required"),
-        password: Yup.string()
-          .required("Password is required"),
-		confirmPassword: Yup.string()
-		  .oneOf([Yup.ref('password'), null], 'Passwords must match') // Ensure password and confirm password match
-		  .required('Confirm Password is required'),
 		agreeToTerms: Yup.bool().oneOf([true], 'You must accept the terms and conditions'),
     });
 	const handleSubmit = async (values, {resetForm}) => {
@@ -39,21 +34,27 @@ export default function ModalRegister({ isRegister, handleRegister, handleLogin 
 			image_url: '', 
 			type: "user", 
 			user_login_type	: userType("NONE"),
-			mobile_number: values.mobile_number, 
-			password: values.password
+			phone_number: values.mobile_number.toString(),
+			password: "",
+            user_id: "",
 		}
-		
-		const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/create-normal/user`, userData, {
-			headers: {
-			"Content-Type": "application/json",
-			},
-		});
-		if(response.data.status === true) {
-			setSucessMessage(true);
-			setErrorMessage(response.data.message);
-			resetForm();
-		} 
-		setErrorMessage(response.data.message);
+
+        const checkData = {
+			email_address: values.email, 
+			phone_number: parseInt(values.mobile_number,10)
+		}
+		const getUserInfo = await insertData('auth/check/user', checkData);
+        if(getUserInfo.status === false) {
+            const createUserInfo = await insertData('auth/create/user', userData);
+            if(createUserInfo.status === true) {
+            	setSucessMessage(true);
+            	setErrorMessage(createUserInfo.message);
+            	resetForm();
+            } 
+            setErrorMessage(createUserInfo.message);   
+        }else{
+            setErrorMessage(getUserInfo.message);
+        }
     };
 	const messageClass = (sucessMessage) ? "message success" : "message error";
 	return (
@@ -89,7 +90,7 @@ export default function ModalRegister({ isRegister, handleRegister, handleLogin 
 												<ErrorMessage name="mobile_number" component="div" className="error" />
 											</fieldset>
 
-											<fieldset className="box-fieldset">
+											{/* <fieldset className="box-fieldset">
 												<label htmlFor="pass">Password<span>*</span>:</label>
 												<Field 
 													type={showPassword ? "text" : "password"}
@@ -123,7 +124,7 @@ export default function ModalRegister({ isRegister, handleRegister, handleLogin 
 													{showConfirmPassword ? <img src="/images/favicon/password-hide.png" /> : <img src="/images/favicon/password-show.png" />}
 												</span>
 												<ErrorMessage name="confirmPassword" component="div" className="error" />
-											</fieldset>
+											</fieldset> */}
 											<fieldset className="box-fieldset">
 												<label>
 												<Field

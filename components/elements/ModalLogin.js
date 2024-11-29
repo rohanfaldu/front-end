@@ -16,8 +16,10 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 	const [OTPEnter, setOTPEnter] = useState(false);
  	const [user, setUser] = useState(null);
  	const [errorMessage, setErrorMessage] = useState('');
+ 	const [errorOtpMessage, setErrorOtpMessage] = useState('');
  	const [emailAddress, setEmailAddress] = useState('');
  	const [phoneNumber, setPhoneNumber] = useState('');
+	 const [sucessMessage, setSucessMessage] = useState(false);
  	const base_url = process.env.NEXT_PUBLIC_API_URL;
 	const clientId = process.env.NEXT_PUBLIC_GOOGLE_LOGIN_CLIENT_ID;
 	const responseFacebook = async (response) => {
@@ -140,17 +142,12 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 				"Content-Type": "application/json",
 			  },
 			});
-			console.log(response);
+			console.log(response.data.status);
 			if(response.data.status === true) {
-				setOTPEnter(true);
-				// localStorage.setItem('token', response.data.token);
-				// localStorage.setItem('user', JSON.stringify(response.data.data.userProfile));
 
-				// // Set the token to expire in 1 hour (3600 seconds)
-				// const expirationTime = Date.now() + 3600000; // 1 hour from now
-				// localStorage.setItem('tokenExpiration', expirationTime);
-				// localStorage.setItem('isLoggedIn', 'true');
-				// router.push('/dashboard');
+				setSucessMessage(true);
+				setErrorMessage(response.data.message);
+				setOTPEnter(true);
 			} else {
 				setErrorMessage(response.data.message);
 			}
@@ -203,12 +200,13 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 				localStorage.setItem('isLoggedIn', 'true');
 				router.push('/dashboard');
 			} else {
-				setErrorMessage(response.data.message);
+				setErrorOtpMessage(response.data.message);
 			}	
 		  } catch (error) {
-			setErrorMessage('Server Error. Please try again later.');
+			setErrorOtpMessage('Server Error. Please try again later.');
 		}
     };
+	const messageClass = (sucessMessage) ? "message success" : "message error";
 	return (
 		<>
 			<div className={`modal fade ${isLogin ? "show d-block" : ""}`} id="modalLogin">
@@ -220,7 +218,7 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 								<div>
 									<h3 className="title text-center">OTP</h3>
 								 	<span className="close-modal icon-close2" onClick={handleLogin} />
-									{errorMessage && <div className="message error">{errorMessage}</div>}
+									{errorOtpMessage && <div className="message error">{errorOtpMessage}</div>}
 
 									<Formik
 										initialValues={{ otp }}
@@ -266,7 +264,7 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 							<>
 								<h3 className="title text-center">Log In</h3>
 								<span className="close-modal icon-close2" onClick={handleLogin} />
-								{errorMessage && <div className="message error">{errorMessage}</div>}
+								{errorMessage && <div className={messageClass}>{errorMessage}</div>}
 								<Formik
 									initialValues={{ email_address: "" }}
 									validationSchema={validationSchema}

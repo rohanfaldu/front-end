@@ -16,8 +16,16 @@ export const getData = async (endpoint) => {
 
 // Function to handle POST requests
 export const insertData = async (endpoint, data) => {
+  console.log(API_URL);
+  console.log(`${API_URL}/${endpoint}`);
+  console.log(data);  
   try {
-    const response = await axios.post(`${API_URL}/${endpoint}`, data);
+    const response = await axios.post(`${API_URL}/${endpoint}`, data, {
+			headers: {
+			"Content-Type": "application/json",
+			},
+		});
+    console.log(response);
     return response.data; // Return the created data
   } catch (error) {
     console.error('Error inserting data:', error);
