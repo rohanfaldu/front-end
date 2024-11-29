@@ -13,8 +13,11 @@ import * as Yup from "yup";
 
 export default function ModalLogin({ isLogin, handleLogin, isRegister, handleRegister, handleForgotPassword }) {
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
+	const [OTPEnter, setOTPEnter] = useState(false);
  	const [user, setUser] = useState(null);
  	const [errorMessage, setErrorMessage] = useState('');
+ 	const [emailAddress, setEmailAddress] = useState('');
+ 	const [phoneNumber, setPhoneNumber] = useState('');
  	const base_url = process.env.NEXT_PUBLIC_API_URL;
 	const clientId = process.env.NEXT_PUBLIC_GOOGLE_LOGIN_CLIENT_ID;
 	const responseFacebook = async (response) => {
@@ -95,17 +98,97 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 	};
 	/*****  Login *******/
 	const [showPassword, setShowPassword] = useState(false);
+	const [otp, setOtp] = useState(['', '', '', '', '', '']); // Array to hold OTP values
+
+	const validateEmail = (email) => {
+		const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+		return emailPattern.test(email);
+	};
+
+	const validatePhoneNumber = (phoneNumber) => {
+		const phonePattern = /^\d{10}$/;
+		return phonePattern.test(phoneNumber);
+	};
     const validationSchema = Yup.object({
         email_address: Yup.string()
           .required("Please enter valid Email address or phone number is required"),
-        password: Yup.string()
-          .required("Password is required"),
     });
 	const handleSubmit =async (values) => {
 		try {
+
 			console.log(values);
-			let data = JSON.stringify(values);
-			const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/get/user`, data, {
+
+			let email_address = "";
+			if (validateEmail(values.email_address)) {
+				setEmailAddress(values.email_address);
+				email_address = values.email_address;
+			} else{
+				setErrorMessage('Please check your email address.');
+			}
+
+			let phone_number = "";
+			if (validatePhoneNumber(values.email_address)) {
+				setPhoneNumber(values.email_address);
+				phone_number = values.email_address;
+			} else {
+				setErrorMessage('Please check your phone number.');
+			}
+
+			const sendData = JSON.stringify({email_address: email_address, phone_number: phone_number});
+			const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/sendotp`, sendData, {
+			  headers: {
+				"Content-Type": "application/json",
+			  },
+			});
+			console.log(response);
+			if(response.data.status === true) {
+				setOTPEnter(true);
+				// localStorage.setItem('token', response.data.token);
+				// localStorage.setItem('user', JSON.stringify(response.data.data.userProfile));
+
+				// // Set the token to expire in 1 hour (3600 seconds)
+				// const expirationTime = Date.now() + 3600000; // 1 hour from now
+				// localStorage.setItem('tokenExpiration', expirationTime);
+				// localStorage.setItem('isLoggedIn', 'true');
+				// router.push('/dashboard');
+			} else {
+				setErrorMessage(response.data.message);
+			}
+		  } catch (error) {
+			setErrorMessage('Server Error. Please try again later.');
+		}
+    };
+	
+	const otpvalidationSchema = Yup.object({
+		otp: Yup.array()
+		.of(Yup.string().length(1, "Each OTP digit must be 1 character").matches(/^\d$/, "Each OTP digit must be a number"))
+		.length(6, "OTP must be 6 digits")
+		.required("OTP is required"),
+	});
+
+	const handleOtpChange = (e, index) => {
+		let value = e.target.value;
+		if (value.match(/^\d$/)) {
+		  const updatedOtp = [...otp];
+		  updatedOtp[index] = value;
+		  setOtp(updatedOtp);
+
+		  if (index < otp.length - 1) {
+			document.getElementById(`otp-${index + 1}`).focus();
+		  }
+
+		}
+	};
+	const handleKeyDown = (e, index) => {
+		if (e.key === "Backspace" && index > 0 && otp[index] === '') {
+		  document.getElementById(`otp-${index - 1}`).focus();
+		}
+	};
+	const otphandleSubmit =async (values) => {
+		try {
+			const OTP = otp.join('');
+			const sendData = JSON.stringify({email_address: emailAddress, phone_number: phoneNumber, code: OTP});
+			const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, sendData, {
 			  headers: {
 				"Content-Type": "application/json",
 			  },
@@ -121,23 +204,71 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 				router.push('/dashboard');
 			} else {
 				setErrorMessage(response.data.message);
-			}
+			}	
 		  } catch (error) {
 			setErrorMessage('Server Error. Please try again later.');
 		}
     };
-
 	return (
 		<>
 			<div className={`modal fade ${isLogin ? "show d-block" : ""}`} id="modalLogin">
 				<div className="modal-dialog modal-dialog-centered">
 					<div className="modal-content">
 						<div className="flat-account bg-surface">
-							<h3 className="title text-center">Log In</h3>
-							<span className="close-modal icon-close2" onClick={handleLogin} />
-							{errorMessage && <div className="message error">{errorMessage}</div>}
+						{OTPEnter?
+							<>
+								<div>
+									<h3 className="title text-center">OTP</h3>
+								 	<span className="close-modal icon-close2" onClick={handleLogin} />
+									{errorMessage && <div className="message error">{errorMessage}</div>}
+
+									<Formik
+										initialValues={{ otp }}
+										validationSchema={otpvalidationSchema}
+										onSubmit={otphandleSubmit}
+									>
+										{({ errors, touched, handleChange, handleBlur }) => (
+										<Form>
+											<fieldset className="box-fieldset">
+												<label htmlFor="otp">
+													Enter OTP<span>*</span>:
+												</label>
+												<div className="otp-input-container">
+													{/* Render 6 input boxes for OTP */}
+													{otp.map((digit, index) => (
+													<input
+														key={index}
+														type="text"
+														id={`otp-${index}`}
+														name={`otp[${index}]`}
+														value={digit}
+														onChange={(e) => handleOtpChange(e, index)} // Handle OTP change
+														onBlur={handleBlur}
+														onKeyDown={(e) => handleKeyDown(e, index)} // Handle keyDown for backspace auto-tab
+														maxLength="1"
+														className="otp-input"
+													/>
+													))}
+												</div>
+												<ErrorMessage name="otp" component="div" className="error" />
+											</fieldset>
+
+											<div className="d-flex justify-content-between flex-wrap gap-12">
+												<button type="submit" className="tf-btn primary w-100">
+													Submit OTP
+												</button>
+											</div>
+										</Form>
+										)}
+									</Formik>
+								</div>
+							</>:
+							<>
+								<h3 className="title text-center">Log In</h3>
+								<span className="close-modal icon-close2" onClick={handleLogin} />
+								{errorMessage && <div className="message error">{errorMessage}</div>}
 								<Formik
-									initialValues={{ email_address: "", password: "" }}
+									initialValues={{ email_address: "" }}
 									validationSchema={validationSchema}
 									onSubmit={handleSubmit}
 									>
@@ -148,7 +279,7 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 												<Field type="text" id="email_address" name="email_address" className="form-control style-1" />
 												<ErrorMessage name="email_address" component="div" className="error" />
 											</fieldset>
-											<fieldset className="box-fieldset">
+											{/* <fieldset className="box-fieldset">
 												<label htmlFor="pass">Password<span>*</span>:</label>
 												<Field 
 													type={showPassword ? "text" : "password"}
@@ -165,9 +296,9 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 													{showPassword ? <img src="/images/favicon/password-show.png" /> : <img src="/images/favicon/password-hide.png" /> }
 												</span>
 												<ErrorMessage name="password" component="div" className="error" />
-											</fieldset>
+											</fieldset> */}
 											<div className="d-flex justify-content-between flex-wrap gap-12">
-												<fieldset className="d-flex align-items-center gap-6">
+												{/* <fieldset className="d-flex align-items-center gap-6">
 													<Field
 														type="checkbox"
 														id="remeber_me" 
@@ -176,7 +307,7 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 													/>
 													<label htmlFor="cb1" className="caption-1 text-variant-1">Remember me</label>
 												</fieldset>
-												<Link href="/" className="caption-1 text-primary" onClick={handleForgotPassword}>Forgot password?</Link>
+												<Link href="/" className="caption-1 text-primary" onClick={handleForgotPassword}>Forgot password?</Link> */}
 												<button type="submit" className="tf-btn primary w-100">Login</button>
 											</div>
 										</Form>
@@ -212,7 +343,8 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 										/>
 									</GoogleOAuthProvider>
 								</div>
-							
+							</>
+						}
 						</div>
 					</div>
 				</div>

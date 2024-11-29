@@ -10339,3 +10339,23 @@ tr {
 .lang-switcher{
   margin-right: 20px;
 }
+.otp-input-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.otp-input {
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  font-size: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.otp-input:focus {
+  outline: none;
+  border-color: #007bff;
+}

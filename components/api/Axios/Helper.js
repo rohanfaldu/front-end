@@ -24,6 +24,16 @@ export const insertData = async (endpoint, data) => {
     throw error; // Re-throw the error for further handling
   }
 };
+export const createUser = async (userData) => {
+  const endpoint = 'users'; // Example API endpoint for creating a user
+  try {
+    const result = await insertData(endpoint, userData);
+    console.log('User created successfully:', result);
+    return result; // Return the result if needed
+  } catch (error) {
+    return false;
+  }
+};
 
 // Function to handle PUT requests (for updates)
 export const updateData = async (endpoint, data) => {
@@ -32,7 +42,7 @@ export const updateData = async (endpoint, data) => {
     return response.data; // Return the updated data
   } catch (error) {
     console.error('Error updating data:', error);
-    throw error; // Re-throw the error for further handling
+    return false; // Re-throw the error for further handling
   }
 };
 
@@ -43,6 +53,6 @@ export const deleteData = async (endpoint) => {
     return response.data; // Return a success message or the deleted data
   } catch (error) {
     console.error('Error deleting data:', error);
-    throw error; // Re-throw the error for further handling
+    return false; // Re-throw the error for further handling
   }
 };
