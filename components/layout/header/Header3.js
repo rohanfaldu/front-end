@@ -17,7 +17,7 @@ export default function Header3({ scroll, isSidebar, handleSidebar, isMobileMenu
 	useEffect(() => {
 	  const userDetail = JSON.parse(localStorage.getItem('user'));
 	  setUserImage(userDetail.image)
-	  const capitalizedString = capitalizeFirstChar(userDetail.user_name);
+	  const capitalizedString = capitalizeFirstChar(userDetail.user_name?userDetail.user_name:"user");
 	  setUserName(capitalizedString)
 	}, []);
 	const pathname = usePathname();

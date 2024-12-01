@@ -116,20 +116,17 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
           .required("Please enter valid Email address or phone number is required"),
     });
 	const handleSubmit =async (values) => {
+		setErrorMessage('');
 		try {
 
 			console.log(values);
 
 			let email_address = "";
+			let phone_number = "";
 			if (validateEmail(values.email_address)) {
 				setEmailAddress(values.email_address);
 				email_address = values.email_address;
-			} else{
-				setErrorMessage('Please check your email address.');
-			}
-
-			let phone_number = "";
-			if (validatePhoneNumber(values.email_address)) {
+			} else if (validatePhoneNumber(values.email_address)) {
 				setPhoneNumber(values.email_address);
 				phone_number = values.email_address;
 			} else {
@@ -206,6 +203,11 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 			setErrorOtpMessage('Server Error. Please try again later.');
 		}
     };
+	const handleOTP = () => {
+		document.body.classList.remove("modal-open");
+		setOTPEnter(false);
+		setErrorMessage("");
+	}
 	const messageClass = (sucessMessage) ? "message success" : "message error";
 	return (
 		<>
@@ -217,7 +219,7 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 							<>
 								<div>
 									<h3 className="title text-center">OTP</h3>
-								 	<span className="close-modal icon-close2" onClick={handleLogin} />
+								 	<span className="close-modal icon-close2" onClick={handleOTP} />
 									{errorOtpMessage && <div className="message error">{errorOtpMessage}</div>}
 
 									<Formik
