@@ -71,17 +71,17 @@ export default function Header3({ scroll, isSidebar, handleSidebar, isMobileMenu
 									</a>
 									
 									<div className={`dropdown-menu  ${isToggled ? "show" : ""}`} >
-										<Link className="dropdown-item" href="/my-favorites">My Properties</Link>
-										<Link className="dropdown-item" href="/my-invoices">My Invoices</Link>
+										{/*<Link className="dropdown-item" href="/my-favorites">My Properties</Link>
+										 <Link className="dropdown-item" href="/my-invoices">My Invoices</Link>
 										<Link className="dropdown-item" href="/my-favorites">My Favorites</Link>
 										<Link className="dropdown-item" href="/reviews">Reviews</Link>
 										<Link className="dropdown-item" href="/my-profile">My Profile</Link>
-										<Link className="dropdown-item" href="/add-property">Add Property</Link>
+										<Link className="dropdown-item" href="/add-property">Add Property</Link> */}
 										<Link className="dropdown-item" onClick={handleLogout}  href="/">Logout</Link>
 									</div>
 
 									<div className="flat-bt-top">
-										<Link className="tf-btn primary" href="/add-property">Submit Property</Link>
+										<Link className="tf-btn primary" href="#">Submit Property</Link>
 									</div>
 								</div>
 								<div className="mobile-nav-toggler mobile-button" onClick={handleMobileMenu}><span /></div>
@@ -99,7 +99,7 @@ export default function Header3({ scroll, isSidebar, handleSidebar, isMobileMenu
 						<div className="bottom-canvas">
 							<MobileMenu />
 							<div className="button-mobi-sell">
-								<Link className="tf-btn primary" href="/add-property">Submit Property</Link>
+								<Link className="tf-btn primary" href="#">Submit Property</Link>
 							</div>
 							<div className="mobi-icon-box">
 								<div className="box d-flex align-items-center">

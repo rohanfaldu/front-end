@@ -17,3 +17,9 @@ export function userType(type) {
     
     return UserType[type] ? UserType[type] : UserType.NONE;
 }
+
+export function split(string, key) {
+    const response = string.trim().split(/\s+/); 
+    
+    return response[key];
+}

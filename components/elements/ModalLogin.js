@@ -9,8 +9,8 @@ import { useRouter } from 'next/navigation';
 import { userType } from "../../components/common/functions";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-
-
+import { insertData } from "../../components/api/Axios/Helper";
+import { split } from "../../components/common/functions";
 export default function ModalLogin({ isLogin, handleLogin, isRegister, handleRegister, handleForgotPassword }) {
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const [OTPEnter, setOTPEnter] = useState(false);
@@ -25,18 +25,23 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 	const responseFacebook = async (response) => {
 		console.log(response); // Contains user data from Facebook
 		if (response.status !== 'unknown') {
-		  // Process response (e.g., save the user data or access token)
-		  const APP_API_URL = base_url;
+			const checkData = { email_address: response.email,  phone_number: '' }
+			const getUserInfo = await insertData('auth/check/user', checkData);
+			const user_id = (getUserInfo.status === false)?'':getUserInfo.data.id;
+
+		  	// Process response (e.g., save the user data or access token)
+		  	const APP_API_URL = base_url;
 			const userData = {
 				full_name: response.name, 
-				user_name: response.name, 
+				user_name: split(response.name,0), 
 				email_address: response.email, 
 				fcm_token: response.accessToken, 
 				image_url: response.picture.data.url?response.picture.data.url : '', 
 				type: "user", 
-				user_login_type	: userType("FACEBOOK"),
-				mobile_number: '', 
-				password: ''
+				user_login_type	: "FACEBOOK",
+				phone_number: '', 
+				password: '',
+				user_id: user_id
 			}
 			try {
 				const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/create/user`, userData, {
@@ -59,19 +64,23 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 		}
 	};
 	const router = useRouter();
-  	const onSuccess = async (response) => {
+  	const handleGoogleSuccess = async (response) => {
+		const userObject = jwtDecode(response.credential);
+		const checkData = { email_address: userObject.email,  phone_number: '' }
+		const getUserInfo = await insertData('auth/check/user', checkData);
+		const user_id = (getUserInfo.status === false)?'':getUserInfo.data.id;
 		const APP_API_URL = base_url;
-		const userObject = jwtDecode(response.credential); // Decode JWT to extract user info
 		const userData = {
 			full_name: userObject.name, 
-			user_name: userObject.given_name, 
+			user_name: split(userObject.given_name,0),
 			email_address: userObject.email, 
 			fcm_token: userObject.fcm_token, 
 			image_url: 	userObject.picture?userObject.picture : '', 
 			type: "user",
 			user_login_type	: "GOOGLE", 
-			mobile_number: '', 
-			password: ''
+			phone_number: '', 
+			password: '',
+			user_id: user_id
 		}
 		try {
 			const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/create/user`, userData, {
@@ -118,8 +127,6 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 	const handleSubmit =async (values) => {
 		setErrorMessage('');
 		try {
-
-			console.log(values);
 
 			let email_address = "";
 			let phone_number = "";
@@ -334,7 +341,7 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 									<GoogleOAuthProvider clientId={clientId}>
 										<GoogleLogin
 											clientId={clientId}
-											onSuccess={onSuccess}
+											onSuccess={handleGoogleSuccess}
 											onFailure={onFailure}
 											cookiePolicy={'single_host_origin'}
 											className="btn-login-social"
@@ -342,6 +349,9 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 										
 										/>
 									</GoogleOAuthProvider>
+								</div>
+								<div className="mt-16 text-variant-1 text-center noti">Don't have an account?
+									<a onClick={() => { handleLogin(); handleRegister() }} className="text-black fw-5">Sign up here</a>
 								</div>
 							</>
 						}

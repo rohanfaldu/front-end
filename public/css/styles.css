@@ -9287,9 +9287,9 @@ tr {
   .header-dashboard .logo-box {
     gap: 20px;
   }
-  .header-dashboard .header-account .box-avatar .name {
+  /* .header-dashboard .header-account .box-avatar .name {
     display: none;
-  }
+  } */
 }
 @media only screen and (max-width: 1300px) {
   .wrap-property-v2 .box-inner-right {
@@ -10164,7 +10164,7 @@ tr {
 .main-header .header-account .dropdown-menu{
   position: absolute;
   margin: 0;
-  top: 63px;
+  top: 47px;
   right: 115px;
 }
 .admin-login .logo-box{
@@ -10174,7 +10174,7 @@ tr {
 @media only screen and (max-width: 1023px) {
   .main-header .header-account .dropdown-menu{
     top: 48px;
-    right: 85px;
+    right: 220px;
   }
   .show-password{
     padding-top: 55px;
@@ -10358,4 +10358,7 @@ tr {
 .otp-input:focus {
   outline: none;
   border-color: #007bff;
+}
+.aggree-checkbox{
+  margin-right: 5px;
 }

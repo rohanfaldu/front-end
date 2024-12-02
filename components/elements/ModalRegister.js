@@ -131,7 +131,7 @@ export default function ModalRegister({ isRegister, handleRegister, handleLogin 
 													type="checkbox"
 													name="agreeToTerms"
 													className="tf-checkbox style-2 aggree-checkbox"
-												/>
+												/> 
 												I agree to the terms of use
 												</label>
 												<ErrorMessage name="agreeToTerms" component="div" className="error" />
@@ -142,7 +142,7 @@ export default function ModalRegister({ isRegister, handleRegister, handleLogin 
 														type="checkbox" 
 														name="subscribeNewsletter" 
 														className="tf-checkbox style-2 aggree-checkbox"
-													/>
+													/> 
 													Subscribe to the newsletter
 												</label>
 												</fieldset>
