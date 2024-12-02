@@ -108,7 +108,7 @@ export default function PropertyDetailsV1({ params }) {
 				}
 			);
 
-			const propertyList = response.data.data;
+			const propertyList = response.data.data.data;
 			const result = propertyList.find(item => item.id === id);
 			setProperties(result);
 			console.log(result.meta_details);

@@ -19,6 +19,7 @@ export default function Header3({ scroll, isSidebar, handleSidebar, isMobileMenu
 	  setUserImage(userDetail.image)
 	  const capitalizedString = capitalizeFirstChar(userDetail.user_name?userDetail.user_name:"user");
 	  setUserName(capitalizedString)
+	  console.log(userDetail.user_name);
 	}, []);
 	const pathname = usePathname();
 
@@ -33,6 +34,7 @@ export default function Header3({ scroll, isSidebar, handleSidebar, isMobileMenu
 		const loggedInStatus = JSON.parse(localStorage.getItem('user'));
 		setUserType(loggedInStatus.roles.name);
 	}, [])
+	console.log(userType);
 	return (
 		<>
 
@@ -71,12 +73,18 @@ export default function Header3({ scroll, isSidebar, handleSidebar, isMobileMenu
 									</a>
 									
 									<div className={`dropdown-menu  ${isToggled ? "show" : ""}`} >
-										{/*<Link className="dropdown-item" href="/my-favorites">My Properties</Link>
-										 <Link className="dropdown-item" href="/my-invoices">My Invoices</Link>
+										{(userType !== 'user')?
+											<>
+												<Link className="dropdown-item" href="/my-favorites">My Properties</Link>
+												<Link className="dropdown-item" href="/add-property">Add Property</Link>
+											</>
+											:""
+										}
+										{/*<Link className="dropdown-item" href="/my-invoices">My Invoices</Link>
 										<Link className="dropdown-item" href="/my-favorites">My Favorites</Link>
 										<Link className="dropdown-item" href="/reviews">Reviews</Link>
 										<Link className="dropdown-item" href="/my-profile">My Profile</Link>
-										<Link className="dropdown-item" href="/add-property">Add Property</Link> */}
+										 */}
 										<Link className="dropdown-item" onClick={handleLogout}  href="/">Logout</Link>
 									</div>
 
