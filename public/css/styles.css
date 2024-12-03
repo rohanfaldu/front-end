@@ -10172,7 +10172,7 @@ tr {
   position: absolute;
   margin: 0;
   top: 47px;
-  right: 115px;
+  right: 0px;
 }
 .admin-login .logo-box{
   display: flex;
@@ -10181,7 +10181,7 @@ tr {
 @media only screen and (max-width: 1023px) {
   .main-header .header-account .dropdown-menu{
     top: 48px;
-    right: 220px;
+    right: 0px;
   }
   .show-password{
     padding-top: 55px;
@@ -10192,7 +10192,7 @@ tr {
 @media only screen and (max-width: 767px) {
   .main-header .header-account .dropdown-menu{
     top: 44px;
-    right: 85px;
+    right: 0px;
   }
 }
 @media only screen and (min-width: 1024px) {

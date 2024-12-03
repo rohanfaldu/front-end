@@ -27,21 +27,74 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 		if (response.status !== 'unknown') {
 			const checkData = { email_address: response.email,  phone_number: '' }
 			const getUserInfo = await insertData('auth/check/user', checkData);
-			const user_id = (getUserInfo.status === false)?'':getUserInfo.data.id;
-
-		  	// Process response (e.g., save the user data or access token)
-		  	const APP_API_URL = base_url;
+			console.log(getUserInfo);
+			if(getUserInfo.status === false) {
+				const APP_API_URL = base_url;
+				const userData = {
+					full_name: response.name, 
+					user_name: split(response.name,0), 
+					email_address: response.email, 
+					fcm_token: response.accessToken, 
+					image_url: response.picture.data.url?response.picture.data.url : '', 
+					type: "user", 
+					social_id: response.id,
+					user_login_type	: "FACEBOOK",
+					phone_number: '', 
+					password: '',
+					user_id: ''
+				}
+				try {
+					const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/create/user`, userData, {
+						headers: {
+							'Content-Type': 'application/json'
+						},
+					});
+					if(response.data.status === true) {
+						localStorage.setItem('token', response.data.token);
+						localStorage.setItem('user', JSON.stringify(response.data.data.userProfile));
+						const expirationTime = Date.now() + 3600000; // 1 hour from now
+						localStorage.setItem('tokenExpiration', expirationTime);
+						localStorage.setItem('isLoggedIn', 'true');
+						router.push('/dashboard');
+					}
+					
+				} catch (error) {
+					console.error('Error sending data:', error);
+				}
+			}else{
+				if(getUserInfo.data.userProfile.user_login_type != 'FACEBOOK'){
+					setErrorMessage('User already exists with another social app.');
+				}else{
+					localStorage.setItem('token', getUserInfo.data.token);
+					localStorage.setItem('user', JSON.stringify(getUserInfo.data.userProfile));
+					const expirationTime = Date.now() + 3600000; // 1 hour from now
+					localStorage.setItem('tokenExpiration', expirationTime);
+					localStorage.setItem('isLoggedIn', 'true');
+					router.push('/');
+				}
+			}
+		}
+	};
+	const router = useRouter();
+  	const handleGoogleSuccess = async (response) => {
+		const idToken = response.credential;
+		const userObject = jwtDecode(response.credential);
+		const checkData = { email_address: userObject.email,  phone_number: '' }
+		const getUserInfo = await insertData('auth/check/user', checkData);
+		
+		if(getUserInfo.status === false) {
 			const userData = {
-				full_name: response.name, 
-				user_name: split(response.name,0), 
-				email_address: response.email, 
-				fcm_token: response.accessToken, 
-				image_url: response.picture.data.url?response.picture.data.url : '', 
-				type: "user", 
-				user_login_type	: "FACEBOOK",
+				full_name: userObject.name, 
+				user_name: split(userObject.given_name,0),
+				email_address: userObject.email, 
+				fcm_token: idToken, 
+				image_url: 	userObject.picture?userObject.picture : '', 
+				type: "user",
+				social_id: response.sub,
+				user_login_type	: "GOOGLE", 
 				phone_number: '', 
 				password: '',
-				user_id: user_id
+				user_id: ''
 			}
 			try {
 				const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/create/user`, userData, {
@@ -55,53 +108,23 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 					const expirationTime = Date.now() + 3600000; // 1 hour from now
 					localStorage.setItem('tokenExpiration', expirationTime);
 					localStorage.setItem('isLoggedIn', 'true');
-					router.push('/dashboard');
+					router.push('/');
 				}
 				
 			} catch (error) {
 				console.error('Error sending data:', error);
 			}
-		}
-	};
-	const router = useRouter();
-  	const handleGoogleSuccess = async (response) => {
-		const userObject = jwtDecode(response.credential);
-		const checkData = { email_address: userObject.email,  phone_number: '' }
-		const getUserInfo = await insertData('auth/check/user', checkData);
-		const user_id = (getUserInfo.status === false)?'':getUserInfo.data.id;
-		const APP_API_URL = base_url;
-		const userData = {
-			full_name: userObject.name, 
-			user_name: split(userObject.given_name,0),
-			email_address: userObject.email, 
-			fcm_token: userObject.fcm_token, 
-			image_url: 	userObject.picture?userObject.picture : '', 
-			type: "user",
-			user_login_type	: "GOOGLE", 
-			phone_number: '', 
-			password: '',
-			user_id: user_id
-		}
-		try {
-			const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/create/user`, userData, {
-				headers: {
-					'Content-Type': 'application/json'
-				},
-			});
-			
-			if(response.data.status === true) {
-				localStorage.setItem('token', response.data.token);
-				localStorage.setItem('user', JSON.stringify(response.data.data.userProfile));
-
-				// Set the token to expire in 1 hour (3600 seconds)
+		}else{
+			if(getUserInfo.data.userProfile.user_login_type != 'GOOGLE'){
+				setErrorMessage('User already exists with another social app.');
+			}else{
+				localStorage.setItem('token', getUserInfo.data.token);
+				localStorage.setItem('user', JSON.stringify(getUserInfo.data.userProfile));
 				const expirationTime = Date.now() + 3600000; // 1 hour from now
 				localStorage.setItem('tokenExpiration', expirationTime);
 				localStorage.setItem('isLoggedIn', 'true');
-				router.push('/dashboard');
+				router.push('/');
 			}
-			
-		} catch (error) {
-			console.error('Error sending data:', error);
 		}
 	};
 	const onFailure = (response) => {
@@ -140,20 +163,28 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 				setErrorMessage('Please enter valid Email address or phone number.');
 			}
 
-			const sendData = JSON.stringify({email_address: email_address, phone_number: phone_number});
-			const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/sendotp`, sendData, {
-			  headers: {
-				"Content-Type": "application/json",
-			  },
-			});
-			console.log(response.data.status);
-			if(response.data.status === true) {
+			
+			const checkData = { email_address: userObject.email,  phone_number: '' }
+			const getUserInfo = await insertData('auth/check/user', checkData);
+			if(getUserInfo.status === false) {
+				const sendData = JSON.stringify({email_address: values.email_address, phone_number: values.phone_number});
+				const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/sendotp`, sendData, {
+				headers: {
+					"Content-Type": "application/json",
+				},
+				});
+				if(response.data.status === true) {
 
-				setSucessMessage(true);
-				setErrorMessage(response.data.message);
-				setOTPEnter(true);
-			} else {
-				setErrorMessage(response.data.message);
+					setSucessMessage(true);
+					setErrorMessage(response.data.message);
+					setOTPEnter(true);
+				} else {
+					setErrorMessage(response.data.message);
+				}
+			}else{
+				if(getUserInfo.data.userProfile.user_login_type != 'NONE'){
+					setErrorMessage('User already exists with another social app.');
+				}
 			}
 		  } catch (error) {
 			setErrorMessage('Server Error. Please try again later.');
@@ -359,6 +390,8 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 										
 										/>
 									</GoogleOAuthProvider>
+
+									
 								</div>
 								<div className="mt-16 text-variant-1 text-center noti">Don't have an account?
 									<a onClick={() => { handleLogin(); handleRegister() }} className="text-black fw-5">Sign up here</a>
