@@ -12,6 +12,7 @@ export default function Header1({ scroll, isMobileMenu, handleMobileMenu, isLogi
 	const [userName, setUserName] = useState('');
 	const [userImage, setUserImage] = useState('');
 	const [userStatus, setUserStatus] = useState(false);
+	const [loggedin, setLoggedin] = useState(false);
 	const router = useRouter();
 	const { t } = useTranslation();
 	const handDashboard = () => {
@@ -80,9 +81,9 @@ export default function Header1({ scroll, isMobileMenu, handleMobileMenu, isLogi
 											}
 									</div>
 									<LanguageSwitcher />
-									<div className="flat-bt-top">
+									{/* <div className="flat-bt-top">
 										<Link className="tf-btn primary" href="/add-property">Submit Property</Link>
-									</div>
+									</div> */}
 								</div>
 								<div className="mobile-nav-toggler mobile-button" onClick={handleMobileMenu}><span /></div>
 							</div>
@@ -98,14 +99,19 @@ export default function Header1({ scroll, isMobileMenu, handleMobileMenu, isLogi
 						<div className="nav-logo"><Link href="/"><img src="/images/logo/logo.svg" alt="nav-logo" width={174} height={44} /></Link></div>
 						<div className="bottom-canvas">
 							<div className="login-box flex align-items-center">
-								<Link href="#modalLogin" data-bs-toggle="modal">Login</Link>
-								<span>/</span>
-								<Link href="#modalRegister" data-bs-toggle="modal">Register</Link>
+								<div className="login-registraion-sec">
+									<a onClick={handleLogin}>{t("login")}</a>
+									<span>/</span>
+									<a onClick={handleRegister}>{t("register")}</a>
+								</div>
+								<div className="lang-sec">
+									<LanguageSwitcher />
+								</div>
 							</div>
 							<MobileMenu />
-							<div className="button-mobi-sell">
+							{/* <div className="button-mobi-sell">
 								<Link className="tf-btn primary" href="/add-property">Submit Property</Link>
-							</div>
+							</div> */}
 							<div className="mobi-icon-box">
 								<div className="box d-flex align-items-center">
 									<span className="icon icon-phone2" />

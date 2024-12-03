@@ -14,7 +14,9 @@ export default function Header3({ scroll, isSidebar, handleSidebar, isMobileMenu
 	const [userImage, setUserImage] = useState('');
 	const router = useRouter();
 	const [userType, setUserType] = useState('')
+	const [loggedin, setLoggedin] = useState(false);
 	useEffect(() => {
+		setLoggedin(true);
 	  const userDetail = JSON.parse(localStorage.getItem('user'));
 	  setUserImage(userDetail.image)
 	  const capitalizedString = capitalizeFirstChar(userDetail.user_name?userDetail.user_name:"user");
@@ -60,7 +62,7 @@ export default function Header3({ scroll, isSidebar, handleSidebar, isMobileMenu
 									</nav>
 									{/* Main Menu End*/}
 								</div>
-								<div className="header-account">
+								<div className={loggedin?"header-account loggedin":"header-account"}>
 									
 									<a onClick={handleToggle} className={`box-avatar dropdown-toggle ${isToggled ? "show" : ""}`}>
 										<div className="avatar avt-40 round">
@@ -88,9 +90,9 @@ export default function Header3({ scroll, isSidebar, handleSidebar, isMobileMenu
 										<Link className="dropdown-item" onClick={handleLogout}  href="/">Logout</Link>
 									</div>
 
-									<div className="flat-bt-top">
+									{/* <div className="flat-bt-top">
 										<Link className="tf-btn primary" href="#">Submit Property</Link>
-									</div>
+									</div> */}
 								</div>
 								<div className="mobile-nav-toggler mobile-button" onClick={handleMobileMenu}><span /></div>
 							</div>

@@ -137,7 +137,7 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 				setPhoneNumber(values.email_address);
 				phone_number = values.email_address;
 			} else {
-				setErrorMessage('Please check your phone number.');
+				setErrorMessage('Please enter valid Email address or phone number.');
 			}
 
 			const sendData = JSON.stringify({email_address: email_address, phone_number: phone_number});
@@ -181,10 +181,20 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 		}
 	};
 	const handleKeyDown = (e, index) => {
-		if (e.key === "Backspace" && index > 0 && otp[index] === '') {
-		  document.getElementById(`otp-${index - 1}`).focus();
+		if (e.key === "Backspace") {
+		  const updatedOtp = [...otp];
+		  if (otp[index] === "") {
+			// If the current field is empty, focus on the previous field
+			if (index > 0) {
+			  document.getElementById(`otp-${index - 1}`).focus();
+			}
+		  } else {
+			// Clear the current field value
+			updatedOtp[index] = "";
+			setOtp(updatedOtp);
+		  }
 		}
-	};
+	  };
 	const otphandleSubmit =async (values) => {
 		try {
 			const OTP = otp.join('');

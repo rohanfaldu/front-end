@@ -28,7 +28,7 @@ export default function Sidebar() {
 					<li className={`nav-menu-item ${pathname === '/dashboard' ? 'active' : ''}`}>
 						<Link className="nav-menu-link" href="/dashboard"><span className="icon icon-dashboard" /> Dashboards</Link>
 					</li>
-					{userType?
+					{(userType !== 'user')?
 					<>
 						<li className={`nav-menu-item ${pathname === '/my-property' ? 'active' : ''}`}>
 							<Link className="nav-menu-link" href="/my-property"><span className="icon icon-list-dashes" />My Properties</Link>
