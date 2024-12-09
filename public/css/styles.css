@@ -10369,9 +10369,9 @@ tr {
 .aggree-checkbox{
   margin-right: 5px;
 }
-.S9gUrf-YoZ4jf iframe{
+/* .S9gUrf-YoZ4jf iframe{
   display: none !important;
-}
+} */
 .bottom-canvas .login-box .login-registraion-sec{
 	width: 60%;
     display: block;
@@ -10382,6 +10382,28 @@ tr {
     width: 20%;
     float: right;
 }
+.btn-login-social.custom-google-button {
+  background-color: #4285f4;
+  color: white;
+  border-radius: 5px;
+  padding: 10px 20px;
+  border: none;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-login-social.custom-google-button:hover {
+  background-color: #357ae8;
+}
+
+.btn-login-social.custom-google-button i {
+  margin-right: 8px; /* Space between icon and text */
+}
+
 .phone-and-country-code .country-code{
   width: 50%;
   margin-right: 15px;

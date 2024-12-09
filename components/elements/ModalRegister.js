@@ -15,10 +15,7 @@ export default function ModalRegister({ isRegister, handleRegister, handleLogin 
 	const [errorMessage, setErrorMessage] = useState('');
 	const [sucessMessage, setSucessMessage] = useState(false);
 	const [selectedCode, setSelectedCode] = useState("");
-	console.log(allCountries);
-	const handleSelectChange = (event) => {
-	  setSelectedCode(event.target.value);
-	};
+	
     const validationSchema = Yup.object({
 		user_name: Yup.string()
 		  .required("User Name is required"),
@@ -28,20 +25,30 @@ export default function ModalRegister({ isRegister, handleRegister, handleLogin 
 		mobile_number: Yup.string()
 			.matches(/^\d{10}$/, "Phone number must be exactly 10 digits")
 			.required("Phone Number is required"),
+			country_code: Yup.string()
+			.required("Country Code is required"),
+        password: Yup.string()
+          .required("Password is required"),
+		confirmPassword: Yup.string()
+		  .oneOf([Yup.ref('password'), null], 'Passwords must match') // Ensure password and confirm password match
+		  .required('Confirm Password is required'),
 		agreeToTerms: Yup.bool().oneOf([true], 'You must accept the terms and conditions'),
     });
 	const handleSubmit = async (values, {resetForm}) => {
+		console.log(values);
 		const userData = {
-			full_name: values.user_name, 
-			user_name: values.user_name, 
-			email_address: values.email_address, 
-			fcm_token: '', 
-			image_url: '', 
+			full_name: values.user_name??null, 
+			user_name: values.user_name??null, 
+			email_address: values.email_address??null, 
+			fcm_token: null, 
+			image_url: null, 
 			type: "user", 
 			user_login_type	: userType("NONE"),
 			phone_number: values.mobile_number.toString(),
-			password: "",
-            user_id: "",
+			password: values.password??null,
+            user_id: null,
+			social_id: null,
+			device_type:"web"
 		}
 
         const checkData = {
@@ -73,11 +80,11 @@ export default function ModalRegister({ isRegister, handleRegister, handleLogin 
 							{errorMessage && <div className={messageClass}>{errorMessage}</div>}
 							
 								<Formik
-									initialValues={{ user_name: "", mobile_number: "", email_address: "", password: "", confirmPassword: "", agreeToTerms: false, subscribeNewsletter: false, }}
+									initialValues={{ country_code: "", user_name: "", mobile_number: "", email_address: "", password: "", confirmPassword: "", agreeToTerms: false, subscribeNewsletter: false, }}
 									validationSchema={validationSchema}
 									onSubmit={handleSubmit}
 									>
-									{({ errors, touched, handleChange, handleBlur, setFieldValue }) => (
+									{({ errors, touched, handleChange, handleBlur }) => (
 										<Form>
 											<fieldset className="box-fieldset">
 												<label htmlFor="name">User Name<span>*</span>:</label>
@@ -120,7 +127,7 @@ export default function ModalRegister({ isRegister, handleRegister, handleLogin 
 												<ErrorMessage name="country_code" component="div" className="error" />
 											</fieldset>
 
-											{/* <fieldset className="box-fieldset">
+											<fieldset className="box-fieldset">
 												<label htmlFor="pass">Password<span>*</span>:</label>
 												<Field 
 													type={showPassword ? "text" : "password"}
@@ -154,7 +161,7 @@ export default function ModalRegister({ isRegister, handleRegister, handleLogin 
 													{showConfirmPassword ? <img src="/images/favicon/password-hide.png" /> : <img src="/images/favicon/password-show.png" />}
 												</span>
 												<ErrorMessage name="confirmPassword" component="div" className="error" />
-											</fieldset> */}
+											</fieldset>
 											<fieldset className="box-fieldset">
 												<label>
 												<Field

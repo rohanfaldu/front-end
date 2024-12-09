@@ -39,9 +39,10 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 					type: "user", 
 					social_id: response.id,
 					user_login_type	: "FACEBOOK",
-					phone_number: '', 
-					password: '',
-					user_id: ''
+					phone_number: null, 
+					password: null,
+					user_id: null,
+					device_type: 'web'
 				}
 				try {
 					const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/create/user`, userData, {
@@ -81,7 +82,7 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 		const userObject = jwtDecode(response.credential);
 		const checkData = { email_address: userObject.email,  phone_number: '' }
 		const getUserInfo = await insertData('auth/check/user', checkData);
-
+		
 		if(getUserInfo.status === false) {
 			const userData = {
 				full_name: userObject.name, 
@@ -90,12 +91,14 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 				fcm_token: idToken, 
 				image_url: 	userObject.picture?userObject.picture : '', 
 				type: "user",
-				social_id: response.sub,
+				social_id: userObject.sub,
 				user_login_type	: "GOOGLE", 
-				phone_number: '', 
-				password: '',
-				user_id: ''
+				phone_number: null, 
+				password: null,
+				user_id: null,
+				device_type: 'web'
 			}
+			console.log(userData);
 			try {
 				const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/create/user`, userData, {
 					headers: {
@@ -118,6 +121,8 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 			if(getUserInfo.data.userProfile.user_login_type != 'GOOGLE'){
 				setErrorMessage('User already exists with another social app.');
 			}else{
+				console.log(3)
+				console.log(getUserInfo.data)
 				localStorage.setItem('token', getUserInfo.data.token);
 				localStorage.setItem('user', JSON.stringify(getUserInfo.data.userProfile));
 				const expirationTime = Date.now() + 3600000; // 1 hour from now
@@ -146,6 +151,8 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
     const validationSchema = Yup.object({
         email_address: Yup.string()
           .required("Please enter valid Email address or phone number is required"),
+        password: Yup.string()
+          .required("Password is required"),
     });
 	const handleSubmit =async (values) => {
 		setErrorMessage('');
@@ -162,22 +169,27 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 			} else {
 				setErrorMessage('Please enter valid Email address or phone number.');
 			}
-
 			
-			const checkData = { email_address: userObject.email,  phone_number: '' }
+			const checkData = { email_address: values.email_address,  phone_number: '' }
 			const getUserInfo = await insertData('auth/check/user', checkData);
-			if(getUserInfo.status === false) {
-				const sendData = JSON.stringify({email_address: values.email_address, phone_number: values.phone_number});
-				const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/sendotp`, sendData, {
-				headers: {
-					"Content-Type": "application/json",
-				},
-				});
-				if(response.data.status === true) {
 
-					setSucessMessage(true);
-					setErrorMessage(response.data.message);
-					setOTPEnter(true);
+			if(getUserInfo.status === true) {
+				const sendData = JSON.stringify({email_address: values.email_address, phone_number: values.phone_number, password: values.password, device_type: "web"});
+				const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/login/password`, sendData, {
+					headers: {
+						"Content-Type": "application/json",
+					},
+				});
+				
+				if(response.data.status === true) {
+					localStorage.setItem('token', response.data.token);
+					localStorage.setItem('user', JSON.stringify(response.data.data.userProfile));
+
+					// Set the token to expire in 1 hour (3600 seconds)
+					const expirationTime = Date.now() + 3600000; // 1 hour from now
+					localStorage.setItem('tokenExpiration', expirationTime);
+					localStorage.setItem('isLoggedIn', 'true');
+					router.push('/dashboard');
 				} else {
 					setErrorMessage(response.data.message);
 				}
@@ -191,71 +203,71 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 		}
     };
 	
-	const otpvalidationSchema = Yup.object({
-		otp: Yup.array()
-		.of(Yup.string().length(1, "Each OTP digit must be 1 character").matches(/^\d$/, "Each OTP digit must be a number"))
-		.length(6, "OTP must be 6 digits")
-		.required("OTP is required"),
-	});
+	// const otpvalidationSchema = Yup.object({
+	// 	otp: Yup.array()
+	// 	.of(Yup.string().length(1, "Each OTP digit must be 1 character").matches(/^\d$/, "Each OTP digit must be a number"))
+	// 	.length(6, "OTP must be 6 digits")
+	// 	.required("OTP is required"),
+	// });
 
-	const handleOtpChange = (e, index) => {
-		let value = e.target.value;
-		if (value.match(/^\d$/)) {
-		  const updatedOtp = [...otp];
-		  updatedOtp[index] = value;
-		  setOtp(updatedOtp);
+	// const handleOtpChange = (e, index) => {
+	// 	let value = e.target.value;
+	// 	if (value.match(/^\d$/)) {
+	// 	  const updatedOtp = [...otp];
+	// 	  updatedOtp[index] = value;
+	// 	  setOtp(updatedOtp);
 
-		  if (index < otp.length - 1) {
-			document.getElementById(`otp-${index + 1}`).focus();
-		  }
+	// 	  if (index < otp.length - 1) {
+	// 		document.getElementById(`otp-${index + 1}`).focus();
+	// 	  }
 
-		}
-	};
-	const handleKeyDown = (e, index) => {
-		if (e.key === "Backspace") {
-		  const updatedOtp = [...otp];
-		  if (otp[index] === "") {
-			// If the current field is empty, focus on the previous field
-			if (index > 0) {
-			  document.getElementById(`otp-${index - 1}`).focus();
-			}
-		  } else {
-			// Clear the current field value
-			updatedOtp[index] = "";
-			setOtp(updatedOtp);
-		  }
-		}
-	  };
-	const otphandleSubmit =async (values) => {
-		try {
-			const OTP = otp.join('');
-			const sendData = JSON.stringify({email_address: emailAddress, phone_number: phoneNumber, code: OTP});
-			const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, sendData, {
-			  headers: {
-				"Content-Type": "application/json",
-			  },
-			});
-			if(response.data.status === true) {
-				localStorage.setItem('token', response.data.token);
-				localStorage.setItem('user', JSON.stringify(response.data.data.userProfile));
+	// 	}
+	// };
+	// const handleKeyDown = (e, index) => {
+	// 	if (e.key === "Backspace") {
+	// 	  const updatedOtp = [...otp];
+	// 	  if (otp[index] === "") {
+	// 		// If the current field is empty, focus on the previous field
+	// 		if (index > 0) {
+	// 		  document.getElementById(`otp-${index - 1}`).focus();
+	// 		}
+	// 	  } else {
+	// 		// Clear the current field value
+	// 		updatedOtp[index] = "";
+	// 		setOtp(updatedOtp);
+	// 	  }
+	// 	}
+	//   };
+	// const otphandleSubmit =async (values) => {
+	// 	try {
+	// 		const OTP = otp.join('');
+	// 		const sendData = JSON.stringify({email_address: emailAddress, phone_number: phoneNumber, code: OTP});
+	// 		const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, sendData, {
+	// 		  headers: {
+	// 			"Content-Type": "application/json",
+	// 		  },
+	// 		});
+	// 		if(response.data.status === true) {
+	// 			localStorage.setItem('token', response.data.token);
+	// 			localStorage.setItem('user', JSON.stringify(response.data.data.userProfile));
 
-				// Set the token to expire in 1 hour (3600 seconds)
-				const expirationTime = Date.now() + 3600000; // 1 hour from now
-				localStorage.setItem('tokenExpiration', expirationTime);
-				localStorage.setItem('isLoggedIn', 'true');
-				router.push('/dashboard');
-			} else {
-				setErrorOtpMessage(response.data.message);
-			}	
-		  } catch (error) {
-			setErrorOtpMessage('Server Error. Please try again later.');
-		}
-    };
-	const handleOTP = () => {
-		document.body.classList.remove("modal-open");
-		setOTPEnter(false);
-		setErrorMessage("");
-	}
+	// 			// Set the token to expire in 1 hour (3600 seconds)
+	// 			const expirationTime = Date.now() + 3600000; // 1 hour from now
+	// 			localStorage.setItem('tokenExpiration', expirationTime);
+	// 			localStorage.setItem('isLoggedIn', 'true');
+	// 			router.push('/dashboard');
+	// 		} else {
+	// 			setErrorOtpMessage(response.data.message);
+	// 		}	
+	// 	  } catch (error) {
+	// 		setErrorOtpMessage('Server Error. Please try again later.');
+	// 	}
+    // };
+	// const handleOTP = () => {
+	// 	document.body.classList.remove("modal-open");
+	// 	setOTPEnter(false);
+	// 	setErrorMessage("");
+	// }
 	const messageClass = (sucessMessage) ? "message success" : "message error";
 	return (
 		<>
@@ -263,71 +275,22 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 				<div className="modal-dialog modal-dialog-centered">
 					<div className="modal-content">
 						<div className="flat-account bg-surface">
-						{OTPEnter?
-							<>
-								<div>
-									<h3 className="title text-center">OTP</h3>
-								 	<span className="close-modal icon-close2" onClick={handleOTP} />
-									{errorOtpMessage && <div className="message error">{errorOtpMessage}</div>}
-
-									<Formik
-										initialValues={{ otp }}
-										validationSchema={otpvalidationSchema}
-										onSubmit={otphandleSubmit}
-									>
-										{({ errors, touched, handleChange, handleBlur }) => (
-										<Form>
-											<fieldset className="box-fieldset">
-												<label htmlFor="otp">
-													Enter OTP<span>*</span>:
-												</label>
-												<div className="otp-input-container">
-													{/* Render 6 input boxes for OTP */}
-													{otp.map((digit, index) => (
-													<input
-														key={index}
-														type="text"
-														id={`otp-${index}`}
-														name={`otp[${index}]`}
-														value={digit}
-														onChange={(e) => handleOtpChange(e, index)} // Handle OTP change
-														onBlur={handleBlur}
-														onKeyDown={(e) => handleKeyDown(e, index)} // Handle keyDown for backspace auto-tab
-														maxLength="1"
-														className="otp-input"
-													/>
-													))}
-												</div>
-												<ErrorMessage name="otp" component="div" className="error" />
-											</fieldset>
-
-											<div className="d-flex justify-content-between flex-wrap gap-12">
-												<button type="submit" className="tf-btn primary w-100">
-													Submit OTP
-												</button>
-											</div>
-										</Form>
-										)}
-									</Formik>
-								</div>
-							</>:
-							<>
-								<h3 className="title text-center">Log In</h3>
-								<span className="close-modal icon-close2" onClick={handleLogin} />
-								{errorMessage && <div className={messageClass}>{errorMessage}</div>}
-								<Formik
-									initialValues={{ email_address: "" }}
-									validationSchema={validationSchema}
-									onSubmit={handleSubmit}
-									>
-									{({ errors, touched, handleChange, handleBlur }) => (
+							<h3 className="title text-center">Log In</h3>
+							<span className="close-modal icon-close2" onClick={handleLogin} />
+							{errorMessage && <div className={messageClass}>{errorMessage}</div>}
+							<Formik
+								initialValues={{ email_address: "", password:"" }}
+								validationSchema={validationSchema}
+								onSubmit={handleSubmit}
+								>
+								{({ errors, touched, handleChange, handleBlur }) => (
 										<Form>
 											<fieldset className="box-fieldset">
 												<label htmlFor="name">Email Address / Phone number<span>*</span>:</label>
 												<Field type="text" id="email_address" name="email_address" className="form-control style-1" />
 												<ErrorMessage name="email_address" component="div" className="error" />
 											</fieldset>
-											{/* <fieldset className="box-fieldset">
+											<fieldset className="box-fieldset">
 												<label htmlFor="pass">Password<span>*</span>:</label>
 												<Field 
 													type={showPassword ? "text" : "password"}
@@ -344,9 +307,9 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 													{showPassword ? <img src="/images/favicon/password-show.png" /> : <img src="/images/favicon/password-hide.png" /> }
 												</span>
 												<ErrorMessage name="password" component="div" className="error" />
-											</fieldset> */}
+											</fieldset>
 											<div className="d-flex justify-content-between flex-wrap gap-12">
-												{/* <fieldset className="d-flex align-items-center gap-6">
+												<fieldset className="d-flex align-items-center gap-6">
 													<Field
 														type="checkbox"
 														id="remeber_me" 
@@ -355,49 +318,46 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 													/>
 													<label htmlFor="cb1" className="caption-1 text-variant-1">Remember me</label>
 												</fieldset>
-												<Link href="/" className="caption-1 text-primary" onClick={handleForgotPassword}>Forgot password?</Link> */}
+												<Link href="/" className="caption-1 text-primary" onClick={handleForgotPassword}>Forgot password?</Link>
 												<button type="submit" className="tf-btn primary w-100">Login</button>
 											</div>
 										</Form>
 									)}
-								</Formik>
-								<div className="text-variant-1 auth-line">or sign up with</div>
-								<div className="login-social">
-									{/* <Link href="#" className="btn-login-social">
-										<img src="/images/logo/fb.jpg" alt="img" />
-										Continue with Facebook
-									</Link>
-									<Link href="#" className="btn-login-social">
-										<img src="/images/logo/google.jpg" alt="img" />
-										Continue with Google
-									</Link> */}
-									<FacebookLogin
-										appId={process.env.NEXT_PUBLIC_FACEBOOK_APP_ID}
-										autoLoad={false}
-										fields="name,email,picture"
-										callback={responseFacebook}
-										icon="fa-facebook"
-										textButton="Continue with Facebook" 
-									/>
-									<GoogleOAuthProvider clientId={clientId}>
-										<GoogleLogin
-											clientId={clientId}
-											onSuccess={handleGoogleSuccess}
-											onFailure={onFailure}
-											cookiePolicy={'single_host_origin'}
-											className="btn-login-social"
-											icon={true}  // Removes the default Google icon
-										
-										/>
-									</GoogleOAuthProvider>
-
+							</Formik>
+							<div className="text-variant-1 auth-line">or sign up with</div>
+							<div className="login-social">
+								{/* <Link href="#" className="btn-login-social">
+									<img src="/images/logo/fb.jpg" alt="img" />
+									Continue with Facebook
+								</Link>
+								<Link href="#" className="btn-login-social">
+									<img src="/images/logo/google.jpg" alt="img" />
+									Continue with Google
+								</Link> */}
+								<FacebookLogin
+									appId={process.env.NEXT_PUBLIC_FACEBOOK_APP_ID}
+									autoLoad={false}
+									fields="name,email,picture"
+									callback={responseFacebook}
+									icon="fa-facebook"
+									textButton="Continue with Facebook" 
+								/>
+								<GoogleOAuthProvider clientId={clientId}>
+									<GoogleLogin
+										clientId={clientId}
+										onSuccess={handleGoogleSuccess}
+										onFailure={onFailure}
+										cookiePolicy={'single_host_origin'}
+										className="btn-login-social"
+										icon={true}  // Removes the default Google icon
 									
-								</div>
-								<div className="mt-16 text-variant-1 text-center noti">Don't have an account?
-									<a onClick={() => { handleLogin(); handleRegister() }} className="text-black fw-5">Sign up here</a>
-								</div>
-							</>
-						}
+									/>
+								</GoogleOAuthProvider>
+
+							</div>
+							<div className="mt-16 text-variant-1 text-center noti">Don't have an account?
+								<a onClick={() => { handleLogin(); handleRegister() }} className="text-black fw-5">Sign up here</a>
+							</div>
 						</div>
 					</div>
 				</div>

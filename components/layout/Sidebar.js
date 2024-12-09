@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation';
-
+import { GoogleOAuthProvider, useGoogleLogout, googleLogout } from '@react-oauth/google';
 export default function Sidebar() {
 	const [userType, setUserType] = useState('')
 	const pathname = usePathname();
@@ -14,13 +14,17 @@ export default function Sidebar() {
 		setUserType(loggedInStatus.roles.name);
 	}, [])
 	console.log(userType);
+
 	const handleLogout = () => {
+		googleLogout(); // This method revokes token and clears session
+
 		localStorage.removeItem('token');
 		localStorage.removeItem('user');
 		localStorage.removeItem('tokenExpiration');
 		localStorage.removeItem('isLoggedIn');
 		router.push('/');
 	}
+	const clientId = process.env.NEXT_PUBLIC_GOOGLE_LOGIN_CLIENT_ID;
 	return (
 		<>
 			<div className="sidebar-menu-dashboard">
