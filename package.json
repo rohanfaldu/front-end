@@ -16,6 +16,7 @@
                 "@react-oauth/google": "^0.12.1",
                 "axios": "^1.7.7",
                 "chart.js": "^4.4.2",
+                "country-telephone-data": "^0.6.3",
                 "crypto": "^1.0.1",
                 "debug": "^4.3.7",
                 "dotenv": "^16.4.5",

@@ -10382,3 +10382,10 @@ tr {
     width: 20%;
     float: right;
 }
+.phone-and-country-code .country-code{
+  width: 50%;
+  margin-right: 15px;
+}
+.phone-and-country-code{
+  display: flex;
+}

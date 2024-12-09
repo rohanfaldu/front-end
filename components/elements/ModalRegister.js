@@ -7,13 +7,18 @@ import { useRouter } from 'next/navigation';
 import { userType } from "../../components/common/functions";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { allCountries } from "country-telephone-data"; 
 import { insertData } from "../../components/api/Axios/Helper";
 export default function ModalRegister({ isRegister, handleRegister, handleLogin }) {
 	const [showPassword, setShowPassword] = useState(false);
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 	const [errorMessage, setErrorMessage] = useState('');
 	const [sucessMessage, setSucessMessage] = useState(false);
-
+	const [selectedCode, setSelectedCode] = useState("");
+	console.log(allCountries);
+	const handleSelectChange = (event) => {
+	  setSelectedCode(event.target.value);
+	};
     const validationSchema = Yup.object({
 		user_name: Yup.string()
 		  .required("User Name is required"),
@@ -72,7 +77,7 @@ export default function ModalRegister({ isRegister, handleRegister, handleLogin 
 									validationSchema={validationSchema}
 									onSubmit={handleSubmit}
 									>
-									{({ errors, touched, handleChange, handleBlur }) => (
+									{({ errors, touched, handleChange, handleBlur, setFieldValue }) => (
 										<Form>
 											<fieldset className="box-fieldset">
 												<label htmlFor="name">User Name<span>*</span>:</label>
@@ -84,10 +89,35 @@ export default function ModalRegister({ isRegister, handleRegister, handleLogin 
 												<Field type="text" id="email_address" name="email_address" className="form-control style-1" />
 												<ErrorMessage name="email_address" component="div" className="error" />
 											</fieldset>
-											<fieldset className="box-fieldset">
+											<fieldset className="box-fieldset ">
 												<label htmlFor="name">Mobile Number<span>*</span>:</label>
-												<Field type="text" id="mobile_number" name="mobile_number" className="form-control style-1" />
+													<div className="phone-and-country-code">
+														<Field as="select" name="country_code" className="nice-select country-code"
+															id="country-code"
+															value={selectedCode}
+															onChange={(e) => {
+																const selectedState = e.target.value;
+																setSelectedCode(selectedState);
+																setFieldValue("country_code", selectedState);
+																//handleCityChange(selectedState);
+															}}
+														>
+															<option value="">Select Country Code</option>
+															{allCountries && allCountries.length > 0 ? (
+																allCountries
+																.sort((a, b) => a.dialCode.localeCompare(b.dialCode)) // Sort alphabetically by country name
+																.map((country, index) =>(
+																	<option key={index} value={`+${country.dialCode}`}>{country.name} (+{country.dialCode})
+																	</option>
+																))
+															) : (
+																<></>
+															)}
+														</Field>
+														<Field type="text" id="mobile_number" name="mobile_number" className="form-control style-1" />
+													</div>
 												<ErrorMessage name="mobile_number" component="div" className="error" />
+												<ErrorMessage name="country_code" component="div" className="error" />
 											</fieldset>
 
 											{/* <fieldset className="box-fieldset">

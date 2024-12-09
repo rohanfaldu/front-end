@@ -70,7 +70,7 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 					const expirationTime = Date.now() + 3600000; // 1 hour from now
 					localStorage.setItem('tokenExpiration', expirationTime);
 					localStorage.setItem('isLoggedIn', 'true');
-					router.push('/');
+					router.push('/dashboard');
 				}
 			}
 		}
@@ -81,7 +81,7 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 		const userObject = jwtDecode(response.credential);
 		const checkData = { email_address: userObject.email,  phone_number: '' }
 		const getUserInfo = await insertData('auth/check/user', checkData);
-		
+
 		if(getUserInfo.status === false) {
 			const userData = {
 				full_name: userObject.name, 
@@ -108,7 +108,7 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 					const expirationTime = Date.now() + 3600000; // 1 hour from now
 					localStorage.setItem('tokenExpiration', expirationTime);
 					localStorage.setItem('isLoggedIn', 'true');
-					router.push('/');
+					router.push('/dashboard');
 				}
 				
 			} catch (error) {
@@ -123,7 +123,7 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 				const expirationTime = Date.now() + 3600000; // 1 hour from now
 				localStorage.setItem('tokenExpiration', expirationTime);
 				localStorage.setItem('isLoggedIn', 'true');
-				router.push('/');
+				router.push('/dashboard');
 			}
 		}
 	};
