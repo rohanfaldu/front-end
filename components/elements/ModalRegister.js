@@ -84,7 +84,7 @@ export default function ModalRegister({ isRegister, handleRegister, handleLogin 
 									validationSchema={validationSchema}
 									onSubmit={handleSubmit}
 									>
-									{({ errors, touched, handleChange, handleBlur }) => (
+									{({ errors, touched, handleChange, handleBlur, setFieldValue }) => (
 										<Form>
 											<fieldset className="box-fieldset">
 												<label htmlFor="name">User Name<span>*</span>:</label>
