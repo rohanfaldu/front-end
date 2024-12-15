@@ -10411,3 +10411,8 @@ tr {
 .phone-and-country-code{
   display: flex;
 }
+.property-image{
+  width: 100%;
+  height: 600px;
+  object-fit: cover;
+}

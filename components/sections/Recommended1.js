@@ -3,6 +3,7 @@ import Link from "next/link"
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import Preloader from "../elements/Preloader";
+import { getData } from "../api/Helper";
 /*import userImage from "../../public/images/avatar/user.png";*/
 export default function Recommended1() {
 	const [isTab, setIsTab] = useState(1)
@@ -14,23 +15,18 @@ export default function Recommended1() {
 
   	useEffect(() => {
 		const fetchData = async () => {
-		try {
-			const response = await axios.post(
-			`${process.env.NEXT_PUBLIC_API_URL}/api/property`,
-			{ /* Pass necessary payload here */ },
-			{
-				headers: {
-				'Content-Type': 'application/json',
-				},
+			try {
+				const propertyObj = {page: 1, limit: 10};
+				const response = await getData('api/property/', propertyObj);
+				console.log('response');
+				console.log(response.data.list);
+				setProperties(response.data.list); // Save data to state
+				setLoading(false); // Stop loading
+				setError(null);
+			} catch (err) {
+				setError(err.response?.data?.message || 'An error occurred'); // Handle error
+				setLoading(false); // Stop loading
 			}
-			);
-			setProperties(response.data.data.data); // Save data to state
-			setLoading(false); // Stop loading
-			setError(null); // Clear errors
-		} catch (err) {
-			setError(err.response?.data?.message || 'An error occurred'); // Handle error
-			setLoading(false); // Stop loading
-		}
 		};
 
 		fetchData(); // Fetch data on component mount
@@ -88,7 +84,8 @@ export default function Recommended1() {
 													<div className="archive-top">
 														<Link href={`/property/${property.id}`} className="images-group">
 															<div className="images-style">
-																<img src="https://staging.immofind.ma/images/banner/banner-property-1.jpg" alt="Property" />
+																<img src={property.picture}  alt="Property"/>
+																{/* <img src="https://staging.immofind.ma/images/banner/banner-property-1.jpg" alt="Property" /> */}
 															</div>
 															<div className="top">
 																{property.transaction ? (
@@ -130,15 +127,15 @@ export default function Recommended1() {
 															<ul className="meta-list">
 																<li className="item">
 																	<i className="icon icon-bed" />
-																	<span>{property.bedRooms}</span>
+																	<span>{property.bedRooms === 0 ? '-': `${property.bedRooms} Bedroom`}</span>
 																</li>
-																<li className="item">
+																{/* <li className="item">
 																	<i className="icon icon-bathtub" />
-																	<span>{property.bathRooms}</span>
-																</li>
+																	<span>{property.bathRooms === 0 ? '-': `${property.bathRooms} Bathroom`}</span>
+																</li> */}
 																<li className="item">
 																	<i className="icon icon-ruler" />
-																	<span>{property.size} SqFT</span>
+																	<span>{property.size === null ? '-': `${property.size} SqFt`}</span>
 																</li>
 															</ul>
 														</div>

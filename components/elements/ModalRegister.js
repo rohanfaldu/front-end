@@ -80,7 +80,7 @@ export default function ModalRegister({ isRegister, handleRegister, handleLogin 
 							{errorMessage && <div className={messageClass}>{errorMessage}</div>}
 							
 								<Formik
-									initialValues={{ country_code: "", user_name: "", mobile_number: "", email_address: "", password: "", confirmPassword: "", agreeToTerms: false, subscribeNewsletter: false, }}
+									initialValues={{ country_code: "+33", user_name: "", mobile_number: "", email_address: "", password: "", confirmPassword: "", agreeToTerms: false, subscribeNewsletter: false, }}
 									validationSchema={validationSchema}
 									onSubmit={handleSubmit}
 									>

@@ -1,7 +1,8 @@
 'use client'
 import { Autoplay, Navigation, Pagination } from "swiper/modules"
 import { Swiper, SwiperSlide } from "swiper/react"
-
+import { getData } from "../../../components/api/Helper";
+import Image from "next/image";
 const toCapitalCase = (str) => {
 	if (!str) return '';
 	return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
@@ -98,17 +99,25 @@ export default function PropertyDetailsV1({ params }) {
 	const [isAccordion, setIsAccordion] = useState(1)
   	useEffect(() => {
 		const fetchData = async () => {
-		try {
-			const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/property`,
-			{ /* Pass necessary payload here */ },
-				{
-					headers: {
-					'Content-Type': 'application/json',
-					},
-				}
-			);
+		//try {
+			const propertyObj = {page: 1, limit: 100};
+			const response = await getData('api/property/', propertyObj);
+			// console.log('response');
+			// console.log(response.data.list);
+			// setProperties(response.data.list); // Save data to state
+			// setLoading(false); // Stop loading
+			// setError(null);
+			
+			// const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/property`,
+			// { /* Pass necessary payload here */ },
+			// 	{
+			// 		headers: {
+			// 		'Content-Type': 'application/json',
+			// 		},
+			// 	}
+			// );
 
-			const propertyList = response.data.data.data;
+			const propertyList = response.data.list;
 			const result = propertyList.find(item => item.id === id);
 			setProperties(result);
 			console.log(result.meta_details);
@@ -127,10 +136,10 @@ export default function PropertyDetailsV1({ params }) {
 			 // Save data to state
 			setLoading(false); // Stop loading
 			setError(null); // Clear errors
-		} catch (err) {
-			setError(err.response?.data?.message || 'An error occurred'); // Handle error
-			setLoading(false); // Stop loading
-		}
+		// } catch (err) {
+		// 	setError(err.response?.data?.message || 'An error occurred'); // Handle error
+		// 	setLoading(false); // Stop loading
+		// }
 		};
 		console.log(properties);
 		fetchData(); // Fetch data on component mount
@@ -154,48 +163,25 @@ export default function PropertyDetailsV1({ params }) {
 			<Layout headerStyle={1} footerStyle={1}>
 				<div>
 					<section className="flat-location flat-slider-detail-v1">
-						<div className="swiper tf-sw-location">
-							<Swiper {...swiperOptions} className="swiper-wrapper">
+						{/*<div className="swiper tf-sw-location">
+							 <Swiper {...swiperOptions} className="swiper-wrapper">
 								<SwiperSlide>
 									<Link href="/images/banner/banner-property-1.jpg" data-fancybox="gallery" className="box-imgage-detail d-block">
 										<img src="/images/banner/banner-property-1.jpg" alt="img-property" />
-									</Link>
-								</SwiperSlide>
-								<SwiperSlide>
-									<Link href="/images/banner/banner-property-3.jpg" data-fancybox="gallery" className="box-imgage-detail d-block">
-										<img src="/images/banner/banner-property-3.jpg" alt="img-property" />
-									</Link>
-								</SwiperSlide>
-								<SwiperSlide>
-									<Link href="/images/banner/banner-property-2.jpg" data-fancybox="gallery" className="box-imgage-detail d-block">
-										<img src="/images/banner/banner-property-2.jpg" alt="img-property" />
-									</Link>
-								</SwiperSlide>
-								<SwiperSlide>
-									<Link href="/images/banner/banner-property-1.jpg" data-fancybox="gallery" className="box-imgage-detail d-block">
-										<img src="/images/banner/banner-property-1.jpg" alt="img-property" />
-									</Link>
-								</SwiperSlide>
-								<SwiperSlide>
-									<Link href="/images/banner/banner-property-3.jpg" data-fancybox="gallery" className="box-imgage-detail d-block">
-										<img src="/images/banner/banner-property-3.jpg" alt="img-property" />
-									</Link>
-								</SwiperSlide>
-								<SwiperSlide>
-									<Link href="/images/banner/banner-property-2.jpg" data-fancybox="gallery" className="box-imgage-detail d-block">
-										<img src="/images/banner/banner-property-2.jpg" alt="img-property" />
 									</Link>
 								</SwiperSlide>
 							</Swiper>
+							<img src={properties.picture?properties.picture:"/images/banner/banner-property-1.jpg"} alt="img-property" className="property-image" />
 							<div className="box-navigation">
 								<div className="navigation swiper-nav-next nav-next-location"><span className="icon icon-arr-l" /></div>
 								<div className="navigation swiper-nav-prev nav-prev-location"><span className="icon icon-arr-r" /></div>
 							</div>
 							{/* <div className="icon-box">
-                  <Link href="#" className="item"><span className="icon icon-map-trifold"></span></Link>
-                  <Link href="/images/banner/banner-property-1.jpg" className="item active" data-fancybox="gallery"><span className="icon icon-images"></span></Link>
-              </div> */}
-						</div>
+                  				<Link href="#" className="item"><span className="icon icon-map-trifold"></span></Link>
+								<Link href="/images/banner/banner-property-1.jpg" className="item active" data-fancybox="gallery"><span className="icon icon-images"></span></Link>
+							</div>
+						</div>*/}
+						<img src={properties.picture?properties.picture:"/images/banner/banner-property-1.jpg"} alt="img-property" className="property-image" />
 					</section>
 					<section className="flat-section pt-0 flat-property-detail">
 						<div className="container">
@@ -207,16 +193,16 @@ export default function PropertyDetailsV1({ params }) {
 									</div>
 									<div className="box-price d-flex align-items-center">
 										<h4>${properties.price}</h4>
-										<span className="body-1 text-variant-1">/month</span>
+										{/* <span className="body-1 text-variant-1">/month</span> */}
 									</div>
 								</div>
 								<div className="content-bottom">
 									<div className="info-box">
 										<div className="label">FEATUREs:</div>
 										<ul className="meta">
-											<li className="meta-item"><span className="icon icon-bed" /> {properties.bedRooms} Bedroom</li>
-											<li className="meta-item"><span className="icon icon-bathtub" /> {properties.bathRooms} Bathroom</li>
-											<li className="meta-item"><span className="icon icon-ruler" /> {properties.size} SqFT</li>
+											<li className="meta-item"><span className="icon icon-bed" /> {properties.bedRooms === 0 ? '-': `${properties.bedRooms} Bedroom`}</li>
+											<li className="meta-item"><span className="icon icon-bathtub" /> {properties.bathRooms === 0 ? '-': `${properties.bathRooms} Bathroom`}</li>
+											<li className="meta-item"><span className="icon icon-ruler" /> {properties.size === null ? '-': `${properties.size} SqFt`}</li>
 										</ul>
 									</div>
 									{/* <div className="info-box">
@@ -257,14 +243,14 @@ export default function PropertyDetailsV1({ params }) {
 												<Link href="#" className="box-icon w-52"><i className="icon icon-bed" /></Link>
 												<div className="content">
 													<span className="label">Bedrooms:</span>
-													<span>{properties.bedRooms} Rooms</span>
+													<span>{properties.bedRooms === 0 ? '-': `${properties.bedRooms} Rooms`}</span>
 												</div>
 											</li>
 											<li className="item">
 												<Link href="#" className="box-icon w-52"><i className="icon icon-bathtub" /></Link>
 												<div className="content">
 													<span className="label">Bathrooms:</span>
-													<span>{properties.bathRooms} Rooms</span>
+													<span>{properties.bathRooms === 0 ? '-': `${properties.bathRooms} Rooms`}</span>
 												</div>
 											</li>
 											{/* <li className="item">
@@ -278,7 +264,7 @@ export default function PropertyDetailsV1({ params }) {
 												<Link href="#" className="box-icon w-52"><i className="icon icon-ruler" /></Link>
 												<div className="content">
 													<span className="label">Size:</span>
-													<span>{properties.size} SqFt</span>
+													<span>{properties.size === 0 ? '-': `${properties.size} SqFt`}</span>
 												</div>
 											</li>
 											{/* <li className="item">
@@ -381,23 +367,26 @@ export default function PropertyDetailsV1({ params }) {
 											</div>
 										</div>
 									</div> */}
-									<div className="single-property-element single-property-feature">
-										<div className="h7 title fw-7">Amenities and features</div>
-										<div className="wrap-feature">
-											{metadetail.map((chunk, index) => (
-												<div key={index} className="box-feature">
-													<ul>
-													{chunk.map((propertyDetail) => (
-														<li key={propertyDetail.id} className="feature-item">
-														<span className="icon icon-list-dashes" />
-														{propertyDetail.name}
-														</li>
-													))}
-													</ul>
-												</div>
-											))}
+									{metadetail.length > 0 && (
+										<div className="single-property-element single-property-feature">
+											<div className="h7 title fw-7">Amenities and features</div>
+											<div className="wrap-feature">
+												{metadetail.map((chunk, index) => (
+													<div key={index} className="box-feature">
+														<ul>
+														{chunk.map((propertyDetail) => (
+															<li key={propertyDetail.id} className="feature-item">
+															{/* <span className="icon icon-list-dashes" /> */}
+															<img src={propertyDetail.icon} alt="icon" width={20}/>
+															{propertyDetail.name}
+															</li>
+														))}
+														</ul>
+													</div>
+												))}
+											</div>
 										</div>
-									</div>
+									)}
 									<div className="single-property-element single-property-map">
 										<div className="h7 title fw-7">Map</div>
 										<PropertyMap singleMap />
