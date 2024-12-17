@@ -8,11 +8,10 @@ import { GoogleOAuthProvider, useGoogleLogout, googleLogout } from '@react-oauth
 export default function Sidebar() {
 	const [userType, setUserType] = useState('')
 
-
-
 	const pathname = usePathname()
 	const [currentMenuItem, setCurrentMenuItem] = useState("")
-
+	const router = useRouter();
+	
 	useEffect(() => {
 		const loggedInStatus = JSON.parse(localStorage.getItem('user'));
 		setUserType(loggedInStatus.roles.name);
