@@ -1,6 +1,7 @@
 // apiService.js
+'use client'
 import axios from 'axios';
-
+import { useRouter } from 'next/navigation';
 const API_URL = process.env.NEXT_PUBLIC_API_URL; // Replace with your base API URL
 
 // Function to handle GET requests
@@ -15,14 +16,37 @@ export const getData = async (endpoint) => {
 };
 
 // Function to handle POST requests
-export const insertData = async (endpoint, data) => {
-  console.log(API_URL);
-  console.log(`${API_URL}/${endpoint}`);
-  console.log(data);  
+export const insertData = async (endpoint, data, flag) => {
   try {
-    const response = await axios.post(`${API_URL}/${endpoint}`, data, {
+    //const router = useRouter();
+    let header;
+    if(flag){
+      const token = localStorage.getItem('token');
+      console.log(token);
+      if(!token){
+        router.push('/');
+      }
+      header = { headers: { "Content-Type": "application/json", "Authorization":  `Bearer ${token}` }};
+    } else{
+      header = { headers: { "Content-Type": "application/json" }};
+    }
+    const response = await axios.post(`${API_URL}/${endpoint}`, data, header);
+    return response.data; // Return the created data
+  } catch (error) {
+    if(error.status === 401){
+      localStorage.clear();
+      window.location.href = '/'; 
+    }
+    console.error('Error inserting data:', error);
+    throw error; // Re-throw the error for further handling
+  }
+};
+
+export const insertImageData = async (data) => {
+  try {
+    const response = await axios.post(`${API_URL}/api/images/upload/single`, data, {
 			headers: {
-			"Content-Type": "application/json",
+			"Content-Type": "multipart/form-data",
 			},
 		});
     console.log(response);
@@ -55,12 +79,58 @@ export const updateData = async (endpoint, data) => {
 };
 
 // Function to handle DELETE requests
-export const deleteData = async (endpoint) => {
+export const deletedData = async (endpoint, data) => {
   try {
-    const response = await axios.delete(`${API_URL}/${endpoint}`);
-    return response.data; // Return a success message or the deleted data
+    const token = localStorage.getItem('token');
+    console.log(token);
+    if(!token){
+      router.push('/');
+      window.location.href = '/';
+      return false;
+    }
+
+    const options = {
+      method: 'DELETE',
+      url: `${API_URL}/${endpoint}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'content-type': 'application/json'
+      }
+    };
+
+    const { data } = await axios.request(options);
+    console.log(data);
+    return data; // Return the created data
   } catch (error) {
-    console.error('Error deleting data:', error);
-    return false; // Re-throw the error for further handling
+    console.error('Error delete data:', error);
+    if(error.status === 401){
+      localStorage.clear();
+      window.location.href = '/'; 
+    }
+    throw error; // Re-throw the error for further handling
   }
 };
+
+export const deletedRecord = async (endpoint, data) => {
+  try {
+    const token = localStorage.getItem('token');
+    if(!token){
+      router.push('/');
+    }
+    console.log(token);
+    const response = await axios.delete(`${API_URL}/api/projects/38cd3335-f837-472e-ab07-f8efb6632331`, data, {
+			headers: { "Content-Type": "application/json", "Authorization":  `Bearer ${token}` },
+		});
+    console.log(response);
+    return response.data; // Return the created data
+  } catch (error) {
+    if(error.response.status === 401){
+      localStorage.clear();
+      router.push('/');
+    }else{
+      console.error('Error delete data:', error);
+      throw error; // Re-throw the error for further handling
+    }
+  }
+};
+

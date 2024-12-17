@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { jwtDecode } from "jwt-decode";
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import { userType } from "../../components/common/functions";
+import { userType } from "../common/functions.js";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { allCountries } from "country-telephone-data"; 

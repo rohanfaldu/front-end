@@ -6,7 +6,7 @@ import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from "jwt-decode";
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import { userType } from "../../components/common/functions";
+import { userType } from "../common/functions.js";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 

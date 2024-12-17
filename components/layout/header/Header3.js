@@ -3,7 +3,7 @@ import Link from "next/link"
 import React, { useEffect, useState } from 'react';
 import Menu from "../Menu"
 import MobileMenu from "../MobileMenu"
-import { capitalizeFirstChar, getRandomInt } from "../../../components/common/functions"
+import { capitalizeFirstChar, getRandomInt } from "../../common/functions.js"
 import { usePathname } from 'next/navigation'
 import { useRouter } from 'next/navigation';
 
@@ -75,13 +75,13 @@ export default function Header3({ scroll, isSidebar, handleSidebar, isMobileMenu
 									</a>
 									
 									<div className={`dropdown-menu  ${isToggled ? "show" : ""}`} >
-										{(userType !== 'user')?
+										{/* {(userType !== 'user')?
 											<>
 												<Link className="dropdown-item" href="/my-favorites">My Properties</Link>
 												<Link className="dropdown-item" href="/add-property">Add Property</Link>
 											</>
 											:""
-										}
+										} */}
 										{/*<Link className="dropdown-item" href="/my-invoices">My Invoices</Link>
 										<Link className="dropdown-item" href="/my-favorites">My Favorites</Link>
 										<Link className="dropdown-item" href="/reviews">Reviews</Link>

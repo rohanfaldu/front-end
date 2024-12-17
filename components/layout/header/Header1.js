@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import Menu from "../Menu";
 import MobileMenu from "../MobileMenu";
 import React, { useEffect, useState } from 'react';
-import { capitalizeFirstChar, getRandomInt } from "../../../components/common/functions";
+import { capitalizeFirstChar, getRandomInt } from "../../common/functions.js";
 import LanguageSwitcher from "../langSwitcher";
 import { useTranslation } from "react-i18next";
 
