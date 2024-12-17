@@ -51,7 +51,7 @@ export default function Sidebar() {
 	// }
 
 	const handleLogout = () => {
-		googleLogout(); // This method revokes token and clears session
+		//googleLogout(); // This method revokes token and clears session
 
 		localStorage.removeItem('token');
 		localStorage.removeItem('user');
