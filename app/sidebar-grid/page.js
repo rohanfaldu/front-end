@@ -61,8 +61,8 @@ export default function SidebarGrid() {
 														<div className="wd-filter-select">
 															<div className="inner-group inner-filter">
 																<div className="form-style">
-																	<label className="title-select">Keyword</label>
-																	<input type="text" className="form-control" placeholder="Search Keyword." name="s" title="Search for" required />
+																	<label className="title-select"><Keyword/label>
+																	<input type="text" className="form-control" placeholder="Search ." name="s" title="Search for" required />
 																</div>
 																<div className="form-style">
 																	<label className="title-select">Location</label>

@@ -1,9 +1,12 @@
 'use client'
 import { Autoplay, Navigation, Pagination } from "swiper/modules"
 import { Swiper, SwiperSlide } from "swiper/react"
+import { useTranslation } from "react-i18next";
+
 
 const swiperOptions = {
 	modules: [Autoplay, Pagination, Navigation],
+	
 	autoplay: {
 		delay: 2000,
 		disableOnInteraction: false,
@@ -38,22 +41,27 @@ const swiperOptions = {
 			slidesPerView: 4,
 			spaceBetween: 30,
 		},
+
 	},
 }
 
 
 
+
+
 import Link from "next/link"
 
+
 export default function Location1() {
+	const { t } = useTranslation();
 	return (
 		<>
 
 			<section className="flat-section-v3 flat-location bg-surface">
 				<div className="container-full">
 					<div className="box-title text-center wow fadeInUpSmall" data-wow-delay=".2s" data-wow-duration="2000ms">
-						<div className="text-subtitle text-primary">Explore Cities</div>
-						<h4 className="mt-4">Our Location For You</h4>
+						<div className="text-subtitle text-primary">{t("explorecities")}</div>
+						<h4 className="mt-4">{t("ourlocationforyou")}</h4>
 					</div>
 					<div className="wow fadeInUpSmall" data-wow-delay=".4s" data-wow-duration="2000ms">
 						<div className="swiper tf-sw-location overlay">

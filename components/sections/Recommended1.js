@@ -4,6 +4,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import Preloader from "../elements/Preloader";
 import { getData } from "../api/Helper";
+import { useTranslation } from "react-i18next";
 /*import userImage from "../../public/images/avatar/user.png";*/
 export default function Recommended1() {
 	const [isTab, setIsTab] = useState(1)
@@ -12,6 +13,7 @@ export default function Recommended1() {
 	const [properties, setProperties] = useState(null); // To store fetched data
  	const [loading, setLoading] = useState(true); // To manage loading state
   	const [error, setError] = useState(null); // To manage error state
+	const { t } = useTranslation();
 
   	useEffect(() => {
 		const fetchData = async () => {
@@ -51,28 +53,28 @@ export default function Recommended1() {
 				<section className="flat-section flat-recommended">
 					<div className="container">
 						<div className="text-center wow fadeInUpSmall" data-wow-delay=".2s" data-wow-duration="2000ms">
-							<div className="text-subtitle text-primary">Featured Properties</div>
-							<h4 className="mt-4">Recommended For You</h4>
+							<div className="text-subtitle text-primary">{t("featuredproperties")}</div>
+							<h4 className="mt-4">{t("recommendedforyou")}</h4>
 						</div>
 						<div className="flat-tab-recommended wow fadeInUpSmall" data-wow-delay=".2s" data-wow-duration="2000ms">
 							<ul className="nav-tab-recommended justify-content-center" role="tablist">
 								<li className="nav-tab-item" onClick={() => handleTab(1)}>
-									<a className={isTab == 1 ? "nav-link-item active" : "nav-link-item"} data-bs-toggle="tab">View All</a>
+									<a className={isTab == 1 ? "nav-link-item active" : "nav-link-item"} data-bs-toggle="tab">{t("viewall")}</a>
 								</li>
 								<li className="nav-tab-item" onClick={() => handleTab(2)}>
-									<a className={isTab == 2 ? "nav-link-item active" : "nav-link-item"} data-bs-toggle="tab">Apartment</a>
+									<a className={isTab == 2 ? "nav-link-item active" : "nav-link-item"} data-bs-toggle="tab">{t("appartment")}</a>
 								</li>
 								<li className="nav-tab-item" onClick={() => handleTab(3)}>
-									<a className={isTab == 3 ? "nav-link-item active" : "nav-link-item"} data-bs-toggle="tab">Villa</a>
+									<a className={isTab == 3 ? "nav-link-item active" : "nav-link-item"} data-bs-toggle="tab">{t("villa")}</a>
 								</li>
 								<li className="nav-tab-item" onClick={() => handleTab(4)}>
-									<a className={isTab == 4 ? "nav-link-item active" : "nav-link-item"} data-bs-toggle="tab">Studio</a>
+									<a className={isTab == 4 ? "nav-link-item active" : "nav-link-item"} data-bs-toggle="tab">{t("studio")}</a>
 								</li>
 								<li className="nav-tab-item" onClick={() => handleTab(5)}>
-									<a className={isTab == 5 ? "nav-link-item active" : "nav-link-item"} data-bs-toggle="tab">House</a>
+									<a className={isTab == 5 ? "nav-link-item active" : "nav-link-item"} data-bs-toggle="tab">{t("house")}</a>
 								</li>
 								<li className="nav-tab-item" onClick={() => handleTab(6)}>
-									<a className={isTab == 6 ? "nav-link-item active" : "nav-link-item"} data-bs-toggle="tab">Office</a>
+									<a className={isTab == 6 ? "nav-link-item active" : "nav-link-item"} data-bs-toggle="tab">{t("office")}</a>
 								</li>
 							</ul>
 							<div className="tab-content">
@@ -157,7 +159,7 @@ export default function Recommended1() {
 										))}
 									</div>
 									<div className="text-center">
-										<Link href="#" className="tf-btn primary size-1">View All Properties</Link>
+										<Link href="#" className="tf-btn primary size-1">{t("viewallproperties")}</Link>
 									</div>
 								</div>
 								<div style={{ opacity: isVisible ? 1 : 0 }} className={isTab == 2 ? "tab-pane fade show active" : "tab-pane fade"} id="apartment" role="tabpanel">
@@ -1276,7 +1278,7 @@ export default function Recommended1() {
 										</div>
 									</div>
 									<div className="text-center">
-										<Link href="#" className="tf-btn primary size-1">View All Properties</Link>
+										<Link href="#" className="tf-btn primary size-1">1</Link>
 									</div>
 								</div>
 								<div style={{ opacity: isVisible ? 1 : 0 }} className={isTab == 5 ? "tab-pane fade show active" : "tab-pane fade"} id="house" role="tabpanel">

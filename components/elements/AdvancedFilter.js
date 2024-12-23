@@ -2,27 +2,29 @@
 import Link from "next/link"
 import { useState } from "react"
 import RangeSlider from "./RangeSlider"
+import { useTranslation } from "react-i18next";
 
 export default function AdvancedFilter({ sidecls }) {
 	const [isToggled, setToggled] = useState(false)
+	const { t } = useTranslation();
 	const handleToggle = () => setToggled(!isToggled)
 	return (
 		<>
 			<div className={`wd-find-select ${sidecls ? sidecls : ""}`}>
 				<div className="inner-group">
 					<div className="form-group-1 search-form form-style">
-						<label>Keyword</label>
+						<label>{t("keyword")}</label>
 						<input type="text" className="form-control" placeholder="Search Keyword." name="s" title="Search for" required />
 					</div>
 					<div className="form-group-2 form-style">
-						<label>Location</label>
+						<label>{t("location")}</label>
 						<div className="group-ip">
 							<input type="text" className="form-control" placeholder="Search Location" name="s" title="Search for" required />
 							<Link href="#" className="icon icon-location" />
 						</div>
 					</div>
 					<div className="form-group-3 form-style">
-						<label>Type</label>
+						<label>{t("type")}</label>
 						<div className="group-select">
 							<select className="nice-select">
 
@@ -37,11 +39,11 @@ export default function AdvancedFilter({ sidecls }) {
 					<div className="form-group-4 box-filter">
 						<a className="filter-advanced pull-right" onClick={handleToggle}>
 							<span className="icon icon-faders" />
-							<span className="text-1">Advanced</span>
+							<span className="text-1">{t("advanced")}</span>
 						</a>
 					</div>
 				</div>
-				<button type="submit" className="tf-btn primary">Find Properties</button>
+				<button type="submit" className="tf-btn primary">{t("findproperties")}</button>
 			</div >
 			<div className={`wd-search-form ${isToggled ? "show" : ""}`}>
 				<div className="grid-2 group-box group-price">

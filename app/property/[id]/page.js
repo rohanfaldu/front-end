@@ -168,7 +168,7 @@ export default function PropertyDetailsV1({ params }) {
 						<div className="swiper tf-sw-location">
 							 <Swiper {...swiperOptions} className="swiper-wrapper">
 								{properties.picture.length > 0 && properties.picture.map((item, index) => (
-									<SwiperSlide>
+									<SwiperSlide >
 										<Link href={item} data-fancybox="gallery" className="box-imgage-detail d-block property-image">
 											<img src={item} alt="img-property"  className="" />
 										</Link>

@@ -4,5 +4,26 @@
     "home": "Maison",
     "aboutus": "À propos de nous",
     "property": "Propriété",
-    "blog": "Blogue"
+    "blog": "Blogue",
+    "findYou": "Trouvez votre",
+    "bannerDescription":"Nous sommes une agence immobilière qui vous aidera à trouver la meilleure résidence dont vous rêvez, discutons de la maison de vos rêves ?",
+    "forrent":"à louer",
+    "forsale":"à vendre",
+    "findproperties":"Rechercher des propriétés",
+    "advanced":"Avancée",
+    "recommendedforyou":"Recommandé pour vous",
+    "featuredproperties":"propriétés en vedette",
+    "viewall":"Tout afficher",
+    "appartment":"Appartement",
+    "villa":"Villa",
+    "studio":"Studio",
+    "house":"Maison",
+    "office":"Bureau",
+    "keyword":"Mot clé",
+    "location":"Emplacement",
+    "type":"Taper",
+    "viewallproperties":"Afficher toutes les propriétés",
+    "explorecities":"EXPLORER LES VILLES",
+    "ourlocationforyou":"Notre emplacement pour vous"
   }
+  

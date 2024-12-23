@@ -4,5 +4,27 @@
     "home": "Home",
     "aboutus": "About Us",
     "property": "Property",
-    "blog": "Blog"
+    "blog": "Blog",
+    "findYou": "Find Your",
+    "bannerDescription":"We are a real estate agency that will help you find the best residence you dream of, let’s discuss for your dream house?",
+    "forrent":"FOR RENT",
+    "forsale":"FOR SALE",
+    "findproperties":"Find Properties",
+    "advanced":"Advanced",
+    "recommendedforyou":"Recommended For You",
+    "featuredproperties":"FEATURED PROPERTIES",
+    "viewall":"View All",
+    "appartment":"Appartment",
+    "villa":"Villa",
+    "studio":"Studio",
+    "house":"House",
+    "office":"Office",
+    "keyword":"Keyword",
+    "location":"Location",
+    "type":"Type",
+    "viewallproperties":"View All Properties",
+    "explorecities":"EXPLORE CITIES",
+    "ourlocationforyou":"Our Location For You"
+    
+    
 }

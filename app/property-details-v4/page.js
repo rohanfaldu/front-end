@@ -835,7 +835,7 @@ export default function PropertyDetailsV4() {
 					<section className="flat-section pt-0 flat-latest-property">
 						<div className="container">
 							<div className="box-title">
-								<div className="text-subtitle text-primary">Featured properties</div>
+								<div className="text-subtitle text-primary">Featured properties1</div>
 								<h4 className="mt-4">The Most Recent Estate</h4>
 							</div>
 							<div className="swiper tf-latest-property" data-preview-lg={3} data-preview-md={2} data-preview-sm={2} data-space={30} data-loop="true">

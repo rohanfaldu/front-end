@@ -480,7 +480,7 @@ export default function Recommended2() {
 						</div>
 					</div>
 					<div className="text-center">
-						<Link href="#" className="tf-btn primary size-1">View All Properties</Link>
+						<Link href="#" className="tf-btn primary size-1"></Link>
 					</div>
 				</div>
 			</section>

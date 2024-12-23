@@ -737,7 +737,7 @@ export default function PropertyDetailsV2() {
 															<div className="wd-filter-select">
 																<div className="inner-group inner-filter">
 																	<div className="form-style">
-																		<label className="title-select">Keyword</label>
+																		<label className="title-select">Keyword1</label>
 																		<input type="text" className="form-control" placeholder="Search Keyword." name="s" title="Search for" required />
 																	</div>
 																	<div className="form-style">

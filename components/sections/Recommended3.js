@@ -2386,7 +2386,7 @@ export default function Recommended3() {
 									</div>
 								</div>
 								<div className="text-center">
-									<Link href="#" className="tf-btn primary size-1">View All Properties</Link>
+									<Link href="#" className="tf-btn primary size-1">View All Propertie1s</Link>
 								</div>
 							</div>
 						</div>

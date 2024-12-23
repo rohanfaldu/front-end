@@ -750,8 +750,8 @@ export default function PropertyDetailsV3() {
 															<div className="wd-filter-select">
 																<div className="inner-group inner-filter">
 																	<div className="form-style">
-																		<label className="title-select">Keyword</label>
-																		<input type="text" className="form-control" placeholder="Search Keyword." name="s" title="Search for" required />
+																		<label className="title-select">Keyword1</label>
+																		<input type="text" className="form-control" placeholder="Search ." name="s" title="Search for" required />
 																	</div>
 																	<div className="form-style">
 																		<label className="title-select">Location</label>
@@ -868,7 +868,7 @@ export default function PropertyDetailsV3() {
 					<section className="flat-section pt-0 flat-latest-property">
 						<div className="container">
 							<div className="box-title">
-								<div className="text-subtitle text-primary">Featured properties</div>
+								<div className="text-subtitle text-primary">Featured properties1</div>
 								<h4 className="mt-4">The Most Recent Estate</h4>
 							</div>
 							<div className="swiper tf-latest-property" data-preview-lg={3} data-preview-md={2} data-preview-sm={2} data-space={30} data-loop="true">
