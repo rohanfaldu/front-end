@@ -62,6 +62,8 @@ export default function ModalRegister({ isRegister, handleRegister, handleLogin 
             	setSucessMessage(true);
             	setErrorMessage(createUserInfo.message);
             	resetForm();
+				handleLogin();
+				handleRegister();
             } 
             setErrorMessage(createUserInfo.message);   
         }else{

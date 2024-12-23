@@ -11,6 +11,7 @@
         },
         "dependencies": {
                 "@babel/runtime": "^7.24.5",
+                "@fancyapps/ui": "^5.0.36",
                 "@headlessui/react": "^2.0.3",
                 "@prisma/client": "^5.21.0",
                 "@react-oauth/google": "^0.12.1",

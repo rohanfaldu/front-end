@@ -157,31 +157,44 @@ export default function PropertyDetailsV1({ params }) {
 	const handleAccordion = (key) => {
 		setIsAccordion(prevState => prevState === key ? null : key)
 	}
+	console.log('images');
+	console.log(properties.picture);
 	return (
 		<>
 
 			<Layout headerStyle={1} footerStyle={1}>
 				<div>
 					<section className="flat-location flat-slider-detail-v1">
-						{/*<div className="swiper tf-sw-location">
+						<div className="swiper tf-sw-location">
 							 <Swiper {...swiperOptions} className="swiper-wrapper">
+								{properties.picture.length > 0 && properties.picture.map((item, index) => (
+									<SwiperSlide>
+										<Link href={item} data-fancybox="gallery" className="box-imgage-detail d-block property-image">
+											<img src={item} alt="img-property"  className="" />
+										</Link>
+									</SwiperSlide>		
+								))}
 								<SwiperSlide>
 									<Link href="/images/banner/banner-property-1.jpg" data-fancybox="gallery" className="box-imgage-detail d-block">
 										<img src="/images/banner/banner-property-1.jpg" alt="img-property" />
 									</Link>
 								</SwiperSlide>
 							</Swiper>
-							<img src={properties.picture?properties.picture:"/images/banner/banner-property-1.jpg"} alt="img-property" className="property-image" />
 							<div className="box-navigation">
 								<div className="navigation swiper-nav-next nav-next-location"><span className="icon icon-arr-l" /></div>
 								<div className="navigation swiper-nav-prev nav-prev-location"><span className="icon icon-arr-r" /></div>
 							</div>
-							{/* <div className="icon-box">
+							 <div className="icon-box">
                   				<Link href="#" className="item"><span className="icon icon-map-trifold"></span></Link>
-								<Link href="/images/banner/banner-property-1.jpg" className="item active" data-fancybox="gallery"><span className="icon icon-images"></span></Link>
+								  {properties.picture.length > 0 && properties.picture.map((item, index) => (
+										<Link  href={item} className="item active" data-fancybox="gallery">
+										<span className="icon icon-images"></span>
+									</Link>
+								))}
+								
 							</div>
-						</div>*/}
-						<img src={properties.picture?properties.picture:"/images/banner/banner-property-1.jpg"} alt="img-property" className="property-image" />
+						</div>
+						{/* <img src={properties.picture?properties.picture:"/images/banner/banner-property-1.jpg"} alt="img-property" className="property-image" /> */}
 					</section>
 					<section className="flat-section pt-0 flat-property-detail">
 						<div className="container">
