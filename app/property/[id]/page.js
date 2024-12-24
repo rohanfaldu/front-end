@@ -79,6 +79,7 @@ const swiperOptions2 = {
 }
 
 import PropertyMap from "@/components/elements/PropertyMap"
+import PropertyMapMarker from "@/components/elements/PropertyMapMarker"
 import RangeSlider from "@/components/elements/RangeSlider"
 import SidebarFilter from "@/components/elements/SidebarFilter"
 import TabNav from "@/components/elements/TabNav"
@@ -144,6 +145,7 @@ export default function PropertyDetailsV1({ params }) {
 		// 	setLoading(false); // Stop loading
 		// }
 		};
+		console.log('properties');
 		console.log(properties);
 		fetchData(); // Fetch data on component mount
 	}, [i18n.language]); // Empty dependency array ensures this runs only once on mount
@@ -168,7 +170,7 @@ export default function PropertyDetailsV1({ params }) {
 			<Layout headerStyle={1} footerStyle={1}>
 				<div>
 					<section className="flat-location flat-slider-detail-v1">
-						<div className="swiper tf-sw-location">
+						{/* <div className="swiper tf-sw-location">
 							 <Swiper {...swiperOptions} className="swiper-wrapper">
 								{properties.picture.length > 0 && properties.picture.map((item, index) => (
 									<SwiperSlide >
@@ -196,7 +198,7 @@ export default function PropertyDetailsV1({ params }) {
 								))}
 								
 							</div>
-						</div>
+						</div> */}
 						{/* <img src={properties.picture?properties.picture:"/images/banner/banner-property-1.jpg"} alt="img-property" className="property-image" /> */}
 					</section>
 					<section className="flat-section pt-0 flat-property-detail">
@@ -214,11 +216,11 @@ export default function PropertyDetailsV1({ params }) {
 								</div>
 								<div className="content-bottom">
 									<div className="info-box">
-										<div className="label">FEATUREs:</div>
+										<div className="label">{t("feature")}</div>
 										<ul className="meta">
-											<li className="meta-item"><span className="icon icon-bed" /> {properties.bedRooms === 0 ? '-': `${properties.bedRooms} Bedroom`}</li>
-											<li className="meta-item"><span className="icon icon-bathtub" /> {properties.bathRooms === 0 ? '-': `${properties.bathRooms} Bathroom`}</li>
-											<li className="meta-item"><span className="icon icon-ruler" /> {properties.size === null ? '-': `${properties.size} SqMeter`}</li>
+											<li className="meta-item"><span className="icon icon-bed" /> {properties.bedRooms === 0 ? '-': `${properties.bedRooms}`} {t('bedroom')}</li>
+											<li className="meta-item"><span className="icon icon-bathtub" /> {properties.bathRooms === 0 ? '-': `${properties.bathRooms} `}{t('bathroom')}</li>
+											<li className="meta-item"><span className="icon icon-ruler" /> {properties.size === null ? '-': `${properties.size} `}{t('sqmeter')}</li>
 										</ul>
 									</div>
 									{/* <div className="info-box">
@@ -239,7 +241,7 @@ export default function PropertyDetailsV1({ params }) {
 										{properties.description}
 									</div>
 									<div className="single-property-element single-property-overview">
-										<div className="h7 title fw-7">Overview</div>
+										<div className="h7 title fw-7">{t("overview")}</div>
 										<ul className="info-box">
 											{/* <li className="item">
 												<Link href="#" className="box-icon w-52"><i className="icon icon-house-line" /></Link>
@@ -251,21 +253,21 @@ export default function PropertyDetailsV1({ params }) {
 											<li className="item">
 												<Link href="#" className="box-icon w-52"><i className="icon icon-arrLeftRight" /></Link>
 												<div className="content">
-													<span className="label">Type:</span>
+													<span className="label">{t("type")}</span>
 													<span>{toCapitalCase(properties.type)}</span>
 												</div>
 											</li>
 											<li className="item">
 												<Link href="#" className="box-icon w-52"><i className="icon icon-bed" /></Link>
 												<div className="content">
-													<span className="label">Bedrooms:</span>
+													<span className="label">{t("bedrooms")}</span>
 													<span>{properties.bedRooms === 0 ? '-': `${properties.bedRooms} Rooms`}</span>
 												</div>
 											</li>
 											<li className="item">
 												<Link href="#" className="box-icon w-52"><i className="icon icon-bathtub" /></Link>
 												<div className="content">
-													<span className="label">Bathrooms:</span>
+													<span className="label">{t("bathrooms")}</span>
 													<span>{properties.bathRooms === 0 ? '-': `${properties.bathRooms} Rooms`}</span>
 												</div>
 											</li>
@@ -279,7 +281,7 @@ export default function PropertyDetailsV1({ params }) {
 											<li className="item">
 												<Link href="#" className="box-icon w-52"><i className="icon icon-ruler" /></Link>
 												<div className="content">
-													<span className="label">Size:</span>
+													<span className="label">{t("size")}</span>
 													<span>{properties.size === 0 ? '-': `${properties.size} SqMeter`}</span>
 												</div>
 											</li>
@@ -300,7 +302,7 @@ export default function PropertyDetailsV1({ params }) {
 										</ul>
 									</div>
 									<div className="single-property-element single-property-video">
-										<div className="h7 title fw-7">Video</div>
+										<div className="h7 title fw-7">{t("video")}</div>
 										<div className="img-video">
 											<img src="/images/banner/img-video.jpg" alt="img-video" />
 											<Video type="youtube" link="http://localhost:7000/uploads/big_buck_bunny_720p_2mb.mp4" />
@@ -385,7 +387,7 @@ export default function PropertyDetailsV1({ params }) {
 									</div> */}
 									{metadetail.length > 0 && (
 										<div className="single-property-element single-property-feature">
-											<div className="h7 title fw-7">Amenities and features</div>
+											<div className="h7 title fw-7">{t("amenitiesandfeatures")}</div>
 											<div className="wrap-feature">
 												{metadetail.map((chunk, index) => (
 													<div key={index} className="box-feature">
@@ -404,19 +406,19 @@ export default function PropertyDetailsV1({ params }) {
 										</div>
 									)}
 									<div className="single-property-element single-property-map">
-										<div className="h7 title fw-7">Map</div>
-										<PropertyMap singleMap />
+										<div className="h7 title fw-7">{t("map")}</div>
+										<PropertyMapMarker isGeolocation={false} latitude={properties.latitude} longitude={properties.longitude} zoom={18} />
 										<ul className="info-map">
 											<li>
-												<div className="fw-7">Address</div>
-												<span className="mt-4 text-variant-1">8 Broadway, Brooklyn, New York</span>
+												<div className="fw-7">{t("address")}</div>
+												<span className="mt-4 text-variant-1">{t("add1")}</span>
 											</li>
 											<li>
-												<div className="fw-7">Downtown</div>
+												<div className="fw-7">{t("downtime")}</div>
 												<span className="mt-4 text-variant-1">5 min</span>
 											</li>
 											<li>
-												<div className="fw-7">FLL</div>
+												<div className="fw-7">{t("fll")}</div>
 												<span className="mt-4 text-variant-1">15 min</span>
 											</li>
 										</ul>
@@ -582,8 +584,8 @@ export default function PropertyDetailsV1({ params }) {
 									</div> */}
 									<div className="single-property-element single-wrapper-review">
 										<div className="box-title-review d-flex justify-content-between align-items-center flex-wrap gap-20">
-											<div className="h7 fw-7">Guest Reviews</div>
-											<Link href="#" className="tf-btn">View All Reviews</Link>
+											<div className="h7 fw-7">{t("guestreviews")}</div>
+											<Link href="#" className="tf-btn">{t("viewallreviews")}</Link>
 										</div>
 										<div className="wrap-review">
 											<ul className="box-review">

@@ -2,6 +2,7 @@
 'use client'
 import { Autoplay, Navigation, Pagination } from "swiper/modules"
 import { Swiper, SwiperSlide } from "swiper/react"
+import { useTranslation } from "react-i18next";
 
 const swiperOptions = {
 	modules: [Autoplay, Pagination, Navigation],
@@ -33,6 +34,7 @@ const swiperOptions = {
 	},
 }
 export default function Testimonial1() {
+	const { t } = useTranslation();
 	return (
 		<>
 
@@ -41,10 +43,10 @@ export default function Testimonial1() {
 					<div className="row align-items-center">
 						<div className="col-lg-3">
 							<div className="box-title">
-								<div className="text-subtitle text-primary">Top Properties</div>
-								<h4 className="mt-4">What’s people say’s</h4>
+								<div className="text-subtitle text-primary">{t("topproperties")}</div>
+								<h4 className="mt-4">{t("what’speoplesay’s")}</h4>
 							</div>
-							<p className="text-variant-1 p-16">Our seasoned team excels in real estate with years of successful market navigation, offering informed decisions and optimal results.</p>
+							<p className="text-variant-1 p-16">{t("testimonia")}</p>
 							<div className="box-navigation">
 								<div className="navigation swiper-nav-next nav-next-testimonial"><span className="icon icon-arr-l" /></div>
 								<div className="navigation swiper-nav-prev nav-prev-testimonial"><span className="icon icon-arr-r" /></div>
@@ -63,7 +65,7 @@ export default function Testimonial1() {
 												<li className="icon icon-star" />
 											</ul>
 											<p className="note body-1">
-												"I truly appreciate the professionalism and in-depth knowledge of the brokerage team. They not only helped me find the perfect home but also assisted with legal and financial aspects, making me feel confident and secure in my decision."
+											{t("rating")}
 											</p>
 											<div className="box-avt d-flex align-items-center gap-12">
 												<div className="avatar avt-60 round">
@@ -71,7 +73,7 @@ export default function Testimonial1() {
 												</div>
 												<div className="info">
 													<div className="h7 fw-7">Liam Anderson</div>
-													<p className="text-variant-1 mt-4">CEO Digital</p>
+													<p className="text-variant-1 mt-4">	{t("ceodigital")}</p>
 												</div>
 											</div>
 										</div>
@@ -86,7 +88,7 @@ export default function Testimonial1() {
 												<li className="icon icon-star" />
 											</ul>
 											<p className="note body-1">
-												"My experience with property management services has exceeded expectations. They efficiently manage properties with a professional and attentive approach in every situation. I feel reassured that any issue will be resolved promptly and effectively."
+											{t("rating1")}
 											</p>
 											<div className="box-avt d-flex align-items-center gap-12">
 												<div className="avatar avt-60 round">
@@ -94,7 +96,7 @@ export default function Testimonial1() {
 												</div>
 												<div className="info">
 													<div className="h7 fw-7">Adam Will</div>
-													<p className="text-variant-1 mt-4">CEO Agency</p>
+													<p className="text-variant-1 mt-4">{t("ceoagency")}</p>
 												</div>
 											</div>
 										</div>

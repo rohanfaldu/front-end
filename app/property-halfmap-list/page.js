@@ -6,11 +6,13 @@ import TabNav from "@/components/elements/TabNav"
 import Layout from "@/components/layout/Layout"
 import Link from "next/link"
 import { useState } from "react"
+import { useTranslation } from "react-i18next";
 export default function PropertyHalfmapList() {
 	const [isTab, setIsTab] = useState(2)
 	const handleTab = (i) => {
 		setIsTab(i)
 	}
+	const { t } = useTranslation();
 	return (
 		<>
 
@@ -29,22 +31,22 @@ export default function PropertyHalfmapList() {
 											<div className="wd-filter-select">
 												<div className="inner-group inner-filter">
 													<div className="form-style">
-														<label className="title-select">Keyword1</label>
+														<label className="title-select">{t("keyword")}</label>
 														<input type="text" className="form-control" placeholder="Search ." name="s" title="Search for" required />
 													</div>
 													<div className="form-style">
-														<label className="title-select">Location</label>
+														<label className="title-select">{t("location")}</label>
 														<div className="group-ip ip-icon">
 															<input type="text" className="form-control" placeholder="Search Location" name="s" title="Search for" required />
 															<Link href="#" className="icon-right icon-location" />
 														</div>
 													</div>
 													<div className="form-style">
-														<label className="title-select">Type</label>
+														<label className="title-select">{t("type")}</label>
 														<div className="group-select">
 															<select className="nice-select">
 
-																<li data-value className="option selected">All</li>
+																<li data-value className="option selected">{t("all")}</li>
 																<option data-value="villa" className="option">Villa</option>
 																<option data-value="studio" className="option">Studio</option>
 																<option data-value="office" className="option">Office</option>
@@ -52,7 +54,7 @@ export default function PropertyHalfmapList() {
 														</div>
 													</div>
 													<div className="form-style box-select">
-														<label className="title-select">Rooms</label>
+														<label className="title-select">{t("rooms")}</label>
 														<select className="nice-select">
 
 															<option data-value={2} className="option">1</option>
@@ -68,7 +70,7 @@ export default function PropertyHalfmapList() {
 														</select>
 													</div>
 													<div className="form-style box-select">
-														<label className="title-select">Bathrooms</label>
+														<label className="title-select">{t("bathrooms")}</label>
 														<select className="nice-select">
 
 															<option data-value="all" className="option">All</option>
@@ -85,7 +87,7 @@ export default function PropertyHalfmapList() {
 														</select>
 													</div>
 													<div className="form-style box-select">
-														<label className="title-select">Bedrooms</label>
+														<label className="title-select">{t("bedrooms")}</label>
 														<select className="nice-select">
 
 															<option data-value={1} className="option">All</option>
@@ -109,7 +111,7 @@ export default function PropertyHalfmapList() {
 													</div>
 													<SidebarFilter />
 													<div className="form-btn-fixed">
-														<button type="submit" className="tf-btn primary" href="#">Find Properties</button>
+														<button type="submit" className="tf-btn primary" href="#">{t("findproperties")}</button>
 													</div>
 												</div>
 											</div>
@@ -133,9 +135,9 @@ export default function PropertyHalfmapList() {
 								</ul>
 								<select className="nice-select">
 
-									<option data-value="default" className="option selected">Sort by (Default)</option>
-									<option data-value="new" className="option">Newest</option>
-									<option data-value="old" className="option">Oldest</option>
+									<option data-value="default" className="option selected">{t("sortbydefualt")}</option>
+									<option data-value="new" className="option">{t("newest")}</option>
+									<option data-value="old" className="option">{t("oldest")}</option>
 								</select>
 							</div>
 						</div>

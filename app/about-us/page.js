@@ -5,6 +5,8 @@ import Link from "next/link"
 import { Autoplay, Navigation, Pagination } from "swiper/modules"
 import { Swiper, SwiperSlide } from "swiper/react"
 
+import { useTranslation } from "react-i18next";
+
 const swiperOptions = {
 	modules: [Autoplay, Pagination, Navigation],
 	slidesPerView: 1,
@@ -69,21 +71,24 @@ const swiperOptions2 = {
 	},
 }
 export default function AboutUs() {
+	
+const { t } = useTranslation();
+
 
 	return (
 		<>
 
-			<Layout headerStyle={1} footerStyle={1} breadcrumbTitle="About Us">
+			<Layout headerStyle={1} footerStyle={1} breadcrumbTitle={t("aboutus")}>
 				<div>
 					<section className="flat-section flat-banner-about">
 						<div className="container">
 							<div className="row">
 								<div className="col-md-5">
-									<h3>Welcome To The <br /> Immofind</h3>
+									<h3>{t("welcometothe")} <br /> {t("immofind")} </h3>
 								</div>
 								<div className="col-md-7 hover-btn-view">
-									<p className="body-2 text-variant-1">Welcome to Homeya, where we turn houses into homes and dreams into reality. At Homeya, we understand that a home is more than just a physical space; it's a place where memories are created, families grow, and life unfolds. </p>
-									<Link href="#" className="btn-view style-1"><span className="text">Learn More</span> <span className="icon icon-arrow-right2" /> </Link>
+									<p className="body-2 text-variant-1"> {t("text")} </p>
+									<Link href="#" className="btn-view style-1"><span className="text">{t("learnmore")}</span> <span className="icon icon-arrow-right2" /> </Link>
 								</div>
 							</div>
 							<div className="banner-video">
@@ -101,41 +106,41 @@ export default function AboutUs() {
 								<div className="col-lg-6">
 									<div className="box-left">
 										<div className="box-title">
-											<div className="text-subtitle text-primary">Why Choose Us</div>
-											<h4 className="mt-4">Discover What Sets Our Real Estate Expertise Apart</h4>
+											<div className="text-subtitle text-primary">{t("whychooseus")} </div>
+											<h4 className="mt-4">{t("maintext")}</h4>
 										</div>
-										<p>At Homeya, our unwavering commitment lies in crafting unparalleled real estate journeys. Our seasoned professionals, armed with extensive market knowledge, walk alongside you through every phase of your property endeavor. We prioritize understanding your unique aspirations, tailoring our expertise to match your vision.</p>
+										<p>{t("decstext")} </p>
 										<ul className="list-view">
 											<li>
 												<svg width={16} height={16} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
 													<path d="M8 15.9947C12.4183 15.9947 16 12.4154 16 8C16 3.58462 12.4183 0.00524902 8 0.00524902C3.58172 0.00524902 0 3.58462 0 8C0 12.4154 3.58172 15.9947 8 15.9947Z" fill="#198754" />
 													<path d="M7.35849 12.2525L3.57599 9.30575L4.65149 7.9255L6.97424 9.735L10.8077 4.20325L12.2462 5.19975L7.35849 12.2525Z" fill="white" />
 												</svg>
-												Transparent Partnerships
+												{t("point1")}
 											</li>
 											<li>
 												<svg width={16} height={16} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
 													<path d="M8 15.9947C12.4183 15.9947 16 12.4154 16 8C16 3.58462 12.4183 0.00524902 8 0.00524902C3.58172 0.00524902 0 3.58462 0 8C0 12.4154 3.58172 15.9947 8 15.9947Z" fill="#198754" />
 													<path d="M7.35849 12.2525L3.57599 9.30575L4.65149 7.9255L6.97424 9.735L10.8077 4.20325L12.2462 5.19975L7.35849 12.2525Z" fill="white" />
 												</svg>
-												Proven Expertise
+												{t("point2")}
 											</li>
 											<li>
 												<svg width={16} height={16} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
 													<path d="M8 15.9947C12.4183 15.9947 16 12.4154 16 8C16 3.58462 12.4183 0.00524902 8 0.00524902C3.58172 0.00524902 0 3.58462 0 8C0 12.4154 3.58172 15.9947 8 15.9947Z" fill="#198754" />
 													<path d="M7.35849 12.2525L3.57599 9.30575L4.65149 7.9255L6.97424 9.735L10.8077 4.20325L12.2462 5.19975L7.35849 12.2525Z" fill="white" />
 												</svg>
-												Customized Solutions
+												{t("point3")}
 											</li>
 											<li>
 												<svg width={16} height={16} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
 													<path d="M8 15.9947C12.4183 15.9947 16 12.4154 16 8C16 3.58462 12.4183 0.00524902 8 0.00524902C3.58172 0.00524902 0 3.58462 0 8C0 12.4154 3.58172 15.9947 8 15.9947Z" fill="#198754" />
 													<path d="M7.35849 12.2525L3.57599 9.30575L4.65149 7.9255L6.97424 9.735L10.8077 4.20325L12.2462 5.19975L7.35849 12.2525Z" fill="white" />
 												</svg>
-												Local Area Knowledge
+												{t("point4")}
 											</li>
 										</ul>
-										<Link href="/contact" className="btn-view"><span className="text">Contact Us</span> <span className="icon icon-arrow-right2" /> </Link>
+										<Link href="/contact" className="btn-view"><span className="text">{t("contactus")}</span> <span className="icon icon-arrow-right2" /> </Link>
 									</div>
 								</div>
 								<div className="col-lg-6">
@@ -145,9 +150,9 @@ export default function AboutUs() {
 												<span className="icon icon-buy-home" />
 											</div>
 											<div className="content">
-												<h6 className="title">Buy A New Home</h6>
-												<p className="description">Explore diverse properties and expert guidance for a seamless buying experience.</p>
-												<Link href="#" className="btn-view style-1"><span className="text">Learn More</span> <span className="icon icon-arrow-right2" /> </Link>
+												<h6 className="title">	{t("buyanewhome")}</h6>
+												<p className="description">{t("buy")}</p>
+												<Link href="#" className="btn-view style-1"><span className="text">{t("learnmore")}</span> <span className="icon icon-arrow-right2" /> </Link>
 											</div>
 										</div>
 										<div className="box-service style-1 hover-btn-view">
@@ -155,9 +160,9 @@ export default function AboutUs() {
 												<span className="icon icon-rent-home" />
 											</div>
 											<div className="content">
-												<h6 className="title">Rent a home</h6>
-												<p className="description">Explore a diverse variety of listings tailored precisely to suit your unique lifestyle needs.</p>
-												<Link href="#" className="btn-view style-1"><span className="text">Learn More</span> <span className="icon icon-arrow-right2" /> </Link>
+												<h6 className="title">{t("rentahome")}</h6>
+												<p className="description">{t("rent")}</p>
+												<Link href="#" className="btn-view style-1"><span className="text">{t("learnmore1")}</span> <span className="icon icon-arrow-right2" /> </Link>
 											</div>
 										</div>
 										<div className="box-service style-1 hover-btn-view">
@@ -165,9 +170,9 @@ export default function AboutUs() {
 												<span className="icon icon-sale-home" />
 											</div>
 											<div className="content">
-												<h6 className="title">Sell a home</h6>
-												<p className="description">Showcasing your property's best features for a successful sale.</p>
-												<Link href="#" className="btn-view style-1"><span className="text">Learn More</span> <span className="icon icon-arrow-right2" /> </Link>
+												<h6 className="title">{t("sellahome")}</h6>
+												<p className="description">{t("sell")}</p>
+												<Link href="#" className="btn-view style-1"><span className="text">{t("learnmore2")}</span> <span className="icon icon-arrow-right2" /> </Link>
 											</div>
 										</div>
 									</div>
@@ -180,8 +185,8 @@ export default function AboutUs() {
 					<section className="flat-section flat-testimonial-v4">
 						<div className="container">
 							<div className="box-title text-center">
-								<div className="text-subtitle text-primary">Our Testimonials</div>
-								<h4 className="mt-4">What’s people say’s</h4>
+								<div className="text-subtitle text-primary">{t("ourtestimonials")}</div>
+								<h4 className="mt-4">{t("whatpeoplesay")}s</h4>
 							</div>
 							<div className="swiper tf-sw-testimonial">
 								<Swiper {...swiperOptions} className="swiper-wrapper">
@@ -195,7 +200,7 @@ export default function AboutUs() {
 												<li className="icon icon-star" />
 											</ul>
 											<p className="note body-1">
-												"I truly appreciate the professionalism and in-depth knowledge of the brokerage team. They not only helped me find the perfect home but also assisted with legal and financial aspects, making me feel confident and secure in my decision."
+											{t("rating")}
 											</p>
 											<div className="box-avt d-flex align-items-center gap-12">
 												<div className="avatar avt-60 round">
@@ -203,7 +208,7 @@ export default function AboutUs() {
 												</div>
 												<div className="info">
 													<div className="h7 fw-7">Liam Anderson</div>
-													<p className="text-variant-1 mt-4">CEO Digital</p>
+													<p className="text-variant-1 mt-4">{t("ceodigital")}</p>
 												</div>
 											</div>
 										</div>
@@ -218,7 +223,7 @@ export default function AboutUs() {
 												<li className="icon icon-star" />
 											</ul>
 											<p className="note body-1">
-												"My experience with property management services has exceeded expectations. They efficiently manage properties with a professional and attentive approach in every situation. I feel reassured that any issue will be resolved promptly and effectively."
+											{t("rating1")}
 											</p>
 											<div className="box-avt d-flex align-items-center gap-12">
 												<div className="avatar avt-60 round">
@@ -226,7 +231,7 @@ export default function AboutUs() {
 												</div>
 												<div className="info">
 													<div className="h7 fw-7">Adam Will</div>
-													<p className="text-variant-1 mt-4">CEO Agency</p>
+													<p className="text-variant-1 mt-4">	{t("ceoagency")}</p>
 												</div>
 											</div>
 										</div>
@@ -241,7 +246,7 @@ export default function AboutUs() {
 												<li className="icon icon-star" />
 											</ul>
 											<p className="note body-1">
-												"My experience with property management services has exceeded expectations. They efficiently manage properties with a professional and attentive approach in every situation. I feel reassured that any issue will be resolved promptly and effectively."
+											{t("rating2")}
 											</p>
 											<div className="box-avt d-flex align-items-center gap-12">
 												<div className="avatar avt-60 round">
@@ -249,7 +254,7 @@ export default function AboutUs() {
 												</div>
 												<div className="info">
 													<div className="h7 fw-7">Adam Will</div>
-													<p className="text-variant-1 mt-4">CEO Agency</p>
+													<p className="text-variant-1 mt-4">{t("ceoagency1")}</p>
 												</div>
 											</div>
 										</div>
@@ -264,7 +269,7 @@ export default function AboutUs() {
 												<li className="icon icon-star" />
 											</ul>
 											<p className="note body-1">
-												"I truly appreciate the professionalism and in-depth knowledge of the brokerage team. They not only helped me find the perfect home but also assisted with legal and financial aspects, making me feel confident and secure in my decision."
+											{t("rating3")}
 											</p>
 											<div className="box-avt d-flex align-items-center gap-12">
 												<div className="avatar avt-60 round">
@@ -272,7 +277,7 @@ export default function AboutUs() {
 												</div>
 												<div className="info">
 													<div className="h7 fw-7">Liam Anderson</div>
-													<p className="text-variant-1 mt-4">CEO Digital</p>
+													<p className="text-variant-1 mt-4">{t("ceodigital1")}</p>
 												</div>
 											</div>
 										</div>
@@ -443,28 +448,28 @@ export default function AboutUs() {
 								<div className="col-lg-7">
 									<div className="content-left">
 										<div className="box-title">
-											<div className="text-subtitle text-white">Contact Us</div>
-											<h4 className="mt-4 fw-6 text-white">We're always eager to hear from you!</h4>
+											<div className="text-subtitle text-white">{t("contactus1")}</div>
+											<h4 className="mt-4 fw-6 text-white">{t("text1")}</h4>
 										</div>
-										<p className="body-2 text-white">Sed ullamcorper nulla egestas at. Aenean eget tortor nec elit sagittis molestie. Pellentesque tempus massa in.r nulla egestas at. Aenean eget tortor nec elit sagittis mole</p>
+										<p className="body-2 text-white">{t("textdecs")}</p>
 									</div>
 								</div>
 								<div className="col-lg-5">
 									<form action="#" className="box-contact-v2">
 										<div className="box">
-											<label htmlFor="name" className="label">Name:</label>
+											<label htmlFor="name" className="label">{t("name")}</label>
 											<input type="text" className="form-control" defaultValue="Tony Nguyen |" />
 										</div>
 										<div className="box">
-											<label htmlFor="email" className="label">Email:</label>
+											<label htmlFor="email" className="label">{t("email")}</label>
 											<input type="text" className="form-control" defaultValue="hi.themesflat@mail.com" />
 										</div>
 										<div className="box">
-											<label htmlFor="message" className="label">Message:</label>
+											<label htmlFor="message" className="label">{t("message")}</label>
 											<textarea name="message" className="form-control" cols={30} rows={10} placeholder="Write comment" defaultValue={""} />
 										</div>
 										<div className="box">
-											<button className="tf-btn primary">Contact US</button>
+											<button className="tf-btn primary">{t("contactus2")}</button>
 										</div>
 									</form>
 								</div>
@@ -477,8 +482,8 @@ export default function AboutUs() {
 					<section className="flat-section flat-agents">
 						<div className="container">
 							<div className="box-title text-center">
-								<div className="text-subtitle text-primary">Our Teams</div>
-								<h4 className="mt-4">Meet Our Agents</h4>
+								<div className="text-subtitle text-primary"></div>
+								<h4 className="mt-4">{t("meetouragents")}</h4>
 							</div>
 							<div className="row">
 								<div className="box col-lg-4 col-sm-6">
@@ -551,10 +556,10 @@ export default function AboutUs() {
 							<div className="wrap-banner bg-surface">
 								<div className="box-left">
 									<div className="box-title">
-										<div className="text-subtitle text-primary">Become Partners</div>
-										<h4 className="mt-4">List your Properties on Homeya, join Us Now!</h4>
+										<div className="text-subtitle text-primary">{t("becomeapartners")}</div>
+										<h4 className="mt-4">{t("text2")}</h4>
 									</div>
-									<Link href="#" className="tf-btn primary size-1">Become A Hosting</Link>
+									<Link href="#" className="tf-btn primary size-1">{t("becomeahosting")}</Link>
 								</div>
 								<div className="box-right">
 									<img src="/images/banner/banner.png" alt="image" />

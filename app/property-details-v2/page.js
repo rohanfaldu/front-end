@@ -91,7 +91,7 @@ export default function PropertyDetailsV2() {
 												</div>
 												<div className="content-bottom">
 													<div className="info-box">
-														<div className="label">FEATUREs:</div>
+														<div className="label">FEATURE110s:</div>
 														<ul className="meta">
 															<li className="meta-item"><span className="icon icon-bed" /> 2 Bedroom</li>
 															<li className="meta-item"><span className="icon icon-bathtub" /> 2 Bathroom</li>
@@ -737,7 +737,7 @@ export default function PropertyDetailsV2() {
 															<div className="wd-filter-select">
 																<div className="inner-group inner-filter">
 																	<div className="form-style">
-																		<label className="title-select">Keyword1</label>
+																		<label className="title-select">Keyword</label>
 																		<input type="text" className="form-control" placeholder="Search Keyword." name="s" title="Search for" required />
 																	</div>
 																	<div className="form-style">
