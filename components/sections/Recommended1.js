@@ -13,12 +13,12 @@ export default function Recommended1() {
 	const [properties, setProperties] = useState(null); // To store fetched data
  	const [loading, setLoading] = useState(true); // To manage loading state
   	const [error, setError] = useState(null); // To manage error state
-	const { t } = useTranslation();
-
+	const { t, i18n } = useTranslation();
   	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const propertyObj = {page: 1, limit: 10};
+				const lang = i18n.language;
+				const propertyObj = {page: 1, limit: 10, lang: lang};
 				const response = await getData('api/property/', propertyObj);
 				console.log('response');
 				console.log(response.data.list);
@@ -32,7 +32,7 @@ export default function Recommended1() {
 		};
 
 		fetchData(); // Fetch data on component mount
-	}, []); // Empty dependency array ensures this runs only once on mount
+	}, [i18n.language]); // Empty dependency array ensures this runs only once on mount
 
 	if (loading) return <p>Loading...</p>; // Show loading message
   	if (error) return <p>Error: {error}</p>; 

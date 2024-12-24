@@ -84,23 +84,26 @@ import SidebarFilter from "@/components/elements/SidebarFilter"
 import TabNav from "@/components/elements/TabNav"
 import Layout from "@/components/layout/Layout"
 import Link from "next/link"
-import VideoPopup from "@/components/elements/VideoPopup"
+import Video from "@/components/elements/Video"
 import axios from 'axios';
 import {useParams} from "react-router-dom"
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Preloader from '@/components/elements/Preloader'
+import Preloader from '@/components/elements/Preloader';
+import { useTranslation } from "react-i18next";
 export default function PropertyDetailsV1({ params }) {
 	const { id } = params; 
 	const [properties, setProperties] = useState(null); 
  	const [loading, setLoading] = useState(true);
  	const [metadetail, setMetaDetails] = useState(null);
   	const [error, setError] = useState(null); 
-	const [isAccordion, setIsAccordion] = useState(1)
-  	useEffect(() => {
+	const [isAccordion, setIsAccordion] = useState(1);
+	const { t, i18n } = useTranslation();
+	useEffect(() => {
 		const fetchData = async () => {
 		//try {
-			const propertyObj = {page: 1, limit: 100};
+			const lang = i18n.language;
+			const propertyObj = {page: 1, limit: 100, lang: lang};
 			const response = await getData('api/property/', propertyObj);
 			// console.log('response');
 			// console.log(response.data.list);
@@ -143,7 +146,7 @@ export default function PropertyDetailsV1({ params }) {
 		};
 		console.log(properties);
 		fetchData(); // Fetch data on component mount
-	}, []); // Empty dependency array ensures this runs only once on mount
+	}, [i18n.language]); // Empty dependency array ensures this runs only once on mount
 
 	if(loading){
 		return (
@@ -215,7 +218,7 @@ export default function PropertyDetailsV1({ params }) {
 										<ul className="meta">
 											<li className="meta-item"><span className="icon icon-bed" /> {properties.bedRooms === 0 ? '-': `${properties.bedRooms} Bedroom`}</li>
 											<li className="meta-item"><span className="icon icon-bathtub" /> {properties.bathRooms === 0 ? '-': `${properties.bathRooms} Bathroom`}</li>
-											<li className="meta-item"><span className="icon icon-ruler" /> {properties.size === null ? '-': `${properties.size} SqFt`}</li>
+											<li className="meta-item"><span className="icon icon-ruler" /> {properties.size === null ? '-': `${properties.size} SqMeter`}</li>
 										</ul>
 									</div>
 									{/* <div className="info-box">
@@ -277,14 +280,14 @@ export default function PropertyDetailsV1({ params }) {
 												<Link href="#" className="box-icon w-52"><i className="icon icon-ruler" /></Link>
 												<div className="content">
 													<span className="label">Size:</span>
-													<span>{properties.size === 0 ? '-': `${properties.size} SqFt`}</span>
+													<span>{properties.size === 0 ? '-': `${properties.size} SqMeter`}</span>
 												</div>
 											</li>
 											{/* <li className="item">
 												<Link href="#" className="box-icon w-52"><i className="icon icon-crop" /></Link>
 												<div className="content">
 													<span className="label">Land Size:</span>
-													<span>2,000 SqFt</span>
+													<span>2,000 SqMeter</span>
 												</div>
 											</li> */}
 											{/* <li className="item">
@@ -300,7 +303,7 @@ export default function PropertyDetailsV1({ params }) {
 										<div className="h7 title fw-7">Video</div>
 										<div className="img-video">
 											<img src="/images/banner/img-video.jpg" alt="img-video" />
-											<VideoPopup />
+											<Video type="youtube" link="http://localhost:7000/uploads/big_buck_bunny_720p_2mb.mp4" />
 										</div>
 									</div>
 									{/* <div className="single-property-element single-property-info">
@@ -333,7 +336,7 @@ export default function PropertyDetailsV1({ params }) {
 											<div className="col-md-6">
 												<div className="inner-box">
 													<span className="label">Property Size:</span>
-													<div className="content fw-7">1200 SqFt</div>
+													<div className="content fw-7">1200 SqMeter</div>
 												</div>
 											</div>
 											<div className="col-md-6">
@@ -375,7 +378,7 @@ export default function PropertyDetailsV1({ params }) {
 											<div className="col-md-6">
 												<div className="inner-box">
 													<span className="label">Garage Size:</span>
-													<div className="content fw-7">1200 SqFt</div>
+													<div className="content fw-7">1200 SqMeter</div>
 												</div>
 											</div>
 										</div>
@@ -984,7 +987,7 @@ export default function PropertyDetailsV1({ params }) {
 														</li>
 														<li className="item">
 															<i className="icon icon-ruler" />
-															<span>600 SqFT</span>
+															<span>600 SqMeter</span>
 														</li>
 													</ul>
 												</div>
@@ -1045,7 +1048,7 @@ export default function PropertyDetailsV1({ params }) {
 														</li>
 														<li className="item">
 															<i className="icon icon-ruler" />
-															<span>600 SqFT</span>
+															<span>600 SqMeter</span>
 														</li>
 													</ul>
 												</div>
@@ -1059,7 +1062,7 @@ export default function PropertyDetailsV1({ params }) {
 												</div>
 												<div className="d-flex align-items-center">
 													<h6>$2050,00</h6>
-													<span className="text-variant-1">/SqFT</span>
+													<span className="text-variant-1">/SqMeter</span>
 												</div>
 											</div>
 										</div>
@@ -1106,7 +1109,7 @@ export default function PropertyDetailsV1({ params }) {
 														</li>
 														<li className="item">
 															<i className="icon icon-ruler" />
-															<span>600 SqFT</span>
+															<span>600 SqMeter</span>
 														</li>
 													</ul>
 												</div>
@@ -1167,7 +1170,7 @@ export default function PropertyDetailsV1({ params }) {
 														</li>
 														<li className="item">
 															<i className="icon icon-ruler" />
-															<span>600 SqFT</span>
+															<span>600 SqMeter</span>
 														</li>
 													</ul>
 												</div>
@@ -1181,7 +1184,7 @@ export default function PropertyDetailsV1({ params }) {
 												</div>
 												<div className="d-flex align-items-center">
 													<h6>$7250,00</h6>
-													<span className="text-variant-1">/SqFT</span>
+													<span className="text-variant-1">/SqMeter</span>
 												</div>
 											</div>
 										</div>
