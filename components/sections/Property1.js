@@ -14,7 +14,7 @@ export default function Property1() {
 							<div className="text-subtitle text-primary">{t("topproperties")}</div>
 							<h4 className="mt-4">{t("bestpropertyvalue")}</h4>
 						</div>
-						<Link href="#" className="tf-btn primary size-1">View All</Link>
+						<Link href="#" className="tf-btn primary size-1">{t("viewall")}</Link>
 					</div>
 					<div className="wrap-property">
 						<div className="box-left  wow fadeInLeftSmall" data-wow-delay=".2s" data-wow-duration="2000ms">

@@ -7,12 +7,15 @@ import TabNav from "@/components/elements/TabNav"
 import Layout from "@/components/layout/Layout"
 import Link from "next/link"
 import VideoPopup from "@/components/elements/VideoPopup"
+
+import { useTranslation } from "react-i18next";
 export default function PropertyDetailsV2() {
 	const [isAccordion, setIsAccordion] = useState(1)
 
 	const handleAccordion = (key) => {
 		setIsAccordion(prevState => prevState === key ? null : key)
 	}
+	const { t } = useTranslation();
 	return (
 		<>
 
@@ -26,47 +29,47 @@ export default function PropertyDetailsV2() {
 							<ul className="cate-single-tab">
 								<li className="active">
 									<Link className="cate-single-item" href="#description">
-										Description
+									{t("descriptione")}
 									</Link>
 								</li>
 								<li>
 									<Link className="cate-single-item" href="#video">
-										Videos
+									{t("video")}
 									</Link>
 								</li>
 								<li>
 									<Link className="cate-single-item" href="#amentities">
-										Amentities
+									{t("amentities")}
 									</Link>
 								</li>
 								<li>
 									<Link className="cate-single-item" href="#location">
-										Location
+									{t("location")}
 									</Link>
 								</li>
 								<li>
 									<Link className="cate-single-item" href="#floor">
-										Floor
+									{t("floor")}
 									</Link>
 								</li>
 								<li>
 									<Link className="cate-single-item" href="#file">
-										File
+									{t("file")}
 									</Link>
 								</li>
 								<li>
 									<Link className="cate-single-item" href="#explore">
-										Explore
+										{t("explore")}
 									</Link>
 								</li>
 								<li>
 									<Link className="cate-single-item" href="#nearby">
-										Nearby
+									{t("nearby")}
 									</Link>
 								</li>
 								<li>
 									<Link className="cate-single-item" href="#reviews">
-										Reviews
+									{t("reviews")}
 									</Link>
 								</li>
 							</ul>
@@ -81,21 +84,21 @@ export default function PropertyDetailsV2() {
 											<div className="header-property-detail">
 												<div className="content-top d-flex justify-content-between align-items-center">
 													<div className="box-name">
-														<Link href="#" className="flag-tag primary">For Rent</Link>
-														<h4 className="title link">Lakeview Haven, Lake Tahoe</h4>
+														<Link href="#" className="flag-tag primary">{t("forrent")}</Link>
+														<h4 className="title link">{t("title")}</h4>
 													</div>
 													<div className="box-price d-flex align-items-center">
-														<h4>$250,00</h4>
-														<span className="body-1 text-variant-1">/month</span>
+														<h4>{t("$250,00")}</h4>
+														<span className="body-1 text-variant-1">/{t("month")}</span>
 													</div>
 												</div>
 												<div className="content-bottom">
 													<div className="info-box">
-														<div className="label">FEATURE110s:</div>
+														<div className="label">{t("feature")}</div>
 														<ul className="meta">
-															<li className="meta-item"><span className="icon icon-bed" /> 2 Bedroom</li>
-															<li className="meta-item"><span className="icon icon-bathtub" /> 2 Bathroom</li>
-															<li className="meta-item"><span className="icon icon-ruler" /> 6,000 SqFT</li>
+															<li className="meta-item"><span className="icon icon-bed" /> 2 {t("bedroom")}</li>
+															<li className="meta-item"><span className="icon icon-bathtub" /> 2 {t("bathroom")}</li>
+															<li className="meta-item"><span className="icon icon-ruler" /> 6,000 {t("sqmeter")}</li>
 														</ul>
 													</div>
 													<ul className="icon-box">
@@ -107,66 +110,67 @@ export default function PropertyDetailsV2() {
 											</div>
 											<div className="single-property-desc">
 												<div className="h7 title fw-7">Description</div>
-												<p className="body-2 text-variant-1">Located around an hour away from Paris, between the Perche and the Iton valley, in a beautiful wooded park bordered by a charming stream, this country property immediately seduces with its bucolic and soothing environment.</p>
-												<p className="mt-8 body-2 text-variant-1">An ideal choice for sports and leisure enthusiasts who will be able to take advantage of its swimming pool (11m x 5m), tennis court, gym and sauna.</p>
-												<Link href="#" className="btn-view"><span className="text">View More</span> </Link>
+												<p className="body-2 text-variant-1"> {t("text")}</p>
+												<p className="mt-8 body-2 text-variant-1">{t("text1")}</p>
+												<Link href="#" className="btn-view"><span className="text">{t("viewmore")}</span> </Link>
 											</div>
 											<div className="single-property-overview">
-												<div className="h7 title fw-7">Overview</div>
+												<div className="h7 title fw-7">{t("overview")}</div>
 												<ul className="info-box">
 													<li className="item">
 														<Link href="#" className="box-icon w-52"><i className="icon icon-house-line" /></Link>
 														<div className="content">
-															<span className="label">ID:</span>
+															<span className="label">{t("id")}</span>
 															<span>2297</span>
 														</div>
 													</li>
 													<li className="item">
 														<Link href="#" className="box-icon w-52"><i className="icon icon-arrLeftRight" /></Link>
 														<div className="content">
-															<span className="label">Type:</span>
-															<span>House</span>
+															<span className="label">{t("type")}</span>
+															<span>{t("house")}</span>
 														</div>
 													</li>
 													<li className="item">
 														<Link href="#" className="box-icon w-52"><i className="icon icon-bed" /></Link>
 														<div className="content">
-															<span className="label">Bedrooms:</span>
-															<span>2 Rooms</span>
+															<span className="label">{t("bedroom")}</span>
+															<span>2 {t("rooms")}</span>
 														</div>
 													</li>
 													<li className="item">
 														<Link href="#" className="box-icon w-52"><i className="icon icon-bathtub" /></Link>
 														<div className="content">
-															<span className="label">Bathrooms:</span>
-															<span>2 Rooms</span>
+															<span className="label">{t("bathroom")}</span>
+															<span>2 {t("rooms")}</span>
 														</div>
 													</li>
 													<li className="item">
 														<Link href="#" className="box-icon w-52"><i className="icon icon-garage" /></Link>
 														<div className="content">
-															<span className="label">Garages:</span>
-															<span>2 Rooms</span>
+															<span className="label">{t("garages")}</span>
+															<span>2 {t("rooms")}</span>
 														</div>
 													</li>
 													<li className="item">
 														<Link href="#" className="box-icon w-52"><i className="icon icon-ruler" /></Link>
 														<div className="content">
-															<span className="label">Size:</span>
-															<span>900 SqFt</span>
+															<span className="label">{t("size")}</span>
+															<span>900 {t("sqmeter")}</span>
 														</div>
 													</li>
 													<li className="item">
 														<Link href="#" className="box-icon w-52"><i className="icon icon-crop" /></Link>
 														<div className="content">
-															<span className="label">Land Size:</span>
-															<span>2,000 SqFt</span>
+															<span className="label">{t("landsize")}</span>
+															<span>2,000 {t("sqmeter")}</span>
 														</div>
 													</li>
 													<li className="item">
 														<Link href="#" className="box-icon w-52"><i className="icon icon-hammer" /></Link>
 														<div className="content">
-															<span className="label">Year Built:</span>
+															<span className="label">
+																{t("yearbuilt")}</span>
 															<span>2024</span>
 														</div>
 													</li>

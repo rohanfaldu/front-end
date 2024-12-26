@@ -500,7 +500,7 @@ const { t } = useTranslation();
 										<Link href="#" className="content">
 											<div className="info">
 												<h6 className="link">Jack Halow</h6>
-												<p className="mt-4 text-variant-1">CEO &amp; Founder</p>
+												<p className="mt-4 text-variant-1">{t("ceofounder")}</p>
 											</div>
 											<span className="icon-phone" />
 										</Link>
@@ -520,7 +520,7 @@ const { t } = useTranslation();
 										<Link href="#" className="content">
 											<div className="info">
 												<h6 className="link">John Smith</h6>
-												<p className="mt-4 text-variant-1">Property Manager</p>
+												<p className="mt-4 text-variant-1">{t("propertymanager")}</p>
 											</div>
 											<span className="icon-phone" />
 										</Link>
@@ -540,7 +540,7 @@ const { t } = useTranslation();
 										<Link href="#" className="content">
 											<div className="info">
 												<h6 className="link">Chris Patt</h6>
-												<p className="mt-4 text-variant-1">Administrative Staff</p>
+												<p className="mt-4 text-variant-1">{t("administrativestaff")}</p>
 											</div>
 											<span className="icon-phone" />
 										</Link>

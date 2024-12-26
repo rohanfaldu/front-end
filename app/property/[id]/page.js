@@ -261,14 +261,14 @@ export default function PropertyDetailsV1({ params }) {
 												<Link href="#" className="box-icon w-52"><i className="icon icon-bed" /></Link>
 												<div className="content">
 													<span className="label">{t("bedrooms")}</span>
-													<span>{properties.bedRooms === 0 ? '-': `${properties.bedRooms} Rooms`}</span>
+													<span>{properties.bedRooms === 0 ? '-': `${properties.bedRooms} `} {t("rooms")}</span>
 												</div>
 											</li>
 											<li className="item">
 												<Link href="#" className="box-icon w-52"><i className="icon icon-bathtub" /></Link>
 												<div className="content">
 													<span className="label">{t("bathrooms")}</span>
-													<span>{properties.bathRooms === 0 ? '-': `${properties.bathRooms} Rooms`}</span>
+													<span>{properties.bathRooms === 0 ? '-': `${properties.bathRooms} `}{t("rooms")}</span>
 												</div>
 											</li>
 											{/* <li className="item">
@@ -282,7 +282,7 @@ export default function PropertyDetailsV1({ params }) {
 												<Link href="#" className="box-icon w-52"><i className="icon icon-ruler" /></Link>
 												<div className="content">
 													<span className="label">{t("size")}</span>
-													<span>{properties.size === 0 ? '-': `${properties.size} SqMeter`}</span>
+													<span>{properties.size === 0 ? '-': `${properties.size} `} {t("sqmeter")}</span>
 												</div>
 											</li>
 											{/* <li className="item">
@@ -587,7 +587,8 @@ export default function PropertyDetailsV1({ params }) {
 											<div className="h7 fw-7">{t("guestreviews")}</div>
 											<Link href="#" className="tf-btn">{t("viewallreviews")}</Link>
 										</div>
-										<div className="wrap-review">
+										<hr></hr>
+										{/* <div className="wrap-review">
 											<ul className="box-review">
 												<li className="list-review-item">
 													<div className="avatar avt-60 round">
@@ -744,32 +745,33 @@ export default function PropertyDetailsV1({ params }) {
 													</div>
 												</li>
 											</ul>
-										</div>
+										</div> */}
+										
 										<div className="wrap-form-comment">
-											<div className="h7">Leave A Reply</div>
+											<div className="h7">{t("leaveareply")}</div>
 											<div id="comments" className="comments">
 												<div className="respond-comment">
 													<form method="post" id="contactform" className="comment-form form-submit" action="./contact/contact-process.php" acceptCharset="utf-8" noValidate="novalidate">
 														<div className="form-wg group-ip">
 															<fieldset>
-																<label className="sub-ip">Name</label>
+																<label className="sub-ip">{t("name")}</label>
 																<input type="text" className="form-control" name="text" placeholder="Your name" required />
 															</fieldset>
 															<fieldset>
-																<label className="sub-ip">Email</label>
+																<label className="sub-ip">{t("email")}</label>
 																<input type="email" className="form-control" name="email" placeholder="Your email" required />
 															</fieldset>
 														</div>
 														<fieldset className="form-wg d-flex align-items-center gap-8">
 															<input type="checkbox" className="tf-checkbox" id="cb-ip" />
-															<label htmlFor="cb-ip" className="text-black text-checkbox">Save your name, email for the next time review </label>
+															<label htmlFor="cb-ip" className="text-black text-checkbox">{t("text")}</label>
 														</fieldset>
 														<fieldset className="form-wg">
-															<label className="sub-ip">Review</label>
+															<label className="sub-ip">{t("review")}</label>
 															<textarea id="comment-message" name="message" rows={4} tabIndex={4} placeholder="Write comment " aria-required="true" defaultValue={""} />
 														</fieldset>
 														<button className="form-wg tf-btn primary" name="submit" type="submit">
-															<span>Post Comment</span>
+															<span>{t("postcomment")}</span>
 														</button>
 													</form>
 												</div>
@@ -777,7 +779,7 @@ export default function PropertyDetailsV1({ params }) {
 										</div>
 									</div>
 								</div>
-								{/* <div className="col-lg-4">
+								 <div className="col-lg-4">
 									<div className="widget-sidebar fixed-sidebar wrapper-sidebar-right">
 										<div className="widget-box single-property-contact bg-surface">
 											<div className="h7 title fw-7">Contact Sellers</div>
@@ -790,7 +792,7 @@ export default function PropertyDetailsV1({ params }) {
 													<span>1-333-345-6868 themesflat@gmail.com</span>
 												</div>
 											</div>
-											<form action="#" className="contact-form">
+											{/* <form action="#" className="contact-form">
 												<div className="ip-group">
 													<label htmlFor="fullname">Full Name:</label>
 													<input type="text" placeholder="Jony Dane" className="form-control" />
@@ -808,9 +810,9 @@ export default function PropertyDetailsV1({ params }) {
 													<textarea id="comment-message" name="message" rows={4} tabIndex={4} placeholder="Message" aria-required="true" defaultValue={""} />
 												</div>
 												<button className="tf-btn primary w-100">Send Message</button>
-											</form>
+											</form> */}
 										</div>
-										<div className="flat-tab flat-tab-form widget-filter-search widget-box bg-surface">
+										{/* <div className="flat-tab flat-tab-form widget-filter-search widget-box bg-surface">
 											<div className="h7 title fw-7">Search</div>
 											<ul className="nav-tab-form" role="tablist">
 												<TabNav />
@@ -912,38 +914,143 @@ export default function PropertyDetailsV1({ params }) {
 													</div>
 												</div>
 											</div>
+										</div> */}
+										<div className="widget-box bg-surface box-latest-property bg-white">
+											<div className="h7 fw-7 title">Latest Propeties</div>
+											<ul>
+												<li className="latest-property-item">
+													<Link href="/property-details-v1" className="images-style">
+														<img src="/images/home/house-sm-3.jpg" alt="img" />
+													</Link>
+													<div className="content">
+														<div className="h7 text-capitalize fw-7"><Link href="/property-details-v1" className="link">Casa Lomas de Mach...</Link></div>
+														<ul className="meta-list">
+															<li className="item">
+																<span>Bed:</span>
+																<span className="fw-7">4</span>
+															</li>
+															<li className="item">
+																<span>Bath:</span>
+																<span className="fw-7">2</span>
+															</li>
+															<li className="item">
+																<span className="fw-7">600 SqFT</span>
+															</li>
+														</ul>
+														<div className="d-flex align-items-center">
+															<div className="h7 fw-7">$5050,00</div>
+															<span className="text-variant-1">/SqFT</span>
+														</div>
+													</div>
+												</li>
+												<li className="latest-property-item">
+													<Link href="/property-details-v1" className="images-style">
+														<img src="/images/home/house-sm-9.jpg" alt="img" />
+													</Link>
+													<div className="content">
+														<div className="h7 text-capitalize fw-7"><Link href="/property-details-v1" className="link">Lakeview Haven...</Link></div>
+														<ul className="meta-list">
+															<li className="item">
+																<span>Bed:</span>
+																<span className="fw-7">4</span>
+															</li>
+															<li className="item">
+																<span>Bath:</span>
+																<span className="fw-7">2</span>
+															</li>
+															<li className="item">
+																<span className="fw-7">600 SqFT</span>
+															</li>
+														</ul>
+														<div className="d-flex align-items-center">
+															<div className="h7 fw-7">$5050,00</div>
+															<span className="text-variant-1">/SqFT</span>
+														</div>
+													</div>
+												</li>
+												<li className="latest-property-item">
+													<Link href="/property-details-v1" className="images-style">
+														<img src="/images/home/house-sm-1.jpg" alt="img" />
+													</Link>
+													<div className="content">
+														<div className="h7 text-capitalize fw-7"><Link href="/property-details-v1" className="link">Sunset Heights Estate</Link></div>
+														<ul className="meta-list">
+															<li className="item">
+																<span>Bed:</span>
+																<span className="fw-7">4</span>
+															</li>
+															<li className="item">
+																<span>Bath:</span>
+																<span className="fw-7">2</span>
+															</li>
+															<li className="item">
+																<span className="fw-7">600 SqFT</span>
+															</li>
+														</ul>
+														<div className="d-flex align-items-center">
+															<div className="h7 fw-7">$5050,00</div>
+															<span className="text-variant-1">/SqFT</span>
+														</div>
+													</div>
+												</li>
+												<li className="latest-property-item">
+													<Link href="/property-details-v1" className="images-style">
+														<img src="/images/home/house-sm-4.jpg" alt="img" />
+													</Link>
+													<div className="content">
+														<div className="h7 text-capitalize fw-7"><Link href="/property-details-v1" className="link">de Machalí Machas...</Link></div>
+														<ul className="meta-list">
+															<li className="item">
+																<span>Bed:</span>
+																<span className="fw-7">4</span>
+															</li>
+															<li className="item">
+																<span>Bath:</span>
+																<span className="fw-7">2</span>
+															</li>
+															<li className="item">
+																<span className="fw-7">600 SqFT</span>
+															</li>
+														</ul>
+														<div className="d-flex align-items-center">
+															<div className="h7 fw-7">$5050,00</div>
+															<span className="text-variant-1">/SqFT</span>
+														</div>
+													</div>
+												</li>
+											</ul>
 										</div>
 										<div className="widget-box single-property-whychoose bg-surface">
-											<div className="h7 title fw-7">Why Choose Us?</div>
+											<div className="h7 title fw-7">{t("whychooseus")}</div>
 											<ul className="box-whychoose">
 												<li className="item-why">
 													<i className="icon icon-secure" />
-													Secure Booking
+													{t("securebooking")}
 												</li>
 												<li className="item-why">
 													<i className="icon icon-guarantee" />
-													Best Price Guarantee
+													{t("bestpriceguarantee")}
 												</li>
 												<li className="item-why">
 													<i className="icon icon-booking" />
-													Easy Booking Process
+													{t("easybookingprocess")}
 												</li>
 												<li className="item-why">
 													<i className="icon icon-support" />
-													Available Support 24/7
+													{t("availablesupport24/7")}
 												</li>
 											</ul>
 										</div>
 									</div>
-								</div > */}
+								</div > 
 							</div >
 						</div >
 					</section >
 					<section className="flat-section pt-0 flat-latest-property">
 						<div className="container">
 							<div className="box-title">
-								<div className="text-subtitle text-primary">Featured properties</div>
-								<h4 className="mt-4">The Most Recent Estate</h4>
+								<div className="text-subtitle text-primary">{t("featureproperties")}</div>
+								<h4 className="mt-4">{t("themostrecentestate")}</h4>
 							</div>
 							<div className="swiper tf-latest-property" data-preview-lg={3} data-preview-md={2} data-preview-sm={2} data-space={30} data-loop="true">
 								<Swiper {...swiperOptions2} className="swiper-wrapper">
