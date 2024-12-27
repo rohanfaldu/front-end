@@ -11,6 +11,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { insertData } from "../../components/api/Axios/Helper";
 import { split } from "../common/functions.js";
+import { useTranslation } from "react-i18next";
 export default function ModalLogin({ isLogin, handleLogin, isRegister, handleRegister, handleForgotPassword }) {
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const [OTPEnter, setOTPEnter] = useState(false);
@@ -20,6 +21,7 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
  	const [emailAddress, setEmailAddress] = useState('');
  	const [phoneNumber, setPhoneNumber] = useState('');
 	 const [sucessMessage, setSucessMessage] = useState(false);
+	 const { t, i18n } = useTranslation();
  	const base_url = process.env.NEXT_PUBLIC_API_URL;
 	const clientId = process.env.NEXT_PUBLIC_GOOGLE_LOGIN_CLIENT_ID;
 	const responseFacebook = async (response) => {
@@ -275,7 +277,7 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 				<div className="modal-dialog modal-dialog-centered">
 					<div className="modal-content">
 						<div className="flat-account bg-surface">
-							<h3 className="title text-center">Log In</h3>
+							<h3 className="title text-center">{t("login")}</h3>
 							<span className="close-modal icon-close2" onClick={handleLogin} />
 							{errorMessage && <div className={messageClass}>{errorMessage}</div>}
 							<Formik
@@ -286,12 +288,12 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 								{({ errors, touched, handleChange, handleBlur }) => (
 										<Form>
 											<fieldset className="box-fieldset">
-												<label htmlFor="name">Email Address / Phone number<span>*</span>:</label>
+												<label htmlFor="name">{t("emailAddress")}<span>*</span>:</label>
 												<Field type="text" id="email_address" name="email_address" className="form-control style-1" />
 												<ErrorMessage name="email_address" component="div" className="error" />
 											</fieldset>
 											<fieldset className="box-fieldset">
-												<label htmlFor="pass">Password<span>*</span>:</label>
+												<label htmlFor="pass">{t("password")}<span>*</span>:</label>
 												<Field 
 													type={showPassword ? "text" : "password"}
 													id="password" 
@@ -316,15 +318,15 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 														name="remeber_me"
 														className="tf-checkbox style-2"
 													/>
-													<label htmlFor="cb1" className="caption-1 text-variant-1">Remember me</label>
+													<label htmlFor="cb1" className="caption-1 text-variant-1">{t("rememberme")}</label>
 												</fieldset>
-												<Link href="/" className="caption-1 text-primary" onClick={handleForgotPassword}>Forgot password?</Link>
-												<button type="submit" className="tf-btn primary w-100">Login</button>
+												<Link href="/" className="caption-1 text-primary" onClick={handleForgotPassword}>{t("forgotpassword")}</Link>
+												<button type="submit" className="tf-btn primary w-100">{t('loginButton')}</button>
 											</div>
 										</Form>
 									)}
 							</Formik>
-							<div className="text-variant-1 auth-line">or sign up with</div>
+							<div className="text-variant-1 auth-line">{t('signupwith')}</div>
 							<div className="login-social">
 								{/* <Link href="#" className="btn-login-social">
 									<img src="/images/logo/fb.jpg" alt="img" />
@@ -355,8 +357,8 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 								</GoogleOAuthProvider>
 
 							</div>
-							<div className="mt-16 text-variant-1 text-center noti">Don't have an account?
-								<a onClick={() => { handleLogin(); handleRegister() }} className="text-black fw-5">Sign up here</a>
+							<div className="mt-16 text-variant-1 text-center noti">{t('dontAccount')}
+								<a onClick={() => { handleLogin(); handleRegister() }} className="text-black fw-5">{t('singuphere')}</a>
 							</div>
 						</div>
 					</div>

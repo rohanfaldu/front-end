@@ -9,13 +9,14 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { allCountries } from "country-telephone-data"; 
 import { insertData } from "../../components/api/Axios/Helper";
+import { useTranslation } from "react-i18next";
 export default function ModalRegister({ isRegister, handleRegister, handleLogin }) {
 	const [showPassword, setShowPassword] = useState(false);
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 	const [errorMessage, setErrorMessage] = useState('');
 	const [sucessMessage, setSucessMessage] = useState(false);
 	const [selectedCode, setSelectedCode] = useState("");
-	
+	const { t, i18n } = useTranslation();
     const validationSchema = Yup.object({
 		user_name: Yup.string()
 		  .required("User Name is required"),
@@ -77,7 +78,7 @@ export default function ModalRegister({ isRegister, handleRegister, handleLogin 
 				<div className="modal-dialog modal-dialog-centered">
 					<div className="modal-content">
 						<div className="flat-account bg-surface">
-							<h3 className="title text-center">Register</h3>
+							<h3 className="title text-center">{t("register")}</h3>
 							<span className="close-modal icon-close2" onClick={handleRegister} />
 							{errorMessage && <div className={messageClass}>{errorMessage}</div>}
 							
@@ -89,17 +90,17 @@ export default function ModalRegister({ isRegister, handleRegister, handleLogin 
 									{({ errors, touched, handleChange, handleBlur, setFieldValue }) => (
 										<Form>
 											<fieldset className="box-fieldset">
-												<label htmlFor="name">User Name<span>*</span>:</label>
+												<label htmlFor="name">{t("userName")}<span>*</span>:</label>
 												<Field type="text" id="user_name" name="user_name" className="form-control style-1" />
 												<ErrorMessage name="user_name" component="div" className="error" />
 											</fieldset>
 											<fieldset className="box-fieldset">
-												<label htmlFor="name">email address<span>*</span>:</label>
+												<label htmlFor="name">{t("emailAddress")}<span>*</span>:</label>
 												<Field type="text" id="email_address" name="email_address" className="form-control style-1" />
 												<ErrorMessage name="email_address" component="div" className="error" />
 											</fieldset>
 											<fieldset className="box-fieldset ">
-												<label htmlFor="name">Mobile Number<span>*</span>:</label>
+												<label htmlFor="name">{t("mobilenumber")}<span>*</span>:</label>
 													<div className="phone-and-country-code">
 														<Field as="select" name="country_code" className="nice-select country-code"
 															id="country-code"
@@ -111,7 +112,7 @@ export default function ModalRegister({ isRegister, handleRegister, handleLogin 
 																//handleCityChange(selectedState);
 															}}
 														>
-															<option value="">Select Country Code</option>
+															<option value="">{t("selectCountry")}</option>
 															{allCountries && allCountries.length > 0 ? (
 																allCountries
 																.sort((a, b) => a.dialCode.localeCompare(b.dialCode)) // Sort alphabetically by country name
@@ -130,7 +131,7 @@ export default function ModalRegister({ isRegister, handleRegister, handleLogin 
 											</fieldset>
 
 											<fieldset className="box-fieldset">
-												<label htmlFor="pass">Password<span>*</span>:</label>
+												<label htmlFor="pass">{t("password")}<span>*</span>:</label>
 												<Field 
 													type={showPassword ? "text" : "password"}
 													id="password" 
@@ -148,7 +149,7 @@ export default function ModalRegister({ isRegister, handleRegister, handleLogin 
 												<ErrorMessage name="password" component="div" className="error" />
 											</fieldset>
 											<fieldset className="box-fieldset">
-												<label htmlFor="confirmPassword">Confirm Password<span>*</span>:</label>
+												<label htmlFor="confirmPassword">{t("confirmPassword")}<span>*</span>:</label>
 												<Field
 													type={showConfirmPassword ? 'text' : 'password'}
 													id="confirmPassword"
@@ -171,7 +172,7 @@ export default function ModalRegister({ isRegister, handleRegister, handleLogin 
 													name="agreeToTerms"
 													className="tf-checkbox style-2 aggree-checkbox"
 												/> 
-												I agree to the terms of use
+												{t("signUpAgree")}
 												</label>
 												<ErrorMessage name="agreeToTerms" component="div" className="error" />
 											</fieldset>
@@ -182,14 +183,14 @@ export default function ModalRegister({ isRegister, handleRegister, handleLogin 
 														name="subscribeNewsletter" 
 														className="tf-checkbox style-2 aggree-checkbox"
 													/> 
-													Subscribe to the newsletter
+													{t("subscribe")}
 												</label>
 												</fieldset>
 											<div className="d-flex justify-content-between flex-wrap gap-12">
-												<button type="submit" className="tf-btn primary w-100">Register</button>
+												<button type="submit" className="tf-btn primary w-100">{t("register")}</button>
 											</div>
-											<div className="mt-12 text-variant-1 text-center noti">Already have an account?
-												<a onClick={() => { handleLogin(); handleRegister() }} className="text-black fw-5">Login Here</a>
+											<div className="mt-12 text-variant-1 text-center noti">{t("donhaveanaccount")}
+												<a onClick={() => { handleLogin(); handleRegister() }} className="text-black fw-5">{t("loginhere")}</a>
 											</div>
 										</Form>
 									)}

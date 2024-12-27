@@ -261,8 +261,27 @@
     "garages":"Garage",
     "size":"Taille",
     "sqmeter":"Mètre carré",
-    "landsize":"Taille du terrain :",
-    "yearbuilt":"Année de construction :"
-
+    "landsize":"Taille du terrain",
+    "yearbuilt":"Année de construction",
+    "emailAddress":"Adresse e-mail/numéro de téléphone",
+    "password": "Password",
+    "rememberme": "Souviens-toi de moi",
+    "forgotpassword": "Mot de passe oublié?",
+    "loginButton": "Connexion",
+    "inscription": "Inscrivez-vous",
+    "signupwith": "Ou inscrivez-vous avec",
+    "alreadyhaveaccount": "Vous avez déjà un compte ?",
+    "dontAccount": "Vous n'avez pas de compte ?",
+    "singuphere": "Inscrivez-vous ici",
+    "userName": "Nom d'utilisateur",
+    "emailAddress": "Adresse email",
+    "numéromobile": "Numéro de portable",
+    "selectCountry": "Sélectionnez le code du pays",
+    "mot de passe": "Mot de passe",
+    "confirmPassword": "Confirmer le mot de passe",
+    "signUpAgree": "J'accepte les conditions d'utilisation",
+    "subscribe": "S'abonner à la newsletter",
+    "donhaveanaccount": "Vous avez déjà un compte ?",
+    "loginhere": "Connectez-vous ici"
 }
   
