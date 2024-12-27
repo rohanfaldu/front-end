@@ -118,7 +118,7 @@ export default function Recommended1() {
 														</Link>
 														<div className="content">
 															<div className="h7 text-capitalize fw-7">
-																<Link href="/property-details-v1" className="link">
+																<Link href={`/property/${property.id}`} className="link">
 																	{property.title}
 																</Link>
 															</div>
@@ -150,7 +150,7 @@ export default function Recommended1() {
 															<span>{property.user_name}</span>
 														</div>
 														<div className="d-flex align-items-center">
-															<h6>${property.price}</h6>
+															<h6>{property.currency}{property.price}</h6>
 															{/* <span className="text-variant-1">{property.price.unit}</span> */}
 														</div>
 													</div>

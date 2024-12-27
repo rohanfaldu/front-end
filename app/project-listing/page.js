@@ -24,6 +24,7 @@ export default function MyProperty() {
       try {
         const type = {};
         const getUserInfo = await insertData('api/projects/developer', type, true);
+        console.log('Developer');
         console.log(getUserInfo);
         setProperties(getUserInfo.data.list); // Save all properties
         setFilteredProperties(getUserInfo.data.list); // Initially display all properties

@@ -255,12 +255,12 @@
     "id":"ID:",
     "type":"Type:",
     "house":"House",
-    "bedroom":"Bedroom:",
+    "bedroom":"Bedroom",
     "rooms":"Rooms",
     "bathroom":"Bathroom",
-    "garages":"Garages:",
+    "garages":"Garages",
     "size":"Size:",
     "sqmeter":"SqMeter",
-    "landsize":"Land Size:",
+    "landsize":"Land Size",
     "yearbuilt":"year Built"
     }

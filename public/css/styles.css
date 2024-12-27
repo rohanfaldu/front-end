@@ -7315,7 +7315,7 @@ label {
 }
 .single-property-video .img-video {
   position: relative;
-  border-radius: 16px;
+  /* border-radius: 16px; */
   overflow: hidden;
 }
 .single-property-video .img-video .btn-video {

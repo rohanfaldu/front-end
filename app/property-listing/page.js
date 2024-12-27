@@ -25,6 +25,7 @@ export default function PropertyListing() {
       try {
         const type = {};
         const getUserInfo = await insertData('api/property/agent-developer', type, true);
+        console.log('Property');
         console.log(getUserInfo);
         setProperties(getUserInfo.data.list); // Save all properties
         setfilteredPropertys(getUserInfo.data.list); // Initially display all properties

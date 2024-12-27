@@ -106,20 +106,6 @@ export default function PropertyDetailsV1({ params }) {
 			const lang = i18n.language;
 			const propertyObj = {page: 1, limit: 100, lang: lang};
 			const response = await getData('api/property/', propertyObj);
-			// console.log('response');
-			// console.log(response.data.list);
-			// setProperties(response.data.list); // Save data to state
-			// setLoading(false); // Stop loading
-			// setError(null);
-			
-			// const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/property`,
-			// { /* Pass necessary payload here */ },
-			// 	{
-			// 		headers: {
-			// 		'Content-Type': 'application/json',
-			// 		},
-			// 	}
-			// );
 
 			const propertyList = response.data.list;
 			const result = propertyList.find(item => item.id === id);
@@ -162,15 +148,15 @@ export default function PropertyDetailsV1({ params }) {
 	const handleAccordion = (key) => {
 		setIsAccordion(prevState => prevState === key ? null : key)
 	}
-	console.log('images');
-	console.log(properties.picture);
+	console.log('video');
+	console.log(properties.video);
 	return (
 		<>
 
 			<Layout headerStyle={1} footerStyle={1}>
 				<div>
 					<section className="flat-location flat-slider-detail-v1">
-						{/* <div className="swiper tf-sw-location">
+						<div className="swiper tf-sw-location">
 							 <Swiper {...swiperOptions} className="swiper-wrapper">
 								{properties.picture.length > 0 && properties.picture.map((item, index) => (
 									<SwiperSlide >
@@ -189,7 +175,7 @@ export default function PropertyDetailsV1({ params }) {
 								<div className="navigation swiper-nav-next nav-next-location"><span className="icon icon-arr-l" /></div>
 								<div className="navigation swiper-nav-prev nav-prev-location"><span className="icon icon-arr-r" /></div>
 							</div>
-							 <div className="icon-box">
+							 {/* <div className="icon-box">
                   				<Link href="#" className="item"><span className="icon icon-map-trifold"></span></Link>
 								  {properties.picture.length > 0 && properties.picture.map((item, index) => (
 										<Link  href={item} className="item active" data-fancybox="gallery">
@@ -197,8 +183,8 @@ export default function PropertyDetailsV1({ params }) {
 									</Link>
 								))}
 								
-							</div>
-						</div> */}
+							</div> */}
+						</div>
 						{/* <img src={properties.picture?properties.picture:"/images/banner/banner-property-1.jpg"} alt="img-property" className="property-image" /> */}
 					</section>
 					<section className="flat-section pt-0 flat-property-detail">
@@ -210,7 +196,7 @@ export default function PropertyDetailsV1({ params }) {
 										<h4 className="title link">{properties.title}</h4>
 									</div>
 									<div className="box-price d-flex align-items-center">
-										<h4>${properties.price}</h4>
+										<h4>{properties.currency}{properties.price}</h4>
 										{/* <span className="body-1 text-variant-1">/month</span> */}
 									</div>
 								</div>
@@ -304,8 +290,25 @@ export default function PropertyDetailsV1({ params }) {
 									<div className="single-property-element single-property-video">
 										<div className="h7 title fw-7">{t("video")}</div>
 										<div className="img-video">
-											<img src="/images/banner/img-video.jpg" alt="img-video" />
-											<Video type="youtube" link="http://localhost:7000/uploads/big_buck_bunny_720p_2mb.mp4" />
+											{/* <img src="/images/banner/img-video.jpg" alt="img-video" /> */}
+											{(properties.video.endsWith(".mp4")?
+												<video height="500" controls>
+													<source src={properties.video} type="video/mp4" />
+													Your browser does not support the video tag.
+												</video>
+													
+												:
+												<iframe height="500" width="100%"
+													src={properties.video}
+													title="Immofind" 
+													frameborder="0" 
+													allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+													referrerpolicy="strict-origin-when-cross-origin" 
+													allowfullscreen>
+												</iframe>
+											)}
+											{/* <Video type="youtube" link={properties.video} /> <Video type="mp4" link={properties.video} /> */}
+											{/* <Video type="youtube" link="http://localhost:7000/uploads/big_buck_bunny_720p_2mb.mp4" /> */}
 										</div>
 									</div>
 									{/* <div className="single-property-element single-property-info">
@@ -406,9 +409,9 @@ export default function PropertyDetailsV1({ params }) {
 										</div>
 									)}
 									<div className="single-property-element single-property-map">
-										<div className="h7 title fw-7">{t("map")}</div>
-										<PropertyMapMarker isGeolocation={false} latitude={properties.latitude} longitude={properties.longitude} zoom={18} />
-										<ul className="info-map">
+										{/* <div className="h7 title fw-7">{t("map")}</div>
+										<PropertyMapMarker isGeolocation={false} latitude={properties.latitude} longitude={properties.longitude} zoom={10} /> */}
+										{/* <ul className="info-map">
 											<li>
 												<div className="fw-7">{t("address")}</div>
 												<span className="mt-4 text-variant-1">{t("add1")}</span>
@@ -421,7 +424,7 @@ export default function PropertyDetailsV1({ params }) {
 												<div className="fw-7">{t("fll")}</div>
 												<span className="mt-4 text-variant-1">15 min</span>
 											</li>
-										</ul>
+										</ul> */}
 									</div>
 									{/* <div className="single-property-element single-property-floor">
 										<div className="h7 title fw-7">Floor plans</div>
@@ -784,12 +787,17 @@ export default function PropertyDetailsV1({ params }) {
 										<div className="widget-box single-property-contact bg-surface">
 											<div className="h7 title fw-7">Contact Sellers</div>
 											<div className="box-avatar">
-												<div className="avatar avt-100 round">
-													<img src="/images/avatar/avt-12.jpg" alt="avatar" />
-												</div>
+												{properties.user_image ? (
+														<div className="avatar avt-100 round">
+															<img src={properties.user_image} alt="avatar" />
+														</div>
+														):
+													null
+												}
+												
 												<div className="info">
-													<div className="text-1 name">Shara Conner</div>
-													<span>1-333-345-6868 themesflat@gmail.com</span>
+													<div className="text-1 name">{properties.user_name}</div>
+													<span>{properties.email_address}</span>
 												</div>
 											</div>
 											{/* <form action="#" className="contact-form">
@@ -915,7 +923,7 @@ export default function PropertyDetailsV1({ params }) {
 												</div>
 											</div>
 										</div> */}
-										<div className="widget-box bg-surface box-latest-property bg-white">
+										{/* <div className="widget-box bg-surface box-latest-property bg-white">
 											<div className="h7 fw-7 title">Latest Propeties</div>
 											<ul>
 												<li className="latest-property-item">
@@ -1019,7 +1027,7 @@ export default function PropertyDetailsV1({ params }) {
 													</div>
 												</li>
 											</ul>
-										</div>
+										</div> */}
 										<div className="widget-box single-property-whychoose bg-surface">
 											<div className="h7 title fw-7">{t("whychooseus")}</div>
 											<ul className="box-whychoose">
@@ -1046,7 +1054,7 @@ export default function PropertyDetailsV1({ params }) {
 							</div >
 						</div >
 					</section >
-					<section className="flat-section pt-0 flat-latest-property">
+					{/* <section className="flat-section pt-0 flat-latest-property">
 						<div className="container">
 							<div className="box-title">
 								<div className="text-subtitle text-primary">{t("featureproperties")}</div>
@@ -1301,7 +1309,7 @@ export default function PropertyDetailsV1({ params }) {
 								</Swiper>
 							</div>
 						</div>
-					</section>
+					</section> */}
 				</div >
 
 			</Layout >
