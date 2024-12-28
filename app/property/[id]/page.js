@@ -10,10 +10,10 @@ const toCapitalCase = (str) => {
 const swiperOptions = {
 	modules: [Autoplay, Pagination, Navigation],
 	autoplay: {
-		delay: 2000,
+		delay: 200000,
 		disableOnInteraction: false,
 	},
-	speed: 2000,
+	speed: 200000,
 	navigation: {
 		clickable: true,
 		nextEl: ".nav-prev-location",
@@ -99,6 +99,7 @@ export default function PropertyDetailsV1({ params }) {
  	const [loading, setLoading] = useState(true);
  	const [metadetail, setMetaDetails] = useState(null);
   	const [error, setError] = useState(null); 
+  	const [videoUrl, setVideoUrl] = useState(""); 
 	const [isAccordion, setIsAccordion] = useState(1);
 	const { t, i18n } = useTranslation();
 	useEffect(() => {
@@ -149,8 +150,13 @@ export default function PropertyDetailsV1({ params }) {
 	const handleAccordion = (key) => {
 		setIsAccordion(prevState => prevState === key ? null : key)
 	}
+	if((!properties.video.endsWith(".mp4")) && (videoUrl === "")){
+		const urlParams = new URLSearchParams(new URL(properties.video).search);
+		const videoId = urlParams.get('v');
+		setVideoUrl('https://www.youtube.com/embed/'+videoId);
+	}
 	console.log('video');
-	console.log(properties);
+	console.log(videoUrl);
 	return (
 		<>
 
@@ -300,7 +306,7 @@ export default function PropertyDetailsV1({ params }) {
 													
 												:
 												<iframe height="500" width="100%"
-													src={properties.video}
+													src={videoUrl}
 													title="Immofind" 
 													frameborder="0" 
 													allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
