@@ -784,7 +784,7 @@ export default function PropertyDetailsV1({ params }) {
 								 <div className="col-lg-4">
 									<div className="widget-sidebar fixed-sidebar wrapper-sidebar-right">
 										<div className="widget-box single-property-contact bg-surface">
-											<div className="h7 title fw-7">Contact Sellers</div>
+											<div className="h7 title fw-7">{t("contactSeller")}</div>
 											<div className="box-avatar">
 												{properties.user_image ? (
 														<div className="avatar avt-100 round">
