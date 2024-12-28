@@ -10,10 +10,10 @@ const toCapitalCase = (str) => {
 const swiperOptions = {
 	modules: [Autoplay, Pagination, Navigation],
 	autoplay: {
-		delay: 200000,
+		delay: 2000,
 		disableOnInteraction: false,
 	},
-	speed: 200000,
+	speed: 2000,
 	navigation: {
 		clickable: true,
 		nextEl: ".nav-prev-location",
