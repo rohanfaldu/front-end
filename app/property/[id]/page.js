@@ -40,8 +40,9 @@ const swiperOptions = {
 		},
 
 		1520: {
-			slidesPerView: 2.03,
+			slidesPerView: 2,
 			spaceBetween: 20,
+			centeredSlides: false,
 		},
 	},
 }
@@ -149,7 +150,7 @@ export default function PropertyDetailsV1({ params }) {
 		setIsAccordion(prevState => prevState === key ? null : key)
 	}
 	console.log('video');
-	console.log(properties.video);
+	console.log(properties);
 	return (
 		<>
 
@@ -409,22 +410,14 @@ export default function PropertyDetailsV1({ params }) {
 										</div>
 									)}
 									<div className="single-property-element single-property-map">
-										{/* <div className="h7 title fw-7">{t("map")}</div>
-										<PropertyMapMarker isGeolocation={false} latitude={properties.latitude} longitude={properties.longitude} zoom={10} /> */}
-										{/* <ul className="info-map">
+										<div className="h7 title fw-7">{t("map")}</div>
+										<PropertyMapMarker latitude={properties.latitude} longitude={properties.longitude} zoom={14} />
+										<ul className="info-map">
 											<li>
 												<div className="fw-7">{t("address")}</div>
-												<span className="mt-4 text-variant-1">{t("add1")}</span>
+												<span className="mt-4 text-variant-1">{properties.address}</span>
 											</li>
-											<li>
-												<div className="fw-7">{t("downtime")}</div>
-												<span className="mt-4 text-variant-1">5 min</span>
-											</li>
-											<li>
-												<div className="fw-7">{t("fll")}</div>
-												<span className="mt-4 text-variant-1">15 min</span>
-											</li>
-										</ul> */}
+										</ul>
 									</div>
 									{/* <div className="single-property-element single-property-floor">
 										<div className="h7 title fw-7">Floor plans</div>

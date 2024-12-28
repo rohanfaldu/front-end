@@ -10551,3 +10551,7 @@ tr {
   overflow: inherit;
 } */
  
+.swiper .swiper-slide .box-imgage-detail img{
+  object-fit: cover;
+  height: 100%;
+}
