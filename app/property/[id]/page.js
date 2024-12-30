@@ -270,7 +270,7 @@ export default function PropertyDetailsV1({ params }) {
 											<li className="item">
 												<Link href="#" className="box-icon w-52"><i className="icon icon-arrLeftRight" /></Link>
 												<div className="content">
-													<span className="label">{t("type")}</span>
+													<span className="label">{t("type")}:</span>
 													<span>{toCapitalCase(properties.type)}</span>
 												</div>
 											</li>
@@ -457,12 +457,15 @@ export default function PropertyDetailsV1({ params }) {
 									<div className="single-property-element single-property-map">
 										<div className="h7 title fw-7">{t("map")}</div>
 										<PropertyMapMarker latitude={properties.latitude} longitude={properties.longitude} zoom={14} />
-										<ul className="info-map">
-											<li>
-												<div className="fw-7">{t("address")}</div>
-												<span className="mt-4 text-variant-1">{properties.address}</span>
-											</li>
-										</ul>
+										{properties.address !== "" && (
+											<ul className="info-map">
+												<li>
+													<div className="fw-7">{t("address")}</div>
+													<span className="mt-4 text-variant-1">{properties.address}</span>
+												</li>
+											</ul>
+										)}
+										
 									</div>
 									{/* <div className="single-property-element single-property-floor">
 										<div className="h7 title fw-7">Floor plans</div>
