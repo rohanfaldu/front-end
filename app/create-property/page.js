@@ -101,14 +101,14 @@ export default function CreateProperty() {
                 //     }
                 // }
 
-                if(userList.length === 0){
-                    const getUsersDeveloperInfo = await insertData('auth/get/developer', {}, false);
-                    const developerList = getUsersDeveloperInfo.data.user_data;
-                    const getUsersAgencyInfo = await insertData('auth/get/agency', {}, false);
-                    const agencyList = getUsersAgencyInfo.data.user_data;
-                    const getalluserInfo = developerList.concat(agencyList);
-                    setUserList(getalluserInfo);
-                }
+                // if(userList.length === 0){
+                //     const getUsersDeveloperInfo = await insertData('auth/get/developer', {}, false);
+                //     const developerList = getUsersDeveloperInfo.data.user_data;
+                //     const getUsersAgencyInfo = await insertData('auth/get/agency', {}, false);
+                //     const agencyList = getUsersAgencyInfo.data.user_data;
+                //     const getalluserInfo = developerList.concat(agencyList);
+                //     setUserList(getalluserInfo);
+                // }
 
                 if(userType === ''){
                     const loggedInStatus = JSON.parse(localStorage.getItem('user'));
