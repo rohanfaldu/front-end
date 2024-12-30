@@ -284,7 +284,7 @@ export default function PropertyDetailsV1({ params }) {
 											</li>
 											):null}
 											{metaNumberList.length > 0 && metaNumberList.map((item, index) => (
-											<>{(item.value) !== 0?(
+											<>{(item.value) !== "0" ?(
 												<li className="item" key={index}>
 													<Link href="#" className="box-icon w-52"><img src={item.icon} alt="icon" width="25"/></Link>
 													<div className="content">
