@@ -10594,3 +10594,18 @@ tr {
       grid-template-columns: 1fr;
   }
 }
+
+@media screen and (max-width: 600px) {
+  .swiper .swiper-slide .box-imgage-detail img {
+      height: 100%;
+  }
+  .flat-slider-detail-v1{
+    margin-bottom: 10px !important;
+  }
+}
+
+.swiper .swiper-slide .box-imgage-detail img{
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+}
