@@ -10608,6 +10608,9 @@ tr {
   .swiper.tf-sw-location{
       height: 100% !important;
   }
+  .property-image{
+    height: 100% !important;
+  }
 }
 
 .swiper .swiper-slide .box-imgage-detail img{
