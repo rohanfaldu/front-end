@@ -8723,7 +8723,7 @@ label {
   gap: 20px;
 }
 .layout-wrap .wrap-table .listing-box .images {
-  width: 180px;
+  width: 100px;
   border-radius: 8px;
   overflow: hidden;
 }
@@ -10554,4 +10554,8 @@ tr {
 .swiper .swiper-slide .box-imgage-detail img{
   object-fit: cover;
   height: 600px;
+}
+.table-responsive .listing-box .images img{
+  width: 100px;
+  height: 100px;
 }
