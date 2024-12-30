@@ -10588,6 +10588,9 @@ tr {
 .video-upload {
   margin-bottom: 10px;
 }
+.single-property-element .map-search-input{
+  display: none;
+}
 
 @media only screen and (max-width: 767px) {
   .widget-box-2 .grid-4 {

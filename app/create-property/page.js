@@ -185,6 +185,10 @@ export default function CreateProperty() {
             }
         }
     };
+
+    const handleAddressSelect = (newAddress, newLocation) => {
+        
+    };
     const handleDistrictChange = async (DistrictId) => {
         console.log('District ID:', DistrictId);
         const selectedDistricts = districtList.find((districts) => districts.id === DistrictId);
@@ -337,6 +341,7 @@ export default function CreateProperty() {
         //     setShowErrorPopup(true);
         // }
         console.log(values); 
+        console.log(isVideoUpload); 
         if (isVideoUpload && !values.video) {
             setErrors({ serverError: "Please upload a video file." });
             setShowErrorPopup(true);
@@ -997,6 +1002,13 @@ export default function CreateProperty() {
                                         latitude={propertyMapCoords.latitude}
                                         longitude={propertyMapCoords.longitude}
                                         zoom={propertyMapCoords.zoom}
+                                        onPlaceSelected={(newAddress, newLocation) => {
+                                                setFieldValue('address', newAddress); 
+                                                setFieldValue('latitude', newLocation.lat);
+                                                setFieldValue('longitude', newLocation.lng);
+                                                handleAddressSelect(newAddress, newLocation);
+                                            }
+                                        }
                                     />
                                 </div>
                             </div>

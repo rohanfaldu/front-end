@@ -98,6 +98,7 @@ export default function PropertyDetailsV1({ params }) {
 	const [properties, setProperties] = useState(null); 
  	const [loading, setLoading] = useState(true);
  	const [metadetail, setMetaDetails] = useState(null);
+ 	const [metaNumberList, setMetaNumberList] = useState(null);
   	const [error, setError] = useState(null); 
   	const [videoUrl, setVideoUrl] = useState(""); 
 	const [isAccordion, setIsAccordion] = useState(1);
@@ -112,19 +113,42 @@ export default function PropertyDetailsV1({ params }) {
 			const propertyList = response.data.list;
 			const result = propertyList.find(item => item.id === id);
 			setProperties(result);
+			console.log('Meta list');
 			console.log(result.meta_details);
+
 			const filteredDetails = result.meta_details.filter(
 				(propertyDetail) => propertyDetail.key !== 'bathrooms' && propertyDetail.key !== 'rooms'
 			);
+			const metaNumberFieldDetails = [];
+			const metaCheckboxFieldDetails = [];
+			result.meta_details.map((propertyDetail) => {
+				if(propertyDetail.type === 'number'){
+					metaNumberFieldDetails.push(propertyDetail)
+				}else{
+					metaCheckboxFieldDetails.push(propertyDetail);
+				}
+			});
+
+			console.log('metaNumberFieldDetails')
+			console.log(metaNumberFieldDetails);
+
+			console.log('metaCheckboxFieldDetails')
+			console.log(metaCheckboxFieldDetails);
+
+
 			const chunkArray = (array, size) => {
 				const result = [];
 				for (let i = 0; i < array.length; i += size) {
 				  result.push(array.slice(i, i + size));
 				}
 				return result;
-			  };
-			const metadetail = chunkArray(filteredDetails, Math.ceil(filteredDetails.length / 3));
+			};
+			
+			const metadetail = chunkArray(metaCheckboxFieldDetails, Math.ceil(metaCheckboxFieldDetails.length / 3));
+			console.log('metadetail');
+			console.log(metadetail);
 			setMetaDetails(metadetail);
+			setMetaNumberList(metaNumberFieldDetails);
 			 // Save data to state
 			setLoading(false); // Stop loading
 			setError(null); // Clear errors
@@ -246,11 +270,18 @@ export default function PropertyDetailsV1({ params }) {
 											<li className="item">
 												<Link href="#" className="box-icon w-52"><i className="icon icon-arrLeftRight" /></Link>
 												<div className="content">
-													<span className="label">{t("type")}</span>
 													<span>{toCapitalCase(properties.type)}</span>
 												</div>
 											</li>
-											<li className="item">
+											{metaNumberList.length > 0 && metaNumberList.map((item, index) => (
+												<li className="item" key={index}>
+													<Link href="#" className="box-icon w-52"><img src={item.icon} alt="icon" width="25"/></Link>
+													<div className="content">
+														<span>{item.name}</span>
+													</div>
+												</li>
+											))}
+											{/* <li className="item">
 												<Link href="#" className="box-icon w-52"><i className="icon icon-bed" /></Link>
 												<div className="content">
 													<span className="label">{t("bedrooms")}</span>
@@ -263,7 +294,7 @@ export default function PropertyDetailsV1({ params }) {
 													<span className="label">{t("bathrooms")}</span>
 													<span>{properties.bathRooms === 0 ? '-': `${properties.bathRooms} `}{t("rooms")}</span>
 												</div>
-											</li>
+											</li> */}
 											{/* <li className="item">
 												<Link href="#" className="box-icon w-52"><i className="icon icon-garage" /></Link>
 												<div className="content">
@@ -271,13 +302,15 @@ export default function PropertyDetailsV1({ params }) {
 													<span>2 Rooms</span>
 												</div>
 											</li> */}
-											<li className="item">
+											{(properties.size !== null)?(
+												<li className="item">
 												<Link href="#" className="box-icon w-52"><i className="icon icon-ruler" /></Link>
 												<div className="content">
-													<span className="label">{t("size")}</span>
 													<span>{properties.size === 0 ? '-': `${properties.size} `} {t("sqmeter")}</span>
 												</div>
 											</li>
+											):null}
+											
 											{/* <li className="item">
 												<Link href="#" className="box-icon w-52"><i className="icon icon-crop" /></Link>
 												<div className="content">
