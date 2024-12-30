@@ -172,11 +172,6 @@ export default function PropertyDetailsV1({ params }) {
 										</Link>
 									</SwiperSlide>		
 								))}
-								<SwiperSlide>
-									<Link href="/images/banner/banner-property-1.jpg" data-fancybox="gallery" className="box-imgage-detail d-block">
-										<img src="/images/banner/banner-property-1.jpg" alt="img-property" />
-									</Link>
-								</SwiperSlide>
 							</Swiper>
 							<div className="box-navigation">
 								<div className="navigation swiper-nav-next nav-next-location"><span className="icon icon-arr-l" /></div>
@@ -246,21 +241,21 @@ export default function PropertyDetailsV1({ params }) {
 											<li className="item">
 												<Link href="#" className="box-icon w-52"><i className="icon icon-arrLeftRight" /></Link>
 												<div className="content">
-													<span className="label">{t("type")}</span>
+													<span className="label">{t("type")}:</span>
 													<span>{toCapitalCase(properties.type)}</span>
 												</div>
 											</li>
 											<li className="item">
 												<Link href="#" className="box-icon w-52"><i className="icon icon-bed" /></Link>
 												<div className="content">
-													<span className="label">{t("bedrooms")}</span>
+													<span className="label">{t("bedrooms")}:</span>
 													<span>{properties.bedRooms === 0 ? '-': `${properties.bedRooms} `} {t("rooms")}</span>
 												</div>
 											</li>
 											<li className="item">
 												<Link href="#" className="box-icon w-52"><i className="icon icon-bathtub" /></Link>
 												<div className="content">
-													<span className="label">{t("bathrooms")}</span>
+													<span className="label">{t("bathrooms")}:</span>
 													<span>{properties.bathRooms === 0 ? '-': `${properties.bathRooms} `}{t("rooms")}</span>
 												</div>
 											</li>
