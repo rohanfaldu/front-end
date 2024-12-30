@@ -10559,3 +10559,38 @@ tr {
   width: 100px;
   height: 100px;
 }
+
+.image-gallery .preview-item .remove-image-btn{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  right: -5px;
+  z-index: 2;
+}
+.image-gallery .preview-item {
+  position: relative;
+  z-index: 1;
+}
+
+.image-gallery .preview-item {
+  float: left;
+  padding-right: 10px;
+}
+.remove-image-btn {
+  position: absolute;
+  background: #00000045;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+}
+.video-upload {
+  margin-bottom: 10px;
+}
+
+@media only screen and (max-width: 767px) {
+  .widget-box-2 .grid-4 {
+      grid-template-columns: 1fr;
+  }
+}
