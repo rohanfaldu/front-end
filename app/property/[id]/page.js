@@ -270,6 +270,7 @@ export default function PropertyDetailsV1({ params }) {
 											<li className="item">
 												<Link href="#" className="box-icon w-52"><i className="icon icon-arrLeftRight" /></Link>
 												<div className="content">
+													<span className="label">{t("type")}</span>
 													<span>{toCapitalCase(properties.type)}</span>
 												</div>
 											</li>
@@ -277,7 +278,8 @@ export default function PropertyDetailsV1({ params }) {
 												<li className="item" key={index}>
 													<Link href="#" className="box-icon w-52"><img src={item.icon} alt="icon" width="25"/></Link>
 													<div className="content">
-														<span>{item.name}</span>
+														<span className="label">{item.name}</span>
+														<span>{item.value}</span>
 													</div>
 												</li>
 											))}
@@ -306,6 +308,7 @@ export default function PropertyDetailsV1({ params }) {
 												<li className="item">
 												<Link href="#" className="box-icon w-52"><i className="icon icon-ruler" /></Link>
 												<div className="content">
+													<span className="label">{t("size")}</span>
 													<span>{properties.size === 0 ? '-': `${properties.size} `} {t("sqmeter")}</span>
 												</div>
 											</li>

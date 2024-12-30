@@ -7296,11 +7296,11 @@ label {
   color: #00a8c1;
 }
 .single-property-overview .info-box .item:hover .box-icon {
-  background-color: #00a8c1;
+  /* background-color: #00a8c1; */
 }
 .single-property-overview .info-box .item:hover .box-icon .icon {
-  color: #ffffff;
-  animation: 0.3s link-icon2 linear;
+  /* color: #ffffff;
+  animation: 0.3s link-icon2 linear; */
 }
 
 .flat-property-detail-v2 .info-box .item {
