@@ -708,6 +708,7 @@ export default function CreateProperty() {
                                                     <label htmlFor="desc">{project.name}:</label>
                                                         <Field
                                                             type="number"
+                                                            min="0"
                                                             name={project.id}
                                                             className="box-fieldset"
                                                             onChange={(e) => handleNumberChange(project.id, e.target.value)}

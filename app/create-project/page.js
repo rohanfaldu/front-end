@@ -116,7 +116,8 @@ export default function CreateAgency() {
         const { latitude, longitude } = selectedState;
         setPropertyMapCoords({
             latitude: latitude,
-            longitude: longitude
+            longitude: longitude,
+            zoom: 10
         });
         if(cityList.length === 0){
             const cityObj = { state_id: stateId, lang: "en" };
@@ -133,7 +134,8 @@ export default function CreateAgency() {
         const { latitude, longitude } = selectedCites;
         setPropertyMapCoords({
             latitude: latitude,
-            longitude: longitude
+            longitude: longitude,
+            zoom: 12
         });
        
         if (!cityId) {
@@ -161,7 +163,8 @@ export default function CreateAgency() {
         const { latitude, longitude } = selectedDistricts;
         setPropertyMapCoords({
             latitude: latitude,
-            longitude: longitude
+            longitude: longitude,
+            zoom: 12
         });
 
         if (!DistrictId) {
@@ -204,6 +207,7 @@ export default function CreateAgency() {
             setPropertyMapCoords({
                 latitude: latitude,
                 longitude: longitude,
+                zoom: 14
             });
         } else {
             console.error('Neighborhood not found');
@@ -476,7 +480,7 @@ export default function CreateAgency() {
                                             projectOfNumberListing.map((project) => (
                                                 <fieldset className="box box-fieldset">
                                                     <label htmlFor="desc">{project.name}:</label>
-                                                        <Field type="number" name={project.id} className="box-fieldset" />
+                                                        <Field type="number" name={project.id} className="box-fieldset" min="0" />
                                                     <ErrorMessage name={project.key} component="div" className="error" />
                                                 </fieldset>
                                             ))
