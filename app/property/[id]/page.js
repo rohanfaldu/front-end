@@ -274,14 +274,25 @@ export default function PropertyDetailsV1({ params }) {
 													<span>{toCapitalCase(properties.type)}</span>
 												</div>
 											</li>
+											{(properties.size !== null)?(
+												<li className="item">
+												<Link href="#" className="box-icon w-52"><i className="icon icon-ruler" /></Link>
+												<div className="content">
+													<span className="label">{t("size")}</span>
+													<span>{properties.size === 0 ? '-': `${properties.size} `} {t("sqmeter")}</span>
+												</div>
+											</li>
+											):null}
 											{metaNumberList.length > 0 && metaNumberList.map((item, index) => (
+											<>{(item.value) !== 0?(
 												<li className="item" key={index}>
 													<Link href="#" className="box-icon w-52"><img src={item.icon} alt="icon" width="25"/></Link>
 													<div className="content">
-														<span className="label">{item.name}</span>
-														<span>{item.value}</span>
+														<span className="label">{item.name}:</span>
+														<span>{item.value} {item.name}</span>
 													</div>
 												</li>
+											):(<></>)}</>
 											))}
 											{/* <li className="item">
 												<Link href="#" className="box-icon w-52"><i className="icon icon-bed" /></Link>
@@ -304,15 +315,7 @@ export default function PropertyDetailsV1({ params }) {
 													<span>2 Rooms</span>
 												</div>
 											</li> */}
-											{(properties.size !== null)?(
-												<li className="item">
-												<Link href="#" className="box-icon w-52"><i className="icon icon-ruler" /></Link>
-												<div className="content">
-													<span className="label">{t("size")}</span>
-													<span>{properties.size === 0 ? '-': `${properties.size} `} {t("sqmeter")}</span>
-												</div>
-											</li>
-											):null}
+											
 											
 											{/* <li className="item">
 												<Link href="#" className="box-icon w-52"><i className="icon icon-crop" /></Link>
