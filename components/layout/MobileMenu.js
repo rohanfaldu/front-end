@@ -27,6 +27,7 @@ export default function MobileMenu() {
 					<li><Link href="/">Home</Link></li>
 					<li><Link href="/about-us">About Us</Link></li>
 					<li><Link href="/property-halfmap-list">Property</Link></li>
+					<li><Link href="/project-halfmap-list">Project</Link></li>
 					<li><Link href="/blog">Blog</Link></li>
 				</ul>
 				{ /*
