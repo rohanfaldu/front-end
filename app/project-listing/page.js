@@ -77,8 +77,6 @@ export default function MyProperty() {
     try {
       const data = { project_id: id };
       const deleteUserInfo = await deletedData(`api/projects/${id}`, data);
-      console.log('deleteUserInfo');
-      console.log(deleteUserInfo);
       if(deleteUserInfo.status){
         const filteredData = filteredProperties.filter((item) => item.id !== id);
         setProperties(filteredData); // Save all properties
@@ -139,7 +137,10 @@ export default function MyProperty() {
               </div> */}
 
               <div className="widget-box-2 wd-listing">
-                <h6 className="title">Project Listing</h6>
+                <div class="top d-flex justify-content-between align-items-center">
+                  <h6 className="title">Project Listing</h6>
+                  <Link className="remove-file tf-btn primary" href="/create-project">Create Project</Link>
+                </div>
                   {(filteredProperties.length > 0)?
                     <>
                       <div className="wrap-table">
