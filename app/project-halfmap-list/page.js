@@ -42,7 +42,7 @@ export default function PropertyHalfmapList() {
 
 			const response = await insertData("api/projects", requestData, true);
 			if (response.status) {
-				const { projects, totalCount, totalPages, currentPage } = response.data;
+				const { projects, totalCount, totalPages, currentPage } = response;
 				setProjects(projects);
 				setPagination({
 					...pagination,

@@ -30,7 +30,7 @@ export const insertData = async (endpoint, data, flag) => {
     } else{
       header = { headers: { "Content-Type": "application/json" }};
     }
-    const response = await axios.post(`${API_URL}/${endpoint}`, data, header);
+    const response = await axios.post(`${API_URL}/${endpoint}`, data, flag);
     return response.data; // Return the created data
   } catch (error) {
     if(error.status === 401){
