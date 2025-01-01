@@ -7,8 +7,15 @@ import { getData, insertData } from "../../components/api/Axios/Helper";
 import Layout from "@/components/layout/Layout"
 import Link from "next/link"
 import React, { useEffect, useState } from 'react';
+import ReactSlider from "react-slider"
 import { useTranslation } from "react-i18next";
 export default function PropertyHalfmapList() {
+	const [isToggled, setToggled] = useState(false)
+	const handleToggle = () => setToggled(!isToggled)
+
+	const [initialMaxPrice, setInitialMaxPrice] = useState(0); // Store the maximum price initially
+	const [maxPriceSliderRange, setMaxPriceSliderRange] = useState(0); // Dynamic slider range
+	const [priceRange, setPriceRange] = useState([0, 0]); // Selected range
 	const [isTab, setIsTab] = useState(2)
 	const handleTab = (i) => {
 		setIsTab(i)
@@ -19,12 +26,20 @@ export default function PropertyHalfmapList() {
 	const [error, setError] = useState(null); // Manage error state
 	const [searchTerm, setSearchTerm] = useState(''); // Store search input
 	const [statusFilter, setStatusFilter] = useState(''); // Store selected status filter
+	const [amenities, setAmenities] = useState([]);
 	const [pagination, setPagination] = useState({
 		totalCount: 0,
 		totalPages: 1,
 		currentPage: 1,
 		itemsPerPage: 6,
 	}); // Track pagination info
+	const [filters, setFilters] = useState({
+		title: '',
+		description: '',
+		minPrice: priceRange[0],
+		maxPrice: priceRange[1],
+		amenities_id: [],
+	});
 
 	const fetchProjects = async (page = 1, term = '', status = '') => {
 		setLoading(true);
@@ -32,17 +47,16 @@ export default function PropertyHalfmapList() {
 			const requestData = {
 				page,
 				limit: pagination.itemsPerPage,
-				lang: "en",
-				title: "",
-				description: "",
-				minPrice: "",
-				maxPrice: "",
-				amenities_id: []
+				title: filters.title || "",
+				description: filters.description || "",
+				minPrice: filters.minPrice || "",
+				maxPrice: filters.maxPrice || maxPriceSliderRange,
+				amenities_id: filters.amenities_id || []
 			};
 
 			const response = await insertData("api/projects", requestData, true);
 			if (response.status) {
-				const { projects, totalCount, totalPages, currentPage } = response;
+				const { projects, totalCount, totalPages, currentPage, project_meta_details, maxPriceSliderRange } = response.data;
 				setProjects(projects);
 				setPagination({
 					...pagination,
@@ -50,6 +64,13 @@ export default function PropertyHalfmapList() {
 					totalPages,
 					currentPage,
 				});
+				setAmenities(project_meta_details || []);
+				if (!initialMaxPrice) { // Only set once
+					setInitialMaxPrice(maxPriceSliderRange || 0); // Store the maximum price initially
+					setMaxPriceSliderRange(maxPriceSliderRange || 0); // Set slider max value
+					setPriceRange([0, maxPriceSliderRange || 0]);    // Default slider range
+				}
+				// setPriceRange([0, maxPriceSliderRange || 0]);
 				setError(null);
 			}
 
@@ -60,12 +81,43 @@ export default function PropertyHalfmapList() {
 		}
 	};
 
+	// Handle Filter Changes
+	const handleFilterChange = (e) => {
+		const { name, value } = e.target;
+		setFilters({
+			...filters,
+			[name]: value, // Dynamically update filters based on input name
+		});
+	};
+
+	// Handle Amenities Change (Multi-Select)
+	const handleAmenitiesChange = (selectedAmenities) => {
+		setFilters({
+			...filters,
+			amenities_id: selectedAmenities,
+		});
+	};
+
+	// Apply Filters Button
+	const applyFilters = () => {
+		fetchProjects(1); // Fetch data with updated filters
+	}
+
 	useEffect(() => {
 		fetchProjects(pagination.currentPage);
 	}, [pagination.currentPage]);
 
 	const handlePageChange = (page) => {
 		setPagination({ ...pagination, currentPage: page });
+	};
+
+	const handlePriceChange = (newRange) => {
+		setPriceRange(newRange); // Update the range state
+		setFilters((prevFilters) => ({
+			...prevFilters,
+			minPrice: newRange[0], // Set minPrice
+			maxPrice: newRange[1], // Set maxPrice
+		}));
 	};
 	console.log('>>>>>>>>projects', projects);
 	return (
@@ -80,26 +132,97 @@ export default function PropertyHalfmapList() {
 							<div className="tab-content">
 								<div className="tab-pane fade active show" role="tabpanel">
 									<div className="form-sl">
-										<form method="post">
+										<form method="post" onSubmit={(e) => { e.preventDefault(); applyFilters(); }}>
 											<div className="wd-filter-select">
 												<div className="inner-group inner-filter">
 													<div className="form-style">
 														<label className="title-select">{t("title")}</label>
-														<input type="text" className="form-control" placeholder="Search ." name="s" title="Search for" required />
+														<input
+															type="text"
+															className="form-control"
+															value={filters.title}
+															onChange={handleFilterChange}
+															name="title"
+															placeholder="Search Title"
+
+														/>
 													</div>
 													<div className="form-style">
 														<label className="title-select">{t("description")}</label>
 														<div className="group-ip ip-icon">
-															<input type="text" className="form-control" placeholder="Search Location" name="s" title="Search for" required />
-															<Link href="#" className="icon-right icon-location" />
+															<input
+																type="text"
+																className="form-control"
+																value={filters.description}
+																onChange={handleFilterChange}
+																name="description"
+																placeholder="Search Description"
+
+															/>
+
 														</div>
 													</div>
 
 													<div className="form-style widget-price">
-														<RangeSlider />
+														<div className="group-form">
+															<ReactSlider
+																ariaLabelledby="slider-label"
+																className="horizontal-slider st2"
+																min={0}
+																max={initialMaxPrice}
+																value={priceRange} // Bind to state
+																thumbClassName="example-thumb"
+																trackClassName="example-track"
+																onChange={handlePriceChange} // Handle changes
+															/>
+
+															<div className="group-range-title mt-2">
+																<label className="d-flex justify-content-between mb-0">
+																	<span>{priceRange[0]}$</span>
+																	<span>{priceRange[1]}$</span>
+																</label>
+															</div>
+														</div>
 													</div>
 
-													<SidebarFilter />
+													<div className="form-style btn-show-advanced" onClick={handleToggle} style={{ display: `${isToggled ? "none" : "block"}` }}>
+														<a className="filter-advanced pull-right">
+															<span className="icon icon-faders" />
+															<span className="text-advanced">Show Advanced</span>
+														</a>
+													</div>
+													<div className="form-style wd-amenities" style={{ display: `${isToggled ? "block" : "none"}` }}>
+														<div className="group-checkbox">
+															<div className="text-1">Amenities:</div>
+															<div className="group-amenities">
+																{amenities.map((amenity) => (
+																	<fieldset className="amenities-item" key={amenity.id}>
+																		<input
+																			type="checkbox"
+																			className="tf-checkbox style-1"
+																			id={`amenity-${amenity.id}`}
+																			checked={filters.amenities_id.includes(amenity.id)} // Check if selected
+																			onChange={(e) => {
+																				const updatedAmenities = e.target.checked
+																					? [...filters.amenities_id, amenity.id] // Add
+																					: filters.amenities_id.filter((id) => id !== amenity.id); // Remove
+																				setFilters({ ...filters, amenities_id: updatedAmenities }); // Update filters
+																			}}
+																		/>
+																		<label htmlFor={`amenity-${amenity.id}`} className="text-cb-amenities">
+																			{amenity.name}
+																		</label>
+																	</fieldset>
+																))}
+															</div>
+														</div>
+													</div>
+													<div className="form-style btn-hide-advanced" onClick={handleToggle} style={{ display: `${isToggled ? "block" : "none"}` }}>
+														<a className="filter-advanced pull-right">
+															<span className="icon icon-faders" />
+															<span className="text-advanced">Hide Advanced</span>
+														</a>
+													</div>
 													<div className="form-btn-fixed">
 														<button type="submit" className="tf-btn primary" href="#">{t("findprojects")}</button>
 													</div>
@@ -132,21 +255,23 @@ export default function PropertyHalfmapList() {
 							</div>
 						</div>
 						<div className="tab-content">
-							
+
 							{loading ? (
 								<p>Loading...</p>
 							) : error ? (
 								<p>{error}</p>
+							) : projects.length === 0 ? (
+								<p>Not Found</p>
 							) : (
 								<div className="row">
 									{projects.map((project) => (
 										<div className="col-md-6" key={project.id}>
 											<div className="homeya-box">
 												<div className="archive-top">
-													<Link href="/property-details-v1" className="images-group">
+													<Link href="/project-details-v2" className="images-group">
 														<div className="images-style">
 															<img
-																src={project.picture[0]?.original_url || '/default.jpg'}
+																src={project.picture || '/default.jpg'}
 																alt={project.name}
 															/>
 														</div>
@@ -177,7 +302,7 @@ export default function PropertyHalfmapList() {
 													</Link>
 													<div className="content">
 														<div className="h7 text-capitalize fw-7">
-															<Link href="/property-details-v1" className="link">
+															<Link href="/project-details-v2" className="link">
 																{project.title}
 															</Link>
 														</div>
@@ -216,7 +341,7 @@ export default function PropertyHalfmapList() {
 													<div className="d-flex align-items-center">
 														<h6>{project.price || '0.00'} </h6>
 														<span className="text-variant-1">
-															{project.currency || 'USD'}/SqFT
+															{project.currency || 'USD'}/SqMeter
 														</span>
 													</div>
 												</div>
@@ -225,7 +350,7 @@ export default function PropertyHalfmapList() {
 									))}
 								</div>
 							)}
-							
+
 						</div>
 						<div className="pagination-container">
 							<button
