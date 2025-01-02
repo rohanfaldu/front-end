@@ -9,13 +9,17 @@ import Link from "next/link"
 import React, { useEffect, useState } from 'react';
 import ReactSlider from "react-slider"
 import { useTranslation } from "react-i18next";
+const { defaultImage } = "/images/banner/no-banner.png";
+import Preloader from "@/components/elements/Preloader";
+
+
 export default function PropertyHalfmapList() {
 	const [isToggled, setToggled] = useState(false)
 	const handleToggle = () => setToggled(!isToggled)
 
 	const [initialMaxPrice, setInitialMaxPrice] = useState(0); // Store the maximum price initially
 	const [maxPriceSliderRange, setMaxPriceSliderRange] = useState(0); // Dynamic slider range
-	const [priceRange, setPriceRange] = useState([0, 0]); // Selected range
+	const [priceRange, setPriceRange] = useState([]); // Selected range
 	const [isTab, setIsTab] = useState(2)
 	const handleTab = (i) => {
 		setIsTab(i)
@@ -31,27 +35,26 @@ export default function PropertyHalfmapList() {
 		totalCount: 0,
 		totalPages: 1,
 		currentPage: 1,
-		itemsPerPage: 6,
+		itemsPerPage: 10,
 	}); // Track pagination info
 	const [filters, setFilters] = useState({
 		title: '',
 		description: '',
+		city: '',
+		neighbourhood: '',
 		minPrice: priceRange[0],
 		maxPrice: priceRange[1],
 		amenities_id: [],
 	});
 
-	const fetchProjects = async (page = 1, term = '', status = '') => {
+	const fetchProjects = async (page = 1, updatedFilters = {}) => {
 		setLoading(true);
 		try {
+			// Set the filters to the updated filters, defaulting to empty values if not provided
 			const requestData = {
 				page,
 				limit: pagination.itemsPerPage,
-				title: filters.title || "",
-				description: filters.description || "",
-				minPrice: filters.minPrice || "",
-				maxPrice: filters.maxPrice || maxPriceSliderRange,
-				amenities_id: filters.amenities_id || []
+				...updatedFilters, // Spread the updated filters only (dynamic fields)
 			};
 
 			const response = await insertData("api/projects", requestData, true);
@@ -70,10 +73,8 @@ export default function PropertyHalfmapList() {
 					setMaxPriceSliderRange(maxPriceSliderRange || 0); // Set slider max value
 					setPriceRange([0, maxPriceSliderRange || 0]);    // Default slider range
 				}
-				// setPriceRange([0, maxPriceSliderRange || 0]);
 				setError(null);
 			}
-
 		} catch (err) {
 			setError(err.response?.data?.message || "An error occurred");
 		} finally {
@@ -98,10 +99,24 @@ export default function PropertyHalfmapList() {
 		});
 	};
 
+	const getChangedFilters = () => {
+		const changedFilters = {};
+
+		// Loop through all filter fields and include only the ones that are not empty or default
+		Object.keys(filters).forEach(key => {
+			// Include filter only if its value is not the default (empty string or empty array)
+			if (filters[key] !== '' && filters[key] !== undefined && filters[key] !== null && (Array.isArray(filters[key]) ? filters[key].length > 0 : true)) {
+				changedFilters[key] = filters[key];
+			}
+		});
+
+		return changedFilters;
+	};
 	// Apply Filters Button
 	const applyFilters = () => {
-		fetchProjects(1); // Fetch data with updated filters
-	}
+		const updatedFilters = getChangedFilters();  // Get only changed filters
+		fetchProjects(1, updatedFilters);  // Fetch data with updated filters
+	};
 
 	useEffect(() => {
 		fetchProjects(pagination.currentPage);
@@ -157,6 +172,36 @@ export default function PropertyHalfmapList() {
 																onChange={handleFilterChange}
 																name="description"
 																placeholder="Search Description"
+
+															/>
+
+														</div>
+													</div>
+													<div className="form-style">
+														<label className="title-select">{t("city")}</label>
+														<div className="group-ip ip-icon">
+															<input
+																type="text"
+																className="form-control"
+																value={filters.city}
+																onChange={handleFilterChange}
+																name="city"
+																placeholder="Search city"
+
+															/>
+
+														</div>
+													</div>
+													<div className="form-style">
+														<label className="title-select">{t("neighbourhood")}</label>
+														<div className="group-ip ip-icon">
+															<input
+																type="text"
+																className="form-control"
+																value={filters.neighbourhood}
+																onChange={handleFilterChange}
+																name="neighbourhood"
+																placeholder="Search neighbourhood"
 
 															/>
 
@@ -257,7 +302,7 @@ export default function PropertyHalfmapList() {
 						<div className="tab-content">
 
 							{loading ? (
-								<p>Loading...</p>
+								<Preloader />
 							) : error ? (
 								<p>{error}</p>
 							) : projects.length === 0 ? (
@@ -268,10 +313,14 @@ export default function PropertyHalfmapList() {
 										<div className="col-md-6" key={project.id}>
 											<div className="homeya-box">
 												<div className="archive-top">
-													<Link href="/project-details-v2" className="images-group">
+													<Link
+														href={`/project-details-v2?id=${project.id}`}
+														className="images-group"
+													>
+
 														<div className="images-style">
 															<img
-																src={project.picture || '/default.jpg'}
+																src={project.picture[0] || "/images/banner/no-banner.png"}
 																alt={project.name}
 															/>
 														</div>
@@ -280,9 +329,9 @@ export default function PropertyHalfmapList() {
 																{project.isFeatured && (
 																	<li className="flag-tag success">Featured</li>
 																)}
-																<li className="flag-tag style-1">{project.status || 'For Sale'}</li>
+																{/* <li className="flag-tag style-1">{project.status || 'For Sale'}</li> */}
 															</ul>
-															<ul className="d-flex gap-4">
+															{/* <ul className="d-flex gap-4">
 																<li className="box-icon w-32">
 																	<span className="icon icon-arrLeftRight" />
 																</li>
@@ -292,17 +341,20 @@ export default function PropertyHalfmapList() {
 																<li className="box-icon w-32">
 																	<span className="icon icon-eye" />
 																</li>
-															</ul>
+															</ul> */}
 														</div>
 														<div className="bottom">
 															<span className="flag-tag style-2">
-																{project.meta_details?.propertyType || 'Studio'}
+																{/* {project.meta_details?.propertyType || 'Studio'} */}
 															</span>
 														</div>
 													</Link>
 													<div className="content">
 														<div className="h7 text-capitalize fw-7">
-															<Link href="/project-details-v2" className="link">
+															<Link
+																href={`/project-details-v2?id=${project.id}`} // Pass ID as query param
+																className="link"
+															>
 																{project.title}
 															</Link>
 														</div>
@@ -332,17 +384,15 @@ export default function PropertyHalfmapList() {
 													<div className="d-flex gap-8 align-items-center">
 														<div className="avatar avt-40 round">
 															<img
-																src={project.user_image || '/images/avatar/default-avatar.jpg'}
+																src={project.user_image || '/images/avatar/user-image.png'}
 																alt={project.agent?.name || 'Agent'}
 															/>
 														</div>
 														<span>{project.user_name || 'Unknown Agent'}</span>
 													</div>
 													<div className="d-flex align-items-center">
-														<h6>{project.price || '0.00'} </h6>
-														<span className="text-variant-1">
-															{project.currency || 'USD'}/SqMeter
-														</span>
+														<h6>{project.currency || 'USD'}{project.price || '0.00'} </h6>
+
 													</div>
 												</div>
 											</div>
