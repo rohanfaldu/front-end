@@ -1,11 +1,12 @@
 'use client'
 import Link from "next/link"
 import axios from 'axios';
+import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import Preloader from "../elements/Preloader";
 import { getData } from "../api/Helper";
 import { useTranslation } from "react-i18next";
-/*import userImage from "../../public/images/avatar/user.png";*/
+import noBannerImg from "../../public/images/banner/no-banner.jpg";
 export default function Recommended1() {
 	const [isTab, setIsTab] = useState(0)
 	const [isVisible, setIsVisible] = useState(true)
@@ -111,7 +112,11 @@ export default function Recommended1() {
 														<div className="archive-top">
 															<Link href={`/property/${property.id}`} className="images-group">
 																<div className="images-style">
-																	<img src={property.picture[0]} alt="Property" />
+																	{property.picture[0]?
+																		<img src={property.picture[0]} alt="Property" />
+																		:
+																		<Image src={noBannerImg} alt="Property" />
+																	}
 																</div>
 																<div className="top">
 																	{property.transaction && (
