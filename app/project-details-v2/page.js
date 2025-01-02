@@ -1,7 +1,7 @@
 'use client'
 import { Autoplay, Navigation, Pagination } from "swiper/modules"
 import { Swiper, SwiperSlide } from "swiper/react"
-import { getData, insertData } from "../../components/api/Axios/Helper";
+import { getData } from "../../components/api/Helper";
 const toCapitalCase = (str) => {
 	if (!str) return '';
 	return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
@@ -119,7 +119,7 @@ export default function ProjectDetailsV1({ params }) {
 			};
 
 			// API call
-			const response = await insertData("api/projects/getbyid", requestData, true);
+			const response = await getData("api/projects/getbyid", requestData, true);
 			console.log('API Response:', response);
 
 			if (response.status) {
@@ -1122,19 +1122,23 @@ export default function ProjectDetailsV1({ params }) {
 													</Link>
 													<div className="content">
 														<div className="h7 text-capitalize fw-7"><Link href="#" className="link"> {property?.title}</Link></div>
-														<div className="desc"><i className="fs-16 icon icon-mapPin" /><p>{property?.address}, {property?.city}, {property?.state}</p> </div>
+														<div className="desc"><i className="fs-16 icon icon-mapPin" /><p>
+																{[property.address, property.city, property.state]
+																	.filter(Boolean) // Remove empty or falsy values
+																	.join(", ")} {/* Join remaining values with comma */}
+															</p> </div>
 														<ul className="meta-list">
 															<li className="item">
 																<i className="icon icon-bed" />
-																<span>not given</span>
+																<span>{property.bedRooms === 0 ? '-': `${property.bedRooms} Bedroom`}</span>
 															</li>
-															<li className="item">
+															{/* <li className="item">
 																<i className="icon icon-bathtub" />
 																<span>not given</span>
-															</li>
+															</li> */}
 															<li className="item">
 																<i className="icon icon-ruler" />
-																<span>not given</span>
+																<span>{property.size === null ? '-': `${property.size} SqMeter`}</span>
 															</li>
 														</ul>
 													</div>
@@ -1148,7 +1152,7 @@ export default function ProjectDetailsV1({ params }) {
 													</div>
 													<div className="d-flex align-items-center">
 														<h6>{property?.currency}{property?.price}</h6>
-														<span className="text-variant-1">/month</span>
+														<span className="text-variant-1"></span>
 													</div>
 												</div>
 											</div>
