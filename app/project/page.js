@@ -3,7 +3,7 @@ import PropertyMap from "@/components/elements/PropertyMap"
 import RangeSlider from "@/components/elements/RangeSlider"
 import SidebarFilter from "@/components/elements/SidebarFilter"
 import TabNav from "@/components/elements/TabNav"
-import { getData, insertData } from "../../components/api/Axios/Helper";
+import { getData } from "../../components/api/Helper";
 import Layout from "@/components/layout/Layout"
 import Link from "next/link"
 import React, { useEffect, useState } from 'react';
@@ -57,7 +57,7 @@ export default function PropertyHalfmapList() {
 				...updatedFilters, // Spread the updated filters only (dynamic fields)
 			};
 
-			const response = await insertData("api/projects", requestData, true);
+			const response = await getData("api/projects", requestData, true);
 			if (response.status) {
 				const { projects, totalCount, totalPages, currentPage, project_meta_details, maxPriceSliderRange } = response.data;
 				setProjects(projects);
@@ -360,7 +360,11 @@ export default function PropertyHalfmapList() {
 														</div>
 														<div className="desc">
 															<i className="fs-16 icon icon-mapPin" />
-															<p>{project.address}, {project.city}, {project.state}</p>
+															<p>
+																{[project.address, project.city, project.state]
+																	.filter(Boolean) // Remove empty or falsy values
+																	.join(", ")} {/* Join remaining values with comma */}
+															</p>
 														</div>
 														{/* <ul className="meta-list">
 															<li className="item">
