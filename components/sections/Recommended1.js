@@ -38,8 +38,8 @@ export default function Recommended1() {
 		fetchData(); // Fetch data on component mount
 	}, [i18n.language]); // Empty dependency array ensures this runs only once on mount
 
-	if (loading) return <p>Loading...</p>; // Show loading message
-  	if (error) return <p>Error: {error}</p>; 
+	// if (loading) return <p>Loading...</p>; // Show loading message
+  	// if (error) return <p>Error: {error}</p>; 
 	//// console.log(properties);
 	/*const handleTab = (i) => {
 		setIsTab(i)
