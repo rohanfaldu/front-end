@@ -23,7 +23,7 @@ export default function Menu() {
 				<li><Link href="/">{t("home")}</Link></li>
 				<li><Link href="/about-us">{t("aboutus")}</Link></li>
 				<li><Link href="/property-halfmap-list">{t("property")}</Link></li>
-				<li><Link href="/project-halfmap-list">{t("project")}</Link></li>
+				<li><Link href="/project">{t("project")}</Link></li>
 				<li><Link href="/blog">{t("blog")}</Link></li>
 			</ul>
 			{ /* 

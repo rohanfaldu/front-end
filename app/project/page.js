@@ -9,6 +9,10 @@ import Link from "next/link"
 import React, { useEffect, useState } from 'react';
 import ReactSlider from "react-slider"
 import { useTranslation } from "react-i18next";
+const { defaultImage } = "/images/banner/no-banner.png";
+import Preloader from "@/components/elements/Preloader";
+
+
 export default function PropertyHalfmapList() {
 	const [isToggled, setToggled] = useState(false)
 	const handleToggle = () => setToggled(!isToggled)
@@ -46,37 +50,37 @@ export default function PropertyHalfmapList() {
 	const fetchProjects = async (page = 1, updatedFilters = {}) => {
 		setLoading(true);
 		try {
-		  // Set the filters to the updated filters, defaulting to empty values if not provided
-		  const requestData = {
-			page,
-			limit: pagination.itemsPerPage,
-			...updatedFilters, // Spread the updated filters only (dynamic fields)
-		  };
-	  
-		  const response = await insertData("api/projects", requestData, true);
-		  if (response.status) {
-			const { projects, totalCount, totalPages, currentPage, project_meta_details, maxPriceSliderRange } = response.data;
-			setProjects(projects);
-			setPagination({
-			  ...pagination,
-			  totalCount,
-			  totalPages,
-			  currentPage,
-			});
-			setAmenities(project_meta_details || []);
-			if (!initialMaxPrice) { // Only set once
-				setInitialMaxPrice(maxPriceSliderRange || 0); // Store the maximum price initially
-				setMaxPriceSliderRange(maxPriceSliderRange || 0); // Set slider max value
-				setPriceRange([0, maxPriceSliderRange || 0]);    // Default slider range
+			// Set the filters to the updated filters, defaulting to empty values if not provided
+			const requestData = {
+				page,
+				limit: pagination.itemsPerPage,
+				...updatedFilters, // Spread the updated filters only (dynamic fields)
+			};
+
+			const response = await insertData("api/projects", requestData, true);
+			if (response.status) {
+				const { projects, totalCount, totalPages, currentPage, project_meta_details, maxPriceSliderRange } = response.data;
+				setProjects(projects);
+				setPagination({
+					...pagination,
+					totalCount,
+					totalPages,
+					currentPage,
+				});
+				setAmenities(project_meta_details || []);
+				if (!initialMaxPrice) { // Only set once
+					setInitialMaxPrice(maxPriceSliderRange || 0); // Store the maximum price initially
+					setMaxPriceSliderRange(maxPriceSliderRange || 0); // Set slider max value
+					setPriceRange([0, maxPriceSliderRange || 0]);    // Default slider range
+				}
+				setError(null);
 			}
-			setError(null);
-		  }
 		} catch (err) {
-		  setError(err.response?.data?.message || "An error occurred");
+			setError(err.response?.data?.message || "An error occurred");
 		} finally {
-		  setLoading(false);
+			setLoading(false);
 		}
-	  };
+	};
 
 	// Handle Filter Changes
 	const handleFilterChange = (e) => {
@@ -97,22 +101,22 @@ export default function PropertyHalfmapList() {
 
 	const getChangedFilters = () => {
 		const changedFilters = {};
-	  
+
 		// Loop through all filter fields and include only the ones that are not empty or default
 		Object.keys(filters).forEach(key => {
-		  // Include filter only if its value is not the default (empty string or empty array)
-		  if (filters[key] !== '' && filters[key] !== undefined && filters[key] !== null && (Array.isArray(filters[key]) ? filters[key].length > 0 : true)) {
-			changedFilters[key] = filters[key];
-		  }
+			// Include filter only if its value is not the default (empty string or empty array)
+			if (filters[key] !== '' && filters[key] !== undefined && filters[key] !== null && (Array.isArray(filters[key]) ? filters[key].length > 0 : true)) {
+				changedFilters[key] = filters[key];
+			}
 		});
-	  
+
 		return changedFilters;
-	  };
+	};
 	// Apply Filters Button
 	const applyFilters = () => {
 		const updatedFilters = getChangedFilters();  // Get only changed filters
 		fetchProjects(1, updatedFilters);  // Fetch data with updated filters
-	  };
+	};
 
 	useEffect(() => {
 		fetchProjects(pagination.currentPage);
@@ -298,7 +302,7 @@ export default function PropertyHalfmapList() {
 						<div className="tab-content">
 
 							{loading ? (
-								<p>Loading...</p>
+								<Preloader />
 							) : error ? (
 								<p>{error}</p>
 							) : projects.length === 0 ? (
@@ -310,14 +314,13 @@ export default function PropertyHalfmapList() {
 											<div className="homeya-box">
 												<div className="archive-top">
 													<Link
-														href={`/project-details-v2?id=${project.id}`} // Pass ID as query param
+														href={`/project-details-v2?id=${project.id}`}
 														className="images-group"
-														onClick={() => router.push(`/project-details-v2?id=${project.id}`)}
 													>
 
 														<div className="images-style">
 															<img
-																src={project.picture[0] || '/default.jpg'}
+																src={project.picture[0] || "/images/banner/no-banner.png"}
 																alt={project.name}
 															/>
 														</div>
@@ -326,9 +329,9 @@ export default function PropertyHalfmapList() {
 																{project.isFeatured && (
 																	<li className="flag-tag success">Featured</li>
 																)}
-																<li className="flag-tag style-1">{project.status || 'For Sale'}</li>
+																{/* <li className="flag-tag style-1">{project.status || 'For Sale'}</li> */}
 															</ul>
-															<ul className="d-flex gap-4">
+															{/* <ul className="d-flex gap-4">
 																<li className="box-icon w-32">
 																	<span className="icon icon-arrLeftRight" />
 																</li>
@@ -338,11 +341,11 @@ export default function PropertyHalfmapList() {
 																<li className="box-icon w-32">
 																	<span className="icon icon-eye" />
 																</li>
-															</ul>
+															</ul> */}
 														</div>
 														<div className="bottom">
 															<span className="flag-tag style-2">
-																{project.meta_details?.propertyType || 'Studio'}
+																{/* {project.meta_details?.propertyType || 'Studio'} */}
 															</span>
 														</div>
 													</Link>
@@ -351,7 +354,6 @@ export default function PropertyHalfmapList() {
 															<Link
 																href={`/project-details-v2?id=${project.id}`} // Pass ID as query param
 																className="link"
-																onClick={() => router.push(`/project-details-v2?id=${project.id}`)}
 															>
 																{project.title}
 															</Link>
@@ -382,7 +384,7 @@ export default function PropertyHalfmapList() {
 													<div className="d-flex gap-8 align-items-center">
 														<div className="avatar avt-40 round">
 															<img
-																src={project.user_image || '/images/avatar/default-avatar.jpg'}
+																src={project.user_image || '/images/avatar/user-image.png'}
 																alt={project.agent?.name || 'Agent'}
 															/>
 														</div>
@@ -390,7 +392,7 @@ export default function PropertyHalfmapList() {
 													</div>
 													<div className="d-flex align-items-center">
 														<h6>{project.currency || 'USD'}{project.price || '0.00'} </h6>
-														
+
 													</div>
 												</div>
 											</div>
