@@ -1,7 +1,7 @@
 'use client'
 import { Autoplay, Navigation, Pagination } from "swiper/modules"
 import { Swiper, SwiperSlide } from "swiper/react"
-import { getData, insertData } from "../../components/api/Axios/Helper";
+import { getData } from "../../components/api/Helper";
 const toCapitalCase = (str) => {
 	if (!str) return '';
 	return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
@@ -119,7 +119,7 @@ export default function ProjectDetailsV1({ params }) {
 			};
 
 			// API call
-			const response = await insertData("api/projects/getbyid", requestData, true);
+			const response = await getData("api/projects/getbyid", requestData, true);
 			console.log('API Response:', response);
 
 			if (response.status) {
