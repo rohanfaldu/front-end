@@ -199,7 +199,7 @@ export default function PropertyDetailsV1({ params }) {
 								{(properties?.picture.length > 0 ? properties.picture : ["/images/banner/no-banner.png"]).map((item, index) => (
 									<SwiperSlide key={index}>
 										<Link
-											href={item}
+											href=''
 											data-fancybox="gallery"
 											className={`box-imgage-detail d-block property-image ${properties?.picture.length === 1 ? "full-screen" : ""
 												}`}
@@ -248,7 +248,7 @@ export default function PropertyDetailsV1({ params }) {
 										<h4 className="title link">{properties.title}</h4>
 									</div>
 									<div className="box-price d-flex align-items-center">
-										<h4>{properties.currency}{properties.price}</h4>
+										<h4>{properties.price} {properties.currency}</h4>
 										{/* <span className="body-1 text-variant-1">/month</span> */}
 									</div>
 								</div>
@@ -256,8 +256,8 @@ export default function PropertyDetailsV1({ params }) {
 									<div className="info-box">
 										<div className="label">{t("feature")}</div>
 										<ul className="meta">
-											<li className="meta-item"><span className="icon icon-bed" /> {properties.bedRooms === 0 ? '-' : `${properties.bedRooms}`} {t('bedroom')}</li>
-											<li className="meta-item"><span className="icon icon-bathtub" /> {properties.bathRooms === 0 ? '-' : `${properties.bathRooms} `}{t('bathroom')}</li>
+											<li className="meta-item"><span className="icon icon-bed" /> {properties.bedRooms === "0" ? '-' : `${properties.bedRooms}`} {t('bedroom')}</li>
+											<li className="meta-item"><span className="icon icon-bathtub" /> {properties.bathRooms === "0" ? '-' : `${properties.bathRooms} `}{t('bathroom')}</li>
 											<li className="meta-item"><span className="icon icon-ruler" /> {properties.size === null ? '-' : `${properties.size} `}{t('sqmeter')}</li>
 										</ul>
 									</div>
@@ -292,7 +292,7 @@ export default function PropertyDetailsV1({ params }) {
 												<Link href="#" className="box-icon w-52"><i className="icon icon-arrLeftRight" /></Link>
 												<div className="content">
 													<span className="label">{t("type")}:</span>
-													<span>{toCapitalCase(properties.type)}</span>
+													<span>{properties?.type_details?.title}</span>
 												</div>
 											</li>
 											{(properties.size !== null) ? (
@@ -859,10 +859,10 @@ export default function PropertyDetailsV1({ params }) {
 													} */}
 													<Link
 														href={`/project-details-v2?id=${properties.project_details.id}`}
-														className="images-group"
+														alt="icon"
 													>
 
-														<div className="images-style">
+														<div className="">
 															<img
 																src={properties.project_details.icon}
 																alt={properties.name}
@@ -878,7 +878,7 @@ export default function PropertyDetailsV1({ params }) {
 														>
 															{properties.project_details.title}
 														</Link></div>
-														
+
 														{/* <span>{properties.project_details.description}</span> */}
 													</div>
 												</div>
@@ -1154,6 +1154,11 @@ export default function PropertyDetailsV1({ params }) {
 								</div >
 							</div >
 						</div >
+						<div className="center-align">
+							<a href={'/properties'} className="form-wg tf-btn primary">
+								<span>Back</span>
+							</a>
+						</div>
 					</section >
 					{/* <section className="flat-section pt-0 flat-latest-property">
 						<div className="container">

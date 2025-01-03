@@ -28,6 +28,8 @@ export default function PropertyHalfmapList() {
 	const [searchTerm, setSearchTerm] = useState(''); // Store search input
 	const [statusFilter, setStatusFilter] = useState(''); // Store selected status filter
 	const [amenities, setAmenities] = useState([]);
+	const [propertyType, setpropertyType] = useState([]);
+	const [city, setCity] = useState([]);
 	const [pagination, setPagination] = useState({
 		totalCount: 0,
 		totalPages: 1,
@@ -55,7 +57,7 @@ export default function PropertyHalfmapList() {
 
 			const response = await getData("api/property", requestData, true);
 			if (response.status) {
-				const { list, totalCount, totalPages, currentPage, property_meta_details, maxPriceSliderRange } = response.data;
+				const { list, totalCount, totalPages, currentPage, property_meta_details, maxPriceSliderRange, property_types, cities } = response.data;
 				setPropertys(list);
 				setPagination({
 					...pagination,
@@ -64,6 +66,8 @@ export default function PropertyHalfmapList() {
 					currentPage,
 				});
 				setAmenities(property_meta_details);
+				setpropertyType(property_types);
+				setCity(cities);
 				if (!initialMaxPrice) { // Only set once
 					setInitialMaxPrice(maxPriceSliderRange || 0); // Store the maximum price initially
 					setMaxPriceSliderRange(maxPriceSliderRange || 0); // Set slider max value
@@ -177,6 +181,76 @@ export default function PropertyHalfmapList() {
 														</div>
 													</div>
 
+													<div className="form-style">
+														<label className="title-select">{t("city")}</label>
+														<select
+															className="form-control"
+															id="propertyType"
+															name="city" // Name matches the state key for dynamic updates
+															value={filters.city} // Two-way binding with filters.type_id
+															onChange={handleFilterChange} // Handle dropdown change
+														>
+															<option value="">Select city</option> {/* Placeholder */}
+															{/* {city.map((city) => ( // Dynamic dropdown options
+																<option key={city.id} value={city.id}>
+																	{city.city_name}
+																</option>
+															))} */}
+														</select>
+													</div>
+													<div className="form-style">
+														<label className="title-select">{t("distric")}</label>
+														<select
+															className="form-control"
+															id="propertyType"
+															name="city" // Name matches the state key for dynamic updates
+															value={filters.city} // Two-way binding with filters.type_id
+															onChange={handleFilterChange} // Handle dropdown change
+														>
+															<option value="">Select distric</option> {/* Placeholder */}
+															{/* {distric.map((distric) => ( // Dynamic dropdown options
+																<option key={distric.id} value={property.id}>
+																	{distric.title}
+																</option>
+															))} */}
+														</select>
+													</div>
+													<div className="form-style">
+														<label className="title-select">{t("neighbourhood")}</label>
+														<select
+															className="form-control"
+															id="propertyType"
+															name="city" // Name matches the state key for dynamic updates
+															value={filters.city} // Two-way binding with filters.type_id
+															onChange={handleFilterChange} // Handle dropdown change
+														>
+															<option value="">Select neighbourhood</option> {/* Placeholder */}
+															{/* {neighbourhood.map((neighbourhood) => ( // Dynamic dropdown options
+																<option key={neighbourhood.id} value={neighbourhood.id}>
+																	{neighbourhood.title}
+																</option>
+															))} */}
+														</select>
+													</div>
+
+													<div className="form-style">
+														<label className="title-select">Property Type</label>
+														<select
+															className="form-control"
+															id="propertyType"
+															name="type_id" // Name matches the state key for dynamic updates
+															value={filters.type_id} // Two-way binding with filters.type_id
+															onChange={handleFilterChange} // Handle dropdown change
+														>
+															<option value="">Select Property Type</option> {/* Placeholder */}
+															{propertyType.map((property) => ( // Dynamic dropdown options
+																<option key={property.id} value={property.id}>
+																	{property.title}
+																</option>
+															))}
+														</select>
+													</div>
+
 													<div className="form-style widget-price">
 														<div className="group-form">
 															<ReactSlider
@@ -197,11 +271,6 @@ export default function PropertyHalfmapList() {
 																</label>
 															</div>
 														</div>
-													</div>
-
-													<div className="form-style">
-														<label className="title-select">Property Type</label>
-
 													</div>
 
 													<div className="form-style btn-show-advanced" onClick={handleToggle} style={{ display: `${isToggled ? "none" : "block"}` }}>
@@ -352,7 +421,7 @@ export default function PropertyHalfmapList() {
 														<span>{property.user_name}</span>
 													</div>
 													<div className="d-flex align-items-center">
-														<h6>{property.currency}{property.price}</h6>
+														<h6>{property.price} {property.currency}</h6>
 														<span className="text-variant-1"></span>
 													</div>
 												</div>
@@ -378,7 +447,7 @@ export default function PropertyHalfmapList() {
 						</ul>
 					</div >
 					<div className="wrap-map">
-						<PropertyMap topmap={false} singleMap={false} propertys={propertys}/>
+						<PropertyMap topmap={false} singleMap={false} propertys={propertys} />
 					</div>
 				</section >
 

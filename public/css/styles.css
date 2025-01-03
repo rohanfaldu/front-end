@@ -10653,3 +10653,10 @@ tr {
   cursor: not-allowed;
   opacity: 0.5;
 }
+
+.center-align {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}

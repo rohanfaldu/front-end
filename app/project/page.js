@@ -13,7 +13,7 @@ const { defaultImage } = "/images/banner/no-banner.png";
 import Preloader from "@/components/elements/Preloader";
 
 
-export default function PropertyHalfmapList() {
+export default function ProjectHalfmapList() {
 	const [isToggled, setToggled] = useState(false)
 	const handleToggle = () => setToggled(!isToggled)
 
@@ -31,6 +31,9 @@ export default function PropertyHalfmapList() {
 	const [searchTerm, setSearchTerm] = useState(''); // Store search input
 	const [statusFilter, setStatusFilter] = useState(''); // Store selected status filter
 	const [amenities, setAmenities] = useState([]);
+	const [cities, setCities] = useState([]); // City options
+	const [districts, setDistricts] = useState([]); // District options
+	const [neighbourhoods, setNeighbourhoods] = useState([]);
 	const [pagination, setPagination] = useState({
 		totalCount: 0,
 		totalPages: 1,
@@ -59,7 +62,7 @@ export default function PropertyHalfmapList() {
 
 			const response = await getData("api/projects", requestData, true);
 			if (response.status) {
-				const { projects, totalCount, totalPages, currentPage, project_meta_details, maxPriceSliderRange } = response.data;
+				const { projects, totalCount, totalPages, currentPage, project_meta_details, maxPriceSliderRange, cities } = response.data;
 				setProjects(projects);
 				setPagination({
 					...pagination,
@@ -68,6 +71,7 @@ export default function PropertyHalfmapList() {
 					currentPage,
 				});
 				setAmenities(project_meta_details || []);
+				setCities(cities);
 				if (!initialMaxPrice) { // Only set once
 					setInitialMaxPrice(maxPriceSliderRange || 0); // Store the maximum price initially
 					setMaxPriceSliderRange(maxPriceSliderRange || 0); // Set slider max value
@@ -79,6 +83,15 @@ export default function PropertyHalfmapList() {
 			setError(err.response?.data?.message || "An error occurred");
 		} finally {
 			setLoading(false);
+		}
+	};
+
+	const fetchDistrict = async (cityId) => {
+		try {
+			const response = await getData('/api/district/getbycity', { city_id: cityId }, true);
+			setDistricts(response.data); // Update district dropdown options
+		} catch (error) {
+			console.error('Error fetching districts:', error);
 		}
 	};
 
@@ -179,34 +192,57 @@ export default function PropertyHalfmapList() {
 													</div>
 													<div className="form-style">
 														<label className="title-select">{t("city")}</label>
-														<div className="group-ip ip-icon">
-															<input
-																type="text"
-																className="form-control"
-																value={filters.city}
-																onChange={handleFilterChange}
-																name="city"
-																placeholder="Search city"
-
-															/>
-
-														</div>
+														<select
+															className="form-control"
+															name="city"
+															value={filters.city}
+															onChange={handleFilterChange}
+														>
+															<option value="">Select city</option>
+															{cities.map((city) => (
+																<option key={city.id} value={city.id}>
+																	{city.city_name}
+																</option>
+															))}
+														</select>
 													</div>
+
+													<div className="form-style">
+														<label className="title-select">{t("district")}</label>
+														<select
+															className="form-control"
+															name="district"
+															value={filters.district}
+															onChange={handleFilterChange}
+															disabled={!filters.city} // Disable until a city is selected
+														>
+															<option value="">Select district</option>
+															{districts.map((district) => (
+																<option key={district.id} value={district.id}>
+																	{district.title}
+																</option>
+															))}
+														</select>
+													</div>
+
 													<div className="form-style">
 														<label className="title-select">{t("neighbourhood")}</label>
-														<div className="group-ip ip-icon">
-															<input
-																type="text"
-																className="form-control"
-																value={filters.neighbourhood}
-																onChange={handleFilterChange}
-																name="neighbourhood"
-																placeholder="Search neighbourhood"
-
-															/>
-
-														</div>
+														<select
+															className="form-control"
+															name="neighbourhood"
+															value={filters.neighbourhood}
+															onChange={handleFilterChange}
+															disabled={!filters.district} // Disable until a district is selected
+														>
+															<option value="">Select neighbourhood</option>
+															{neighbourhoods.map((neighbourhood) => (
+																<option key={neighbourhood.id} value={neighbourhood.id}>
+																	{neighbourhood.title}
+																</option>
+															))}
+														</select>
 													</div>
+
 
 													<div className="form-style widget-price">
 														<div className="group-form">
@@ -426,7 +462,7 @@ export default function PropertyHalfmapList() {
 														<span>{project.user_name || 'Unknown Agent'}</span>
 													</div>
 													<div className="d-flex align-items-center">
-														<h6>{project.currency || 'USD'}{project.price || '0.00'} </h6>
+														<h6>{project.price || '0.00'} {project.currency || 'USD'} </h6>
 
 													</div>
 												</div>
