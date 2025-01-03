@@ -14,18 +14,18 @@ export default function Home() {
 	return (
 		<>
 
-			<Layout headerStyle={1} footerStyle={1}>
+<Layout headerStyle={1} footerStyle={1}>
 				<Slider1 />
 				<Recommended1 />
-				<Location1 />
-				<Service1 />
-				<Benefit1 />
+				{/* <Location1 /> */}
+				{/* <Service1 /> */}
+				{/* <Benefit1 /> */}
 				<Property1 />
 				<Testimonial1 />
-				<Agents1 />
+				{/* <Agents1 /> */}
 				<LatestNew1 />
 				<Partner />
 			</Layout>
-		</>
+			</>
 	)
 }
