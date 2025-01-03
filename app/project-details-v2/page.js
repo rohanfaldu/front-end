@@ -224,7 +224,7 @@ export default function ProjectDetailsV1({ params }) {
 										}
 									</h4>
 									<div className="box-price d-flex align-items-center">
-										<h4>{projectDetails.currency}{projectDetails.price}</h4>
+										<h4>{projectDetails.price} {projectDetails.currency}</h4>
 										{/* <span className="body-1 text-variant-1">/month</span> */}
 									</div>
 								</div>
@@ -1123,14 +1123,14 @@ export default function ProjectDetailsV1({ params }) {
 													<div className="content">
 														<div className="h7 text-capitalize fw-7"><Link href="#" className="link"> {property?.title}</Link></div>
 														<div className="desc"><i className="fs-16 icon icon-mapPin" /><p>
-																{[property.address, property.city, property.state]
-																	.filter(Boolean) // Remove empty or falsy values
-																	.join(", ")} {/* Join remaining values with comma */}
-															</p> </div>
+															{[property.address, property.city, property.state]
+																.filter(Boolean) // Remove empty or falsy values
+																.join(", ")} {/* Join remaining values with comma */}
+														</p> </div>
 														<ul className="meta-list">
 															<li className="item">
 																<i className="icon icon-bed" />
-																<span>{property.bedRooms === 0 ? '-': `${property.bedRooms} Bedroom`}</span>
+																<span>{property.bedRooms === 0 ? '-' : `${property.bedRooms} Bedroom`}</span>
 															</li>
 															{/* <li className="item">
 																<i className="icon icon-bathtub" />
@@ -1138,7 +1138,7 @@ export default function ProjectDetailsV1({ params }) {
 															</li> */}
 															<li className="item">
 																<i className="icon icon-ruler" />
-																<span>{property.size === null ? '-': `${property.size} SqMeter`}</span>
+																<span>{property.size === null ? '-' : `${property.size} SqMeter`}</span>
 															</li>
 														</ul>
 													</div>
@@ -1151,7 +1151,7 @@ export default function ProjectDetailsV1({ params }) {
 														<span>{property?.user_name}</span>
 													</div>
 													<div className="d-flex align-items-center">
-														<h6>{property?.currency}{property?.price}</h6>
+														<h6>{property?.price} {property?.currency}</h6>
 														<span className="text-variant-1"></span>
 													</div>
 												</div>
@@ -1161,6 +1161,12 @@ export default function ProjectDetailsV1({ params }) {
 
 								</Swiper>
 							</div>
+							<div className="center-align">
+								<a href={'/project'} className="form-wg tf-btn primary">
+									<span>Back</span>
+								</a>
+							</div>
+
 						</div>
 					</section>
 				</div >

@@ -100,7 +100,7 @@ export default function Recommended1() {
 																	</>
 																):(<></>)}
 																
-																<ul className="d-flex gap-4">
+																{/* <ul className="d-flex gap-4">
 																	<li className="box-icon w-32">
 																	<span className="icon icon-arrLeftRight" />
 																	</li>
@@ -110,7 +110,7 @@ export default function Recommended1() {
 																	<li className="box-icon w-32">
 																	<span className="icon icon-eye" />
 																	</li>
-																</ul>
+																</ul> */}
 															</div>
 															<div className="bottom">
 																<span className="flag-tag style-2">{property.type}</span>
@@ -150,7 +150,7 @@ export default function Recommended1() {
 															<span>{property.user_name}</span>
 														</div>
 														<div className="d-flex align-items-center">
-															<h6>{property.currency}{property.price}</h6>
+															<h6>{property.price} {property.currency}</h6>
 															{/* <span className="text-variant-1">{property.price.unit}</span> */}
 														</div>
 													</div>
