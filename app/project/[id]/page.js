@@ -1,7 +1,7 @@
 'use client'
 import { Autoplay, Navigation, Pagination } from "swiper/modules"
 import { Swiper, SwiperSlide } from "swiper/react"
-import { getData } from "../../components/api/Helper";
+import { getData } from "../../../components/api/Helper";
 const toCapitalCase = (str) => {
 	if (!str) return '';
 	return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
@@ -102,6 +102,7 @@ import Preloader from '@/components/elements/Preloader';
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "next/navigation";
 export default function ProjectDetailsV1({ params }) {
+    const { id } = params;
 	const searchParams = useSearchParams();
 	const projectId = searchParams.get("id");
 	const [isAccordion, setIsAccordion] = useState(1)
@@ -115,7 +116,7 @@ export default function ProjectDetailsV1({ params }) {
 		setLoading(true); // Start loading
 		try {
 			const requestData = {
-				project_id: projectId
+				project_id: id
 			};
 
 			// API call
@@ -443,14 +444,20 @@ export default function ProjectDetailsV1({ params }) {
 									<div className="single-property-element single-property-map">
 										<div className="h7 title fw-7">{t("map")}</div>
 										<PropertyMapMarker latitude={projectDetails?.latitude} longitude={projectDetails?.longitude} zoom={14} />
-										{projectDetails?.address !== "" && (
+										
 											<ul className="info-map">
 												<li>
 													<div className="fw-7">{t("address")}</div>
-													<span className="mt-4 text-variant-1">{projectDetails?.address}</span>
-												</li>
+                                                    <span className="mt-4 text-variant-1 67886">
+                                                    {[projectDetails?.state, projectDetails?.city, projectDetails?.district, projectDetails?.neighborhood]
+                                                        .filter(Boolean)
+                                                        .join(', ')}
+                                                    </span>
+                                                    <span className="mt-4 text-variant-1">{projectDetails?.address}</span>
+                                            
+                                                </li>
 											</ul>
-										)}
+										
 
 									</div>
 									{/* <div className="single-property-element single-property-floor">

@@ -2,11 +2,13 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
+import { useTranslation } from "react-i18next";
+
 export default function MobileMenu() {
 	const pathname = usePathname()
 	const [currentMenuItem, setCurrentMenuItem] = useState("")
-
+	const { t } = useTranslation();
 	useEffect(() => {
 		setCurrentMenuItem(pathname)
 	}, [pathname])
@@ -24,11 +26,11 @@ export default function MobileMenu() {
 			<div className="menu-outer">
 				<div className="navbar-collapse collapse clearfix" id="navbarSupportedContent">
 				<ul className="navigation clearfix">
-					<li><Link href="/">Home</Link></li>
-					<li><Link href="/about-us">About Us</Link></li>
-					<li><Link href="/properties">Property</Link></li>
-					<li><Link href="/project">Project</Link></li>
-					<li><Link href="/blog">Blog</Link></li>
+					<li><Link href="/">{t("home")}</Link></li>
+					<li><Link href="/about-us">{t("aboutus")}</Link></li>
+					<li><Link href="/properties">{t("property")}</Link></li>
+					<li><Link href="/project">{t("project")}</Link></li>
+					<li><Link href="/blog">{t("blog")}</Link></li>
 				</ul>
 				{ /*
 					<ul className="navigation clearfix">

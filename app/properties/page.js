@@ -384,7 +384,7 @@ export default function PropertyHalfmapList() {
 															</ul> */}
 														</div>
 														<div className="bottom">
-															<span className="flag-tag style-2">{property.type_details[0].title}</span>
+															<span className="flag-tag style-2">{property.type_details.title}</span>
 														</div>
 													</Link>
 													<div className="content">
@@ -395,7 +395,10 @@ export default function PropertyHalfmapList() {
 														</div>
 														<div className="desc">
 															<i className="fs-16 icon icon-mapPin" />
-															<p>{property.address}</p>
+															{/* <p>{[property?.state, property?.city, property?.district]
+                                                        .filter(Boolean)
+                                                        .join(', ')} </p> */}
+																	
 														</div>
 														<ul className="meta-list">
 															<li className="item">

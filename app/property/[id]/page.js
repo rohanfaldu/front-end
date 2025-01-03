@@ -100,6 +100,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Preloader from '@/components/elements/Preloader';
 import { useTranslation } from "react-i18next";
+import Modal from "react-modal";
 export default function PropertyDetailsV1({ params }) {
 	const { id } = params;
 	const [properties, setProperties] = useState(null);
@@ -109,6 +110,8 @@ export default function PropertyDetailsV1({ params }) {
 	const [error, setError] = useState(null);
 	const [videoUrl, setVideoUrl] = useState("");
 	const [isAccordion, setIsAccordion] = useState(1);
+	const [isOpen, setIsOpen] = useState(false); // State for controlling modal
+	const [currentImage, setCurrentImage] = useState(null); // Current image in the modal
 	const { t, i18n } = useTranslation();
 	useEffect(() => {
 		const fetchData = async () => {
@@ -164,7 +167,7 @@ export default function PropertyDetailsV1({ params }) {
 			// 	setLoading(false); // Stop loading
 			// }
 		};
-		console.log('properties');
+		console.log('properties List');
 		console.log(properties);
 		fetchData(); // Fetch data on component mount
 	}, [i18n.language]); // Empty dependency array ensures this runs only once on mount
@@ -187,29 +190,41 @@ export default function PropertyDetailsV1({ params }) {
 		setVideoUrl('https://www.youtube.com/embed/' + videoId);
 	}
 	console.log('video');
-	console.log(videoUrl);
+	console.log(properties);
+
+	
+
+	const openPopup = (image) => {
+		console.log('image');
+		console.log(image);
+		setCurrentImage(image);
+		setIsOpen(true);
+	};
+
+	const closePopup = () => {
+		setIsOpen(false);
+		setCurrentImage(null);
+	};
+
 	return (
 		<>
 
 			<Layout headerStyle={1} footerStyle={1}>
-				<div>
+				<div className={isOpen?"custom-overlay":""}> 
 					<section className="flat-location flat-slider-detail-v1">
 						<div className="swiper tf-sw-location">
 							<Swiper {...swiperOptions(properties)} className="swiper-wrapper">
 								{(properties?.picture.length > 0 ? properties.picture : ["/images/banner/no-banner.png"]).map((item, index) => (
 									<SwiperSlide key={index}>
-										<Link
-											href=''
-											data-fancybox="gallery"
-											className={`box-imgage-detail d-block property-image ${properties?.picture.length === 1 ? "full-screen" : ""
-												}`}
-										>
-											<img
-												src={item}
-												alt="img-property"
-											/>
-										</Link>
-									</SwiperSlide>
+									<div
+									  onClick={() => openPopup(item)}
+									  className={`box-imgage-detail d-block property-image ${
+										properties?.picture.length === 1 ? "full-screen" : ""
+									  }`}
+									>
+									  <img src={item} alt="img-property" />
+									</div>
+								  </SwiperSlide>
 								))}
 								{/* <SwiperSlide>
 									<Link href="/images/banner/banner-property-1.jpg" data-fancybox="gallery" className="box-imgage-detail d-block">
@@ -217,6 +232,19 @@ export default function PropertyDetailsV1({ params }) {
 									</Link>
 								</SwiperSlide> */}
 							</Swiper>
+							{isOpen && (
+								<div className="modal-overlay" onClick={closePopup}>
+								<div
+									className="modal-content"
+									onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
+								>
+									<img src={currentImage} alt="img-property-large" />
+									<button onClick={closePopup} className="close-button">
+									X
+									</button>
+								</div>
+								</div>
+							)}
 							{properties?.picture.length > 2 && (
 								<div className="box-navigation">
 									<div className="navigation swiper-nav-next nav-next-location">
@@ -361,7 +389,6 @@ export default function PropertyDetailsV1({ params }) {
 											{(properties.video.endsWith(".mp4") ?
 												<video height="500" controls>
 													<source src={properties.video} type="video/mp4" />
-													Your browser does not support the video tag.
 												</video>
 
 												:
@@ -478,14 +505,18 @@ export default function PropertyDetailsV1({ params }) {
 									<div className="single-property-element single-property-map">
 										<div className="h7 title fw-7">{t("map")}</div>
 										<PropertyMapMarker latitude={properties.latitude} longitude={properties.longitude} zoom={14} />
-										{properties.address !== "" && (
+										
 											<ul className="info-map">
 												<li>
 													<div className="fw-7">{t("address")}</div>
-													<span className="mt-4 text-variant-1">{properties.address}</span>
+													{properties.address !== "" && (<span className="mt-4 text-variant-1">{properties.address}</span>)}
+													{/* <span className="mt-4 text-variant-1 67886">
+                                                    {[properties?.state, properties?.city, properties?.district, properties?.neighborhood]
+                                                        .filter(Boolean)
+                                                        .join(', ')}
+                                                    </span> */}
 												</li>
 											</ul>
-										)}
 
 									</div>
 									{/* <div className="single-property-element single-property-floor">
@@ -864,6 +895,7 @@ export default function PropertyDetailsV1({ params }) {
 
 														<div className="">
 															<img
+															width={100}
 																src={properties.project_details.icon}
 																alt={properties.name}
 															/>
