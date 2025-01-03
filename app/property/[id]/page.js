@@ -6,46 +6,53 @@ import Image from "next/image";
 const toCapitalCase = (str) => {
 	if (!str) return '';
 	return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-  }
-const swiperOptions = {
-	modules: [Autoplay, Pagination, Navigation],
-	autoplay: {
-		delay: 2000,
-		disableOnInteraction: false,
-	},
-	speed: 2000,
-	navigation: {
-		clickable: true,
-		nextEl: ".nav-prev-location",
-		prevEl: ".nav-next-location",
-	},
-	pagination: {
-		el: ".swiper-pagination1",
-		clickable: true,
-	},
-	slidesPerView: 1,
-	loop: true,
-	spaceBetween: 20,
-	centeredSlides: true,
-	breakpoints: {
-		600: {
-			slidesPerView: 2,
-			spaceBetween: 20,
-			centeredSlides: false,
-		},
-		991: {
-			slidesPerView: 2,
-			spaceBetween: 20,
-			centeredSlides: false,
-		},
-
-		1520: {
-			slidesPerView: 2,
-			spaceBetween: 20,
-			centeredSlides: false,
-		},
-	},
 }
+const swiperOptions = (projectDetails) => ({
+	modules: [Autoplay, Pagination, Navigation],
+	autoplay: projectDetails?.picture.length > 1
+		? {
+			delay: 2000,
+			disableOnInteraction: false,
+		}
+		: false, // Disable autoplay for single image
+	speed: 2000,
+	navigation: projectDetails?.picture.length > 1
+		? { // Enable navigation buttons only for multiple images
+			clickable: true,
+			nextEl: ".nav-prev-location",
+			prevEl: ".nav-next-location",
+		}
+		: false, // Hide navigation buttons for single image
+	pagination: projectDetails?.picture.length > 1
+		? { // Enable pagination only for multiple images
+			el: ".swiper-pagination1",
+			clickable: true,
+		}
+		: false, // Hide pagination for single image
+	slidesPerView: 1,
+	loop: projectDetails?.picture.length > 1, // Disable loop for single image
+	spaceBetween: projectDetails?.picture.length > 1 ? 20 : 0, // No spacing for single image
+	centeredSlides: projectDetails?.picture.length > 1, // Center slide for single image
+	breakpoints: projectDetails?.picture.length > 1
+		? { // Enable breakpoints only for multiple images
+			600: {
+				slidesPerView: 2,
+				spaceBetween: 20,
+				centeredSlides: false,
+			},
+			991: {
+				slidesPerView: 2,
+				spaceBetween: 20,
+				centeredSlides: false,
+			},
+			1520: {
+				slidesPerView: 2,
+				spaceBetween: 20,
+				centeredSlides: false,
+			},
+		}
+		: {}, // No breakpoints for single image
+});
 
 const swiperOptions2 = {
 	modules: [Autoplay, Pagination, Navigation],
@@ -88,26 +95,26 @@ import Layout from "@/components/layout/Layout"
 import Link from "next/link"
 import Video from "@/components/elements/Video"
 import axios from 'axios';
-import {useParams} from "react-router-dom"
+import { useParams } from "react-router-dom"
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Preloader from '@/components/elements/Preloader';
 import { useTranslation } from "react-i18next";
 export default function PropertyDetailsV1({ params }) {
-	const { id } = params; 
-	const [properties, setProperties] = useState(null); 
- 	const [loading, setLoading] = useState(true);
- 	const [metadetail, setMetaDetails] = useState(null);
- 	const [metaNumberList, setMetaNumberList] = useState(null);
-  	const [error, setError] = useState(null); 
-  	const [videoUrl, setVideoUrl] = useState(""); 
+	const { id } = params;
+	const [properties, setProperties] = useState(null);
+	const [loading, setLoading] = useState(true);
+	const [metadetail, setMetaDetails] = useState(null);
+	const [metaNumberList, setMetaNumberList] = useState(null);
+	const [error, setError] = useState(null);
+	const [videoUrl, setVideoUrl] = useState("");
 	const [isAccordion, setIsAccordion] = useState(1);
 	const { t, i18n } = useTranslation();
 	useEffect(() => {
 		const fetchData = async () => {
-		//try {
+			//try {
 			const lang = i18n.language;
-			const propertyObj = {page: 1, limit: 100, lang: lang};
+			const propertyObj = { page: 1, limit: 100, lang: lang };
 			const response = await getData('api/property/', propertyObj);
 
 			const propertyList = response.data.list;
@@ -122,9 +129,9 @@ export default function PropertyDetailsV1({ params }) {
 			const metaNumberFieldDetails = [];
 			const metaCheckboxFieldDetails = [];
 			result.meta_details.map((propertyDetail) => {
-				if(propertyDetail.type === 'number'){
+				if (propertyDetail.type === 'number') {
 					metaNumberFieldDetails.push(propertyDetail)
-				}else{
+				} else {
 					metaCheckboxFieldDetails.push(propertyDetail);
 				}
 			});
@@ -139,45 +146,45 @@ export default function PropertyDetailsV1({ params }) {
 			const chunkArray = (array, size) => {
 				const result = [];
 				for (let i = 0; i < array.length; i += size) {
-				  result.push(array.slice(i, i + size));
+					result.push(array.slice(i, i + size));
 				}
 				return result;
 			};
-			
+
 			const metadetail = chunkArray(metaCheckboxFieldDetails, Math.ceil(metaCheckboxFieldDetails.length / 3));
 			console.log('metadetail');
 			console.log(metadetail);
 			setMetaDetails(metadetail);
 			setMetaNumberList(metaNumberFieldDetails);
-			 // Save data to state
+			// Save data to state
 			setLoading(false); // Stop loading
 			setError(null); // Clear errors
-		// } catch (err) {
-		// 	setError(err.response?.data?.message || 'An error occurred'); // Handle error
-		// 	setLoading(false); // Stop loading
-		// }
+			// } catch (err) {
+			// 	setError(err.response?.data?.message || 'An error occurred'); // Handle error
+			// 	setLoading(false); // Stop loading
+			// }
 		};
 		console.log('properties');
 		console.log(properties);
 		fetchData(); // Fetch data on component mount
 	}, [i18n.language]); // Empty dependency array ensures this runs only once on mount
 
-	if(loading){
+	if (loading) {
 		return (
 			<>
 				<Preloader />
 			</>
 		)
-	}else{
+	} else {
 		console.log(properties);
 	}
 	const handleAccordion = (key) => {
 		setIsAccordion(prevState => prevState === key ? null : key)
 	}
-	if((!properties.video.endsWith(".mp4")) && (videoUrl === "")){
+	if ((!properties.video.endsWith(".mp4")) && (videoUrl === "")) {
 		const urlParams = new URLSearchParams(new URL(properties.video).search);
 		const videoId = urlParams.get('v');
-		setVideoUrl('https://www.youtube.com/embed/'+videoId);
+		setVideoUrl('https://www.youtube.com/embed/' + videoId);
 	}
 	console.log('video');
 	console.log(videoUrl);
@@ -188,13 +195,21 @@ export default function PropertyDetailsV1({ params }) {
 				<div>
 					<section className="flat-location flat-slider-detail-v1">
 						<div className="swiper tf-sw-location">
-							 <Swiper {...swiperOptions} className="swiper-wrapper">
-								{properties.picture.length > 0 && properties.picture.map((item, index) => (
-									<SwiperSlide >
-										<Link href={item} data-fancybox="gallery" className="box-imgage-detail d-block property-image">
-											<img src={item} alt="img-property"  className="" />
+							<Swiper {...swiperOptions(properties)} className="swiper-wrapper">
+								{(properties?.picture.length > 0 ? properties.picture : ["/images/banner/no-banner.png"]).map((item, index) => (
+									<SwiperSlide key={index}>
+										<Link
+											href={item}
+											data-fancybox="gallery"
+											className={`box-imgage-detail d-block property-image ${properties?.picture.length === 1 ? "full-screen" : ""
+												}`}
+										>
+											<img
+												src={item}
+												alt="img-property"
+											/>
 										</Link>
-									</SwiperSlide>		
+									</SwiperSlide>
 								))}
 								{/* <SwiperSlide>
 									<Link href="/images/banner/banner-property-1.jpg" data-fancybox="gallery" className="box-imgage-detail d-block">
@@ -202,11 +217,17 @@ export default function PropertyDetailsV1({ params }) {
 									</Link>
 								</SwiperSlide> */}
 							</Swiper>
-							<div className="box-navigation">
-								<div className="navigation swiper-nav-next nav-next-location"><span className="icon icon-arr-l" /></div>
-								<div className="navigation swiper-nav-prev nav-prev-location"><span className="icon icon-arr-r" /></div>
-							</div>
-							 {/* <div className="icon-box">
+							{properties?.picture.length > 2 && (
+								<div className="box-navigation">
+									<div className="navigation swiper-nav-next nav-next-location">
+										<span className="icon icon-arr-l" />
+									</div>
+									<div className="navigation swiper-nav-prev nav-prev-location">
+										<span className="icon icon-arr-r" />
+									</div>
+								</div>
+							)}
+							{/* <div className="icon-box">
                   				<Link href="#" className="item"><span className="icon icon-map-trifold"></span></Link>
 								  {properties.picture.length > 0 && properties.picture.map((item, index) => (
 										<Link  href={item} className="item active" data-fancybox="gallery">
@@ -235,20 +256,20 @@ export default function PropertyDetailsV1({ params }) {
 									<div className="info-box">
 										<div className="label">{t("feature")}</div>
 										<ul className="meta">
-											<li className="meta-item"><span className="icon icon-bed" /> {properties.bedRooms === 0 ? '-': `${properties.bedRooms}`} {t('bedroom')}</li>
-											<li className="meta-item"><span className="icon icon-bathtub" /> {properties.bathRooms === 0 ? '-': `${properties.bathRooms} `}{t('bathroom')}</li>
-											<li className="meta-item"><span className="icon icon-ruler" /> {properties.size === null ? '-': `${properties.size} `}{t('sqmeter')}</li>
+											<li className="meta-item"><span className="icon icon-bed" /> {properties.bedRooms === 0 ? '-' : `${properties.bedRooms}`} {t('bedroom')}</li>
+											<li className="meta-item"><span className="icon icon-bathtub" /> {properties.bathRooms === 0 ? '-' : `${properties.bathRooms} `}{t('bathroom')}</li>
+											<li className="meta-item"><span className="icon icon-ruler" /> {properties.size === null ? '-' : `${properties.size} `}{t('sqmeter')}</li>
 										</ul>
 									</div>
 									{/* <div className="info-box">
 										<div className="label">LOCATION:</div>
 										<p className="meta-item"><span className="icon icon-mapPin" /> 8 Broadway, Brooklyn, New York</p>
 									</div> */}
-									<ul className="icon-box">
+									{/* <ul className="icon-box">
 										<li><Link href="#" className="item"><span className="icon icon-arrLeftRight" /> </Link></li>
 										<li><Link href="#" className="item"><span className="icon icon-share" /></Link></li>
 										<li><Link href="#" className="item"><span className="icon icon-heart" /></Link></li>
-									</ul>
+									</ul> */}
 								</div>
 							</div>
 							<div className="row">
@@ -274,25 +295,25 @@ export default function PropertyDetailsV1({ params }) {
 													<span>{toCapitalCase(properties.type)}</span>
 												</div>
 											</li>
-											{(properties.size !== null)?(
+											{(properties.size !== null) ? (
 												<li className="item">
-												<Link href="#" className="box-icon w-52"><i className="icon icon-ruler" /></Link>
-												<div className="content">
-													<span className="label">{t("size")}</span>
-													<span>{properties.size === 0 ? '-': `${properties.size} `} {t("sqmeter")}</span>
-												</div>
-											</li>
-											):null}
-											{metaNumberList.length > 0 && metaNumberList.map((item, index) => (
-											<>{(item.value) !== "0" ?(
-												<li className="item" key={index}>
-													<Link href="#" className="box-icon w-52"><img src={item.icon} alt="icon" width="25"/></Link>
+													<Link href="#" className="box-icon w-52"><i className="icon icon-ruler" /></Link>
 													<div className="content">
-														<span className="label">{item.name}:</span>
-														<span>{item.value} {item.name}</span>
+														<span className="label">{t("size")}</span>
+														<span>{properties.size === 0 ? '-' : `${properties.size} `} {t("sqmeter")}</span>
 													</div>
 												</li>
-											):(<></>)}</>
+											) : null}
+											{metaNumberList.length > 0 && metaNumberList.map((item, index) => (
+												<>{(item.value) !== "0" ? (
+													<li className="item" key={index}>
+														<Link href="#" className="box-icon w-52"><img src={item.icon} alt="icon" width="25" /></Link>
+														<div className="content">
+															<span className="label">{item.name}:</span>
+															<span>{item.value} {item.name}</span>
+														</div>
+													</li>
+												) : (<></>)}</>
 											))}
 											{/* <li className="item">
 												<Link href="#" className="box-icon w-52"><i className="icon icon-bed" /></Link>
@@ -315,8 +336,8 @@ export default function PropertyDetailsV1({ params }) {
 													<span>2 Rooms</span>
 												</div>
 											</li> */}
-											
-											
+
+
 											{/* <li className="item">
 												<Link href="#" className="box-icon w-52"><i className="icon icon-crop" /></Link>
 												<div className="content">
@@ -337,19 +358,19 @@ export default function PropertyDetailsV1({ params }) {
 										<div className="h7 title fw-7">{t("video")}</div>
 										<div className="img-video">
 											{/* <img src="/images/banner/img-video.jpg" alt="img-video" /> */}
-											{(properties.video.endsWith(".mp4")?
+											{(properties.video.endsWith(".mp4") ?
 												<video height="500" controls>
 													<source src={properties.video} type="video/mp4" />
 													Your browser does not support the video tag.
 												</video>
-													
+
 												:
 												<iframe height="500" width="100%"
 													src={videoUrl}
-													title="Immofind" 
-													frameborder="0" 
-													allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-													referrerpolicy="strict-origin-when-cross-origin" 
+													title="Immofind"
+													frameborder="0"
+													allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+													referrerpolicy="strict-origin-when-cross-origin"
 													allowfullscreen>
 												</iframe>
 											)}
@@ -441,13 +462,13 @@ export default function PropertyDetailsV1({ params }) {
 												{metadetail.map((chunk, index) => (
 													<div key={index} className="box-feature">
 														<ul>
-														{chunk.map((propertyDetail) => (
-															<li key={propertyDetail.id} className="feature-item">
-															{/* <span className="icon icon-list-dashes" /> */}
-															<img src={propertyDetail.icon} alt="icon" width={20}/>
-															{propertyDetail.name}
-															</li>
-														))}
+															{chunk.map((propertyDetail) => (
+																<li key={propertyDetail.id} className="feature-item">
+																	{/* <span className="icon icon-list-dashes" /> */}
+																	<img src={propertyDetail.icon} alt="icon" width={20} />
+																	{propertyDetail.name}
+																</li>
+															))}
 														</ul>
 													</div>
 												))}
@@ -465,7 +486,7 @@ export default function PropertyDetailsV1({ params }) {
 												</li>
 											</ul>
 										)}
-										
+
 									</div>
 									{/* <div className="single-property-element single-property-floor">
 										<div className="h7 title fw-7">Floor plans</div>
@@ -790,7 +811,7 @@ export default function PropertyDetailsV1({ params }) {
 												</li>
 											</ul>
 										</div> */}
-										
+
 										<div className="wrap-form-comment">
 											<div className="h7">{t("leaveareply")}</div>
 											<div id="comments" className="comments">
@@ -823,19 +844,57 @@ export default function PropertyDetailsV1({ params }) {
 										</div>
 									</div>
 								</div>
-								 <div className="col-lg-4">
+								<div className="col-lg-4">
 									<div className="widget-sidebar fixed-sidebar wrapper-sidebar-right">
+										<div className="widget-box single-property-contact bg-surface">
+											<div className="h7 title fw-7">{t("Project Details")}</div>
+											<div className="box-avatar">
+												<div className="box-avatar">
+													{/* {properties.project_details.icon ? (
+														<div className="avatar avt-100 round">
+															<img src={properties.project_details.icon} alt="avatar" />
+														</div>
+													) :
+														null
+													} */}
+													<Link
+														href={`/project-details-v2?id=${properties.project_details.id}`}
+														className="images-group"
+													>
+
+														<div className="images-style">
+															<img
+																src={properties.project_details.icon}
+																alt={properties.name}
+															/>
+														</div>
+
+													</Link>
+
+													<div className="info">
+														<div className="text-1 name"><Link
+															href={`/project-details-v2?id=${properties.project_details.id}`} // Pass ID as query param
+															className="link"
+														>
+															{properties.project_details.title}
+														</Link></div>
+														
+														{/* <span>{properties.project_details.description}</span> */}
+													</div>
+												</div>
+											</div>
+										</div>
 										<div className="widget-box single-property-contact bg-surface">
 											<div className="h7 title fw-7">{t("contactSeller")}</div>
 											<div className="box-avatar">
 												{properties.user_image ? (
-														<div className="avatar avt-100 round">
-															<img src={properties.user_image} alt="avatar" />
-														</div>
-														):
+													<div className="avatar avt-100 round">
+														<img src={properties.user_image} alt="avatar" />
+													</div>
+												) :
 													null
 												}
-												
+
 												<div className="info">
 													<div className="text-1 name">{properties.user_name}</div>
 													<span>{properties.email_address}</span>
@@ -861,6 +920,7 @@ export default function PropertyDetailsV1({ params }) {
 												<button className="tf-btn primary w-100">Send Message</button>
 											</form> */}
 										</div>
+
 										{/* <div className="flat-tab flat-tab-form widget-filter-search widget-box bg-surface">
 											<div className="h7 title fw-7">Search</div>
 											<ul className="nav-tab-form" role="tablist">
@@ -1091,7 +1151,7 @@ export default function PropertyDetailsV1({ params }) {
 											</ul>
 										</div>
 									</div>
-								</div > 
+								</div >
 							</div >
 						</div >
 					</section >
