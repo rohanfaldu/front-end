@@ -199,7 +199,7 @@ export default function PropertyDetailsV1({ params }) {
 								{(properties?.picture.length > 0 ? properties.picture : ["/images/banner/no-banner.png"]).map((item, index) => (
 									<SwiperSlide key={index}>
 										<Link
-											href={item}
+											href=''
 											data-fancybox="gallery"
 											className={`box-imgage-detail d-block property-image ${properties?.picture.length === 1 ? "full-screen" : ""
 												}`}
@@ -256,8 +256,8 @@ export default function PropertyDetailsV1({ params }) {
 									<div className="info-box">
 										<div className="label">{t("feature")}</div>
 										<ul className="meta">
-											<li className="meta-item"><span className="icon icon-bed" /> {properties.bedRooms === 0 ? '-' : `${properties.bedRooms}`} {t('bedroom')}</li>
-											<li className="meta-item"><span className="icon icon-bathtub" /> {properties.bathRooms === 0 ? '-' : `${properties.bathRooms} `}{t('bathroom')}</li>
+											<li className="meta-item"><span className="icon icon-bed" /> {properties.bedRooms === "0" ? '-' : `${properties.bedRooms}`} {t('bedroom')}</li>
+											<li className="meta-item"><span className="icon icon-bathtub" /> {properties.bathRooms === "0" ? '-' : `${properties.bathRooms} `}{t('bathroom')}</li>
 											<li className="meta-item"><span className="icon icon-ruler" /> {properties.size === null ? '-' : `${properties.size} `}{t('sqmeter')}</li>
 										</ul>
 									</div>

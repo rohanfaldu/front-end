@@ -178,7 +178,7 @@ export default function ProjectDetailsV1({ params }) {
 								{(projectDetails?.picture.length > 0 ? projectDetails.picture : ["/images/banner/no-banner.png"]).map((item, index) => (
 									<SwiperSlide key={index}>
 										<Link
-											href={item}
+											href=''
 											data-fancybox="gallery"
 											className={`box-imgage-detail d-block property-image ${projectDetails?.picture.length === 1 ? "full-screen" : ""
 												}`}
@@ -1162,7 +1162,7 @@ export default function ProjectDetailsV1({ params }) {
 								</Swiper>
 							</div>
 							<div className="center-align">
-								<a href={'/project'} className="form-wg tf-btn primary">
+								<a href={'/properties'} className="form-wg tf-btn primary">
 									<span>Back</span>
 								</a>
 							</div>
