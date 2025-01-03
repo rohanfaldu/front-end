@@ -26,7 +26,7 @@ export default function MobileMenu() {
 				<ul className="navigation clearfix">
 					<li><Link href="/">Home</Link></li>
 					<li><Link href="/about-us">About Us</Link></li>
-					<li><Link href="/property-halfmap-list">Property</Link></li>
+					<li><Link href="/properties">Property</Link></li>
 					<li><Link href="/project">Project</Link></li>
 					<li><Link href="/blog">Blog</Link></li>
 				</ul>

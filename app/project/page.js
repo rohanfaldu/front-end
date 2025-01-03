@@ -240,25 +240,56 @@ export default function PropertyHalfmapList() {
 														<div className="group-checkbox">
 															<div className="text-1">Amenities:</div>
 															<div className="group-amenities">
-																{amenities.map((amenity) => (
-																	<fieldset className="amenities-item" key={amenity.id}>
-																		<input
-																			type="checkbox"
-																			className="tf-checkbox style-1"
-																			id={`amenity-${amenity.id}`}
-																			checked={filters.amenities_id.includes(amenity.id)} // Check if selected
-																			onChange={(e) => {
-																				const updatedAmenities = e.target.checked
-																					? [...filters.amenities_id, amenity.id] // Add
-																					: filters.amenities_id.filter((id) => id !== amenity.id); // Remove
-																				setFilters({ ...filters, amenities_id: updatedAmenities }); // Update filters
-																			}}
-																		/>
-																		<label htmlFor={`amenity-${amenity.id}`} className="text-cb-amenities">
-																			{amenity.name}
-																		</label>
-																	</fieldset>
-																))}
+																{/* Sort amenities to show 'number' type first */}
+																{amenities
+																	.sort((a, b) => (a.type === "number" ? -1 : 1)) // Sort by type
+																	.map((amenity) => (
+																		<fieldset className="amenities-item" key={amenity.id}>
+																			{amenity.type === "number" ? (
+																				// Numeric input for number type
+																				<>
+																					<label
+																						htmlFor={`amenity-${amenity.id}`}
+																						className="text-cb-amenities"
+																					>
+																						{amenity.name}
+																					</label>
+																					<input
+																						type="number"
+																						className="form-control style-1"
+																						id={`amenity-${amenity.id}`}
+																						value={filters[amenity.id] || ""} // Show current value or empty
+																						onChange={(e) =>
+																							setFilters({ ...filters, [amenity.id]: e.target.value })
+																						} // Update filters
+																						placeholder={`Enter ${amenity.name}`}
+																					/>
+																				</>
+																			) : amenity.type === "boolean" ? (
+																				// Checkbox for boolean type
+																				<>
+																					<input
+																						type="checkbox"
+																						className="tf-checkbox style-1"
+																						id={`amenity-${amenity.id}`}
+																						checked={filters.amenities_id.includes(amenity.id)} // Check if selected
+																						onChange={(e) => {
+																							const updatedAmenities = e.target.checked
+																								? [...filters.amenities_id, amenity.id] // Add
+																								: filters.amenities_id.filter((id) => id !== amenity.id); // Remove
+																							setFilters({ ...filters, amenities_id: updatedAmenities }); // Update filters
+																						}}
+																					/>
+																					<label
+																						htmlFor={`amenity-${amenity.id}`}
+																						className="text-cb-amenities"
+																					>
+																						{amenity.name}
+																					</label>
+																				</>
+																			) : null}
+																		</fieldset>
+																	))}
 															</div>
 														</div>
 													</div>
@@ -283,20 +314,20 @@ export default function PropertyHalfmapList() {
 						<div className="box-title-listing style-1">
 							<h5>Project listing</h5>
 							<div className="box-filter-tab">
-								<ul className="nav-tab-filter" role="tablist">
+								{/* <ul className="nav-tab-filter" role="tablist">
 									<li className="nav-tab-item" onClick={() => handleTab(1)}>
 										<a className={isTab == 1 ? "nav-link-item active" : "nav-link-item"} data-bs-toggle="tab"><i className="icon icon-grid" /></a>
 									</li>
 									<li className="nav-tab-item" onClick={() => handleTab(2)}>
 										<a className={isTab == 2 ? "nav-link-item active" : "nav-link-item"} data-bs-toggle="tab"><i className="icon icon-list" /></a>
 									</li>
-								</ul>
-								<select className="nice-select">
+								</ul> */}
+								{/* <select className="nice-select">
 
 									<option data-value="default" className="option selected">{t("sortbydefualt")}</option>
 									<option data-value="new" className="option">{t("newest")}</option>
 									<option data-value="old" className="option">{t("oldest")}</option>
-								</select>
+								</select> */}
 							</div>
 						</div>
 						<div className="tab-content">
@@ -406,34 +437,22 @@ export default function PropertyHalfmapList() {
 							)}
 
 						</div>
-						<div className="pagination-container">
-							<button
-								disabled={pagination.currentPage === 1}
-								onClick={() => handlePageChange(pagination.currentPage - 1)}
-							>
-								Prev
-							</button>
-
-							{Array.from({ length: pagination.totalPages }, (_, i) => (
-								<button
-									key={i + 1}
-									className={`pagination-btn ${pagination.currentPage === i + 1 ? 'active' : ''}`}
-									onClick={() => handlePageChange(i + 1)}
-								>
-									{i + 1}
-								</button>
+						<ul className="wd-navigation">
+							{Array.from({ length: pagination.totalPages }, (_, index) => (
+								<li key={index}>
+									<Link
+										href="#"
+										className={`nav-item ${pagination.currentPage === index + 1 ? 'active' : ''}`}
+										onClick={() => handlePageChange(index + 1)}
+									>
+										{index + 1}
+									</Link>
+								</li>
 							))}
-
-							<button
-								disabled={pagination.currentPage === pagination.totalPages}
-								onClick={() => handlePageChange(pagination.currentPage + 1)}
-							>
-								Next
-							</button>
-						</div>
+						</ul>
 					</div >
 					<div className="wrap-map">
-						<PropertyMap />
+						<PropertyMap topmap={false} singleMap={false} propertys={projects} />
 					</div>
 				</section >
 

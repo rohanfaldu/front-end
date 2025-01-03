@@ -131,6 +131,7 @@ export default function PropertyHalfmapList() {
 		}));
 	};
 	console.log('>>>>>>>>propertys', propertys);
+	console.log('>>>>>>>>', propertys[0]?.type_details);
 	return (
 		<>
 
@@ -200,27 +201,7 @@ export default function PropertyHalfmapList() {
 
 													<div className="form-style">
 														<label className="title-select">Property Type</label>
-														<div className="group-radio">
-															{propertys?.type_details?.map((type) => (
-																<fieldset className="property-type-item" key={type.id}>
-																	<input
-																		type="radio"
-																		className="tf-radio style-1"
-																		id={`${type.id}`}
-																		name="type_id"
-																		value={type.id}
-																		checked={filters.type_id === type.id} // Check if the current type is selected
-																		onChange={() => setFilters({ ...filters, type_id: type.id })} // Update filter state
-																	/>
-																	<label
-																		htmlFor={`property-type-${type.id}`}
-																		className="text-radio-type"
-																	>
-																		{type.title}
-																	</label>
-																</fieldset>
-															))}
-														</div>
+
 													</div>
 
 													<div className="form-style btn-show-advanced" onClick={handleToggle} style={{ display: `${isToggled ? "none" : "block"}` }}>
@@ -275,7 +256,7 @@ export default function PropertyHalfmapList() {
 					<div className="wrap-inner">
 						<div className="box-title-listing style-1">
 							<h5>Property listing</h5>
-							<div className="box-filter-tab">
+							{/* <div className="box-filter-tab">
 								<ul className="nav-tab-filter" role="tablist">
 									<li className="nav-tab-item" onClick={() => handleTab(1)}>
 										<a className={isTab == 1 ? "nav-link-item active" : "nav-link-item"} data-bs-toggle="tab"><i className="icon icon-grid" /></a>
@@ -290,7 +271,7 @@ export default function PropertyHalfmapList() {
 									<option data-value="new" className="option">{t("newest")}</option>
 									<option data-value="old" className="option">{t("oldest")}</option>
 								</select>
-							</div>
+							</div> */}
 						</div>
 						<div className="tab-content">
 							{loading ? (
@@ -319,7 +300,6 @@ export default function PropertyHalfmapList() {
 														</div>
 														<div className="top">
 															<ul className="d-flex gap-8">
-																<li className="flag-tag success">{property.transaction_type}</li>
 																<li className="flag-tag style-1">{property.transaction}</li>
 															</ul>
 															{/* <ul className="d-flex gap-4">
@@ -335,7 +315,7 @@ export default function PropertyHalfmapList() {
 															</ul> */}
 														</div>
 														<div className="bottom">
-															<span className="flag-tag style-2">{property.type}</span>
+															<span className="flag-tag style-2">{property.type_details[0].title}</span>
 														</div>
 													</Link>
 													<div className="content">
@@ -383,34 +363,22 @@ export default function PropertyHalfmapList() {
 
 							)}
 						</div>
-						<div className="pagination-container">
-							<button
-								disabled={pagination.currentPage === 1}
-								onClick={() => handlePageChange(pagination.currentPage - 1)}
-							>
-								Prev
-							</button>
-
-							{Array.from({ length: pagination.totalPages }, (_, i) => (
-								<button
-									key={i + 1}
-									className={`pagination-btn ${pagination.currentPage === i + 1 ? 'active' : ''}`}
-									onClick={() => handlePageChange(i + 1)}
-								>
-									{i + 1}
-								</button>
+						<ul className="wd-navigation">
+							{Array.from({ length: pagination.totalPages }, (_, index) => (
+								<li key={index}>
+									<Link
+										href="#"
+										className={`nav-item ${pagination.currentPage === index + 1 ? 'active' : ''}`}
+										onClick={() => handlePageChange(index + 1)}
+									>
+										{index + 1}
+									</Link>
+								</li>
 							))}
-
-							<button
-								disabled={pagination.currentPage === pagination.totalPages}
-								onClick={() => handlePageChange(pagination.currentPage + 1)}
-							>
-								Next
-							</button>
-						</div>
+						</ul>
 					</div >
 					<div className="wrap-map">
-						<PropertyMap />
+						<PropertyMap topmap={false} singleMap={false} propertys={propertys}/>
 					</div>
 				</section >
 
