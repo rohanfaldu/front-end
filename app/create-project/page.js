@@ -13,7 +13,8 @@ import passwordHide from "../../public/images/favicon/password-hide.png";
 import { insertData, insertImageData } from "../../components/api/Axios/Helper";
 import { insertMultipleUploadImage } from "../../components/common/imageUpload";
 import { capitalizeFirstChar } from "../../components/common/functions";
-import PropertyMapMarker from "@/components/elements/PropertyMapMarker"
+import PropertyMapMarker from "@/components/elements/PropertyMapMarker";
+import ErrorPopup from "../../components/errorPopup/ErrorPopup.js";
 export default function CreateAgency() {
     const [showPassword, setShowPassword] = useState(false);
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -26,6 +27,7 @@ export default function CreateAgency() {
     const [userId, setUserId] = useState("");
     const [neighborhoodList, setNeighborhoodList] = useState([]);
     const [uploadFile, setUploadFile] = useState(null);
+    const [filePreviews, setFilePreviews] = useState([]);
     const [isVideoUpload, setIsVideoUpload] = useState(true);
     const [stateList, setStateList] = useState([]);
     const [developerList, setDeveloperList] = useState([]);
@@ -35,6 +37,10 @@ export default function CreateAgency() {
     const [projectOfBooleanListing, setProjectOfBooleanListing] = useState([]);
     const [checkedItems, setCheckedItems] = useState({});
     const [videoPreview, setVideoPreview] = useState(null); // State for video preview
+    const [iconPreview, setIconPreview] = useState([]);
+    const [showErrorPopup, setShowErrorPopup] = useState(false);
+    const [currencyList, setCurrencyList] = useState([]);
+    const [currencyCode, setCurrencyCode] = useState([]);
     const router = useRouter();
     const [propertyMapCoords, setPropertyMapCoords] = useState({
         latitude: 33.5945144,
@@ -47,14 +53,13 @@ export default function CreateAgency() {
         description_en: Yup.string().required("Description is required"),
         description_fr: Yup.string().required("Description is required"),
         price: Yup.string().required("Price is required"),
-        vr_link: Yup.string().url("Invalid URL").nullable(),
-        picture_img: Yup.mixed().required("Image is required"),
-        credit: Yup.string().required("Credit is required"),
+        currency_id: Yup.string().required("Currency is required"),
+        vr_link: Yup.string().url("Invalid VR URL").nullable(),
+        picture_img: Yup.array().min(3, "At least three image is required").required("Image is required"),
         state_id: Yup.string().required("State is required"),
         city_id: Yup.string().required("City is required"),
         districts_id: Yup.string().required("District is required"),
         neighborhood_id: Yup.string().required("Neighborhood is required"),
-        link_uuid: Yup.string().required("Link uuid is required"),
     });
     
     useEffect(() => {
@@ -101,6 +106,15 @@ export default function CreateAgency() {
                     const userDetail = JSON.parse(localStorage.getItem('user'));
                     const capitalizedString = userDetail.id;
                     setUserId(capitalizedString)
+                }
+                if(currencyList.length === 0){
+                    // console.log(1);
+                    const currencyObj = {};
+                    const getCurrencyInfo = await insertData('api/currency/get', currencyObj, true);
+
+                    if(getCurrencyInfo.status) {
+                        setCurrencyList(getCurrencyInfo.data);
+                    }
                 }
             } catch (error) {
                 console.error(error);
@@ -173,7 +187,7 @@ export default function CreateAgency() {
         }
         try {
             const districtObj = { district_id: DistrictId , lang:"en" };
-            const getNeighborhoodObjInfo = await insertData('api/neighborhood', districtObj, true);
+            const getNeighborhoodObjInfo = await insertData('api/neighborhood/id', districtObj, true);
             if (getNeighborhoodObjInfo.status) {
                 setNeighborhoodList(getNeighborhoodObjInfo.data);
             } else {
@@ -230,16 +244,16 @@ export default function CreateAgency() {
     };
     // Handle form submission
     const handleSubmit = async (values, {resetForm}) => {
-        console.log(values);
-        if (isVideoUpload && !values.video) {
-            alert("Please upload a video file.");
-            return false;
-        }
+        // console.log(values);
+        // if (isVideoUpload && !values.video) {
+        //     alert("Please upload a video file.");
+        //     return false;
+        // }
     
-        if (!isVideoUpload && !values.video_link) {
-            alert("Please enter a YouTube video link.");
-            return false;
-        }
+        // if (!isVideoUpload && !values.video_link) {
+        //     alert("Please enter a YouTube video link.");
+        //     return false;
+        // }
 
         const selectedAmenities = projectOfBooleanListing
         .filter((project) => checkedItems[project.key])
@@ -247,68 +261,104 @@ export default function CreateAgency() {
   
         console.log('Selected Amenities:', selectedAmenities);
 
-       
-        //setErrorMessage('');
-        console.log(values);
-        // const checkData = { email_address: values.email, phone_number: parseInt(values.phone,10) }
-        // const getUserInfo = await insertData('auth/check/user', checkData, false);
-        // if(getUserInfo.status === false) {
-            /********* upload image ***********/
-            const uploadImageObj = [values.picture_img, values.video];
-            const uploadImageUrl = await insertMultipleUploadImage('image', uploadImageObj);
-            if(uploadImageUrl.files.length > 0) {
-                const fileUrls = uploadImageUrl.files.map(file => file.url);
-                let pictureUrl = null;
-                let videoUrl = null;
-                if(uploadImageUrl.files.length > 0) {
-                    pictureUrl = fileUrls[0];
-                    videoUrl = fileUrls[1];
-                }
+        try {
+                //setErrorMessage('');
+                console.log(values);
+                // const checkData = { email_address: values.email, phone_number: parseInt(values.phone,10) }
+                // const getUserInfo = await insertData('auth/check/user', checkData, false);
+                // if(getUserInfo.status === false) {
+                /********* upload image ***********/
+                const uploadImageObj = Array.isArray(values.picture_img) ? values.picture_img : [values.picture_img];
+                const videoObj = values.video ? [values.video] : [];
+                const iconObj = values.icon ? [values.icon] : [];
+                
+                // Combine all files (images, video, icons) for upload
+                const allUploadFiles = [...uploadImageObj, ...videoObj];
+                const allUploadFilesICon = [...iconObj];
+                
+                // Upload files
+                const uploadImageUrl = await insertMultipleUploadImage("image", allUploadFiles);
+                const uploadImageIconUrl = await insertMultipleUploadImage("image", allUploadFilesICon);
 
-                if (!videoUrl) {
-                    videoUrl = values.video_link;
-                }
-                /********* create user ***********/
-                try {
+                if (uploadImageUrl.files.length > 0) {
+                    const imageUrls = [];
+                    let videoUrl = null;
+                    let iconUrl = null; // Initialize as null for a single URL
+                
+                    // Process uploaded files to separate URLs
+                    uploadImageUrl.files.forEach((file) => {
+                        if (file.mimeType.startsWith("image")) {
+                            imageUrls.push(file.url); // Collect image URLs
+                        } else if (file.mimeType.startsWith("video")) {
+                            videoUrl = file.url; // Assign video URL
+                        }
+                    });
+                
+                    // Assign the first icon file's URL to iconUrl
+                    if (uploadImageIconUrl?.files?.length > 0) {
+                        iconUrl = uploadImageIconUrl.files[0].url; // Use the first file's URL
+                    }
+                
+                    console.log("Project Data:", { imageUrls, videoUrl, iconUrl });
+                
+                    // Default video URL if not uploaded
+                    if (!videoUrl) {
+                        const isValid = validateYouTubeURL(values.video_link);
+                        if (!isValid) {
+                            setErrors({ serverError: "Please upload a Valid YouTube video link like https://www.youtube.com/watch?v=YOUR_VIDEO_ID." });
+                            setShowErrorPopup(true);
+                            return false;
+                        }
+                        videoUrl = values.video_link ?? null; // Use values.video_link as fallback
+                    }
+                    console.log('values');
+                    console.log(values);
+                    /********* create user ***********/
                     const projectData = {
+
                         title_en: values.title_en,
                         title_fr: values.title_fr,
-                        description_en: values.description_en??null,
-                        description_fr: values.description_fr??null,
-                        price: parseInt(values.price)??0,
-                        vr_link: values.vr_link??null,
-                        picture: pictureUrl,
+                        description_en: values.description_en,
+                        description_fr: values.description_fr,
+                        price: parseInt(values.price) ?? 0,
+                        vr_link: values.vr_link,
+                        picture: imageUrls,
+                        icon: iconUrl,
                         video: videoUrl,
                         user_id: userId,
-                        link_uuid: values.link_uuid??null,
                         state_id: values.state_id,
                         city_id: values.city_id,
-                        district_id: values.districts_id,
-                        neighborhoods_id: values.neighborhood_id,
-                        latitude: values.latitude,
-                        longitude: values.longitude,
-                        meta_details:selectedAmenities,
-                        latitude: "34.092809",
-                        longitude: "-118.328661",
-                        address:""
+                        district_id: values.districts_id, // Fixed
+                        neighborhoods_id: values.neighborhood_id, // Fixed
+                        latitude: isNaN(parseFloat(values.latitude)) ? 20.2323 : parseFloat(values.latitude),
+                        longitude: isNaN(parseFloat(values.longitude)) ? 20.2323 : parseFloat(values.longitude),
+                        currency_id: values.currency_id,
+                        meta_details: selectedAmenities,
+                        address: values.address,
                     }
-                    console.log('projectData');
-                    console.log(projectData);
-                    const createUserInfo = await insertData('api/projects/create', projectData, true);
-                    console.log('status');
-                    console.log(createUserInfo);
-                    if(createUserInfo.status) {
+                    console.log("Project Data:", projectData); 
+                    const createUserInfo = await insertData("api/projects/create", projectData, true);
+    
+                    if (createUserInfo.status) {
                         setSucessMessage(true);
-                        setErrorMessage("Project created successfully");
-                        router.push('/project-listing');  
-                    }else{
-                        setErrorMessage(createUserInfo.message);   
-                    } 
-                } catch (error) {
-                    setErrorMessage(error.message);
-                } 
-            } else {
-               setErrorMessage('File not uploaded');
+                        setErrors({ serverError: "Project created successfully." });
+                        setShowErrorPopup(true);
+                        resetForm();
+                        router.push("/project-listing");
+                    } else {
+                        setErrors({ serverError: createUserInfo.message || "Failed to create project." });
+                        setShowErrorPopup(true);
+                    }
+                    
+                } else{
+                    setErrors({ serverError: "File upload failed." });
+                    setShowErrorPopup(true);
+                }
+            } catch (error) {
+                setErrors({ serverError: error.message || "An unexpected error occurred." });
+                setShowErrorPopup(true);
+            }finally {
+                setLoading(false); // Stop loader
             }
         // }else{
         //     setErrorMessage(getUserInfo.message);
@@ -356,16 +406,16 @@ export default function CreateAgency() {
                     title_fr: "",
                     description_en: "",
                     description_fr: "",
-                    price: 0,
+                    price: "",
+                    currency_id: "",
                     vr_link: "",
-                    picture_img: null, // Use `null` for file inputs
+                    picture_img: [], // Set this to an empty array for multiple files
+                    icon: null, // Set this to an empty array for multiple files
                     video: null, // Use `null` for file inputs
-                    credit: "",
                     state_id: "",
                     city_id: "",
                     districts_id: "",
-                    neighborhood_id: "", 
-                    link_uuid: "",
+                    neighborhood_id: ""
                  }}  
                 validationSchema={validationSchema}
                 onSubmit={handleSubmit}
@@ -404,32 +454,58 @@ export default function CreateAgency() {
                                     <fieldset className="box box-fieldset">
                                         <label htmlFor="title">Title English:<span>*</span></label>
                                         <Field type="text" id="title_en" name="title_en" className="form-control style-1" />
-                                        <ErrorMessage name="title_en" component="div" className="error" />
+                                        {/* <ErrorMessage name="title_en" component="div" className="error" /> */}
                                     </fieldset>
                                     <fieldset className="box box-fieldset">
                                         <label htmlFor="title">Title French:<span>*</span></label>
                                         <Field type="text" id="title_fr" name="title_fr" className="form-control style-1" />
-                                        <ErrorMessage name="title_fr" component="div" className="error" />
+                                        {/* <ErrorMessage name="title_fr" component="div" className="error" /> */}
                                     </fieldset>
                                 </div>
                                 <div className="grid-1 box gap-30">
                                     <fieldset className="box-fieldset">
                                         <label htmlFor="description">Description English:<span>*</span></label>
                                         <Field type="textarea"  as="textarea"  id="description_en" name="description_en" className="textarea-tinymce" />
-                                        <ErrorMessage name="description_en" component="div" className="error" />
+                                        {/* <ErrorMessage name="description_en" component="div" className="error" /> */}
                                     </fieldset>
                                 </div>
                                 <div className="grid-1 box gap-30">
                                     <fieldset className="box-fieldset">
                                         <label htmlFor="description">Description French:<span>*</span></label>
                                         <Field type="textarea"  as="textarea"  id="description_fr" name="description_fr" className="textarea-tinymce" />
-                                        <ErrorMessage name="description_fr" component="div" className="error" />
+                                        {/* <ErrorMessage name="description_fr" component="div" className="error" /> */}
                                     </fieldset>
                                 </div>
                             </div>
                             <div className="widget-box-2">
                                 <h6 className="title">Other Information</h6>
                                 <div className="box grid-3 gap-30">
+                                <fieldset className="box-fieldset ">
+                                    <label htmlFor="name">Price<span>*</span>:</label>
+                                        <div className="phone-and-country-code">
+                                            <Field as="select" name="currency_id" className="nice-select country-code"
+                                                id="country-code"
+                                                value={currencyCode}
+                                                onChange={(e) => {
+                                                    const selectedState = e.target.value;
+                                                    setCurrencyCode(selectedState);
+                                                    setFieldValue("currency_id", selectedState);
+                                                    //handleCityChange(selectedState);
+                                                }}
+                                            >
+                                                <option value="">Select Currency</option>
+                                                {currencyList && currencyList.length > 0 ? (
+                                                    currencyList.map((currency, index) =>(
+                                                        <option key={index} value={currency.id}>{currency.name}
+                                                        </option>
+                                                    ))
+                                                ) : (
+                                                    <></>
+                                                )}
+                                            </Field>
+                                            <Field type="text" id="price" name="price" className="form-control style-1" />
+                                        </div>
+                                    </fieldset>
                                     {/* <fieldset className="box box-fieldset">
                                         <label htmlFor="desc">Price:<span>*</span></label>
                                         <Field type="number" id="price" name="price" className="box-fieldset" />
@@ -438,16 +514,16 @@ export default function CreateAgency() {
                                     <fieldset className="box box-fieldset">
                                         <label htmlFor="desc">VR Link:</label>
                                         <Field type="text" name="vr_link" className="box-fieldset"  />
-                                        <ErrorMessage name="vr_link" component="div" className="error" />
+                                        {/* <ErrorMessage name="vr_link" component="div" className="error" /> */}
                                     </fieldset>
-                                    <fieldset className="box box-fieldset">
+                                    {/*<fieldset className="box box-fieldset">
                                         <label htmlFor="desc">Link UUID:<span>*</span></label>
                                         <Field type="text"  name="link_uuid" className="box-fieldset" />
                                         <ErrorMessage name="link_uuid" component="div" className="error" />
-                                    </fieldset>
+                                    </fieldset>*/}
                                 </div>
                                 <div className="box grid-3 gap-30">
-                                    <fieldset className="box box-fieldset">
+                                    {/* <fieldset className="box box-fieldset">
                                         <label htmlFor="desc">License number:</label>
                                         <Field type="text" id="license_number" name="license_number" className="box-fieldset" />
                                         <ErrorMessage name="license_number" component="div" className="error" />
@@ -456,7 +532,7 @@ export default function CreateAgency() {
                                         <label htmlFor="desc">Credit:</label>
                                         <Field type="text" name="credit" className="box-fieldset"  />
                                         <ErrorMessage name="credit" component="div" className="error" />
-                                    </fieldset>
+                                    </fieldset> */}
                                     {/* <fieldset className="box box-fieldset">
                                         <label htmlFor="title">User Listing:</label>
                                         <Field as="select" name="user_id" className="nice-select country-code"
@@ -476,7 +552,7 @@ export default function CreateAgency() {
                                         </Field>
                                         <ErrorMessage name="user_id" component="div" className="error" />
                                     </fieldset> */}
-                                        {projectOfNumberListing && projectOfNumberListing.length > 0 ? (
+                                        {/* {projectOfNumberListing && projectOfNumberListing.length > 0 ? (
                                             projectOfNumberListing.map((project) => (
                                                 <fieldset className="box box-fieldset">
                                                     <label htmlFor="desc">{project.name}:</label>
@@ -486,44 +562,209 @@ export default function CreateAgency() {
                                             ))
                                         ) : (
                                             <></>
-                                        )}
+                                        )} */}
                                 </div>
                                 <div className="grid-2 box gap-30">
                                     <fieldset className="box-fieldset">
-                                        <label htmlFor="bedrooms">Picture Image:</label>
-                                        <div className="box-floor-img uploadfile">
-                                            <div className="btn-upload">
-                                                <Link href="#" className="tf-btn primary">Choose File</Link>
-                                                <input
-                                                    type="file"
-                                                    className="ip-file"
-                                                    onChange={(event) => {
-                                                        const file = event.currentTarget.files[0];
-                                                        setFieldValue("picture_img", file);
-                                                        setFilePictureImg(URL.createObjectURL(file));
-                                                    }}
-                                                />
-                                                {filePictureImg && ( <img src={filePictureImg} alt="Preview" className="uploadFileImage" /> )}
-                                            </div>
-                                            <p className="file-name fw-5"> Or drop image here to upload </p>
-                                            {errors.picture_img && touched.picture_img && ( <div className="error">{errors.picture_img}</div> )}
-                                        </div>
+                                        <label htmlFor="picture_img">Picture Images:</label>
+                                        <Field
+                                            name="picture_img"
+                                            component={({ field, form }) => (
+                                                <div className="box-floor-img uploadfile">
+                                                {/* Upload Button */}
+                                                <div className="btn-upload">
+                                                    <label className="tf-btn primary">
+                                                    Choose Files
+                                                    <input
+                                                        type="file"
+                                                        multiple
+                                                        className="ip-file"
+                                                        onChange={(event) => {
+                                                        let imageList = [];
+                                                        const files = Array.from(event.target.files); // Convert to an array
+                                                        const validPreviews = [];
+                                                        files.forEach((file) => {
+                                                            // Check file size (less than 150KB)
+                                                            // if (file.size < 150000) {
+                                                            // alert(`Please upload files above the size of 150KB`);
+                                                            // } else {
+                                                            // Create an Image object to check its dimensions
+                                                            const img = new Image();
+                                                            const reader = new FileReader();
+                                                            reader.onload = (e) => {
+                                                                img.src = e.target.result; // Set image src to the file's data URL
+
+                                                                // Once the image is loaded, check its dimensions
+                                                                img.onload = () => {
+                                                                const imageHeight = img.height;  // Get image height
+                                                                const imageWidth = img.width;    // Get image width
+
+                                                                // You can add your dimension validation here
+                                                                if (imageHeight <= 800 || imageWidth <= 1100) {
+                                                                    alert('Please upload images with a maximum height of 800px and a maximum width of 1100px.');
+                                                                } else {
+                                                                    // Add the file as a valid image and generate the preview
+                                                                    validPreviews.push(URL.createObjectURL(file));
+                                                                    imageList.push(file); // Add valid file to the list
+                                                                }
+
+                                                                // Update state and Formik with valid files
+                                                                setFilePreviews(validPreviews); // Set previews for valid files
+                                                                setFieldValue(field.name, imageList);
+                                                                };
+                                                            };
+
+                                                            // Read the file as a Data URL to create a preview
+                                                            reader.readAsDataURL(file);
+                                                            //}
+                                                        });
+                                                        }}
+                                                        style={{ display: "none" }}
+                                                    />
+                                                    </label>
+                                                </div>
+
+
+                                                <p className="file-name fw-5">Or drop images here to upload</p>
+
+                                                {/* Error Message */}
+                                                {/* <ErrorMessage name="picture_img" component="div" className="error" /> */}
+                                                </div>
+                                            )}
+                                            />
+
                                     </fieldset>
                                     <fieldset className="box-fieldset">
-                                        <legend>Video Option</legend>
+                                        {/* Image Previews */}
+                                        <div className="image-preview-container image-gallery">
+                                            {filePreviews.length > 0 && (<p className="fw-5">Image Preview:</p>)}
+                                            {filePreviews.map((preview, index) => (
+                                                <div key={index} className="preview-item">
+                                                    <img
+                                                        src={preview}
+                                                        alt={`Preview ${index + 1}`}
+                                                        className="uploadFileImage"
+                                                    />
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => {
+                                                            const newFilePreviews = filePreviews.filter((_, i) => i !== index);
+                                                            const newImageList = values.picture_img.filter((_, i) => i !== index);
+                                                            setFilePreviews(newFilePreviews);
+                                                            setFieldValue("picture_img", newImageList);
+                                                          }}
+                                                        className="remove-image-btn"
+                                                    >
+                                                        &times;
+                                                    </button>
 
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </fieldset>
+
+                                </div>
+                                <div className="grid-2 box gap-30">
+                                    <fieldset className="box-fieldset">
+                                        <label htmlFor="picture_img">Icon Images:</label>
+                                        <Field
+                                            name="icon"
+                                            component={({ field, form }) => (
+                                                <div className="box-floor-img uploadfile">
+                                                {/* Upload Button */}
+                                                <div className="btn-upload">
+                                                    <label className="tf-btn primary">
+                                                    Choose Files
+                                                    <input
+                                                            type="file"
+                                                            accept="image/*"
+                                                            className="ip-file"
+                                                            onChange={(event) => {
+                                                            const file = event.target.files[0]; // Get the first file
+                                                            if (file) {
+                                                                // Perform size validation
+                                                                // if (file.size < 1000) {
+                                                                // alert(`Please upload a file above the size of 1KB`);
+                                                                // return;
+                                                                // }
+
+                                                                const img = new Image();
+                                                                const reader = new FileReader();
+
+                                                                reader.onload = (e) => {
+                                                                img.src = e.target.result;
+
+                                                                img.onload = () => {
+                                                                    const imageHeight = img.height;
+                                                                    const imageWidth = img.width;
+
+                                                                    setFieldValue("icon", file); // Set the file in Formik state
+                                                                    setIconPreview(URL.createObjectURL(file)); // Generate a preview URL
+                                                                    // Perform dimension validation
+                                                                    // if (imageHeight > 200 || imageWidth > 200) {
+                                                                    // alert(
+                                                                    //     "Please upload an image with a maximum height and width of 200px."
+                                                                    // );
+                                                                    // } else {
+                                                                    // setFieldValue("icon", file); // Set the file in Formik state
+                                                                    // setIconPreview(URL.createObjectURL(file)); // Generate a preview URL
+                                                                    // }
+                                                                };
+                                                                };
+
+                                                                reader.readAsDataURL(file); // Read file as Data URL
+                                                            }
+                                                            }}
+                                                            style={{ display: "none" }}
+                                                        />
+                                                    </label>
+                                                </div>
+                                                <p className="file-name fw-5">Or drop images here to upload</p>
+                                                </div>
+                                            )}
+                                        />
+                                    </fieldset>
+                                    <fieldset className="box-fieldset">
+                                        {/* Image Previews */}
+                                    <div className="image-preview-container image-gallery">
+                                    {iconPreview.length > 0 && iconPreview && (
+                                            <div className="preview-item">
+                                            <img
+                                                src={iconPreview}
+                                                alt="Icon Preview"
+                                                className="uploadFileImage"
+                                            />
+                                            <button
+                                                type="button"
+                                                onClick={() => {
+                                                setIconPreview(null); // Clear the preview
+                                                setFieldValue("icon", null); // Clear the file in Formik state
+                                                }}
+                                                className="remove-image-btn"
+                                            >
+                                                &times;
+                                            </button>
+                                            </div>
+                                        )}
+                                    </div>
+                                    </fieldset>
+
+                                </div>
+                                <div className="box grid-1 box gap-50">
+                                    <fieldset className="box-fieldset">
+                                        <label htmlFor="picture_img">Video Option:</label>
                                         {/* Video Option Radio Buttons */}
                                         <div>
                                             <fieldset className="fieldset-radio">
-                                                <input type="radio" className="tf-radio"  value="upload" name="videoOption" onChange={() => {
+                                                <input type="radio" className="tf-radio video-upload"  value="upload" name="videoOption" onChange={() => {
                                                         setIsVideoUpload(true); // Update the state for conditional rendering
                                                         setFieldValue("video", null); // Reset the file field in Formik state
                                                     }} defaultChecked />
                                                 <label htmlFor="upload" className="text-radio">Upload Video</label>
-                                        
+
                                                 <input
                                                     type="radio"
-                                                    className="tf-radio"
+                                                    className="tf-radio video-upload"
                                                     name="videoOption"
                                                     value="link"
                                                     onChange={() => {
@@ -564,7 +805,7 @@ export default function CreateAgency() {
                                                     </video>
                                                 )}
                                                 <p className="file-name fw-5">Or drop video here to upload</p>
-                                                <ErrorMessage name="video" component="div" className="error" />
+                                                {/* <ErrorMessage name="video" component="div" className="error" /> */}
                                             </div>
                                         ) : (
                                             // YouTube Link Input Field
@@ -574,12 +815,13 @@ export default function CreateAgency() {
                                                     type="text"
                                                     name="video_link"
                                                     className="form-control"
-                                                    placeholder="Enter YouTube video link"
+                                                    placeholder="https://www.youtube.com/watch?v=QgAQcrvHsHQ"
                                                 />
-                                                <ErrorMessage name="video_link" component="div" className="error" />
+                                                {/* <ErrorMessage name="video_link" component="div" className="error" /> */}
                                             </div>
                                         )}
                                     </fieldset>
+
                                 </div>
                             </div>
                             <div className="widget-box-2">
@@ -602,7 +844,7 @@ export default function CreateAgency() {
                                                     <></>
                                                 )}
                                         </Field>
-                                        <ErrorMessage name="state_id" component="div" className="error" />
+                                        {/* <ErrorMessage name="state_id" component="div" className="error" /> */}
                                     </fieldset>
                                     <fieldset className="box box-fieldset">
                                         <label htmlFor="desc">Cities:</label>
@@ -624,7 +866,7 @@ export default function CreateAgency() {
                                                     <></>
                                                 )}
                                             </Field>
-                                        <ErrorMessage name="city_id" component="div" className="error" />
+                                        {/* <ErrorMessage name="city_id" component="div" className="error" /> */}
                                     </fieldset>
                                     <fieldset className="box box-fieldset">
                                         <label htmlFor="desc">District:</label>
@@ -644,7 +886,7 @@ export default function CreateAgency() {
                                                     <></>
                                                 )}
                                             </Field>
-                                        <ErrorMessage name="districts_id" component="div" className="error" />
+                                        {/* <ErrorMessage name="districts_id" component="div" className="error" /> */}
                                     </fieldset>
                                     <fieldset className="box box-fieldset">
                                         <label htmlFor="desc">Neighborhood:</label>
@@ -664,7 +906,7 @@ export default function CreateAgency() {
                                                     <></>
                                                 )}
                                             </Field>
-                                        <ErrorMessage name="neighborhood_id" component="div" className="error" />
+                                        {/* <ErrorMessage name="neighborhood_id" component="div" className="error" /> */}
                                     </fieldset>
                                 </div>
                                 <div className="box box-fieldset">
@@ -677,6 +919,13 @@ export default function CreateAgency() {
                                         latitude={propertyMapCoords.latitude}
                                         longitude={propertyMapCoords.longitude}
                                         zoom={propertyMapCoords.zoom}
+                                        onPlaceSelected={(newAddress, newLocation) => {
+                                            setFieldValue('address', newAddress);
+                                            setFieldValue('latitude', newLocation.lat);
+                                            setFieldValue('longitude', newLocation.lng);
+                                            //handleAddressSelect(newAddress, newLocation);
+                                        }
+                                    }
                                     />
                                 </div>
                             </div>
@@ -687,14 +936,14 @@ export default function CreateAgency() {
                                     {projectOfBooleanListing && projectOfBooleanListing.length > 0 ? (
                                             projectOfBooleanListing.map((project) => (
                                                 <fieldset className="amenities-item">
-                                                    <Field 
-                                                        type="checkbox" name={project.id} 
+                                                    <Field
+                                                        type="checkbox" name={project.id}
                                                         className="tf-checkbox style-1 primary"
                                                         checked={!!checkedItems[project.key]} // Set checked status
-                                                        onChange={() => handleCheckboxChange(project.key)} 
+                                                        onChange={() => handleCheckboxChange(project.key)}
                                                     />
                                                     <label for="cb1" className="text-cb-amenities">{project.name}</label>
-                                                    <ErrorMessage name={project.key} component="div" className="error" />
+                                                    {/* <ErrorMessage name={project.key} component="div" className="error" /> */}
                                                 </fieldset>
                                             ))
                                         ) : (
@@ -703,8 +952,16 @@ export default function CreateAgency() {
                                     </div>
                                 </div>
                             </div>
-                            <button type="submit"  className="tf-btn primary" >Add Project</button>
+                            <button type="submit"  className="tf-btn primary" onClick={() => setShowErrorPopup(!showErrorPopup)}>Add Project</button>
                         </div >
+                        {/* Error Popup */}
+                        {showErrorPopup && Object.keys(errors).length > 0 && (
+                            <ErrorPopup
+                                errors={errors}
+                                validationSchema={validationSchema}
+                                onClose={() => setShowErrorPopup(false)}
+                            />
+                        )}
                     </Form>
                 )}
                 </Formik>

@@ -102,21 +102,22 @@ import Preloader from '@/components/elements/Preloader';
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "next/navigation";
 export default function ProjectDetailsV1({ params }) {
-    const { id } = params;
+    const { slug } = params;
 	const searchParams = useSearchParams();
 	const projectId = searchParams.get("id");
 	const [isAccordion, setIsAccordion] = useState(1)
 	const [error, setError] = useState(null);
 	const [loading, setLoading] = useState(true);
 	const [projectDetails, setProjectDetails] = useState('');
-	const [isOpen, setOpen] = useState(false);
+	const [isOpen, setIsOpen] = useState(false);
 	const [videoUrl, setVideoUrl] = useState("");
 	const [properties, setProperties] = useState([]);
+	const [currentImage, setCurrentImage] = useState(null); // Current image in the modal
 	const fetchProjectsDetails = async () => {
 		setLoading(true); // Start loading
 		try {
 			const requestData = {
-				project_id: id
+				project_slug: slug
 			};
 
 			// API call
@@ -161,6 +162,7 @@ export default function ProjectDetailsV1({ params }) {
 	const handleAccordion = (key) => {
 		setIsAccordion(prevState => prevState === key ? null : key)
 	}
+	console.log(projectDetails.video);
 	if ((!projectDetails.video.endsWith(".mp4")) && (videoUrl === "")) {
 		const urlParams = new URLSearchParams(new URL(projectDetails.video).search);
 		const videoId = urlParams.get('v');
@@ -168,30 +170,52 @@ export default function ProjectDetailsV1({ params }) {
 	}
 	console.log('video');
 	console.log(videoUrl);
+
+	const openPopup = (image) => {
+		console.log('image');
+		console.log(image);
+		setCurrentImage(image);
+		setIsOpen(true);
+	};
+
+	const closePopup = () => {
+		setIsOpen(false);
+		setCurrentImage(null);
+	};
 	return (
 		<>
 
 			<Layout headerStyle={1} footerStyle={1}>
-				<div>
+				<div className={isOpen?"custom-overlay":""}> 
 					<section className="flat-location flat-slider-detail-v1">
 						<div className="swiper tf-sw-location">
 							<Swiper {...swiperOptions(projectDetails)} className="swiper-wrapper">
 								{(projectDetails?.picture.length > 0 ? projectDetails.picture : ["/images/banner/no-banner.png"]).map((item, index) => (
 									<SwiperSlide key={index}>
-										<Link
-											href=''
-											data-fancybox="gallery"
-											className={`box-imgage-detail d-block property-image ${projectDetails?.picture.length === 1 ? "full-screen" : ""
-												}`}
-										>
-											<img
-												src={item}
-												alt="img-property"
-											/>
-										</Link>
+									<div
+										onClick={() => openPopup(item)}
+										className={`box-imgage-detail d-block property-image ${
+											projectDetails?.picture.length === 1 ? "full-screen" : ""
+										}`}
+									>
+										<img src={item} alt="img-property" />
+									</div>
 									</SwiperSlide>
 								))}
 							</Swiper>
+							{isOpen && (
+								<div className="modal-overlay-custom" onClick={closePopup}>
+								<div
+									className="modal-content-custom"
+									onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
+								>
+									<img src={currentImage} alt="img-property-large" />
+									<button onClick={closePopup} className="close-button">
+									X
+									</button>
+								</div>
+								</div>
+							)}
 							{projectDetails?.picture.length > 2 && (
 								<div className="box-navigation">
 									<div className="navigation swiper-nav-next nav-next-location">
@@ -258,7 +282,7 @@ export default function ProjectDetailsV1({ params }) {
 											: projectDetails?.description_fr // Show French title if lang = 'fr'
 										}
 									</div>
-									<div className="single-property-element single-property-overview">
+									{/* <div className="single-property-element single-property-overview">
 										{projectDetails?.meta_details?.length > 0 && (
 											(() => {
 												// Filter only number type
@@ -293,7 +317,7 @@ export default function ProjectDetailsV1({ params }) {
 														) : null
 													)}
 										</ul>
-									</div>
+									</div> */}
 									<div className="single-property-element single-property-video">
 										<div className="h7 title fw-7">{t("video")}</div>
 										<div className="img-video">
@@ -452,7 +476,7 @@ export default function ProjectDetailsV1({ params }) {
                                                     {[projectDetails?.state, projectDetails?.city, projectDetails?.district, projectDetails?.neighborhood]
                                                         .filter(Boolean)
                                                         .join(', ')}
-                                                    </span>
+                                                    </span><br/>
                                                     <span className="mt-4 text-variant-1">{projectDetails?.address}</span>
                                             
                                                 </li>
@@ -1168,11 +1192,11 @@ export default function ProjectDetailsV1({ params }) {
 
 								</Swiper>
 							</div>
-							<div className="center-align">
+							{/* <div className="center-align">
 								<a href={'/properties'} className="form-wg tf-btn primary">
 									<span>Back</span>
 								</a>
-							</div>
+							</div> */}
 
 						</div>
 					</section>

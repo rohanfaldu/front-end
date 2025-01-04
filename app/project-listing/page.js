@@ -36,11 +36,11 @@ export default function ProjectListing() {
         status,
       };
 
-      const response = await insertData("api/projects", requestData, true);
+      const response = await insertData("api/projects/developer", requestData, true);
       console.log(response);
       if (response.status) {
-        const { projects, totalCount, totalPages, currentPage } = response.data;
-        setProperties(projects);
+        const { list, totalCount, totalPages, currentPage } = response.data;
+        setProperties(list);
         setPagination({
           ...pagination,
           totalCount,
@@ -85,8 +85,8 @@ export default function ProjectListing() {
     }
   };
 
-  const handleView = (id) => {
-    const URL = `${process.env.NEXT_PUBLIC_SITE_URL}/project/${id}`;
+  const handleView = (slug) => {
+    const URL = `${process.env.NEXT_PUBLIC_SITE_URL}/project/${slug}`;
       window.open(URL, '_blank')
   };
 
@@ -145,8 +145,9 @@ export default function ProjectListing() {
                               </td>
                               <td>
                                 <ul className="list-action">
+                                    
                                   <li className="edit">
-                                    <Link href={`/edit-project/${property.id}`} className="item">
+                                    <Link href={`/edit-project/${property.slug}`} className="item">
                                       <Image
                                         src={EditIcon} // Imported image object or static path
                                         alt="Edit icon"
@@ -168,7 +169,7 @@ export default function ProjectListing() {
                                   <li className="delete">
                                     <a
                                       className="remove-file item"
-                                      onClick={() => handleView(property.id)}
+                                      onClick={() => handleView(property.slug)}
                                       style={{ border: 'none', background: 'transparent', padding: 0 }}
                                       target="_blank"
                                       rel="noopener noreferrer"
@@ -181,6 +182,7 @@ export default function ProjectListing() {
                                       />
                                     </a>
                                   </li>
+
                                 </ul>
                               </td>
                             </tr>

@@ -160,7 +160,8 @@ export default function ProjectHalfmapList() {
 							<div className="tab-content">
 								<div className="tab-pane fade active show" role="tabpanel">
 									<div className="form-sl">
-										<form method="post" onSubmit={(e) => { e.preventDefault(); applyFilters(); }}>
+										{/* <form method="post" onSubmit={(e) => { e.preventDefault(); applyFilters(); }}> */}
+										<form method="post" onSubmit={(e) => { e.preventDefault(); }}>
 											<div className="wd-filter-select">
 												<div className="inner-group inner-filter">
 													<div className="form-style">
@@ -381,7 +382,7 @@ export default function ProjectHalfmapList() {
 											<div className="homeya-box">
 												<div className="archive-top">
 													<Link
-														href={`/project/${project.id}`}
+														href={`/project/${project.slug}`}
 														className="images-group"
 													>
 

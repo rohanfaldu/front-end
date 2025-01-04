@@ -150,7 +150,8 @@ export default function PropertyHalfmapList() {
 							<div className="tab-content">
 								<div className="tab-pane fade active show" role="tabpanel">
 									<div className="form-sl">
-										<form method="post" onSubmit={(e) => { e.preventDefault(); applyFilters(); }}>
+										{/* <form method="post" onSubmit={(e) => { e.preventDefault(); applyFilters(); }}> */}
+										<form method="post" onSubmit={(e) => { e.preventDefault(); }}>
 											<div className="wd-filter-select">
 												<div className="inner-group inner-filter">
 													<div className="form-style">
@@ -411,7 +412,7 @@ export default function PropertyHalfmapList() {
 															</li>
 															<li className="item">
 																<i className="icon icon-ruler" />
-																<span>{property.size} SqFT</span>
+																<span>{property.size} SqMeter</span>
 															</li>
 														</ul>
 													</div>

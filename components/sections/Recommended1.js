@@ -131,7 +131,7 @@ export default function Recommended1() {
 																			</ul>
 																		</>
 																	):(<></>)}
-																	<ul className="d-flex gap-4">
+																	{/* <ul className="d-flex gap-4">
 																		<li className="box-icon w-32">
 																			<span className="icon icon-arrLeftRight" />
 																		</li>
@@ -141,7 +141,7 @@ export default function Recommended1() {
 																		<li className="box-icon w-32">
 																			<span className="icon icon-eye" />
 																		</li>
-																	</ul>
+																	</ul> */}
 																</div>
 																<div className="bottom">
 																	<span className="flag-tag style-2">{property.type_details.title}</span>
@@ -156,11 +156,15 @@ export default function Recommended1() {
 																<ul className="meta-list">
 																	<li className="item">
 																		<i className="icon icon-bed" />
-																		<span>{property.bedRooms === 0 ? '-' : `${property.bedRooms} Bedroom`}</span>
+																		<span>{property.bedRooms === "0" ? '-' : `${property.bedRooms}`}</span>
+																	</li>
+																	<li className="item">
+																		<i className="icon icon-bathtub" />
+																		<span>{property.bathRooms === "0" ? '-' : `${property.bathRooms}`}</span>
 																	</li>
 																	<li className="item">
 																		<i className="icon icon-ruler" />
-																		<span>{property.size === null ? '-' : `${property.size} SqMeter`}</span>
+																		<span>{property.size === null ? '-' : `${property.size}`}</span>
 																	</li>
 																</ul>
 															</div>
@@ -185,8 +189,9 @@ export default function Recommended1() {
 									</div>
 								</div>
 							</div>
-
-							
+							<div className="text-center">
+								<Link href="/properties" className="tf-btn primary size-1">View All Properties</Link>
+							</div>
 						</div>
 					</div>
 				</section>

@@ -114,6 +114,7 @@ export default function PropertyDetailsV1({ params }) {
 	const [currentImage, setCurrentImage] = useState(null); // Current image in the modal
 	const { t, i18n } = useTranslation();
 	useEffect(() => {
+		console.log(properties);
 		const fetchData = async () => {
 			//try {
 			const lang = i18n.language;
@@ -233,9 +234,9 @@ export default function PropertyDetailsV1({ params }) {
 								</SwiperSlide> */}
 							</Swiper>
 							{isOpen && (
-								<div className="modal-overlay" onClick={closePopup}>
+								<div className="modal-overlay-custom" onClick={closePopup}>
 								<div
-									className="modal-content"
+									className="modal-content-custom"
 									onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
 								>
 									<img src={currentImage} alt="img-property-large" />
@@ -284,9 +285,9 @@ export default function PropertyDetailsV1({ params }) {
 									<div className="info-box">
 										<div className="label">{t("feature")}</div>
 										<ul className="meta">
-											<li className="meta-item"><span className="icon icon-bed" /> {properties.bedRooms === "0" ? '-' : `${properties.bedRooms}`} {t('bedroom')}</li>
-											<li className="meta-item"><span className="icon icon-bathtub" /> {properties.bathRooms === "0" ? '-' : `${properties.bathRooms} `}{t('bathroom')}</li>
-											<li className="meta-item"><span className="icon icon-ruler" /> {properties.size === null ? '-' : `${properties.size} `}{t('sqmeter')}</li>
+											<li className="meta-item"><span className="icon icon-bed" /> {properties.bedRooms === "0" ? '-' : `${properties.bedRooms} ${t('bedroom')}`}</li>
+											<li className="meta-item"><span className="icon icon-bathtub" /> {properties.bathRooms === "0" ? '-' : `${properties.bathRooms} ${t('bathroom')}` }</li>
+											<li className="meta-item"><span className="icon icon-ruler" /> {properties.size === null ? '-' : `${properties.size} ${t('sqmeter')}`}</li>
 										</ul>
 									</div>
 									{/* <div className="info-box">
@@ -509,12 +510,12 @@ export default function PropertyDetailsV1({ params }) {
 											<ul className="info-map">
 												<li>
 													<div className="fw-7">{t("address")}</div>
-													{properties.address !== "" && (<span className="mt-4 text-variant-1">{properties.address}</span>)}
-													{/* <span className="mt-4 text-variant-1 67886">
+													{properties.address !== "" && (<span className="mt-4 text-variant-1">{properties.address}</span>)}<br/>
+													<span className="mt-4 text-variant-1 67886">
                                                     {[properties?.state, properties?.city, properties?.district, properties?.neighborhood]
                                                         .filter(Boolean)
                                                         .join(', ')}
-                                                    </span> */}
+                                                    </span>
 												</li>
 											</ul>
 
@@ -1186,11 +1187,11 @@ export default function PropertyDetailsV1({ params }) {
 								</div >
 							</div >
 						</div >
-						<div className="center-align">
+						{/* <div className="center-align">
 							<a href={'/properties'} className="form-wg tf-btn primary">
 								<span>Back</span>
 							</a>
-						</div>
+						</div> */}
 					</section >
 					{/* <section className="flat-section pt-0 flat-latest-property">
 						<div className="container">

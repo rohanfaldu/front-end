@@ -68,15 +68,6 @@ export const createUser = async (userData) => {
 };
 
 // Function to handle PUT requests (for updates)
-export const updateData = async (endpoint, data) => {
-  try {
-    const response = await axios.put(`${API_URL}/${endpoint}`, data);
-    return response.data; // Return the updated data
-  } catch (error) {
-    console.error('Error updating data:', error);
-    return false; // Re-throw the error for further handling
-  }
-};
 
 // Function to handle DELETE requests
 export const deletedData = async (endpoint, data) => {
@@ -134,3 +125,44 @@ export const deletedRecord = async (endpoint, data) => {
   }
 };
 
+export const updateData = async (endpoint, data, flag) => {
+  console.log('q111111');
+  try {
+    let header;
+      console.log('Here');
+    if (flag) {
+      // Retrieve the token from localStorage
+      const token = localStorage.getItem('token');
+      if (!token) {
+        // Redirect to login if token is missing
+        window.location.href = '/';
+        return false;
+      }
+      header = {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+      };
+    } else {
+      // No token required
+      header = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+    }
+
+    // Send the PUT request with the appropriate headers
+    const response = await axios.put(`${API_URL}/${endpoint}`, data, header);
+    return response.data; // Return the updated data
+  } catch (error) {
+    if (error.response && error.response.status === 401) {
+      // Handle unauthorized access
+      localStorage.clear();
+      window.location.href = '/';
+    }
+    console.error('Error updating data:', error);
+    throw error; // Re-throw for further error handling
+  }
+};

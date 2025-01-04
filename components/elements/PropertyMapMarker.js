@@ -3,7 +3,7 @@ import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { GoogleMap, useJsApiLoader, Marker, Autocomplete } from '@react-google-maps/api';
 import Preloader from './Preloader';
 
-export default function PropertyMapMarker({ isGeolocation, latitude, longitude, zoom, onPlaceSelected }) {
+export default function PropertyMapMarker({ isGeolocation, latitude, longitude, zoom, onPlaceSelected, address }) {
   const [currentLocation, setCurrentLocation] = useState({ lat: latitude || 0, lng: longitude || 0 });
   const [zoomlevel, setZoomlevel] = useState(8);
   const [map, setMap] = useState(null);
@@ -101,6 +101,7 @@ export default function PropertyMapMarker({ isGeolocation, latitude, longitude, 
               <fieldset className="fieldset-input">
                 <input
                   type="text"
+                  value={address}
                   label="Search for a place"
                   className="ip-file map-search-input"
                   placeholder="Search for a place"

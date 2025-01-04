@@ -7,6 +7,7 @@ const ErrorPopup = ({ errors, validationSchema, onClose }) => {
         <button className="close-popup-btn" onClick={onClose} aria-label="Close">
             &times;
         </button>
+
             <ul>
                 {Object.keys(validationSchema.fields).map((field) => {
                     const error = errors[field];
@@ -19,8 +20,14 @@ const ErrorPopup = ({ errors, validationSchema, onClose }) => {
                     }
                     return null;
                 })}
+                 {/* Server-side error */}
+                 {errors.serverError && (
+                    <li key="serverError" className="server-error">
+                        {errors.serverError}
+                    </li>
+                )}
             </ul>
-           
+
         </div>
     );
 };

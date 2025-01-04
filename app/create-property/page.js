@@ -65,7 +65,6 @@ export default function CreateProperty() {
         price: Yup.string().required("Price is required"),
         // vr_link: Yup.string().url("Invalid URL").nullable(),
         picture_img: Yup.array().min(3, "At least three image is required").required("Image is required"),
-        credit: Yup.string().required("Credit is required"),
         state_id: Yup.string().required("State is required"),
         videoLink: Yup.string().url("Enter a valid URL"),
         city_id: Yup.string().required("City is required"),
@@ -206,7 +205,7 @@ export default function CreateProperty() {
         }
         try {
             const districtObj = { district_id: DistrictId , lang:"en" };
-            const getNeighborhoodObjInfo = await insertData('api/neighborhood', districtObj, true);
+            const getNeighborhoodObjInfo = await insertData('api/neighborhood/id', districtObj, true);
             if (getNeighborhoodObjInfo.status) {
                 setNeighborhoodList(getNeighborhoodObjInfo.data);
             } else {
@@ -268,17 +267,10 @@ export default function CreateProperty() {
   
 
     const handleNumberChange = (id, value) => {
-        setPropertyOfMetaNumberValue((prev) => {
-          const propertyOfMetaNumberValue = [...prev];
-          const index = propertyOfMetaNumberValue.findIndex((item) => item.id === id);
-          if (index > -1) {
-            propertyOfMetaNumberValue[index].value = value;
-          } else {
-            const propertyOfMetaNumberObj = {property_type_id: id, value: value};
-            propertyOfMetaNumberValue.push(propertyOfMetaNumberObj);
-          }
-          return propertyOfMetaNumberValue;
-        });
+        setPropertyOfMetaNumberValue((prev) => ({
+            ...prev,
+            [id]: value,
+        }));
     };
 
    
@@ -336,7 +328,7 @@ export default function CreateProperty() {
     console.log('loginUserId');
     console.log(loginUserId);
     // Handle form submission
-    const handleSubmit = async (values, {resetForm}) => {
+    const handleSubmit = async (values, {resetForm, setErrors}) => {
         // if (Object.keys(errors).length > 0) {
         //     setShowErrorPopup(true);
         // }
@@ -360,83 +352,93 @@ export default function CreateProperty() {
         }
         
         const selectedAmenities = projectOfBooleanListing
-            .filter((project) => checkedItems[project.key])
-            .map((project) => ({ property_type_id: project.id, value: "true" }));
-            if(propertyOfMetaNumberValue.length > 0) {
-                selectedAmenities.push(...propertyOfMetaNumberValue);
-            }
-        //const allAminities = [...selectedAmenities, ...propertyOfMetaNumberValue];
-        // console.log('Selected Amenities:', selectedAmenities);
-        const uploadImageObj = Array.isArray(values.picture_img) ? values.picture_img : [values.picture_img];
+        .filter((project) => checkedItems[project.key])
+        .map((project) => ({ property_type_id: project.id, value: "true" }));
+        
+
+        if (propertyOfMetaNumberValue && Object.keys(propertyOfMetaNumberValue).length > 0) {
+            // Iterate over the keys in the JSON object
+            Object.entries(propertyOfMetaNumberValue).forEach(([key, value]) => {
+                // Check if the key matches any property_type_id in the array
+                const index = selectedAmenities.findIndex(item => item.property_type_id === key);
+                if (index !== -1) {
+                    // Update the value if a match is found
+                    selectedAmenities[index].value = value;
+                } else {
+                    // Add a new object if no match is found
+                    selectedAmenities.push({ property_type_id: key, value });
+                }
+            });
+        }
+        console.log('Selected Amenities:', selectedAmenities);
+
+
+        //  setLoading(true);
+        const uploadImageObj = Array.isArray(values.picture_img) 
+        ? values.picture_img.filter(item => item !== null) 
+        : [values.picture_img].filter(item => item !== null);
         uploadImageObj.push(values.video);
 
-       const uploadImageUrl = await insertMultipleUploadImage('image', uploadImageObj);
+        const uploadImageUrl = await insertMultipleUploadImage("image", uploadImageObj);
+
      if (uploadImageUrl.files.length > 0) {
         const imageUrls  = [];
         let videoUrl = null;
 
-        // Iterate over the files and separate images and video
-       uploadImageUrl.files.forEach(file => {
-            if (file.mimeType.startsWith('image')) {
-                imageUrls.push(file.url); // Collect image URLs
-            } else if (file.mimeType.startsWith('video')) {
-                videoUrl = file.url; // Set video URL
+        uploadImageUrl.files.forEach((file) => {
+            if (file.mimeType.startsWith("image")) {
+                imageUrls.push(file.url);
+            } else if (file.mimeType.startsWith("video")) {
+                videoUrl = file.url;
             }
         });
-       const pictureUrl = imageUrls.join(', ');
 
-        // pictureUrls will contain all image URLs, videoUrl will contain the video URL
-        console.log('Image URLs:', pictureUrl);
-        console.log('Video URL:', videoUrl);
+        const pictureUrl = imageUrls.join(", ");
+        console.log("Image URLs:", pictureUrl);
+        console.log("Video URL:", videoUrl);
 
         if (!videoUrl) {
             videoUrl = values.video_link;
         }
 
             /********* create user ***********/
-            try {
-                const propertData = {
-                    title_en: values.title_en,
-                    title_fr: values.title_fr,
-                    description_en: values.description_en??null,
-                    description_fr: values.description_fr??null,
-                    price: parseInt(values.price)??0,
-                    vr_link: values.vr_link??null,
-                    picture: imageUrls,
-                    video: videoUrl,
-                    user_id: loginUserId,
-                    link_uuid: values.link_uuid??null,
-                    state_id: values.state_id,
-                    city_id: values.city_id,
-                    district_id: values.districts_id,
-                    neighborhood_id: values.neighborhood_id,
-                    latitude: values.latitude,
-                    transaction: values.transaction_type,
-                    longitude: values.longitude,
-                    type_id: values.property_type,
-                    size: parseInt(values.size_sqft)??0,
-                    meta_details:selectedAmenities,
-                    currency_id: values.currency_id,
-                    project_id: values.project_id??null,
-                    latitude: values.latitude ? String(values.latitude) : "33.985047",
-                    longitude: values.longitude ? String(values.longitude) : "-118.469483",
-                    address: values.address,
-                }
-                console.log(propertData);
+            const propertyData = {
+                title_en: values.title_en,
+                title_fr: values.title_fr,
+                description_en: values.description_en ?? null,
+                description_fr: values.description_fr ?? null,
+                price: parseInt(values.price) ?? 0,
+                vr_link: values.vr_link ?? null,
+                picture: imageUrls,
+                video: videoUrl,
+                user_id: loginUserId,
+                link_uuid: values.link_uuid ?? null,
+                state_id: values.state_id,
+                city_id: values.city_id,
+                district_id: values.districts_id,
+                neighborhood_id: values.neighborhood_id,
+                latitude: isNaN(parseFloat(values.latitude)) ? "20.2323" : String(values.latitude),
+                longitude: isNaN(parseFloat(values.longitude)) ? "20.2323" : String(values.longitude),
+                transaction: values.transaction_type,
+                type_id: values.property_type,
+                size: parseInt(values.size_sqft) ?? 0,
+                meta_details: selectedAmenities,
+                currency_id: values.currency_id,
+                project_id: values.project_id ?? null,
+                address: values.address,
+            };
 
+            console.log("Property Data:", propertyData); 
+            const createPropertyInfo = await insertData("api/property/create", propertyData, true);
 
-                const createPrpertyInfo = await insertData('api/property/create', propertData, true);
-                if(createPrpertyInfo.status) {
-                    setSucessMessage(true);
-                    setErrorMessage("Property created successfully");
-                    router.push('/property-listing');
-                }else{
-                    setErrorMessage(createPrpertyInfo.message);
-                }
-            } catch (error) {
-                console.log('propertData');
-
-                setErrorMessage(error.message);
+            if (createPropertyInfo.status) {
+                setErrors({ serverError: "Property created successfully." });
+                setShowErrorPopup(true);
+                resetForm();
+                router.push("/property-listing");
+            } else {
+                setErrors({ serverError: createPropertyInfo.message || "Failed to create property." });
+                setShowErrorPopup(true);
             }
         } else {
             console.log('File not uploaded');
@@ -499,7 +501,6 @@ export default function CreateProperty() {
                     picture_img: [], // Set this to an empty array for multiple files
                     video: null, // Use `null` for file inputs
                     video_link: "", // Add this for YouTube video link
-                    credit: "",
                     state_id: "",
                     city_id: "",
                     districts_id: "",
@@ -546,26 +547,26 @@ export default function CreateProperty() {
                                         <label htmlFor="title">Title English:<span>*</span></label>
                                         <Field type="text" id="title_en" name="title_en" className="form-control style-1" />
                                         
-                                        <ErrorMessage name="title_en" component="div" className="error" />
+                                        {/* <ErrorMessage name="title_en" component="div" className="error" /> */}
                                     </fieldset>
                                     <fieldset className="box box-fieldset">
                                         <label htmlFor="title">Title French:<span>*</span></label>
                                         <Field type="text" id="title_fr" name="title_fr" className="form-control style-1" />
-                                        <ErrorMessage name="title_fr" component="div" className="error" />
+                                        {/* <ErrorMessage name="title_fr" component="div" className="error" /> */}
                                     </fieldset>
                                 </div>
                                 <div className="grid-1 box gap-30">
                                     <fieldset className="box-fieldset">
                                         <label htmlFor="description">Description English:<span>*</span></label>
                                         <Field type="textarea"  as="textarea"  id="description_en" name="description_en" className="textarea-tinymce" />
-                                        <ErrorMessage name="description_en" component="div" className="error" />
+                                        {/* <ErrorMessage name="description_en" component="div" className="error" /> */}
                                     </fieldset>
                                 </div>
                                 <div className="grid-1 box gap-30">
                                     <fieldset className="box-fieldset">
                                         <label htmlFor="description">Description French:<span>*</span></label>
                                         <Field type="textarea"  as="textarea"  id="description_fr" name="description_fr" className="textarea-tinymce" />
-                                        <ErrorMessage name="description_fr" component="div" className="error" />
+                                        {/* <ErrorMessage name="description_fr" component="div" className="error" /> */}
                                     </fieldset>
                                 </div>
                             </div>
@@ -584,7 +585,7 @@ export default function CreateProperty() {
                                             <option value="sale">Fore Sale</option>
                                             <option value="rental">For Rental</option>
                                         </Field>
-                                        <ErrorMessage name="transaction_type" component="div" className="error" />
+                                        {/* <ErrorMessage name="transaction_type" component="div" className="error" /> */}
                                     </fieldset>
                                     <fieldset className="box box-fieldset">
                                         <label htmlFor="title">Property Type:<span>*</span></label>
@@ -603,7 +604,7 @@ export default function CreateProperty() {
                                                 <></>
                                             )}
                                         </Field>
-                                        <ErrorMessage name="property_type" component="div" className="error" />
+                                        {/* <ErrorMessage name="property_type" component="div" className="error" /> */}
                                     </fieldset>
                                     {(userType === 'developer')?(                                    <fieldset className="box box-fieldset">
                                         <label htmlFor="title">Project Listing:<span>*</span></label>
@@ -622,8 +623,13 @@ export default function CreateProperty() {
                                                 <></>
                                             )}
                                         </Field>
-                                        <ErrorMessage name="project_id" component="div" className="error" />
+                                        {/* <ErrorMessage name="project_id" component="div" className="error" /> */}
                                     </fieldset>):(<></>)}
+                                    <fieldset className="box-fieldset">
+                                        <label htmlFor="description">Size of SqMeter:<span>*</span></label>
+                                        <Field type="number" id="size_sqft" name="size_sqft" className="form-control style-1" />
+                                        {/* <ErrorMessage name="size_sqft" component="div" className="error" /> */}
+                                    </fieldset>
                                     {/* <fieldset className="box box-fieldset">
                                         <label htmlFor="title">User Listing:</label>
                                         <Field as="select" name="user_id" className="nice-select country-code"
@@ -645,7 +651,7 @@ export default function CreateProperty() {
                                     </fieldset> */}
                                 </div>
                                 <div className="box grid-3 gap-30">
-                                <fieldset className="box-fieldset ">
+                                    <fieldset className="box-fieldset ">
                                         <label htmlFor="name">Price<span>*</span>:</label>
                                             <div className="phone-and-country-code">
                                                 <Field as="select" name="currency_id" className="nice-select country-code"
@@ -661,7 +667,7 @@ export default function CreateProperty() {
                                                     <option value="">Select Currency</option>
                                                     {currencyList && currencyList.length > 0 ? (
                                                         currencyList.map((currency, index) =>(
-                                                            <option key={index} value={currency.id}>{currency.symbol}
+                                                            <option key={index} value={currency.id}>{currency.name}
                                                             </option>
                                                         ))
                                                     ) : (
@@ -670,8 +676,8 @@ export default function CreateProperty() {
                                                 </Field>
                                                 <Field type="text" id="price" name="price" className="form-control style-1" />
                                             </div>
-                                            <ErrorMessage name="price" component="div" className="error" />
-                                        <ErrorMessage name="currency_id" component="div" className="error" />
+                                            {/* <ErrorMessage name="price" component="div" className="error" />
+                                        <ErrorMessage name="currency_id" component="div" className="error" /> */}
                                     </fieldset>
                                     {/* <fieldset className="box box-fieldset">
                                         <label htmlFor="desc">VR Link:</label>
@@ -685,21 +691,17 @@ export default function CreateProperty() {
                                     </fieldset> */}
                                 </div>
                                 <div className="box grid-3 gap-30">
-                                    <fieldset className="box box-fieldset">
+                                    {/* <fieldset className="box box-fieldset">
                                         <label htmlFor="desc">License number:</label>
                                         <Field type="text" id="license_number" name="license_number" className="box-fieldset" />
-                                        <ErrorMessage name="license_number" component="div" className="error" />
+                                       
                                     </fieldset>
                                     <fieldset className="box box-fieldset">
                                         <label htmlFor="desc">Credit:</label>
                                         <Field type="text" name="credit" className="box-fieldset"  />
-                                        <ErrorMessage name="credit" component="div" className="error" />
-                                    </fieldset>
-                                    <fieldset className="box-fieldset">
-                                        <label htmlFor="description">Size of SqMeter:<span>*</span></label>
-                                        <Field type="number" id="size_sqft" name="size_sqft" className="form-control style-1" />
-                                        <ErrorMessage name="size_sqft" component="div" className="error" />
-                                    </fieldset>
+                                       
+                                    </fieldset> */}
+                                   
                                 </div>
                                 <div className="box grid-3 gap-30">
                                         {projectOfNumberListing && projectOfNumberListing.length > 0 ? (
@@ -913,7 +915,7 @@ export default function CreateProperty() {
                                                     <></>
                                                 )}
                                         </Field>
-                                        <ErrorMessage name="state_id" component="div" className="error" />
+                                        {/* <ErrorMessage name="state_id" component="div" className="error" /> */}
                                     </fieldset>
                                     <fieldset className="box box-fieldset">
                                         <label htmlFor="desc">Cities:</label>
@@ -935,7 +937,7 @@ export default function CreateProperty() {
                                                     <></>
                                                 )}
                                             </Field>
-                                        <ErrorMessage name="city_id" component="div" className="error" />
+                                        {/* <ErrorMessage name="city_id" component="div" className="error" /> */}
                                     </fieldset>
                                     <fieldset className="box box-fieldset">
                                         <label htmlFor="desc">District:</label>
@@ -955,7 +957,7 @@ export default function CreateProperty() {
                                                     <></>
                                                 )}
                                             </Field>
-                                        <ErrorMessage name="districts_id" component="div" className="error" />
+                                        {/* <ErrorMessage name="districts_id" component="div" className="error" /> */}
                                     </fieldset>
                                     <fieldset className="box box-fieldset">
                                         <label htmlFor="desc">Neighborhood:</label>
@@ -975,7 +977,7 @@ export default function CreateProperty() {
                                                     <></>
                                                 )}
                                             </Field>
-                                        <ErrorMessage name="neighborhood_id" component="div" className="error" />
+                                        {/* <ErrorMessage name="neighborhood_id" component="div" className="error" /> */}
                                     </fieldset>
                                 </div>
                                 <div className="box box-fieldset">

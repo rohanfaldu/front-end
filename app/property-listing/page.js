@@ -10,6 +10,7 @@ import Image from 'next/image';
 import EditIcon from "../../public/images/favicon/edit.png";
 import DeleteIcon from "../../public/images/favicon/delete.png";
 //import variablesList from "../../components/common/variable";
+import ViewIcon from "../../public/images/favicon/view.png";
 
 export default function PropertyListing() {
   const [properties, setProperties] = useState([]); // Store properties for the current page
@@ -85,6 +86,11 @@ export default function PropertyListing() {
     setPagination({ ...pagination, currentPage: page });
   };
 
+  const handleView = (slug) => {
+    const URL = `${process.env.NEXT_PUBLIC_SITE_URL}/property/${slug}`;
+      window.open(URL, '_blank')
+  };
+
   return (
     <>
       {loading ? (
@@ -129,8 +135,7 @@ export default function PropertyListing() {
                                 </td>
                                 <td>{property.title}</td>
                                 <td>
-                                  {property.currency ?? "$"}
-                                  {property.price}
+                                  {property.price} {property.currency ?? "$"}
                                   <br />
                                   {property.user_name}
                                 </td>
@@ -144,19 +149,44 @@ export default function PropertyListing() {
                                 </td>
                                 <td>
                                   <ul className="list-action">
-                                    <li className="delete">
-                                      <a
-                                        className="remove-file item"
-                                        onClick={() => handleDelete(property.id)}
-                                      >
-                                        <Image
-                                          src={DeleteIcon}
+                                    
+                                  <li className="edit">
+                                    {/* <Link href={`/edit-project/${property.slug}`} className="item"> */}
+                                      <Image
+                                        src={EditIcon} // Imported image object or static path
+                                        alt="Edit icon"
+                                        width={25}
+                                        height={25}
+                                      />
+                                    {/* </Link> */}
+                                  </li>
+                                  <li className="delete">
+                                    <a className="remove-file item"  onClick={() => handleDelete(property.id)}>
+                                      <Image
+                                          src={DeleteIcon} // Imported image object or static path
                                           alt="Delete icon"
                                           width={25}
                                           height={25}
                                         />
-                                      </a>
-                                    </li>
+                                    </a>
+                                  </li>
+                                  <li className="delete">
+                                    <a
+                                      className="remove-file item"
+                                      onClick={() => handleView(property.id)}
+                                      style={{ border: 'none', background: 'transparent', padding: 0 }}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                    >
+                                      <Image
+                                        src={ViewIcon} // Imported image object or static path
+                                        alt="View icon"
+                                        width={25}
+                                        height={25}
+                                      />
+                                    </a>
+                                  </li>
+
                                   </ul>
                                 </td>
                               </tr>
