@@ -173,7 +173,7 @@ export default function PropertyListing() {
                                   <li className="delete">
                                     <a
                                       className="remove-file item"
-                                      onClick={() => handleView(property.id)}
+                                      onClick={() => handleView(property.slug)}
                                       style={{ border: 'none', background: 'transparent', padding: 0 }}
                                       target="_blank"
                                       rel="noopener noreferrer"

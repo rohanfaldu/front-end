@@ -113,7 +113,7 @@ export default function Recommended1() {
 													{/* Render property card */}
 													<div className="homeya-box">
 														<div className="archive-top">
-															<Link href={`/property/${property.id}`} className="images-group">
+															<Link href={`/property/${property.slug}`} className="images-group">
 																<div className="images-style">
 																	{property.picture[0]?
 																		<img src={property.picture[0]} alt="Property" />
@@ -149,7 +149,7 @@ export default function Recommended1() {
 															</Link>
 															<div className="content">
 																<div className="h7 text-capitalize fw-7">
-																	<Link href={`/property/${property.id}`} className="link">
+																	<Link href={`/property/${property.slug}`} className="link">
 																		{property.title}
 																	</Link>
 																</div>

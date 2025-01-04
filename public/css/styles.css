@@ -10705,3 +10705,8 @@ tr {
 .custom-overlay{
   position: absolute;
 }
+.list-action {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}

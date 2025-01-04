@@ -11,14 +11,15 @@ import { insertData, insertImageData } from "../../components/api/Axios/Helper";
 import { insertMultipleUploadImage } from "../../components/common/imageUpload";
 import { capitalizeFirstChar } from "../../components/common/functions";
 import GooglePlacesAutocomplete from "@/components/elements/GooglePlacesAutocomplete"; // Adjust the path based on your project structure
-
+import Preloader from "@/components/elements/Preloader";
 // import ReactGooglePlacesAutocomplete from 'react-google-places-autocomplete';
-
+import SuccessPopup from "@/components/SuccessPopup/SuccessPopup";
 
 import  "../../components/errorPopup/ErrorPopup.css";
 import ErrorPopup from "../../components/errorPopup/ErrorPopup.js";
 
 export default function CreateProperty() {
+    const [loading, setLoading] = useState(false); // Loader state
 	const [errorMessage, setErrorMessage] = useState('');
 	const [sucessMessage, setSucessMessage] = useState(false);
 	const [propertyMeta, setPropertyMeta] = useState(false);
@@ -79,90 +80,75 @@ export default function CreateProperty() {
 
     useEffect(() => {
         const fetchData = async () => {
-            // console.log('propertyofTypes');
             try {
-                if(stateList.length === 0){
-                    const stateObj = {};
-                    const getStateInfo = await insertData('api/state', stateObj, true);
-                    console.log(getStateInfo);
-                    if(getStateInfo) {
+                // Fetch state list
+                if (stateList.length === 0) {
+                    const getStateInfo = await insertData('api/state', {}, true);
+                    if (getStateInfo) {
                         setStateList(getStateInfo.data.states);
                     }
                 }
-                // console.log('cityList');
-                // console.log(cityList.length);
-                // if(cityList.length === 0){
-                //     const stateObj = {};
-                //     const getCityInfo = await insertData('api/city', stateObj, true);
-                //     console.log(getCityInfo);
-                //     if(getCityInfo) {
-                //         setCityList(getCityInfo.data);
-                //     }
-                // }
-
-                // if(userList.length === 0){
-                //     const getUsersDeveloperInfo = await insertData('auth/get/developer', {}, false);
-                //     const developerList = getUsersDeveloperInfo.data.user_data;
-                //     const getUsersAgencyInfo = await insertData('auth/get/agency', {}, false);
-                //     const agencyList = getUsersAgencyInfo.data.user_data;
-                //     const getalluserInfo = developerList.concat(agencyList);
-                //     setUserList(getalluserInfo);
-                // }
-
-                if(userType === ''){
+    
+                // Set user type and ID
+                if (userType === '') {
                     const loggedInStatus = JSON.parse(localStorage.getItem('user'));
-                    setUserType(loggedInStatus.roles.name);
-                    setLoginUserId(loggedInStatus.id);
+                    if (loggedInStatus) {
+                        setUserType(loggedInStatus.roles.name);
+                        setLoginUserId(loggedInStatus.id);
+                    }
                 }
-
-                if(propertyofTypesListing.length === 0){
-                    const getPropertyTypeInfo = await insertData('api/property-type/', {page: 1, limit: 100}, true);
-                    if(getPropertyTypeInfo.status) {
-                        console.log(getPropertyTypeInfo.data.list);
+    
+                // Fetch property types listing
+                if (propertyofTypesListing.length === 0) {
+                    const getPropertyTypeInfo = await insertData('api/property-type/', { page: 1, limit: 100 }, true);
+                    if (getPropertyTypeInfo.status) {
                         setpropertyofTypesListing(getPropertyTypeInfo.data.list);
                     }
                 }
-
-                if(projectOfListing.length === 0){
-                    if( userType === 'developer'){
-                        const getProjectListInfo = await insertData('api/projects/developer', {page: 1, limit: 100 }, true);
-                        console.log('project');
-                        console.log(getProjectListInfo);
-                        if(getProjectListInfo.status) {
-                            setProjectOfListing(getProjectListInfo.data.list);
-                        }
+    
+                // Fetch projects for developers
+                if (projectOfListing.length === 0 && userType === 'developer') {
+                    const getProjectListInfo = await insertData('api/projects/developer', { page: 1, limit: 100 }, true);
+                    if (getProjectListInfo.status) {
+                        setProjectOfListing(getProjectListInfo.data.list);
                     }
                 }
-
-                if(!propertyMeta){
-                    const projectMetaObj = { page: 1, limit: 100 };
-                    const getPropertyInfo = await insertData('api/property-type-listings', projectMetaObj, true);
-                    if(getPropertyInfo) {
-                        const projectOfNumberType = getPropertyInfo.data.list.filter(item => item.type === "number");
-                        const projectOfBlooeanType = getPropertyInfo.data.list.filter(item => item.type === "boolean");
+    
+                // Fetch property meta information
+                if (!propertyMeta) {
+                    const getPropertyInfo = await insertData('api/property-type-listings', { page: 1, limit: 100 }, true);
+                    if (getPropertyInfo) {
+                        const projectOfNumberType = getPropertyInfo.data.list.filter(item => item.type === 'number');
+                        const projectOfBooleanType = getPropertyInfo.data.list.filter(item => item.type === 'boolean');
                         setProjectOfNumberListing(projectOfNumberType);
-                        setProjectOfBooleanListing(projectOfBlooeanType);
+                        setProjectOfBooleanListing(projectOfBooleanType);
                     }
                     setPropertyMeta(true);
                 }
-                if(currencyList.length === 0){
-                    // console.log(1);
-                    const currencyObj = {};
-                    const getCurrencyInfo = await insertData('api/currency/get', currencyObj, true);
-                   
-                    if(getCurrencyInfo.status) {
+    
+                // Fetch currency list
+                if (currencyList.length === 0) {
+                    const getCurrencyInfo = await insertData('api/currency/get', {}, true);
+                    if (getCurrencyInfo.status) {
                         setCurrencyList(getCurrencyInfo.data);
                     }
-                } 
-             
-                //console.log(propertyofTypes)
+                }
             } catch (error) {
-                console.error(error);
+                console.error('Error fetching data:', error);
             }
         };
+    
         fetchData();
-        console.log(stateList);
-    });
+    }, [
+        stateList.length,
+        userList.length,
+        propertyofTypesListing.length,
+        projectOfListing.length,
+        propertyMeta,
+        currencyList.length,
+        userType,
+    ]);
+    
 
     const handleStateChange = async (stateId) => {
         console.log('State ID:', stateId);
@@ -377,8 +363,13 @@ export default function CreateProperty() {
         const uploadImageObj = Array.isArray(values.picture_img) 
         ? values.picture_img.filter(item => item !== null) 
         : [values.picture_img].filter(item => item !== null);
-        uploadImageObj.push(values.video);
-        setLoading(true);
+        
+        if (values.video != null) {
+            uploadImageObj.push(values.video);
+        }
+        //setLoading(true);
+        setErrors({ serverError: "Processing ........." });
+            setShowErrorPopup(true);
         const uploadImageUrl = await insertMultipleUploadImage("image", uploadImageObj);
 
      if (uploadImageUrl.files.length > 0) {
@@ -432,17 +423,18 @@ export default function CreateProperty() {
             const createPropertyInfo = await insertData("api/property/create", propertyData, true);
 
             if (createPropertyInfo.status) {
-                setErrors({ serverError: "Property created successfully." });
-                setShowErrorPopup(true);
+                setSucessMessage(createPropertyInfo.message || "Property created successfully.");
+                //setErrors({ serverError: "Property created successfully." });
+                //setShowErrorPopup(true);
                 resetForm();
                 router.push("/property-listing");
             } else {
-                setLoading(false);
+                //setLoading(false);
                 setErrors({ serverError: createPropertyInfo.message || "Failed to create property." });
                 setShowErrorPopup(true);
             }
         } else {
-            setLoading(false);
+           // setLoading(false);
             console.log('File not uploaded');
             setErrorMessage('File not uploaded');
         }
@@ -483,13 +475,13 @@ export default function CreateProperty() {
         setFieldValue("video_link", event.target.value); // Update Formik state
 
     };
-    console.log(checkedItems);
+    console.log(userType);
     const messageClass = (sucessMessage) ? "message success" : "message error";
 	return (
 		<>
+            {loading?<Preloader />:
 
-			{/* <DeleteFile /> */}
-
+                <>
 			<LayoutAdmin>
             {errorMessage && <div className={messageClass}>{errorMessage}</div>}
             <Formik
@@ -608,7 +600,8 @@ export default function CreateProperty() {
                                         </Field>
                                         {/* <ErrorMessage name="property_type" component="div" className="error" /> */}
                                     </fieldset>
-                                    {(userType === 'developer')?(                                    <fieldset className="box box-fieldset">
+                                    {(userType === 'developer')?(                                    
+                                        <fieldset className="box box-fieldset">
                                         <label htmlFor="title">Project Listing:<span>*</span></label>
                                         <Field as="select" name="project_id" className="nice-select country-code"
                                                 onChange={(e) => {
@@ -627,11 +620,8 @@ export default function CreateProperty() {
                                         </Field>
                                         {/* <ErrorMessage name="project_id" component="div" className="error" /> */}
                                     </fieldset>):(<></>)}
-                                    <fieldset className="box-fieldset">
-                                        <label htmlFor="description">Size of SqMeter:<span>*</span></label>
-                                        <Field type="number" id="size_sqft" name="size_sqft" className="form-control style-1" />
-                                        {/* <ErrorMessage name="size_sqft" component="div" className="error" /> */}
-                                    </fieldset>
+                                  
+                                    
                                     {/* <fieldset className="box box-fieldset">
                                         <label htmlFor="title">User Listing:</label>
                                         <Field as="select" name="user_id" className="nice-select country-code"
@@ -680,6 +670,22 @@ export default function CreateProperty() {
                                             </div>
                                             {/* <ErrorMessage name="price" component="div" className="error" />
                                         <ErrorMessage name="currency_id" component="div" className="error" /> */}
+                                    </fieldset>
+                                    <fieldset className="box box-fieldset">
+                                        <label htmlFor="title">Direction:<span>*</span></label>
+                                        <Field as="select" name="direction" className="nice-select country-code">
+                                            <option value="">Select Direction</option>
+                                            <option value="north">North</option>
+                                            <option value="south">South</option>
+                                            <option value="east">East</option>
+                                            <option value="west">West</option>
+                                        </Field>
+                                        {/* <ErrorMessage name="property_type" component="div" className="error" /> */}
+                                    </fieldset>
+                                    <fieldset className="box-fieldset">
+                                        <label htmlFor="description">Size of SqMeter:<span>*</span></label>
+                                        <Field type="number" id="size_sqft" name="size_sqft" className="form-control style-1" min="0"/>
+                                        {/* <ErrorMessage name="size_sqft" component="div" className="error" /> */}
                                     </fieldset>
                                     {/* <fieldset className="box box-fieldset">
                                         <label htmlFor="desc">VR Link:</label>
@@ -1056,7 +1062,8 @@ export default function CreateProperty() {
                 </Formik>
 
                
-			</LayoutAdmin >
+			</LayoutAdmin ></>
+            }
 		</>
 	)
 }

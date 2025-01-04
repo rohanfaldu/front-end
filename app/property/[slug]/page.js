@@ -102,7 +102,7 @@ import Preloader from '@/components/elements/Preloader';
 import { useTranslation } from "react-i18next";
 import Modal from "react-modal";
 export default function PropertyDetailsV1({ params }) {
-	const { id } = params;
+	const { slug } = params;
 	const [properties, setProperties] = useState(null);
 	const [loading, setLoading] = useState(true);
 	const [metadetail, setMetaDetails] = useState(null);
@@ -118,14 +118,12 @@ export default function PropertyDetailsV1({ params }) {
 		const fetchData = async () => {
 			//try {
 			const lang = i18n.language;
-			const propertyObj = { page: 1, limit: 100, lang: lang };
+			
+			const propertyObj = { page: 1, limit: 1000, lang: lang };
 			const response = await getData('api/property/', propertyObj);
-
 			const propertyList = response.data.list;
-			const result = propertyList.find(item => item.id === id);
+			const result = propertyList.find(item => item.slug === slug);
 			setProperties(result);
-			console.log('Meta list');
-			console.log(result.meta_details);
 
 			const filteredDetails = result.meta_details.filter(
 				(propertyDetail) => propertyDetail.key !== 'bathrooms' && propertyDetail.key !== 'rooms'
@@ -878,45 +876,47 @@ export default function PropertyDetailsV1({ params }) {
 								</div>
 								<div className="col-lg-4">
 									<div className="widget-sidebar fixed-sidebar wrapper-sidebar-right">
-										<div className="widget-box single-property-contact bg-surface">
-											<div className="h7 title fw-7">{t("Project Details")}</div>
-											<div className="box-avatar">
+										{(properties.project_details !== null)? 
+											<div className="widget-box single-property-contact bg-surface">
+												<div className="h7 title fw-7">{t("Project Details")}</div>
 												<div className="box-avatar">
-													{/* {properties.project_details.icon ? (
-														<div className="avatar avt-100 round">
-															<img src={properties.project_details.icon} alt="avatar" />
-														</div>
-													) :
-														null
-													} */}
-													<Link
-														href={`/project/${properties.project_details.slug}`}
-														alt="icon"
-													>
-
-														<div className="">
-															<img
-															width={100}
-																src={properties.project_details.icon}
-																alt={properties.name}
-															/>
-														</div>
-
-													</Link>
-
-													<div className="info">
-														<div className="text-1 name"><Link
+													<div className="box-avatar">
+														{/* {properties.project_details.icon ? (
+															<div className="avatar avt-100 round">
+																<img src={properties.project_details.icon} alt="avatar" />
+															</div>
+														) :
+															null
+														} */}
+														<Link
 															href={`/project/${properties.project_details.slug}`}
-															className="link"
+															alt="icon"
 														>
-															{properties.project_details.title}
-														</Link></div>
 
-														{/* <span>{properties.project_details.description}</span> */}
+															<div className="">
+																<img
+																width={100}
+																	src={properties.project_details.icon}
+																	alt={properties.name}
+																/>
+															</div>
+
+														</Link>
+
+														<div className="info">
+															<div className="text-1 name"><Link
+																href={`/project/${properties.project_details.slug}`}
+																className="link"
+															>
+																{properties.project_details.title}
+															</Link></div>
+
+															{/* <span>{properties.project_details.description}</span> */}
+														</div>
 													</div>
 												</div>
 											</div>
-										</div>
+										: <></>}
 										<div className="widget-box single-property-contact bg-surface">
 											<div className="h7 title fw-7">{t("contactSeller")}</div>
 											<div className="box-avatar">
@@ -930,7 +930,7 @@ export default function PropertyDetailsV1({ params }) {
 
 												<div className="info">
 													<div className="text-1 name">{properties.user_name}</div>
-													<span>{properties.email_address}</span>
+													{/* <span>{properties.email_address}</span> */}
 												</div>
 											</div>
 											{/* <form action="#" className="contact-form">

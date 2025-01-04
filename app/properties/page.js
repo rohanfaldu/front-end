@@ -358,7 +358,7 @@ export default function PropertyHalfmapList() {
 											<div className="homeya-box">
 												<div className="archive-top">
 													<Link
-														href={`/property/${property.id}`}
+														href={`/property/${property.slug}`}
 														className="images-group"
 													>
 

@@ -15,6 +15,7 @@ import { insertMultipleUploadImage } from "../../components/common/imageUpload";
 import { capitalizeFirstChar } from "../../components/common/functions";
 import PropertyMapMarker from "@/components/elements/PropertyMapMarker";
 import ErrorPopup from "../../components/errorPopup/ErrorPopup.js";
+import Preloader from "@/components/elements/Preloader";
 export default function CreateAgency() {
     const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);

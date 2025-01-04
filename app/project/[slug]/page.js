@@ -1126,7 +1126,7 @@ export default function ProjectDetailsV1({ params }) {
 										<SwiperSlide>
 											<div className="homeya-box style-2">
 												<div className="archive-top">
-													<Link href="#" className="images-group">
+													<Link href={`/property/${property.slug}`} className="images-group">
 														<div className="images-style">
 															<img src={property.picture[0] || "/images/banner/no-banner.png"} alt={property.title} />
 														</div>
@@ -1154,22 +1154,22 @@ export default function ProjectDetailsV1({ params }) {
 													<div className="content">
 														<div className="h7 text-capitalize fw-7"><Link href="#" className="link"> {property?.title}</Link></div>
 														<div className="desc"><i className="fs-16 icon icon-mapPin" /><p>
-															{[property.address, property.city, property.state]
+															{[property?.state, property?.city, property?.district]
 																.filter(Boolean) // Remove empty or falsy values
 																.join(", ")} {/* Join remaining values with comma */}
 														</p> </div>
 														<ul className="meta-list">
 															<li className="item">
 																<i className="icon icon-bed" />
-																<span>{property.bedRooms === 0 ? '-' : `${property.bedRooms} Bedroom`}</span>
+																<span>{property.bedRooms === "0" ? '-' : `${property.bedRooms}`}</span>
 															</li>
-															{/* <li className="item">
+															<li className="item">
 																<i className="icon icon-bathtub" />
-																<span>not given</span>
-															</li> */}
+																<span>{property.bathRooms === "0" ? '-' : `${property.bathRooms}`}</span>
+															</li>
 															<li className="item">
 																<i className="icon icon-ruler" />
-																<span>{property.size === null ? '-' : `${property.size} SqMeter`}</span>
+																<span>{property.size === null ? '-' : `${property.size}`}</span>
 															</li>
 														</ul>
 													</div>
