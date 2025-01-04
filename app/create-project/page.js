@@ -263,6 +263,7 @@ export default function CreateAgency() {
 
         try {
                 //setErrorMessage('');
+                setLoading(true);
                 console.log(values);
                 // const checkData = { email_address: values.email, phone_number: parseInt(values.phone,10) }
                 // const getUserInfo = await insertData('auth/check/user', checkData, false);
@@ -346,15 +347,18 @@ export default function CreateAgency() {
                         resetForm();
                         router.push("/project-listing");
                     } else {
+                        setLoading(false);
                         setErrors({ serverError: createUserInfo.message || "Failed to create project." });
                         setShowErrorPopup(true);
                     }
                     
                 } else{
+                    setLoading(false);
                     setErrors({ serverError: "File upload failed." });
                     setShowErrorPopup(true);
                 }
             } catch (error) {
+                setLoading(false);
                 setErrors({ serverError: error.message || "An unexpected error occurred." });
                 setShowErrorPopup(true);
             }finally {

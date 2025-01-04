@@ -420,7 +420,7 @@ export default function ProjectHalfmapList() {
 													<div className="content">
 														<div className="h7 text-capitalize fw-7">
 															<Link
-																href={`/project-details-v2?id=${project.id}`} // Pass ID as query param
+																href={`/project/${project.slug}`}// Pass ID as query param
 																className="link"
 															>
 																{project.title}

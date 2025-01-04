@@ -67,10 +67,12 @@ export default function MapCluster({ topmap, propertys }) {
 										<div className="content">
 											<p className="location">
 												<span className="icon icon-mapPin" />
-												{property.address}
+												{[property?.city, property?.state, property?.district]
+                                                        .filter(Boolean)
+                                                        .join(', ')}
 											</p>
 											<div className="title">
-												<a href={`property-details-v1.html?id=${property.id}`} >{/* Link to property details */}
+												<a href={`property/${property.id}`} >{/* Link to property details */}
 													{property.title}
 												</a>
 											</div>

@@ -890,7 +890,7 @@ export default function PropertyDetailsV1({ params }) {
 														null
 													} */}
 													<Link
-														href={`/project-details-v2?id=${properties.project_details.id}`}
+														href={`/project/${properties.project_details.slug}`}
 														alt="icon"
 													>
 
@@ -906,7 +906,7 @@ export default function PropertyDetailsV1({ params }) {
 
 													<div className="info">
 														<div className="text-1 name"><Link
-															href={`/project-details-v2?id=${properties.project_details.id}`} // Pass ID as query param
+															href={`/project/${properties.project_details.slug}`}
 															className="link"
 														>
 															{properties.project_details.title}
