@@ -396,23 +396,23 @@ export default function PropertyHalfmapList() {
 														</div>
 														<div className="desc">
 															<i className="fs-16 icon icon-mapPin" />
-															{/* <p>{[property?.state, property?.city, property?.district]
+															<p>{[property?.state, property?.city, property?.district]
                                                         .filter(Boolean)
-                                                        .join(', ')} </p> */}
+                                                        .join(', ')} </p>
 																	
 														</div>
 														<ul className="meta-list">
 															<li className="item">
 																<i className="icon icon-bed" />
-																<span>{property.bedRooms}</span>
+																<span>{property.bedRooms === "0" ? '-' : `${property.bedRooms}`}</span>
 															</li>
 															<li className="item">
 																<i className="icon icon-bathtub" />
-																<span>{property.bathRooms}</span>
+																<span>{property.bathRooms === "0" ? '-' : `${property.bathRooms}`}</span>
 															</li>
 															<li className="item">
 																<i className="icon icon-ruler" />
-																<span>{property.size} SqMeter</span>
+																<span>{property.size === null ? '-' : `${property.size}`}</span>
 															</li>
 														</ul>
 													</div>
