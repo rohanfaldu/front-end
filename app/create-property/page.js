@@ -1056,6 +1056,12 @@ export default function CreateProperty() {
                                 onClose={() => setShowErrorPopup(false)}
                             />
                         )}
+                        {sucessMessage && (
+                            <SuccessPopup
+                                message={sucessMessage}
+                                onClose={() => setSucessMessage(false)}
+                            />
+                        )}
                     </Form>
                    
                 )}
