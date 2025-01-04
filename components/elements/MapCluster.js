@@ -72,7 +72,7 @@ export default function MapCluster({ topmap, propertys }) {
                                                         .join(', ')}
 											</p>
 											<div className="title">
-												<a href={`property/${property.id}`} >{/* Link to property details */}
+												<a href={`property/${property.slug}`} >{/* Link to property details */}
 													{property.title}
 												</a>
 											</div>

@@ -390,7 +390,7 @@ export default function PropertyHalfmapList() {
 													</Link>
 													<div className="content">
 														<div className="h7 text-capitalize fw-7">
-															<Link href={`/property/${property.id}`} className="link">
+															<Link href={`/property/${property.slug}`} className="link">
 																{property.title}
 															</Link>
 														</div>
