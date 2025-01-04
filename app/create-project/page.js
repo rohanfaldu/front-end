@@ -246,7 +246,7 @@ export default function CreateAgency() {
         }
     };
     // Handle form submission
-    const handleSubmit = async (values, {resetForm}) => {
+    const handleSubmit = async (values, {resetForm, setErrors}) => {
         // console.log(values);
         // if (isVideoUpload && !values.video) {
         //     alert("Please upload a video file.");
