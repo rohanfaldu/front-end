@@ -16,6 +16,7 @@ import { capitalizeFirstChar } from "../../components/common/functions";
 import PropertyMapMarker from "@/components/elements/PropertyMapMarker";
 import ErrorPopup from "../../components/errorPopup/ErrorPopup.js";
 import Preloader from "@/components/elements/Preloader";
+import SuccessPopup from "@/components/SuccessPopup/SuccessPopup";
 export default function CreateAgency() {
     const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
@@ -265,7 +266,9 @@ export default function CreateAgency() {
 
         try {
                 //setErrorMessage('');
-                setLoading(true);
+                //setLoading(true);
+                setErrors({ serverError: "Processing ........." });
+            setShowErrorPopup(true);
                 console.log(values);
                 // const checkData = { email_address: values.email, phone_number: parseInt(values.phone,10) }
                 // const getUserInfo = await insertData('auth/check/user', checkData, false);
@@ -343,24 +346,24 @@ export default function CreateAgency() {
                     const createUserInfo = await insertData("api/projects/create", projectData, true);
     
                     if (createUserInfo.status) {
-                        setSucessMessage(true);
-                        setErrors({ serverError: "Project created successfully." });
-                        setShowErrorPopup(true);
+                        //setSucessMessage(true);
+                        setSucessMessage(createUserInfo.message || "Project created successfully.");
+                        //setShowErrorPopup(true);
                         resetForm();
                         router.push("/project-listing");
                     } else {
-                        setLoading(false);
+                       // setLoading(false);
                         setErrors({ serverError: createUserInfo.message || "Failed to create project." });
                         setShowErrorPopup(true);
                     }
                     
                 } else{
-                    setLoading(false);
+                    //setLoading(false);
                     setErrors({ serverError: "File upload failed." });
                     setShowErrorPopup(true);
                 }
             } catch (error) {
-                setLoading(false);
+                //setLoading(false);
                 setErrors({ serverError: error.message || "An unexpected error occurred." });
                 setShowErrorPopup(true);
             }finally {
@@ -971,6 +974,12 @@ export default function CreateAgency() {
                                     onClose={() => setShowErrorPopup(false)}
                                 />
                             )}
+                            {sucessMessage && (
+                            <SuccessPopup
+                                message={sucessMessage}
+                                onClose={() => setSucessMessage(false)}
+                            />
+                        )}
                         </Form>
                     )}
                     </Formik>
