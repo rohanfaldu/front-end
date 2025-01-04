@@ -16,6 +16,7 @@ import { capitalizeFirstChar } from "../../components/common/functions";
 import PropertyMapMarker from "@/components/elements/PropertyMapMarker";
 import ErrorPopup from "../../components/errorPopup/ErrorPopup.js";
 export default function CreateAgency() {
+    const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 	const [errorMessage, setErrorMessage] = useState('');
