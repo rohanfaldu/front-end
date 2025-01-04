@@ -287,5 +287,6 @@
     "contactSeller": "Contact Sellers",
     "findprojects": "Find Projects",
     "title":"Title",
-    "nodatafound":"No Data Found"
+    "nodatafound":"No Data Found",
+    "from": "From"
     }

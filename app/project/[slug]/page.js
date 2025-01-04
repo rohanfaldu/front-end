@@ -249,7 +249,7 @@ export default function ProjectDetailsV1({ params }) {
 										}
 									</h4>
 									<div className="box-price d-flex align-items-center">
-										<h4>From {projectDetails.price || '0.00'} {projectDetails.currency || 'USD'} </h4>
+										<h4>{t('from')} {projectDetails.price || '0.00'} {projectDetails.currency || 'USD'} </h4>
 										{/* <span className="body-1 text-variant-1">/month</span> */}
 									</div>
 								</div>

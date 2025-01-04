@@ -463,7 +463,7 @@ export default function ProjectHalfmapList() {
 														<span>{project.user_name || 'Unknown Agent'}</span>
 													</div>
 													<div className="d-flex align-items-center">
-														<h6>From {project.price || '0.00'} {project.currency || 'USD'} </h6>
+														<h6>{t('from')} {project.price || '0.00'} {project.currency || 'USD'} </h6>
 													</div>
 												</div>
 											</div>
