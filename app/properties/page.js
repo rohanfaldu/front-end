@@ -14,19 +14,19 @@ export default function PropertyHalfmapList() {
 	const [isToggled, setToggled] = useState(false)
 	const handleToggle = () => setToggled(!isToggled)
 
-	const [initialMaxPrice, setInitialMaxPrice] = useState(0); // Store the maximum price initially
-	const [maxPriceSliderRange, setMaxPriceSliderRange] = useState(0); // Dynamic slider range
-	const [priceRange, setPriceRange] = useState([]); // Selected range
+	const [initialMaxPrice, setInitialMaxPrice] = useState(0);
+	const [maxPriceSliderRange, setMaxPriceSliderRange] = useState(0);
+	const [priceRange, setPriceRange] = useState([]);
 	const [isTab, setIsTab] = useState(2)
 	const handleTab = (i) => {
 		setIsTab(i)
 	}
 	const { t } = useTranslation();
-	const [propertys, setPropertys] = useState([]); // Store properties for the current page
-	const [loading, setLoading] = useState(true); // Manage loading state
-	const [error, setError] = useState(null); // Manage error state
-	const [searchTerm, setSearchTerm] = useState(''); // Store search input
-	const [statusFilter, setStatusFilter] = useState(''); // Store selected status filter
+	const [propertys, setPropertys] = useState([]);
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState(null);
+	const [searchTerm, setSearchTerm] = useState('');
+	const [statusFilter, setStatusFilter] = useState('');
 	const [amenities, setAmenities] = useState([]);
 	const [propertyType, setpropertyType] = useState([]);
 	const [city, setCity] = useState([]);
@@ -35,7 +35,7 @@ export default function PropertyHalfmapList() {
 		totalPages: 1,
 		currentPage: 1,
 		itemsPerPage: 10,
-	}); // Track pagination info
+	});
 	const [filters, setFilters] = useState({
 		title: '',
 		description: '',
@@ -48,11 +48,11 @@ export default function PropertyHalfmapList() {
 	const fetchPropertys = async (page = 1, updatedFilters = {}) => {
 		setLoading(true);
 		try {
-			// Set the filters to the updated filters, defaulting to empty values if not provided
+
 			const requestData = {
 				page,
 				limit: pagination.itemsPerPage,
-				...updatedFilters, // Spread the updated filters only (dynamic fields)
+				...updatedFilters,
 			};
 
 			const response = await getData("api/property", requestData, true);
@@ -68,10 +68,10 @@ export default function PropertyHalfmapList() {
 				setAmenities(property_meta_details);
 				setpropertyType(property_types);
 				setCity(cities);
-				if (!initialMaxPrice) { // Only set once
-					setInitialMaxPrice(maxPriceSliderRange || 0); // Store the maximum price initially
-					setMaxPriceSliderRange(maxPriceSliderRange || 0); // Set slider max value
-					setPriceRange([0, maxPriceSliderRange || 0]);    // Default slider range
+				if (!initialMaxPrice) {
+					setInitialMaxPrice(maxPriceSliderRange || 0);
+					setMaxPriceSliderRange(maxPriceSliderRange || 0);
+					setPriceRange([0, maxPriceSliderRange || 0]);
 				}
 				setError(null);
 			}
@@ -82,16 +82,16 @@ export default function PropertyHalfmapList() {
 		}
 	};
 
-	// Handle Filter Changes
+
 	const handleFilterChange = (e) => {
 		const { name, value } = e.target;
 		setFilters({
 			...filters,
-			[name]: value, // Dynamically update filters based on input name
+			[name]: value,
 		});
 	};
 
-	// Handle Amenities Change (Multi-Select)
+
 	const handleAmenitiesChange = (selectedAmenities) => {
 		setFilters({
 			...filters,
@@ -102,9 +102,7 @@ export default function PropertyHalfmapList() {
 	const getChangedFilters = () => {
 		const changedFilters = {};
 
-		// Loop through all filter fields and include only the ones that are not empty or default
 		Object.keys(filters).forEach(key => {
-			// Include filter only if its value is not the default (empty string or empty array)
 			if (filters[key] !== '' && filters[key] !== undefined && filters[key] !== null && (Array.isArray(filters[key]) ? filters[key].length > 0 : true)) {
 				changedFilters[key] = filters[key];
 			}
@@ -112,10 +110,10 @@ export default function PropertyHalfmapList() {
 
 		return changedFilters;
 	};
-	// Apply Filters Button
+
 	const applyFilters = () => {
-		const updatedFilters = getChangedFilters();  // Get only changed filters
-		fetchPropertys(1, updatedFilters);  // Fetch data with updated filters
+		const updatedFilters = getChangedFilters();
+		fetchPropertys(1, updatedFilters);
 	};
 
 	useEffect(() => {
@@ -127,15 +125,14 @@ export default function PropertyHalfmapList() {
 	};
 
 	const handlePriceChange = (newRange) => {
-		setPriceRange(newRange); // Update the range state
+		setPriceRange(newRange);
 		setFilters((prevFilters) => ({
 			...prevFilters,
-			minPrice: newRange[0], // Set minPrice
-			maxPrice: newRange[1], // Set maxPrice
+			minPrice: newRange[0],
+			maxPrice: newRange[1],
 		}));
 	};
 	console.log('>>>>>>>>propertys', propertys);
-	console.log('>>>>>>>>', propertys[0]?.type_details);
 	return (
 		<>
 
@@ -150,7 +147,7 @@ export default function PropertyHalfmapList() {
 							<div className="tab-content">
 								<div className="tab-pane fade active show" role="tabpanel">
 									<div className="form-sl">
-										{/* <form method="post" onSubmit={(e) => { e.preventDefault(); applyFilters(); }}> */}
+
 										<form method="post" onSubmit={(e) => { e.preventDefault(); }}>
 											<div className="wd-filter-select">
 												<div className="inner-group inner-filter">
@@ -187,11 +184,11 @@ export default function PropertyHalfmapList() {
 														<select
 															className="form-control"
 															id="propertyType"
-															name="city" // Name matches the state key for dynamic updates
-															value={filters.city} // Two-way binding with filters.type_id
-															onChange={handleFilterChange} // Handle dropdown change
+															name="city"
+															value={filters.city}
+															onChange={handleFilterChange}
 														>
-															<option value="">Select city</option> {/* Placeholder */}
+															<option value="">Select city</option>
 															{/* {city.map((city) => ( // Dynamic dropdown options
 																<option key={city.id} value={city.id}>
 																	{city.city_name}
@@ -204,9 +201,9 @@ export default function PropertyHalfmapList() {
 														<select
 															className="form-control"
 															id="propertyType"
-															name="city" // Name matches the state key for dynamic updates
-															value={filters.city} // Two-way binding with filters.type_id
-															onChange={handleFilterChange} // Handle dropdown change
+															name="city"
+															value={filters.city}
+															onChange={handleFilterChange}
 														>
 															<option value="">Select distric</option> {/* Placeholder */}
 															{/* {distric.map((distric) => ( // Dynamic dropdown options
@@ -221,11 +218,11 @@ export default function PropertyHalfmapList() {
 														<select
 															className="form-control"
 															id="propertyType"
-															name="city" // Name matches the state key for dynamic updates
-															value={filters.city} // Two-way binding with filters.type_id
-															onChange={handleFilterChange} // Handle dropdown change
+															name="city"
+															value={filters.city}
+															onChange={handleFilterChange}
 														>
-															<option value="">Select neighbourhood</option> {/* Placeholder */}
+															<option value="">Select neighbourhood</option>
 															{/* {neighbourhood.map((neighbourhood) => ( // Dynamic dropdown options
 																<option key={neighbourhood.id} value={neighbourhood.id}>
 																	{neighbourhood.title}
@@ -239,12 +236,12 @@ export default function PropertyHalfmapList() {
 														<select
 															className="form-control"
 															id="propertyType"
-															name="type_id" // Name matches the state key for dynamic updates
-															value={filters.type_id} // Two-way binding with filters.type_id
-															onChange={handleFilterChange} // Handle dropdown change
+															name="type_id"
+															value={filters.type_id}
+															onChange={handleFilterChange}
 														>
-															<option value="">Select Property Type</option> {/* Placeholder */}
-															{propertyType.map((property) => ( // Dynamic dropdown options
+															<option value="">Select Property Type</option>
+															{propertyType.map((property) => (
 																<option key={property.id} value={property.id}>
 																	{property.title}
 																</option>
@@ -259,10 +256,10 @@ export default function PropertyHalfmapList() {
 																className="horizontal-slider st2"
 																min={0}
 																max={initialMaxPrice}
-																value={priceRange} // Bind to state
+																value={priceRange}
 																thumbClassName="example-thumb"
 																trackClassName="example-track"
-																onChange={handlePriceChange} // Handle changes
+																onChange={handlePriceChange}
 															/>
 
 															<div className="group-range-title mt-2">
@@ -290,12 +287,12 @@ export default function PropertyHalfmapList() {
 																			type="checkbox"
 																			className="tf-checkbox style-1"
 																			id={`amenity-${amenity.id}`}
-																			checked={filters.amenities_id.includes(amenity.id)} // Check if selected
+																			checked={filters.amenities_id.includes(amenity.id)}
 																			onChange={(e) => {
 																				const updatedAmenities = e.target.checked
-																					? [...filters.amenities_id, amenity.id] // Add
-																					: filters.amenities_id.filter((id) => id !== amenity.id); // Remove
-																				setFilters({ ...filters, amenities_id: updatedAmenities }); // Update filters
+																					? [...filters.amenities_id, amenity.id]
+																					: filters.amenities_id.filter((id) => id !== amenity.id);
+																				setFilters({ ...filters, amenities_id: updatedAmenities });
 																			}}
 																		/>
 																		<label htmlFor={`amenity-${amenity.id}`} className="text-cb-amenities">
@@ -326,22 +323,7 @@ export default function PropertyHalfmapList() {
 					<div className="wrap-inner">
 						<div className="box-title-listing style-1">
 							<h5>Property listing</h5>
-							{/* <div className="box-filter-tab">
-								<ul className="nav-tab-filter" role="tablist">
-									<li className="nav-tab-item" onClick={() => handleTab(1)}>
-										<a className={isTab == 1 ? "nav-link-item active" : "nav-link-item"} data-bs-toggle="tab"><i className="icon icon-grid" /></a>
-									</li>
-									<li className="nav-tab-item" onClick={() => handleTab(2)}>
-										<a className={isTab == 2 ? "nav-link-item active" : "nav-link-item"} data-bs-toggle="tab"><i className="icon icon-list" /></a>
-									</li>
-								</ul>
-								<select className="nice-select">
 
-									<option data-value="default" className="option selected">{t("sortbydefualt")}</option>
-									<option data-value="new" className="option">{t("newest")}</option>
-									<option data-value="old" className="option">{t("oldest")}</option>
-								</select>
-							</div> */}
 						</div>
 						<div className="tab-content">
 							{loading ? (
@@ -372,17 +354,7 @@ export default function PropertyHalfmapList() {
 															<ul className="d-flex gap-8">
 																<li className="flag-tag style-1">{property.transaction}</li>
 															</ul>
-															{/* <ul className="d-flex gap-4">
-																<li className="box-icon w-32">
-																	<span className="icon icon-arrLeftRight" />
-																</li>
-																<li className="box-icon w-32">
-																	<span className="icon icon-heart" />
-																</li>
-																<li className="box-icon w-32">
-																	<span className="icon icon-eye" />
-																</li>
-															</ul> */}
+
 														</div>
 														<div className="bottom">
 															<span className="flag-tag style-2">{property.type_details.title}</span>
@@ -397,9 +369,9 @@ export default function PropertyHalfmapList() {
 														<div className="desc">
 															<i className="fs-16 icon icon-mapPin" />
 															<p>{[property?.state, property?.city, property?.district]
-                                                        .filter(Boolean)
-                                                        .join(', ')} </p>
-																	
+																.filter(Boolean)
+																.join(', ')} </p>
+
 														</div>
 														<ul className="meta-list">
 															<li className="item">

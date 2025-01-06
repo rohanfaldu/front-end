@@ -1,5 +1,5 @@
 'use client'
-import { usePathname } from 'next/navigation' // Corrected import path
+import { usePathname } from 'next/navigation'
 import { useEffect } from 'react'
 
 export default function AddClassBody() {
@@ -9,11 +9,10 @@ export default function AddClassBody() {
 		const bodyElement = document.querySelector('body')
 
 		if (bodyElement) {
-			// Remove all classes
+
 			bodyElement.classList.remove('counter-scroll', 'bg-surface')
 
-			// Add class based on pathname
-			// Add class based on pathname
+
 			if (pathname === '/') {
 				bodyElement.classList.add('counter-scroll')
 			}
@@ -21,7 +20,7 @@ export default function AddClassBody() {
 				bodyElement.classList.add('counter-scroll')
 			}
 			else if (pathname === '/dashboard') {
-				bodyElement.classList.add('bg-surface','counter-scroll')
+				bodyElement.classList.add('bg-surface', 'counter-scroll')
 			}
 			else if (pathname === '/add-property') {
 				bodyElement.classList.add('bg-surface')

@@ -10,10 +10,10 @@ import noBannerImg from "../../public/images/banner/no-banner.png";
 export default function Recommended1() {
 	const [isTab, setIsTab] = useState(0)
 	const [isVisible, setIsVisible] = useState(true)
-	const [propertyType, setPropertyType] = useState(null); // To store fetched data
-	const [properties, setProperties] = useState(null); // To store fetched data
- 	const [loading, setLoading] = useState(true); // To manage loading state
-  	const [error, setError] = useState(null); // To manage error state
+	const [propertyType, setPropertyType] = useState(null); 
+	const [properties, setProperties] = useState(null); 
+ 	const [loading, setLoading] = useState(true);
+  	const [error, setError] = useState(null); 
 	const { t, i18n } = useTranslation();
   	useEffect(() => {
 		const fetchData = async () => {
@@ -27,52 +27,41 @@ export default function Recommended1() {
 				const response = await getData('api/property/', propertyObj);
 				console.log('response');
 				console.log(response);
-				setProperties(response.data.list); // Save data to state
-				setLoading(false); // Stop loading
+				setProperties(response.data.list); 
+				setLoading(false);
 				setError(null);
 			} catch (err) {
-				setError(err.response?.data?.message || 'An error occurred'); // Handle error
-				setLoading(false); // Stop loading
+				setError(err.response?.data?.message || 'An error occurred');
+				setLoading(false); 
 			}
 		};
 
-		fetchData(); // Fetch data on component mount
-	}, [i18n.language]); // Empty dependency array ensures this runs only once on mount
+		fetchData(); 
+	}, [i18n.language]);
 
-	// if (loading) return <p>Loading...</p>; // Show loading message
-  	// if (error) return <p>Error: {error}</p>; 
-	//// console.log(properties);
-	/*const handleTab = (i) => {
-		setIsTab(i)
-		setIsVisible(false)
-		setTimeout(() => {
-			setIsVisible(true)
-		}, 200)
-	}*/
+	
 	const handleTab = async (i, id) => {
-		// console.log(i);
-		// console.log(id);
-		setIsTab(i);
-		// setIsVisible(false);
 		
-		// //setLoading(true);
+		setIsTab(i);
+		
+		
 		setTimeout(async () => {
 			try {
 				const lang = i18n.language;
 				const propertyObj =
 					i === 0
-						? { page: 1, limit: 6, lang: lang} // Fetch all properties for "View All"
-						: { page: 1, limit: 6, lang: lang, type_id: id }; // Fetch properties by type
+						? { page: 1, limit: 6, lang: lang} 
+						: { page: 1, limit: 6, lang: lang, type_id: id };
 	
 				const response = await getData('api/property/', propertyObj);
-				setProperties(response.data.list); // Update properties data
-				setIsVisible(true); // Make content visible after fetching data
-				//setLoading(false);
+				setProperties(response.data.list); 
+				setIsVisible(true);
+				
 			} catch (err) {
-				setError(err.response?.data?.message || 'An error occurred'); // Handle errors
-				setIsVisible(true); // Ensure content is visible even if there’s an error
+				setError(err.response?.data?.message || 'An error occurred');
+				setIsVisible(true); 
 			}
-		}, 200); // Delay to create transition effect
+		}, 200); 
 	};
 	console.log('property');
 	console.log(propertyType);
@@ -93,7 +82,7 @@ export default function Recommended1() {
 								<li className="nav-tab-item" onClick={() => handleTab(0,0)}>
 									<a className={isTab == 0 ? "nav-link-item active" : "nav-link-item"} data-bs-toggle="tab">{t("viewall")}</a>
 								</li>
-								{propertyType.map((typeList, index) => (
+								{propertyType?.map((typeList, index) => (
 									<li className="nav-tab-item" onClick={() => handleTab(index + 1, typeList.id)}>
 										<a className={isTab == (index + 1 ) ? "nav-link-item active" : "nav-link-item"} data-bs-toggle="tab">{typeList.title}</a>
 									</li>	
@@ -101,16 +90,13 @@ export default function Recommended1() {
 							</ul>
 							<div className="tab-content">
 								<div
-									// style={{ opacity: isVisible ? 1 : 0 }}
-									// className={selectTab == 1 ? "tab-pane fade show active" : "tab-pane fade"}
-									// id="viewAll"
-									// role="tabpanel"
+									
 								>
 									<div className="row">
-										{properties.length ? (
-											properties.map((property) => (
+										{properties?.length ? (
+											properties?.map((property) => (
 												<div key={property.id} className="col-xl-4 col-lg-6 col-md-6">
-													{/* Render property card */}
+													
 													<div className="homeya-box">
 														<div className="archive-top">
 															<Link href={`/property/${property.slug}`} className="images-group">
@@ -131,17 +117,7 @@ export default function Recommended1() {
 																			</ul>
 																		</>
 																	):(<></>)}
-																	{/* <ul className="d-flex gap-4">
-																		<li className="box-icon w-32">
-																			<span className="icon icon-arrLeftRight" />
-																		</li>
-																		<li className="box-icon w-32">
-																			<span className="icon icon-heart" />
-																		</li>
-																		<li className="box-icon w-32">
-																			<span className="icon icon-eye" />
-																		</li>
-																	</ul> */}
+																	
 																</div>
 																<div className="bottom">
 																	<span className="flag-tag style-2">{property.type_details.title}</span>

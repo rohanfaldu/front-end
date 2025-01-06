@@ -3,18 +3,18 @@ import { insertImageData } from "../../components/api/Axios/Helper";
 
 export async function insertUploadImage(name, images) {
     const formDataData = new FormData();
-    formDataData.append('image', images); 
-    //formDataData.append(images);
+    formDataData.append('image', images);
+
     const response = await insertImageData(formDataData);
     console.log(response.status);
-    if(response.status === true) {
+    if (response.status === true) {
         const fileUrls = response.data.files.map(file => file.url);
-        if(fileUrls.length > 0) {
+        if (fileUrls.length > 0) {
             return fileUrls[0];
-        }else{
+        } else {
             throw new Error("File not found.");
         }
-    }else {
+    } else {
         throw new Error("Invalid response from the server.");
     }
 }
@@ -23,14 +23,14 @@ export async function insertMultipleUploadImage(name, images) {
     const formDataData = new FormData();
     images.forEach((image) => {
         console.log(image);
-        formDataData.append(name, image); // Use the same key for all images
+        formDataData.append(name, image);
     });
-    //formDataData.append(images);
+
     const response = await insertImageData(formDataData);
     console.log(response.status);
-    if(response.status === true) {
+    if (response.status === true) {
         return response.data;
-    }else {
+    } else {
         throw new Error("Invalid response from the server.");
     }
 }

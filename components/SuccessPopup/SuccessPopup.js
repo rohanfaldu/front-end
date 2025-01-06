@@ -2,7 +2,7 @@ import React from "react";
 import "./SuccessPopup.css";
 
 const SuccessPopup = ({ message, onClose }) => {
-    if (!message) return null; // Render nothing if there's no success message
+    if (!message) return null; 
 
     return (
         <div className="success-popup">

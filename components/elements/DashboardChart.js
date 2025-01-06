@@ -30,16 +30,7 @@ export default function DashboardChart() {
                 pointRadius: 2,
                 borderWidth: 3,
             },
-            // {
-            //     label: "Facebook",
-            //     backgroundColor: "rgba(0, 138, 255, 0.5)",
-            //     borderColor: "transparent",
-            //     data: lineData.youtube,
-            //     lineTension: 0,
-            //     // borderDash: [10, 5],
-            //     borderWidth: 1,
-            //     pointRadius: 0,
-            // },
+            
         ],
     }
 

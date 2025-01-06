@@ -20,7 +20,7 @@ const ErrorPopup = ({ errors, validationSchema, onClose }) => {
                     }
                     return null;
                 })}
-                 {/* Server-side error */}
+                 
                  {errors.serverError && (
                     <li key="serverError" className="server-error">
                         {errors.serverError}

@@ -30,27 +30,10 @@ export default function Sidebar() {
 
 
 
-	// const pathname = usePathname();
-	// const [currentMenuItem, setCurrentMenuItem] = useState("")
-	// const router = useRouter();
-	// useEffect(() => {
-	// 	const loggedInStatus = JSON.parse(localStorage.getItem('user'));
-	// 	setUserType(loggedInStatus.roles.name);
-	// 	setCurrentMenuItem(pathname)
-	// }, [pathname])
-	// console.log(userType);
 	
-	// const checkCurrentMenuItem = (path) => currentMenuItem === path ? "current" : ""
-	// const checkParentActive = (paths) => paths.some(path => currentMenuItem.startsWith(path)) ? "current" : ""
-	
-	// const [isAccordion, setIsAccordion] = useState(1)
-
-	// const handleAccordion = (key) => {
-	// 	setIsAccordion(prevState => prevState === key ? null : key)
-	// }
 
 	const handleLogout = () => {
-		//googleLogout(); // This method revokes token and clears session
+		
 
 		localStorage.removeItem('token');
 		localStorage.removeItem('user');
@@ -105,20 +88,7 @@ export default function Sidebar() {
 							<div className="dropdown2-btn" onClick={() => handleAccordion (8)}/>
 					</li>
 					</>:""}
-					{/*
-					<li className={`nav-menu-item ${pathname === '/my-invoices' ? 'active' : ''}`}>
-						<Link className="nav-menu-link" href="/my-invoices"><span className="icon icon-file-text" /> My Invoices</Link>
-					</li>
-					<li className={`nav-menu-item ${pathname === '/my-favorites' ? 'active' : ''}`}>
-						<Link className="nav-menu-link" href="/my-favorites"><span className="icon icon-heart" />My Favorites</Link>
-					</li>
-					<li className={`nav-menu-item ${pathname === '/reviews' ? 'active' : ''}`}>
-						<Link className="nav-menu-link" href="/reviews"><span className="icon icon-review" /> Reviews</Link>
-					</li>
-					<li className={`nav-menu-item ${pathname === '/my-profile' ? 'active' : ''}`}>
-						<Link className="nav-menu-link" href="/my-profile"><span className="icon icon-profile" /> My Profile</Link>
-					</li>
-					*/}
+					
 					<li className={`nav-menu-item ${pathname === '/' ? 'active' : ''}`}>
 						<Link className="nav-menu-link" onClick={handleLogout} href="/"><span className="icon icon-sign-out" /> Logout</Link>
 					</li>

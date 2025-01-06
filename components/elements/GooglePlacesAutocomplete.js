@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import { LoadScript, Autocomplete } from "@react-google-maps/api";
 
-const libraries = ["places"]; // Specify the required libraries
+const libraries = ["places"];
 
 const GooglePlacesAutocomplete = () => {
     const [address, setAddress] = useState("");
@@ -11,13 +11,13 @@ const GooglePlacesAutocomplete = () => {
         if (autocompleteRef.current) {
             const place = autocompleteRef.current.getPlace();
             setAddress(place.formatted_address || "");
-            console.log("Selected Place:", place); // Full place object
+            console.log("Selected Place:", place); 
         }
     };
 
     return (
         <LoadScript
-            googleMapsApiKey="AIzaSyDdhV2ojxz4IEp98Gvn5sz9rKWf89Ke5gw" // Replace with your actual Google Maps API key
+            googleMapsApiKey="AIzaSyDdhV2ojxz4IEp98Gvn5sz9rKWf89Ke5gw" 
             libraries={libraries}
         >
             <Autocomplete

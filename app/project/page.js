@@ -17,29 +17,29 @@ export default function ProjectHalfmapList() {
 	const [isToggled, setToggled] = useState(false)
 	const handleToggle = () => setToggled(!isToggled)
 
-	const [initialMaxPrice, setInitialMaxPrice] = useState(0); // Store the maximum price initially
-	const [maxPriceSliderRange, setMaxPriceSliderRange] = useState(0); // Dynamic slider range
-	const [priceRange, setPriceRange] = useState([]); // Selected range
+	const [initialMaxPrice, setInitialMaxPrice] = useState(0);
+	const [maxPriceSliderRange, setMaxPriceSliderRange] = useState(0);
+	const [priceRange, setPriceRange] = useState([]);
 	const [isTab, setIsTab] = useState(2)
 	const handleTab = (i) => {
 		setIsTab(i)
 	}
 	const { t } = useTranslation();
-	const [projects, setProjects] = useState([]); // Store properties for the current page
-	const [loading, setLoading] = useState(true); // Manage loading state
-	const [error, setError] = useState(null); // Manage error state
-	const [searchTerm, setSearchTerm] = useState(''); // Store search input
-	const [statusFilter, setStatusFilter] = useState(''); // Store selected status filter
+	const [projects, setProjects] = useState([]);
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState(null);
+	const [searchTerm, setSearchTerm] = useState('');
+	const [statusFilter, setStatusFilter] = useState('');
 	const [amenities, setAmenities] = useState([]);
-	const [cities, setCities] = useState([]); // City options
-	const [districts, setDistricts] = useState([]); // District options
+	const [cities, setCities] = useState([]);
+	const [districts, setDistricts] = useState([]);
 	const [neighbourhoods, setNeighbourhoods] = useState([]);
 	const [pagination, setPagination] = useState({
 		totalCount: 0,
 		totalPages: 1,
 		currentPage: 1,
 		itemsPerPage: 10,
-	}); // Track pagination info
+	});
 	const [filters, setFilters] = useState({
 		title: '',
 		description: '',
@@ -53,11 +53,11 @@ export default function ProjectHalfmapList() {
 	const fetchProjects = async (page = 1, updatedFilters = {}) => {
 		setLoading(true);
 		try {
-			// Set the filters to the updated filters, defaulting to empty values if not provided
+
 			const requestData = {
 				page,
 				limit: pagination.itemsPerPage,
-				...updatedFilters, // Spread the updated filters only (dynamic fields)
+				...updatedFilters,
 			};
 
 			const response = await getData("api/projects", requestData, true);
@@ -72,10 +72,10 @@ export default function ProjectHalfmapList() {
 				});
 				setAmenities(project_meta_details || []);
 				setCities(cities);
-				if (!initialMaxPrice) { // Only set once
-					setInitialMaxPrice(maxPriceSliderRange || 0); // Store the maximum price initially
-					setMaxPriceSliderRange(maxPriceSliderRange || 0); // Set slider max value
-					setPriceRange([0, maxPriceSliderRange || 0]);    // Default slider range
+				if (!initialMaxPrice) {
+					setInitialMaxPrice(maxPriceSliderRange || 0);
+					setMaxPriceSliderRange(maxPriceSliderRange || 0);
+					setPriceRange([0, maxPriceSliderRange || 0]);
 				}
 				setError(null);
 			}
@@ -89,22 +89,21 @@ export default function ProjectHalfmapList() {
 	const fetchDistrict = async (cityId) => {
 		try {
 			const response = await getData('/api/district/getbycity', { city_id: cityId }, true);
-			setDistricts(response.data); // Update district dropdown options
+			setDistricts(response.data);
 		} catch (error) {
 			console.error('Error fetching districts:', error);
 		}
 	};
 
-	// Handle Filter Changes
+
 	const handleFilterChange = (e) => {
 		const { name, value } = e.target;
 		setFilters({
 			...filters,
-			[name]: value, // Dynamically update filters based on input name
+			[name]: value,
 		});
 	};
 
-	// Handle Amenities Change (Multi-Select)
 	const handleAmenitiesChange = (selectedAmenities) => {
 		setFilters({
 			...filters,
@@ -115,9 +114,8 @@ export default function ProjectHalfmapList() {
 	const getChangedFilters = () => {
 		const changedFilters = {};
 
-		// Loop through all filter fields and include only the ones that are not empty or default
 		Object.keys(filters).forEach(key => {
-			// Include filter only if its value is not the default (empty string or empty array)
+
 			if (filters[key] !== '' && filters[key] !== undefined && filters[key] !== null && (Array.isArray(filters[key]) ? filters[key].length > 0 : true)) {
 				changedFilters[key] = filters[key];
 			}
@@ -125,10 +123,10 @@ export default function ProjectHalfmapList() {
 
 		return changedFilters;
 	};
-	// Apply Filters Button
+
 	const applyFilters = () => {
-		const updatedFilters = getChangedFilters();  // Get only changed filters
-		fetchProjects(1, updatedFilters);  // Fetch data with updated filters
+		const updatedFilters = getChangedFilters();
+		fetchProjects(1, updatedFilters);
 	};
 
 	useEffect(() => {
@@ -140,11 +138,11 @@ export default function ProjectHalfmapList() {
 	};
 
 	const handlePriceChange = (newRange) => {
-		setPriceRange(newRange); // Update the range state
+		setPriceRange(newRange);
 		setFilters((prevFilters) => ({
 			...prevFilters,
-			minPrice: newRange[0], // Set minPrice
-			maxPrice: newRange[1], // Set maxPrice
+			minPrice: newRange[0],
+			maxPrice: newRange[1],
 		}));
 	};
 	console.log('>>>>>>>>projects', projects);
@@ -160,7 +158,7 @@ export default function ProjectHalfmapList() {
 							<div className="tab-content">
 								<div className="tab-pane fade active show" role="tabpanel">
 									<div className="form-sl">
-										{/* <form method="post" onSubmit={(e) => { e.preventDefault(); applyFilters(); }}> */}
+
 										<form method="post" onSubmit={(e) => { e.preventDefault(); }}>
 											<div className="wd-filter-select">
 												<div className="inner-group inner-filter">
@@ -215,7 +213,7 @@ export default function ProjectHalfmapList() {
 															name="district"
 															value={filters.district}
 															onChange={handleFilterChange}
-															disabled={!filters.city} // Disable until a city is selected
+															disabled={!filters.city}
 														>
 															<option value="">Select district</option>
 															{districts.map((district) => (
@@ -233,7 +231,7 @@ export default function ProjectHalfmapList() {
 															name="neighbourhood"
 															value={filters.neighbourhood}
 															onChange={handleFilterChange}
-															disabled={!filters.district} // Disable until a district is selected
+															disabled={!filters.district}
 														>
 															<option value="">Select neighbourhood</option>
 															{neighbourhoods.map((neighbourhood) => (
@@ -252,10 +250,10 @@ export default function ProjectHalfmapList() {
 																className="horizontal-slider st2"
 																min={0}
 																max={initialMaxPrice}
-																value={priceRange} // Bind to state
+																value={priceRange}
 																thumbClassName="example-thumb"
 																trackClassName="example-track"
-																onChange={handlePriceChange} // Handle changes
+																onChange={handlePriceChange}
 															/>
 
 															<div className="group-range-title mt-2">
@@ -277,13 +275,13 @@ export default function ProjectHalfmapList() {
 														<div className="group-checkbox">
 															<div className="text-1">Amenities:</div>
 															<div className="group-amenities">
-																{/* Sort amenities to show 'number' type first */}
+
 																{amenities
-																	.sort((a, b) => (a.type === "number" ? -1 : 1)) // Sort by type
+																	.sort((a, b) => (a.type === "number" ? -1 : 1))
 																	.map((amenity) => (
 																		<fieldset className="amenities-item" key={amenity.id}>
 																			{amenity.type === "number" ? (
-																				// Numeric input for number type
+
 																				<>
 																					<label
 																						htmlFor={`amenity-${amenity.id}`}
@@ -295,26 +293,26 @@ export default function ProjectHalfmapList() {
 																						type="number"
 																						className="form-control style-1"
 																						id={`amenity-${amenity.id}`}
-																						value={filters[amenity.id] || ""} // Show current value or empty
+																						value={filters[amenity.id] || ""}
 																						onChange={(e) =>
 																							setFilters({ ...filters, [amenity.id]: e.target.value })
-																						} // Update filters
+																						}
 																						placeholder={`Enter ${amenity.name}`}
 																					/>
 																				</>
 																			) : amenity.type === "boolean" ? (
-																				// Checkbox for boolean type
+
 																				<>
 																					<input
 																						type="checkbox"
 																						className="tf-checkbox style-1"
 																						id={`amenity-${amenity.id}`}
-																						checked={filters.amenities_id.includes(amenity.id)} // Check if selected
+																						checked={filters.amenities_id.includes(amenity.id)}
 																						onChange={(e) => {
 																							const updatedAmenities = e.target.checked
-																								? [...filters.amenities_id, amenity.id] // Add
-																								: filters.amenities_id.filter((id) => id !== amenity.id); // Remove
-																							setFilters({ ...filters, amenities_id: updatedAmenities }); // Update filters
+																								? [...filters.amenities_id, amenity.id]
+																								: filters.amenities_id.filter((id) => id !== amenity.id);
+																							setFilters({ ...filters, amenities_id: updatedAmenities });
 																						}}
 																					/>
 																					<label
@@ -351,20 +349,7 @@ export default function ProjectHalfmapList() {
 						<div className="box-title-listing style-1">
 							<h5>Project listing</h5>
 							<div className="box-filter-tab">
-								{/* <ul className="nav-tab-filter" role="tablist">
-									<li className="nav-tab-item" onClick={() => handleTab(1)}>
-										<a className={isTab == 1 ? "nav-link-item active" : "nav-link-item"} data-bs-toggle="tab"><i className="icon icon-grid" /></a>
-									</li>
-									<li className="nav-tab-item" onClick={() => handleTab(2)}>
-										<a className={isTab == 2 ? "nav-link-item active" : "nav-link-item"} data-bs-toggle="tab"><i className="icon icon-list" /></a>
-									</li>
-								</ul> */}
-								{/* <select className="nice-select">
 
-									<option data-value="default" className="option selected">{t("sortbydefualt")}</option>
-									<option data-value="new" className="option">{t("newest")}</option>
-									<option data-value="old" className="option">{t("oldest")}</option>
-								</select> */}
 							</div>
 						</div>
 						<div className="tab-content">
@@ -397,30 +382,20 @@ export default function ProjectHalfmapList() {
 																{project.isFeatured && (
 																	<li className="flag-tag success">Featured</li>
 																)}
-																{/* <li className="flag-tag style-1">{project.status || 'For Sale'}</li> */}
+
 															</ul>
-															{/* <ul className="d-flex gap-4">
-																<li className="box-icon w-32">
-																	<span className="icon icon-arrLeftRight" />
-																</li>
-																<li className="box-icon w-32">
-																	<span className="icon icon-heart" />
-																</li>
-																<li className="box-icon w-32">
-																	<span className="icon icon-eye" />
-																</li>
-															</ul> */}
+
 														</div>
 														<div className="bottom">
 															<span className="flag-tag style-2">
-																{/* {project.meta_details?.propertyType || 'Studio'} */}
+
 															</span>
 														</div>
 													</Link>
 													<div className="content">
 														<div className="h7 text-capitalize fw-7">
 															<Link
-																href={`/project/${project.slug}`}// Pass ID as query param
+																href={`/project/${project.slug}`}
 																className="link"
 															>
 																{project.title}
@@ -429,27 +404,12 @@ export default function ProjectHalfmapList() {
 														<div className="desc">
 															<i className="fs-16 icon icon-mapPin" />
 															<p>
-															{[project?.state, project?.city, project?.district]
-                                                        .filter(Boolean)
-                                                        .join(', ')} </p> {/* Join remaining values with comma */}
-															
+																{[project?.state, project?.city, project?.district]
+																	.filter(Boolean)
+																	.join(', ')} </p>
+
 														</div>
-														{/* <ul className="meta-list">
-															<li className="item">
-																<i className="icon icon-bed" />
-																<span>{project.meta_details?.bedrooms || 0}</span>
-															</li>
-															<li className="item">
-																<i className="icon icon-bathtub" />
-																<span>{project.meta_details?.bathrooms || 0}</span>
-															</li>
-															<li className="item">
-																<i className="icon icon-ruler" />
-																<span>
-																	{project.meta_details?.size || '0'} SqFT
-																</span>
-															</li>
-														</ul> */}
+
 													</div>
 												</div>
 												<div className="archive-bottom d-flex justify-content-between align-items-center">

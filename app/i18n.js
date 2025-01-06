@@ -12,7 +12,7 @@ const isServer = typeof window === "undefined";
 i18n.use(initReactI18next).init({
 	fallbackLng: "en",
 	interpolation: { escapeValue: false },
-	react: { useSuspense: false }, // Disable Suspense
+	react: { useSuspense: false },
 	resources: {
 	  en: { translation: enLang },
 	  fr: { translation: frLang },

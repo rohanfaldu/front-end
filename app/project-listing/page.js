@@ -13,17 +13,17 @@ import ViewIcon from "../../public/images/favicon/view.png";
 import variablesList from "../../components/common/variable";
 
 export default function ProjectListing() {
-  const [properties, setProperties] = useState([]); // Store properties for the current page
-  const [loading, setLoading] = useState(true); // Manage loading state
-  const [error, setError] = useState(null); // Manage error state
-  const [searchTerm, setSearchTerm] = useState(''); // Store search input
-  const [statusFilter, setStatusFilter] = useState(''); // Store selected status filter
+  const [properties, setProperties] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [statusFilter, setStatusFilter] = useState('');
   const [pagination, setPagination] = useState({
-      totalCount: 0,
-      totalPages: 0,
-      currentPage: variablesList.currentPage,
-      itemsPerPage: variablesList.itemsPerPage,
-  }); // Track pagination info
+    totalCount: 0,
+    totalPages: 0,
+    currentPage: variablesList.currentPage,
+    itemsPerPage: variablesList.itemsPerPage,
+  });
 
   const fetchProperties = async (page = variablesList.currentPage, term = '', status = '') => {
     setLoading(true);
@@ -62,12 +62,12 @@ export default function ProjectListing() {
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
-    setPagination({ ...pagination, currentPage: 1 }); // Reset to first page on search
+    setPagination({ ...pagination, currentPage: 1 });
   };
 
   const handleStatusChange = (e) => {
     setStatusFilter(e.target.value);
-    setPagination({ ...pagination, currentPage: 1 }); // Reset to first page on filter
+    setPagination({ ...pagination, currentPage: 1 });
   };
 
   const handleDelete = async (id) => {
@@ -87,7 +87,7 @@ export default function ProjectListing() {
 
   const handleView = (slug) => {
     const URL = `${process.env.NEXT_PUBLIC_SITE_URL}/project/${slug}`;
-      window.open(URL, '_blank')
+    window.open(URL, '_blank')
   };
 
   const handlePageChange = (page) => {
@@ -115,77 +115,77 @@ export default function ProjectListing() {
                         <table>
                           <thead>
                             <tr>
-                                <th>Image</th>
-                                <th>Title</th>
-                                <th>User name</th>
-                                <th>Date Published</th>
-                                <th>Status</th>
-                                <th>Action</th>
+                              <th>Image</th>
+                              <th>Title</th>
+                              <th>User name</th>
+                              <th>Date Published</th>
+                              <th>Status</th>
+                              <th>Action</th>
                             </tr>
                           </thead>
                           <tbody>
                             {properties.map((property) => (
                               <tr key={property.id} className="file-delete">
-                              <td>
-                                <div className="listing-box">
-                                  <div className="images">
-                                    <img src={property.picture[0] || '/images/avatar/user-image.png'} alt="images" />
+                                <td>
+                                  <div className="listing-box">
+                                    <div className="images">
+                                      <img src={property.picture[0] || '/images/avatar/user-image.png'} alt="images" />
+                                    </div>
                                   </div>
-                                </div>
-                              </td>
-                              <td>{property.title}</td>
-                              <td>
-                                {property.user_name}
-                              </td>
-                              <td>{new Date(property.created_at).toLocaleDateString()}</td>
-                              <td>
-                                <div className="status-wrap">
-                                  <Link href="#" className="btn-status">{property.status? 'Active':'Inactive'}</Link>
-                                </div>
-                              </td>
-                              <td>
-                                <ul className="list-action">
-                                    
-                                  <li className="edit">
-                                    {/* <Link href={`/edit-project/${property.slug}`} className="item"> */}
+                                </td>
+                                <td>{property.title}</td>
+                                <td>
+                                  {property.user_name}
+                                </td>
+                                <td>{new Date(property.created_at).toLocaleDateString()}</td>
+                                <td>
+                                  <div className="status-wrap">
+                                    <Link href="#" className="btn-status">{property.status ? 'Active' : 'Inactive'}</Link>
+                                  </div>
+                                </td>
+                                <td>
+                                  <ul className="list-action">
+
+                                    <li className="edit">
+
                                       <Image
-                                        src={EditIcon} // Imported image object or static path
+                                        src={EditIcon}
                                         alt="Edit icon"
                                         width={25}
                                         height={25}
                                       />
-                                    {/* </Link> */}
-                                  </li>
-                                  <li className="delete">
-                                    <a className="remove-file item" onClick={() => handleDelete(property.id)}>
-                                      <Image
-                                          src={DeleteIcon} // Imported image object or static path
+
+                                    </li>
+                                    <li className="delete">
+                                      <a className="remove-file item" onClick={() => handleDelete(property.id)}>
+                                        <Image
+                                          src={DeleteIcon}
                                           alt="Delete icon"
                                           width={25}
                                           height={25}
                                         />
-                                    </a>
-                                  </li>
-                                  <li className="delete">
-                                    <a
-                                      className="remove-file item"
-                                      onClick={() => handleView(property.slug)}
-                                      style={{ border: 'none', background: 'transparent', padding: 0 }}
-                                      target="_blank"
-                                      rel="noopener noreferrer"
-                                    >
-                                      <Image
-                                        src={ViewIcon} // Imported image object or static path
-                                        alt="View icon"
-                                        width={25}
-                                        height={25}
-                                      />
-                                    </a>
-                                  </li>
+                                      </a>
+                                    </li>
+                                    <li className="delete">
+                                      <a
+                                        className="remove-file item"
+                                        onClick={() => handleView(property.slug)}
+                                        style={{ border: 'none', background: 'transparent', padding: 0 }}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                      >
+                                        <Image
+                                          src={ViewIcon}
+                                          alt="View icon"
+                                          width={25}
+                                          height={25}
+                                        />
+                                      </a>
+                                    </li>
 
-                                </ul>
-                              </td>
-                            </tr>
+                                  </ul>
+                                </td>
+                              </tr>
                             ))}
                           </tbody>
                         </table>

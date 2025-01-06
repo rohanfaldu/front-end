@@ -5,8 +5,8 @@ import { initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 
 i18n
-  .use(LanguageDetector) // Automatically detect user's language
-  .use(initReactI18next) // Bind i18next to React
+  .use(LanguageDetector)
+  .use(initReactI18next)
   .init({
     resources: {
         en: {
@@ -22,9 +22,9 @@ i18n
           },
         },
       },
-    fallbackLng: "en", // Default language
+    fallbackLng: "en",
     interpolation: {
-      escapeValue: false, // React already escapes output
+      escapeValue: false,
     },
   });
 

@@ -9,21 +9,20 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import EditIcon from "../../public/images/favicon/edit.png";
 import DeleteIcon from "../../public/images/favicon/delete.png";
-//import variablesList from "../../components/common/variable";
 import ViewIcon from "../../public/images/favicon/view.png";
 
 export default function PropertyListing() {
-  const [properties, setProperties] = useState([]); // Store properties for the current page
-  const [loading, setLoading] = useState(true); // Manage loading state
-  const [error, setError] = useState(null); // Manage error state
-  const [searchTerm, setSearchTerm] = useState(''); // Store search input
-  const [statusFilter, setStatusFilter] = useState(''); // Store selected status filter
+  const [properties, setProperties] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [statusFilter, setStatusFilter] = useState('');
   const [pagination, setPagination] = useState({
-      totalCount: 0,
-      totalPages: 0,
-      currentPage: 1,
-      itemsPerPage: 100,
-  }); // Track pagination info
+    totalCount: 0,
+    totalPages: 0,
+    currentPage: 1,
+    itemsPerPage: 100,
+  });
 
   const fetchProperties = async (page = 1, term = '', status = '') => {
     setLoading(true);
@@ -61,12 +60,12 @@ export default function PropertyListing() {
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
-    setPagination({ ...pagination, currentPage: 1 }); // Reset to first page on search
+    setPagination({ ...pagination, currentPage: 1 });
   };
 
   const handleStatusChange = (e) => {
     setStatusFilter(e.target.value);
-    setPagination({ ...pagination, currentPage: 1 }); // Reset to first page on filter
+    setPagination({ ...pagination, currentPage: 1 });
   };
 
   const handleDelete = async (id) => {
@@ -88,7 +87,7 @@ export default function PropertyListing() {
 
   const handleView = (slug) => {
     const URL = `${process.env.NEXT_PUBLIC_SITE_URL}/property/${slug}`;
-      window.open(URL, '_blank')
+    window.open(URL, '_blank')
   };
 
   return (
@@ -149,43 +148,43 @@ export default function PropertyListing() {
                                 </td>
                                 <td>
                                   <ul className="list-action">
-                                    
-                                  <li className="edit">
-                                    {/* <Link href={`/edit-project/${property.slug}`} className="item"> */}
+
+                                    <li className="edit">
+
                                       <Image
-                                        src={EditIcon} // Imported image object or static path
+                                        src={EditIcon}
                                         alt="Edit icon"
                                         width={25}
                                         height={25}
                                       />
-                                    {/* </Link> */}
-                                  </li>
-                                  <li className="delete">
-                                    <a className="remove-file item"  onClick={() => handleDelete(property.id)}>
-                                      <Image
-                                          src={DeleteIcon} // Imported image object or static path
+
+                                    </li>
+                                    <li className="delete">
+                                      <a className="remove-file item" onClick={() => handleDelete(property.id)}>
+                                        <Image
+                                          src={DeleteIcon}
                                           alt="Delete icon"
                                           width={25}
                                           height={25}
                                         />
-                                    </a>
-                                  </li>
-                                  <li className="delete">
-                                    <a
-                                      className="remove-file item"
-                                      onClick={() => handleView(property.slug)}
-                                      style={{ border: 'none', background: 'transparent', padding: 0 }}
-                                      target="_blank"
-                                      rel="noopener noreferrer"
-                                    >
-                                      <Image
-                                        src={ViewIcon} // Imported image object or static path
-                                        alt="View icon"
-                                        width={25}
-                                        height={25}
-                                      />
-                                    </a>
-                                  </li>
+                                      </a>
+                                    </li>
+                                    <li className="delete">
+                                      <a
+                                        className="remove-file item"
+                                        onClick={() => handleView(property.slug)}
+                                        style={{ border: 'none', background: 'transparent', padding: 0 }}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                      >
+                                        <Image
+                                          src={ViewIcon}
+                                          alt="View icon"
+                                          width={25}
+                                          height={25}
+                                        />
+                                      </a>
+                                    </li>
 
                                   </ul>
                                 </td>
