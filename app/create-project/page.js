@@ -17,7 +17,7 @@ import PropertyMapMarker from "@/components/elements/PropertyMapMarker";
 import ErrorPopup from "../../components/errorPopup/ErrorPopup.js";
 import Preloader from "@/components/elements/Preloader";
 import SuccessPopup from "@/components/SuccessPopup/SuccessPopup";
-export default function CreateAgency() {
+export default function CreateProject() {
     const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -63,6 +63,7 @@ export default function CreateAgency() {
         city_id: Yup.string().required("City is required"),
         districts_id: Yup.string().required("District is required"),
         neighborhood_id: Yup.string().required("Neighborhood is required"),
+        icon: Yup.string().required("Icon is required"),
     });
     
     useEffect(() => {
@@ -308,15 +309,19 @@ export default function CreateAgency() {
                     console.log("Project Data:", { imageUrls, videoUrl, iconUrl });
                 
                     // Default video URL if not uploaded
-                    if (!videoUrl) {
-                        const isValid = validateYouTubeURL(values.video_link);
-                        if (!isValid) {
-                            setErrors({ serverError: "Please upload a Valid YouTube video link like https://www.youtube.com/watch?v=YOUR_VIDEO_ID." });
-                            setShowErrorPopup(true);
-                            return false;
-                        }
-                        videoUrl = values.video_link ?? null; // Use values.video_link as fallback
-                    }
+                    // Validate YouTube URL if a link is provided
+                if (values.video_link && !validateYouTubeURL(values.video_link)) {
+                    setErrors({ serverError: "Please upload a valid YouTube video link like https://www.youtube.com/watch?v=YOUR_VIDEO_ID." });
+                    setShowErrorPopup(true);
+                    return false;
+                }
+    
+                // Use the provided video link if no video was uploaded
+                videoUrl = videoUrl || values.video_link;
+    
+                console.log('values');
+                console.log(values);
+    
                     console.log('values');
                     console.log(values);
                     /********* create user ***********/

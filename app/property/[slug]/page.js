@@ -183,7 +183,7 @@ export default function PropertyDetailsV1({ params }) {
 	const handleAccordion = (key) => {
 		setIsAccordion(prevState => prevState === key ? null : key)
 	}
-	if ((!properties.video.endsWith(".mp4")) && (videoUrl === "")) {
+	if ((properties.video != null) && (!properties.video.endsWith(".mp4")) && (videoUrl === "")) {
 		const urlParams = new URLSearchParams(new URL(properties.video).search);
 		const videoId = urlParams.get('v');
 		setVideoUrl('https://www.youtube.com/embed/' + videoId);
@@ -381,29 +381,34 @@ export default function PropertyDetailsV1({ params }) {
 											</li> */}
 										</ul>
 									</div>
-									<div className="single-property-element single-property-video">
-										<div className="h7 title fw-7">{t("video")}</div>
-										<div className="img-video">
-											{/* <img src="/images/banner/img-video.jpg" alt="img-video" /> */}
-											{(properties.video.endsWith(".mp4") ?
-												<video height="500" controls>
-													<source src={properties.video} type="video/mp4" />
-												</video>
+									{properties.video !== null ? (
+										<>
+											<div className="single-property-element single-property-video">
+												<div className="h7 title fw-7">{t("video")}</div>
+												<div className="img-video">
+													{/* <img src="/images/banner/img-video.jpg" alt="img-video" /> */}
+													{(properties.video.endsWith(".mp4") ?
+														<video height="500" controls>
+															<source src={properties.video} type="video/mp4" />
+														</video>
 
-												:
-												<iframe height="500" width="100%"
-													src={videoUrl}
-													title="Immofind"
-													frameborder="0"
-													allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-													referrerpolicy="strict-origin-when-cross-origin"
-													allowfullscreen>
-												</iframe>
-											)}
-											{/* <Video type="youtube" link={properties.video} /> <Video type="mp4" link={properties.video} /> */}
-											{/* <Video type="youtube" link="http://localhost:7000/uploads/big_buck_bunny_720p_2mb.mp4" /> */}
-										</div>
-									</div>
+														:
+														<iframe height="500" width="100%"
+															src={videoUrl}
+															title="Immofind"
+															frameborder="0"
+															allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+															referrerpolicy="strict-origin-when-cross-origin"
+															allowfullscreen>
+														</iframe>
+													)}
+													{/* <Video type="youtube" link={properties.video} /> <Video type="mp4" link={properties.video} /> */}
+													{/* <Video type="youtube" link="http://localhost:7000/uploads/big_buck_bunny_720p_2mb.mp4" /> */}
+												</div>
+											</div>
+										</>
+										) : (<></>)
+									}
 									{/* <div className="single-property-element single-property-info">
 										<div className="h7 title fw-7">Property Details</div>
 										<div className="row">

@@ -315,24 +315,16 @@ export default function CreateProperty() {
     console.log(loginUserId);
     // Handle form submission
     const handleSubmit = async (values, {resetForm, setErrors}) => {
-        // if (Object.keys(errors).length > 0) {
-        //     setShowErrorPopup(true);
-        // }
-        console.log(values); 
-        console.log(isVideoUpload); 
+
         if (isVideoUpload && !values.video) {
             setErrors({ serverError: "Please upload a video file." });
             setShowErrorPopup(true);
             return;
         }
-        
-        // if(picture_img.length > 0){
-        //     setErrors({ serverError: "Please Upload the Images." });
-        //     setShowErrorPopup(true);
-        //     return;
-        // }
-        if (!isVideoUpload && !values.video_link) {
-            setErrors({ serverError: "Please enter a YouTube video link." });
+
+        // Validate YouTube link only if it's not empty
+        if (!isVideoUpload && values.video_link && !validateYouTubeURL(values.video_link)) {
+            setErrors({ serverError: "Please upload a valid YouTube video link like https://www.youtube.com/watch?v=YOUR_VIDEO_ID." });
             setShowErrorPopup(true);
             return;
         }
@@ -388,15 +380,15 @@ export default function CreateProperty() {
         console.log("Image URLs:", pictureUrl);
         console.log("Video URL:", videoUrl);
 
-        if (!videoUrl) {
-            const isValid = validateYouTubeURL(values.video_link);
-            if (!isValid) {
-                setErrors({ serverError: "Please upload a Valid YouTube video link like https://www.youtube.com/watch?v=YOUR_VIDEO_ID." });
-                setShowErrorPopup(true);
-                return false;
-            }
-            videoUrl = values.video_link ?? null; // Use values.video_link as fallback
-        }
+        // if (!videoUrl) {
+        //     const isValid = validateYouTubeURL(values.video_link);
+        //     if (!isValid) {
+        //         setErrors({ serverError: "Please upload a Valid YouTube video link like https://www.youtube.com/watch?v=YOUR_VIDEO_ID." });
+        //         setShowErrorPopup(true);
+        //         return false;
+        //     }
+        //     videoUrl = values.video_link ?? null; // Use values.video_link as fallback
+        // }
 
             /********* create user ***********/
             const propertyData = {
