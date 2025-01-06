@@ -9,7 +9,7 @@ import { use, useState, useEffect } from "react"
 import { useRouter } from 'next/navigation';
 import { insertData, insertImageData } from "../../components/api/Axios/Helper";
 import { insertMultipleUploadImage } from "../../components/common/imageUpload";
-import { capitalizeFirstChar } from "../../components/common/functions";
+import { capitalizeFirstChar, validateYouTubeURL } from "../../components/common/functions";
 import GooglePlacesAutocomplete from "@/components/elements/GooglePlacesAutocomplete"; // Adjust the path based on your project structure
 import Preloader from "@/components/elements/Preloader";
 // import ReactGooglePlacesAutocomplete from 'react-google-places-autocomplete';
@@ -389,7 +389,13 @@ export default function CreateProperty() {
         console.log("Video URL:", videoUrl);
 
         if (!videoUrl) {
-            videoUrl = values.video_link;
+            const isValid = validateYouTubeURL(values.video_link);
+            if (!isValid) {
+                setErrors({ serverError: "Please upload a Valid YouTube video link like https://www.youtube.com/watch?v=YOUR_VIDEO_ID." });
+                setShowErrorPopup(true);
+                return false;
+            }
+            videoUrl = values.video_link ?? null; // Use values.video_link as fallback
         }
 
             /********* create user ***********/
