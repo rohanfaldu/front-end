@@ -23,3 +23,15 @@ export function split(string, key) {
     
     return response[key];
 }
+
+export  function validateYouTubeURL(inputURL) {
+    const regex =
+      /^(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtu\.be\/)[A-Za-z0-9_-]{11}$/;
+    if(regex.test(inputURL)) {
+        console.log(1);
+      return true;
+    } else {
+        console.log(2);
+      return false;
+    }
+  };

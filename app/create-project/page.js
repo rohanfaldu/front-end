@@ -12,7 +12,7 @@ import passwordShow from "../../public/images/favicon/password-show.png";
 import passwordHide from "../../public/images/favicon/password-hide.png"; 
 import { insertData, insertImageData } from "../../components/api/Axios/Helper";
 import { insertMultipleUploadImage } from "../../components/common/imageUpload";
-import { capitalizeFirstChar } from "../../components/common/functions";
+import { capitalizeFirstChar, validateYouTubeURL } from "../../components/common/functions";
 import PropertyMapMarker from "@/components/elements/PropertyMapMarker";
 import ErrorPopup from "../../components/errorPopup/ErrorPopup.js";
 import Preloader from "@/components/elements/Preloader";
