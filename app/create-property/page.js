@@ -391,6 +391,7 @@ export default function CreateProperty() {
         //     }
         //     videoUrl = values.video_link ?? null; // Use values.video_link as fallback
         // }
+            videoUrl = videoUrl || (values.video_link ? values.video_link : null);
 
             /********* create user ***********/
             const propertyData = {

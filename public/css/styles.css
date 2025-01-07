@@ -10602,8 +10602,12 @@ tr {
 }
 
 .image-gallery .preview-item {
-  float: left;
-  padding-right: 10px;
+  position: relative;
+    z-index: 1;
+    display: flex;
+    float: left;
+    height: 50px;
+    height: 50px;
 }
 .remove-image-btn {
   position: absolute;
