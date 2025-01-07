@@ -44,6 +44,7 @@ export default function CreateProject() {
     const [showErrorPopup, setShowErrorPopup] = useState(false);
     const [currencyList, setCurrencyList] = useState([]);
     const [currencyCode, setCurrencyCode] = useState([]);
+    const [propertyOfMetaNumberValue, setPropertyOfMetaNumberValue] = useState([]);
     const router = useRouter();
     const [propertyMapCoords, setPropertyMapCoords] = useState({
         latitude: 33.5945144,
@@ -236,6 +237,13 @@ export default function CreateProject() {
         }
     };
 
+    const handleNumberChange = (id, value) => {
+        setPropertyOfMetaNumberValue((prev) => ({
+            ...prev,
+            [id]: value,
+        }));
+    };
+
     const handleDragOver = (e) => {
         e.preventDefault(); // Prevent default behavior to enable drop
     };
@@ -265,9 +273,18 @@ export default function CreateProject() {
 
         const selectedAmenities = projectOfBooleanListing
         .filter((project) => checkedItems[project.key])
-        .map((project) => ({ project_type_listing_id: project.id, value: "true" }));
-  
-        console.log('Selected Amenities:', selectedAmenities);
+                .map((project) => ({ project_type_listing_id: project.id, value: "true" }));
+            if (propertyOfMetaNumberValue && Object.keys(propertyOfMetaNumberValue).length > 0) {
+                // Update selected amenities based on propertyOfMetaNumberValue
+                Object.entries(propertyOfMetaNumberValue).forEach(([key, value]) => {
+                    const index = selectedAmenities.findIndex(item => item.property_type_id === key);
+                    if (index !== -1) {
+                        selectedAmenities[index].value = value;
+                    } else {
+                        selectedAmenities.push({ project_type_listing_id: key, value });
+                    }
+                });
+            }
 
         try {
                 //setErrorMessage('');
@@ -543,46 +560,23 @@ export default function CreateProject() {
                                         </fieldset>*/}
                                     </div>
                                     <div className="box grid-3 gap-30">
-                                        {/* <fieldset className="box box-fieldset">
-                                            <label htmlFor="desc">License number:</label>
-                                            <Field type="text" id="license_number" name="license_number" className="box-fieldset" />
-                                            <ErrorMessage name="license_number" component="div" className="error" />
-                                        </fieldset>
-                                        <fieldset className="box box-fieldset">
-                                            <label htmlFor="desc">Credit:</label>
-                                            <Field type="text" name="credit" className="box-fieldset"  />
-                                            <ErrorMessage name="credit" component="div" className="error" />
-                                        </fieldset> */}
-                                        {/* <fieldset className="box box-fieldset">
-                                            <label htmlFor="title">User Listing:</label>
-                                            <Field as="select" name="user_id" className="nice-select country-code"
-                                                    onChange={(e) => {
-                                                        const selectedState = e.target.value;
-                                                        setFieldValue("user_id", selectedState);
-                                                    }}
-                                                >
-                                                <option value="">Select User Listing</option>
-                                                {developerList && developerList.length > 0 ? (
-                                                    developerList.map((user) => (
-                                                        (user.full_name !== null)?<option key={user.id} value={user.id}>{capitalizeFirstChar(user.full_name)}</option>:<></> 
-                                                    ))
-                                                ) : (
-                                                    <></>
-                                                )}
-                                            </Field>
-                                            <ErrorMessage name="user_id" component="div" className="error" />
-                                        </fieldset> */}
-                                            {/* {projectOfNumberListing && projectOfNumberListing.length > 0 ? (
-                                                projectOfNumberListing.map((project) => (
-                                                    <fieldset className="box box-fieldset">
-                                                        <label htmlFor="desc">{project.name}:</label>
-                                                            <Field type="number" name={project.id} className="box-fieldset" min="0" />
-                                                        <ErrorMessage name={project.key} component="div" className="error" />
-                                                    </fieldset>
-                                                ))
-                                            ) : (
-                                                <></>
-                                            )} */}
+                                        {projectOfNumberListing && projectOfNumberListing.length > 0 ? (
+                                            projectOfNumberListing.map((project) => (
+                                                <fieldset className="box box-fieldset">
+                                                    <label htmlFor="desc">{project.name}:</label>
+                                                        <Field
+                                                            type="number"
+                                                            name={project.id}
+                                                            min="0"
+                                                            className="box-fieldset"
+                                                            onChange={(e) => handleNumberChange(project.id, e.target.value)}
+                                                        />
+                                                        {/* <ErrorMessage name={project.key} component="div" className="error" /> */}
+                                                </fieldset>
+                                            ))
+                                        ) : (
+                                            <></>
+                                        )}
                                     </div>
                                     <div className="grid-2 box gap-30">
                                         <fieldset className="box-fieldset">
