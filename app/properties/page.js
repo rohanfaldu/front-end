@@ -396,10 +396,10 @@ export default function PropertyHalfmapList() {
 														</div>
 														<div className="desc">
 															<i className="fs-16 icon icon-mapPin" />
-															<p>{[property?.state, property?.city, property?.district]
-                                                        .filter(Boolean)
-                                                        .join(', ')} </p>
-																	
+															<p>{[ property?.district, property?.city, property?.state]
+																.filter(Boolean)
+																.join(', ')} </p>
+
 														</div>
 														<ul className="meta-list">
 															<li className="item">

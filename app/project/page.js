@@ -429,10 +429,10 @@ export default function ProjectHalfmapList() {
 														<div className="desc">
 															<i className="fs-16 icon icon-mapPin" />
 															<p>
-															{[project?.state, project?.city, project?.district]
-                                                        .filter(Boolean)
-                                                        .join(', ')} </p> {/* Join remaining values with comma */}
-															
+																{[ project?.district, project?.city, project?.state]
+																	.filter(Boolean)
+																	.join(', ')} </p> {/* Join remaining values with comma */}
+
 														</div>
 														{/* <ul className="meta-list">
 															<li className="item">

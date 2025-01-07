@@ -130,21 +130,25 @@ export default function CreateProject() {
     const handleStateChange = async (stateId) => {
         console.log('State ID:', stateId);
 
+        setCityList([]);
+        setDistrictList([]);
+        setNeighborhoodList([]);
         const selectedState = stateList.find((state) => state.id === stateId);
-        const { latitude, longitude } = selectedState;
-        setPropertyMapCoords({
-            latitude: latitude,
-            longitude: longitude,
-            zoom: 10
-        });
-        if(cityList.length === 0){
-            const cityObj = { state_id: stateId, lang: "en" };
-            const getCityInfo = await insertData('api/city', cityObj, true);
-            if (getCityInfo.status) {
-                console.log(getCityInfo.data.cities);
-                setCityList(getCityInfo.data.cities);
-            }
+        if(selectedState){
+            const { latitude, longitude } = selectedState;
+            setPropertyMapCoords({
+                latitude: latitude,
+                longitude: longitude,
+                zoom: 10
+            });
+                const cityObj = { state_id: stateId, lang: "en" };
+                const getCityInfo = await insertData('api/city/getbystate', cityObj, true);
+                if (getCityInfo.status) {
+                    console.log(getCityInfo.data.cities);
+                    setCityList(getCityInfo.data.cities);
+                }
         }
+        
     };
     const handleCityChange = async (cityId) => {
         const selectedCites = cityList.find((cities) => cities.id === cityId);
@@ -162,9 +166,9 @@ export default function CreateProject() {
         }
         try {
             const districtObj = { city_id: cityId, lang: "en" };
-            const getDistrictInfo = await insertData('api/district', districtObj, true);
+            const getDistrictInfo = await insertData('api/district/getbycity', districtObj, true);
             if (getDistrictInfo.status) {
-                setDistrictList(getDistrictInfo.data.districts);
+                setDistrictList(getDistrictInfo.data);
             } else {
                 setDistrictList([]);
             }
@@ -268,8 +272,7 @@ export default function CreateProject() {
         try {
                 //setErrorMessage('');
                 //setLoading(true);
-                setErrors({ serverError: "Processing ........." });
-            setShowErrorPopup(true);
+                setSucessMessage("Processing .........")
                 console.log(values);
                 // const checkData = { email_address: values.email, phone_number: parseInt(values.phone,10) }
                 // const getUserInfo = await insertData('auth/check/user', checkData, false);
@@ -341,8 +344,8 @@ export default function CreateProject() {
                         city_id: values.city_id,
                         district_id: values.districts_id, // Fixed
                         neighborhoods_id: values.neighborhood_id, // Fixed
-                        latitude: isNaN(parseFloat(values.latitude)) ? 20.2323 : parseFloat(values.latitude),
-                        longitude: isNaN(parseFloat(values.longitude)) ? 20.2323 : parseFloat(values.longitude),
+                        latitude: isNaN(parseFloat(values.latitude)) ? parseFloat(propertyMapCoords.latitude) : parseFloat(values.latitude),
+                        longitude: isNaN(parseFloat(values.longitude)) ? parseFloat(propertyMapCoords.longitude) : parseFloat(values.longitude),
                         currency_id: values.currency_id,
                         meta_details: selectedAmenities,
                         address: values.address,
@@ -437,7 +440,7 @@ export default function CreateProject() {
                     validationSchema={validationSchema}
                     onSubmit={handleSubmit}
                     >
-                    {({ errors, touched, handleChange, handleBlur, setFieldValue }) => (
+                    {({ errors, touched, handleChange, handleBlur, setFieldValue, values }) => (
                         <Form>
                             <div>
                                 {/* <div className="widget-box-2">
@@ -876,7 +879,7 @@ export default function CreateProject() {
                                                     {cityList && cityList.length > 0 ? (
                                                         cityList.map((cities) => (
                                                             <option key={cities.id} value={cities.id}>
-                                                                {cities.city_name}
+                                                                {cities.name}
                                                             </option>
                                                         ))
                                                     ) : (
@@ -896,7 +899,7 @@ export default function CreateProject() {
                                                     {districtList && districtList.length > 0 ? (
                                                         districtList.map((districts) => (
                                                             <option key={districts.id} value={districts.id}>
-                                                                {districts.district_name}
+                                                                {districts.name}
                                                             </option>
                                                         ))
                                                     ) : (

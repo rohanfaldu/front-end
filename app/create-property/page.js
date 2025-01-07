@@ -151,24 +151,27 @@ export default function CreateProperty() {
     
 
     const handleStateChange = async (stateId) => {
-        console.log('State ID:', stateId);
+        setCityList([]);
+        setDistrictList([]);
+        setNeighborhoodList([]);
         const selectedState = stateList.find((state) => state.id === stateId);
         console.log('selectedState ID:', selectedState.latitude);
-        const { latitude, longitude } = selectedState;
-        setPropertyMapCoords({
-            latitude: latitude,
-            longitude: longitude,
-            zoom: 10
-        });
-        if(cityList.length === 0){
-            console.log(1);
-            const cityObj = { state_id: stateId, lang: "en" };
-            const getCityInfo = await insertData('api/city', cityObj, true);
-            if (getCityInfo.status) {
-                console.log(getCityInfo.data.cities);
-                setCityList(getCityInfo.data.cities);
-            }
+        if(selectedState){
+            const { latitude, longitude } = selectedState;
+            setPropertyMapCoords({
+                latitude: latitude,
+                longitude: longitude,
+                zoom: 10
+            });
+                const cityObj = { state_id: stateId, lang: "en" };
+                const getCityInfo = await insertData('api/city/getbystate', cityObj, true);
+                if (getCityInfo.status) {
+                    console.log(getCityInfo.data.cities);
+                    setCityList(getCityInfo.data.cities);
+                }
         }
+
+        
     };
 
     const handleAddressSelect = (newAddress, newLocation) => {
@@ -239,9 +242,9 @@ export default function CreateProperty() {
         }
         try {
             const districtObj = { city_id: cityId, lang: "en" };
-            const getDistrictInfo = await insertData('api/district', districtObj, true);
+            const getDistrictInfo = await insertData('api/district/getbycity', districtObj, true);
             if (getDistrictInfo.status) {
-                setDistrictList(getDistrictInfo.data.districts);
+                setDistrictList(getDistrictInfo.data);
             } else {
                 setDistrictList([]);
             }
@@ -316,11 +319,11 @@ export default function CreateProperty() {
     // Handle form submission
     const handleSubmit = async (values, {resetForm, setErrors}) => {
 
-        if (isVideoUpload && !values.video) {
-            setErrors({ serverError: "Please upload a video file." });
-            setShowErrorPopup(true);
-            return;
-        }
+        // if (isVideoUpload && !values.video) {
+        //     setErrors({ serverError: "Please upload a video file." });
+        //     setShowErrorPopup(true);
+        //     return;
+        // }
 
         // Validate YouTube link only if it's not empty
         if (!isVideoUpload && values.video_link && !validateYouTubeURL(values.video_link)) {
@@ -360,8 +363,7 @@ export default function CreateProperty() {
             uploadImageObj.push(values.video);
         }
         //setLoading(true);
-        setErrors({ serverError: "Processing ........." });
-            setShowErrorPopup(true);
+        setSucessMessage("Processing .........")
         const uploadImageUrl = await insertMultipleUploadImage("image", uploadImageObj);
 
      if (uploadImageUrl.files.length > 0) {
@@ -406,8 +408,8 @@ export default function CreateProperty() {
                 city_id: values.city_id,
                 district_id: values.districts_id,
                 neighborhood_id: values.neighborhood_id,
-                latitude: isNaN(parseFloat(values.latitude)) ? "20.2323" : String(values.latitude),
-                longitude: isNaN(parseFloat(values.longitude)) ? "20.2323" : String(values.longitude),
+                latitude: isNaN(parseFloat(values.latitude)) ? String(propertyMapCoords.latitude) : String(values.latitude),
+                longitude: isNaN(parseFloat(values.longitude)) ? String(propertyMapCoords.longitude) : String(values.longitude),
                 transaction: values.transaction_type,
                 type_id: values.property_type,
                 size: parseInt(values.size_sqft) ?? 0,
@@ -936,7 +938,7 @@ export default function CreateProperty() {
                                                 {cityList && cityList.length > 0 ? (
                                                     cityList.map((cities) => (
                                                         <option key={cities.id} value={cities.id}>
-                                                            {cities.city_name}
+                                                            {cities.name}
                                                         </option>
                                                     ))
                                                 ) : (
@@ -956,7 +958,7 @@ export default function CreateProperty() {
                                                 {districtList && districtList.length > 0 ? (
                                                     districtList.map((districts) => (
                                                         <option key={districts.id} value={districts.id}>
-                                                            {districts.district_name}
+                                                            {districts.name}
                                                         </option>
                                                     ))
                                                 ) : (

@@ -443,14 +443,18 @@ export default function ProjectDetailsV1({ params }) {
 									<div className="single-property-element single-property-map">
 										<div className="h7 title fw-7">{t("map")}</div>
 										<PropertyMapMarker latitude={projectDetails?.latitude} longitude={projectDetails?.longitude} zoom={14} />
-										{projectDetails?.address !== "" && (
-											<ul className="info-map">
-												<li>
-													<div className="fw-7">{t("address")}</div>
-													<span className="mt-4 text-variant-1">{projectDetails?.address}</span>
-												</li>
-											</ul>
-										)}
+										<ul className="info-map">
+											<li>
+												<div className="fw-7">{t("address")}</div>
+												<span className="mt-4 text-variant-1 67886">
+													{[projectDetails?.neighborhood, projectDetails?.district, projectDetails?.city, projectDetails?.state]
+														.filter(Boolean)
+														.join(', ')}
+												</span><br />
+												<span className="mt-4 text-variant-1">{projectDetails?.address}</span>
+
+											</li>
+										</ul>
 
 									</div>
 									{/* <div className="single-property-element single-property-floor">
@@ -792,10 +796,10 @@ export default function ProjectDetailsV1({ params }) {
 																<input type="email" className="form-control" name="email" placeholder="Your email" required />
 															</fieldset>
 														</div>
-														<fieldset className="form-wg d-flex align-items-center gap-8">
+														{/* <fieldset className="form-wg d-flex align-items-center gap-8">
 															<input type="checkbox" className="tf-checkbox" id="cb-ip" />
 															<label htmlFor="cb-ip" className="text-black text-checkbox">{t("text")}</label>
-														</fieldset>
+														</fieldset> */}
 														<fieldset className="form-wg">
 															<label className="sub-ip">{t("review")}</label>
 															<textarea id="comment-message" name="message" rows={4} tabIndex={4} placeholder="Write comment " aria-required="true" defaultValue={""} />
@@ -1123,7 +1127,7 @@ export default function ProjectDetailsV1({ params }) {
 													<div className="content">
 														<div className="h7 text-capitalize fw-7"><Link href="#" className="link"> {property?.title}</Link></div>
 														<div className="desc"><i className="fs-16 icon icon-mapPin" /><p>
-															{[property.address, property.city, property.state]
+															{[property?.neighborhood, property?.district, property?.city, property?.state]
 																.filter(Boolean) // Remove empty or falsy values
 																.join(", ")} {/* Join remaining values with comma */}
 														</p> </div>

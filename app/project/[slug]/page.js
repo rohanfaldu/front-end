@@ -102,7 +102,7 @@ import Preloader from '@/components/elements/Preloader';
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "next/navigation";
 export default function ProjectDetailsV1({ params }) {
-    const { slug } = params;
+	const { slug } = params;
 	const searchParams = useSearchParams();
 	const projectId = searchParams.get("id");
 	const [isAccordion, setIsAccordion] = useState(1)
@@ -187,34 +187,33 @@ export default function ProjectDetailsV1({ params }) {
 		<>
 
 			<Layout headerStyle={1} footerStyle={1}>
-				<div className={isOpen?"custom-overlay":""}> 
+				<div className={isOpen ? "custom-overlay" : ""}>
 					<section className="flat-location flat-slider-detail-v1">
 						<div className="swiper tf-sw-location">
 							<Swiper {...swiperOptions(projectDetails)} className="swiper-wrapper">
 								{(projectDetails?.picture.length > 0 ? projectDetails.picture : ["/images/banner/no-banner.png"]).map((item, index) => (
 									<SwiperSlide key={index}>
-									<div
-										onClick={() => openPopup(item)}
-										className={`box-imgage-detail d-block property-image ${
-											projectDetails?.picture.length === 1 ? "full-screen" : ""
-										}`}
-									>
-										<img src={item} alt="img-property" />
-									</div>
+										<div
+											onClick={() => openPopup(item)}
+											className={`box-imgage-detail d-block property-image ${projectDetails?.picture.length === 1 ? "full-screen" : ""
+												}`}
+										>
+											<img src={item} alt="img-property" />
+										</div>
 									</SwiperSlide>
 								))}
 							</Swiper>
 							{isOpen && (
 								<div className="modal-overlay-custom" onClick={closePopup}>
-								<div
-									className="modal-content-custom"
-									onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
-								>
-									<img src={currentImage} alt="img-property-large" />
-									<button onClick={closePopup} className="close-button">
-									X
-									</button>
-								</div>
+									<div
+										className="modal-content-custom"
+										onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
+									>
+										<img src={currentImage} alt="img-property-large" />
+										<button onClick={closePopup} className="close-button">
+											X
+										</button>
+									</div>
 								</div>
 							)}
 							{projectDetails?.picture.length > 2 && (
@@ -343,9 +342,9 @@ export default function ProjectDetailsV1({ params }) {
 												{/* <Video type="youtube" link={properties.video} /> <Video type="mp4" link={properties.video} /> */}
 												{/* <Video type="youtube" link="http://localhost:7000/uploads/big_buck_bunny_720p_2mb.mp4" /> */}
 											</div>
-										</div>	
-									):(<></>)}
-									
+										</div>
+									) : (<></>)}
+
 									{/* <div className="single-property-element single-property-info">
 										<div className="h7 title fw-7">Property Details</div>
 										<div className="row">
@@ -472,20 +471,21 @@ export default function ProjectDetailsV1({ params }) {
 									<div className="single-property-element single-property-map">
 										<div className="h7 title fw-7">{t("map")}</div>
 										<PropertyMapMarker latitude={projectDetails?.latitude} longitude={projectDetails?.longitude} zoom={14} />
-										
-											<ul className="info-map">
-												<li>
-													<div className="fw-7">{t("address")}</div>
-                                                    <span className="mt-4 text-variant-1 67886">
-                                                    {[projectDetails?.state, projectDetails?.city, projectDetails?.district, projectDetails?.neighborhood]
-                                                        .filter(Boolean)
-                                                        .join(', ')}
-                                                    </span><br/>
-                                                    <span className="mt-4 text-variant-1">{projectDetails?.address}</span>
-                                            
-                                                </li>
-											</ul>
-										
+
+										<ul className="info-map">
+											<li>
+												<div className="fw-7">{t("address")}</div>
+												<span className="mt-4 text-variant-1">{projectDetails?.address}</span><br/>
+												<span className="mt-4 text-variant-1 67886">
+													{[projectDetails?.neighborhood, projectDetails?.district, projectDetails?.city, projectDetails?.state]
+														.filter(Boolean)
+														.join(', ')}
+												</span>
+												
+
+											</li>
+										</ul>
+
 
 									</div>
 									{/* <div className="single-property-element single-property-floor">
@@ -827,10 +827,10 @@ export default function ProjectDetailsV1({ params }) {
 																<input type="email" className="form-control" name="email" placeholder="Your email" required />
 															</fieldset>
 														</div>
-														<fieldset className="form-wg d-flex align-items-center gap-8">
+														{/* <fieldset className="form-wg d-flex align-items-center gap-8">
 															<input type="checkbox" className="tf-checkbox" id="cb-ip" />
 															<label htmlFor="cb-ip" className="text-black text-checkbox">{t("text")}</label>
-														</fieldset>
+														</fieldset> */}
 														<fieldset className="form-wg">
 															<label className="sub-ip">{t("review")}</label>
 															<textarea id="comment-message" name="message" rows={4} tabIndex={4} placeholder="Write comment " aria-required="true" defaultValue={""} />
@@ -1158,7 +1158,7 @@ export default function ProjectDetailsV1({ params }) {
 													<div className="content">
 														<div className="h7 text-capitalize fw-7"><Link href="#" className="link"> {property?.title}</Link></div>
 														<div className="desc"><i className="fs-16 icon icon-mapPin" /><p>
-															{[property?.state, property?.city, property?.district]
+															{[property?.neighborhood, property?.district, property?.city, property?.state]
 																.filter(Boolean) // Remove empty or falsy values
 																.join(", ")} {/* Join remaining values with comma */}
 														</p> </div>

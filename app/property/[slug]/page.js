@@ -118,7 +118,7 @@ export default function PropertyDetailsV1({ params }) {
 		const fetchData = async () => {
 			//try {
 			const lang = i18n.language;
-			
+
 			const propertyObj = { page: 1, limit: 1000, lang: lang };
 			const response = await getData('api/property/', propertyObj);
 			const propertyList = response.data.list;
@@ -191,7 +191,7 @@ export default function PropertyDetailsV1({ params }) {
 	console.log('video');
 	console.log(properties);
 
-	
+
 
 	const openPopup = (image) => {
 		console.log('image');
@@ -209,21 +209,20 @@ export default function PropertyDetailsV1({ params }) {
 		<>
 
 			<Layout headerStyle={1} footerStyle={1}>
-				<div className={isOpen?"custom-overlay":""}> 
+				<div className={isOpen ? "custom-overlay" : ""}>
 					<section className="flat-location flat-slider-detail-v1">
 						<div className="swiper tf-sw-location">
 							<Swiper {...swiperOptions(properties)} className="swiper-wrapper">
 								{(properties?.picture.length > 0 ? properties.picture : ["/images/banner/no-banner.png"]).map((item, index) => (
 									<SwiperSlide key={index}>
-									<div
-									  onClick={() => openPopup(item)}
-									  className={`box-imgage-detail d-block property-image ${
-										properties?.picture.length === 1 ? "full-screen" : ""
-									  }`}
-									>
-									  <img src={item} alt="img-property" />
-									</div>
-								  </SwiperSlide>
+										<div
+											onClick={() => openPopup(item)}
+											className={`box-imgage-detail d-block property-image ${properties?.picture.length === 1 ? "full-screen" : ""
+												}`}
+										>
+											<img src={item} alt="img-property" />
+										</div>
+									</SwiperSlide>
 								))}
 								{/* <SwiperSlide>
 									<Link href="/images/banner/banner-property-1.jpg" data-fancybox="gallery" className="box-imgage-detail d-block">
@@ -233,15 +232,15 @@ export default function PropertyDetailsV1({ params }) {
 							</Swiper>
 							{isOpen && (
 								<div className="modal-overlay-custom" onClick={closePopup}>
-								<div
-									className="modal-content-custom"
-									onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
-								>
-									<img src={currentImage} alt="img-property-large" />
-									<button onClick={closePopup} className="close-button">
-									X
-									</button>
-								</div>
+									<div
+										className="modal-content-custom"
+										onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
+									>
+										<img src={currentImage} alt="img-property-large" />
+										<button onClick={closePopup} className="close-button">
+											X
+										</button>
+									</div>
 								</div>
 							)}
 							{properties?.picture.length > 2 && (
@@ -284,7 +283,7 @@ export default function PropertyDetailsV1({ params }) {
 										<div className="label">{t("feature")}</div>
 										<ul className="meta">
 											<li className="meta-item"><span className="icon icon-bed" /> {properties.bedRooms === "0" ? '-' : `${properties.bedRooms} ${t('bedroom')}`}</li>
-											<li className="meta-item"><span className="icon icon-bathtub" /> {properties.bathRooms === "0" ? '-' : `${properties.bathRooms} ${t('bathroom')}` }</li>
+											<li className="meta-item"><span className="icon icon-bathtub" /> {properties.bathRooms === "0" ? '-' : `${properties.bathRooms} ${t('bathroom')}`}</li>
 											<li className="meta-item"><span className="icon icon-ruler" /> {properties.size === null ? '-' : `${properties.size} ${t('sqmeter')}`}</li>
 										</ul>
 									</div>
@@ -407,7 +406,7 @@ export default function PropertyDetailsV1({ params }) {
 												</div>
 											</div>
 										</>
-										) : (<></>)
+									) : (<></>)
 									}
 									{/* <div className="single-property-element single-property-info">
 										<div className="h7 title fw-7">Property Details</div>
@@ -509,18 +508,18 @@ export default function PropertyDetailsV1({ params }) {
 									<div className="single-property-element single-property-map">
 										<div className="h7 title fw-7">{t("map")}</div>
 										<PropertyMapMarker latitude={properties.latitude} longitude={properties.longitude} zoom={14} />
-										
-											<ul className="info-map">
-												<li>
-													<div className="fw-7">{t("address")}</div>
-													{properties.address !== "" && (<span className="mt-4 text-variant-1">{properties.address}</span>)}<br/>
-													<span className="mt-4 text-variant-1 67886">
-                                                    {[properties?.state, properties?.city, properties?.district, properties?.neighborhood]
-                                                        .filter(Boolean)
-                                                        .join(', ')}
-                                                    </span>
-												</li>
-											</ul>
+
+										<ul className="info-map">
+											<li>
+												<div className="fw-7">{t("address")}</div>
+												{properties.address !== "" && (<span className="mt-4 text-variant-1">{properties.address}</span>)}<br />
+												<span className="mt-4 text-variant-1 67886">
+													{[properties?.neighborhood, properties?.district, properties?.city, properties?.state]
+														.filter(Boolean)
+														.join(', ')}
+												</span>
+											</li>
+										</ul>
 
 									</div>
 									{/* <div className="single-property-element single-property-floor">
@@ -862,10 +861,10 @@ export default function PropertyDetailsV1({ params }) {
 																<input type="email" className="form-control" name="email" placeholder="Your email" required />
 															</fieldset>
 														</div>
-														<fieldset className="form-wg d-flex align-items-center gap-8">
+														{/* <fieldset className="form-wg d-flex align-items-center gap-8">
 															<input type="checkbox" className="tf-checkbox" id="cb-ip" />
 															<label htmlFor="cb-ip" className="text-black text-checkbox">{t("text")}</label>
-														</fieldset>
+														</fieldset> */}
 														<fieldset className="form-wg">
 															<label className="sub-ip">{t("review")}</label>
 															<textarea id="comment-message" name="message" rows={4} tabIndex={4} placeholder="Write comment " aria-required="true" defaultValue={""} />
@@ -881,7 +880,7 @@ export default function PropertyDetailsV1({ params }) {
 								</div>
 								<div className="col-lg-4">
 									<div className="widget-sidebar fixed-sidebar wrapper-sidebar-right">
-										{(properties.project_details !== null)? 
+										{(properties.project_details !== null) ?
 											<div className="widget-box single-property-contact bg-surface">
 												<div className="h7 title fw-7">{t("Project Details")}</div>
 												<div className="box-avatar">
@@ -900,7 +899,7 @@ export default function PropertyDetailsV1({ params }) {
 
 															<div className="">
 																<img
-																width={100}
+																	width={100}
 																	src={properties.project_details.icon}
 																	alt={properties.name}
 																/>
@@ -921,7 +920,7 @@ export default function PropertyDetailsV1({ params }) {
 													</div>
 												</div>
 											</div>
-										: <></>}
+											: <></>}
 										<div className="widget-box single-property-contact bg-surface">
 											<div className="h7 title fw-7">{t("contactSeller")}</div>
 											<div className="box-avatar">

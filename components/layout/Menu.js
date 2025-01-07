@@ -16,15 +16,25 @@ export default function Menu() {
 
 	const checkCurrentMenuItem = (path) => currentMenuItem === path ? "current" : ""
 	const checkParentActive = (paths) => paths.some(path => currentMenuItem.startsWith(path)) ? "current" : ""
-
+	const isActive = (path) => pathname === path ? "nav-link-item active" : "nav-link-item";
 	return (
 		<>
 			<ul className="navigation clearfix">
-				<li><Link href="/">{t("home")}</Link></li>
-				<li><Link href="/about-us">{t("aboutus")}</Link></li>
-				<li><Link href="/properties">{t("property")}</Link></li>
-				<li><Link href="/project">{t("project")}</Link></li>
-				<li><Link href="/blog">{t("blog")}</Link></li>
+				<li className={isActive('/')}>
+					<Link href="/">{t("home")}</Link>
+				</li>
+				<li className={isActive('/about-us')}>
+					<Link href="/about-us">{t("aboutus")}</Link>
+				</li>
+				<li className={isActive('/properties')}>
+					<Link href="/properties">{t("property")}</Link>
+				</li>
+				<li className={isActive('/project')}>
+					<Link href="/project">{t("project")}</Link>
+				</li>
+				<li className={isActive('/blog')}>
+					<Link href="/blog">{t("blog")}</Link>
+				</li>
 			</ul>
 			{ /* 
 			<ul className="navigation clearfix">
