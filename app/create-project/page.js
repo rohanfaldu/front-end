@@ -5,18 +5,18 @@ import Link from "next/link"
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from 'axios';
-import { userType } from "../../components/common/functions";
+import { userType } from "../../components/common/Functions";
 import { use, useState, useEffect } from "react"
 import { useRouter } from 'next/navigation';
 import passwordShow from "../../public/images/favicon/password-show.png"; 
 import passwordHide from "../../public/images/favicon/password-hide.png"; 
 import { insertData, insertImageData } from "../../components/api/Axios/Helper";
-import { insertMultipleUploadImage } from "../../components/common/imageUpload";
-import { capitalizeFirstChar, validateYouTubeURL } from "../../components/common/functions";
+import { insertMultipleUploadImage } from "../../components/common/ImageUpload";
+import { capitalizeFirstChar, validateYouTubeURL } from "../../components/common/Functions";
 import PropertyMapMarker from "@/components/elements/PropertyMapMarker";
-import ErrorPopup from "../../components/errorPopup/ErrorPopup.js";
+import ErrorPopup from "../../components/common/error-popup/ErrorPopup.js";
 import Preloader from "@/components/elements/Preloader";
-import SuccessPopup from "@/components/SuccessPopup/SuccessPopup";
+import SuccessPopup from "@/components/common/success-popup/SuccessPopup";
 export default function CreateProject() {
     const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);

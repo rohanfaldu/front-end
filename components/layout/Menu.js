@@ -26,8 +26,8 @@ export default function Menu() {
 				<li className={isActive('/about-us')}>
 					<Link href="/about-us">{t("aboutus")}</Link>
 				</li>
-				<li className={isActive('/properties')}>
-					<Link href="/properties">{t("property")}</Link>
+				<li className={isActive('/property')}>
+					<Link href="/property">{t("property")}</Link>
 				</li>
 				<li className={isActive('/project')}>
 					<Link href="/project">{t("project")}</Link>

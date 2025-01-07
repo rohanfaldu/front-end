@@ -288,5 +288,12 @@
     "findprojects": "Find Projects",
     "title":"Title",
     "nodatafound":"No Data Found",
-    "from": "From"
-    }
+    "from": "From",
+    "otherDetail": "Other Details",
+    "credit":"Credit",
+    "whatsupNumber" : "Whatsup Number",
+    "taxNumber" : "Tax Number",
+    "licenseNumber" : "License Number",
+    "serviceArea" : "Service Area"
+
+}

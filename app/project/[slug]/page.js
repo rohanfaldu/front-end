@@ -1197,7 +1197,7 @@ export default function ProjectDetailsV1({ params }) {
 								</Swiper>
 							</div>
 							{/* <div className="center-align">
-								<a href={'/properties'} className="form-wg tf-btn primary">
+								<a href={'/property'} className="form-wg tf-btn primary">
 									<span>Back</span>
 								</a>
 							</div> */}

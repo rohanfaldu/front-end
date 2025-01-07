@@ -28,7 +28,7 @@ export default function MobileMenu() {
 				<ul className="navigation clearfix">
 					<li><Link href="/">{t("home")}</Link></li>
 					<li><Link href="/about-us">{t("aboutus")}</Link></li>
-					<li><Link href="/properties">{t("property")}</Link></li>
+					<li><Link href="/property">{t("property")}</Link></li>
 					<li><Link href="/project">{t("project")}</Link></li>
 					<li><Link href="/blog">{t("blog")}</Link></li>
 				</ul>

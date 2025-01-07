@@ -4,11 +4,11 @@ import React, { useEffect, useState } from 'react';
 import { jwtDecode } from "jwt-decode";
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import { userType } from "../common/functions.js";
+import { userType } from "./Functions.js";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { allCountries } from "country-telephone-data"; 
-import { insertData } from "../../components/api/Axios/Helper";
+import { insertData } from "../api/Axios/Helper.js";
 import { useTranslation } from "react-i18next";
 export default function ModalRegister({ isRegister, handleRegister, handleLogin }) {
 	const [showPassword, setShowPassword] = useState(false);
@@ -44,6 +44,7 @@ export default function ModalRegister({ isRegister, handleRegister, handleLogin 
 			fcm_token: null, 
 			image_url: null, 
 			type: "user", 
+			country_code: values.country_code,
 			user_login_type	: userType("NONE"),
 			phone_number: values.mobile_number.toString(),
 			password: values.password??null,

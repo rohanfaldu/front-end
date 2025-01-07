@@ -3,10 +3,10 @@
 import React, { useEffect, useState } from 'react';
 import AddClassBody from "../elements/AddClassBody"
 import BackToTop from '../elements/BackToTop'
-import ModalLogin from "../elements/ModalLogin"
-import ModalRegister from "../elements/ModalRegister"
-import ModalForgotPassword from "../elements/ModalForgotPassword"
-import ModalUpdatePassword from "../elements/ModalUpdatePassword"
+import ModalLogin from "../common/ModalLogin"
+import ModalRegister from "../common/ModalRegister"
+import ModalForgotPassword from "../common/ModalForgotPassword"
+import ModalUpdatePassword from "../common/ModalUpdatePassword"
 import Breadcrumb from './Breadcrumb'
 import OffcanvasFilter from "./OffcanvasFilter"
 import OffcanvasMenu from "./OffcanvasMenu"

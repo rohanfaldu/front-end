@@ -6,11 +6,11 @@ import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from "jwt-decode";
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import { userType } from "../common/functions.js";
+import { userType } from "./Functions.js";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { insertData } from "../../components/api/Axios/Helper";
-import { split } from "../common/functions.js";
+import { insertData } from "../api/Axios/Helper.js";
+import { split } from "./Functions.js";
 import { useTranslation } from "react-i18next";
 export default function ModalLogin({ isLogin, handleLogin, isRegister, handleRegister, handleForgotPassword }) {
 	const [isLoggedIn, setIsLoggedIn] = useState(false);

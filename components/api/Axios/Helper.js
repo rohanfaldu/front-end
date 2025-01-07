@@ -18,6 +18,7 @@ export const getData = async (endpoint) => {
 // Function to handle POST requests
 export const insertData = async (endpoint, data, flag) => {
   try {
+    console.log(endpoint);
     //const router = useRouter();
     let header;
     if(flag){

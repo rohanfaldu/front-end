@@ -3,7 +3,7 @@ import Link from "next/link"
 import React, { useEffect, useState } from 'react';
 import Menu from "../Menu"
 import MobileMenu from "../MobileMenu"
-import { capitalizeFirstChar, getRandomInt } from "../../common/functions.js"
+import { capitalizeFirstChar, getRandomInt } from "../../common/Functions.js"
 import { usePathname } from 'next/navigation'
 import { useRouter } from 'next/navigation';
 

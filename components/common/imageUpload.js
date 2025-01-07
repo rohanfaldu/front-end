@@ -1,5 +1,5 @@
 'use client'
-import { insertImageData } from "../../components/api/Axios/Helper";
+import { insertImageData } from "../api/Axios/Helper";
 
 export async function insertUploadImage(name, images) {
     const formDataData = new FormData();

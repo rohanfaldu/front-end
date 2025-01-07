@@ -10,8 +10,7 @@ import Image from 'next/image';
 import EditIcon from "../../public/images/favicon/edit.png";
 import DeleteIcon from "../../public/images/favicon/delete.png";
 import ViewIcon from "../../public/images/favicon/view.png";
-import variablesList from "../../components/common/variable";
-
+import variablesList from "@/components/common/Variable";
 export default function ProjectListing() {
   const [properties, setProperties] = useState([]); // Store properties for the current page
   const [loading, setLoading] = useState(true); // Manage loading state

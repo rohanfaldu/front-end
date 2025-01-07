@@ -5,7 +5,7 @@ import Link from "next/link"
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from 'axios';
-import { userType } from "../../../components/common/functions";
+import { userType } from "../../../components/common/Functions";
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import passwordShow from "../../../public/images/favicon/password-show.png";
@@ -13,10 +13,10 @@ import passwordHide from "../../../public/images/favicon/password-hide.png";
 import { insertData, updateData } from "../../../components/api/Axios/Helper";
 import Preloader from '@/components/elements/Preloader';
 import PropertyMapMarker from "@/components/elements/PropertyMapMarker";
-import { capitalizeFirstChar, validateYouTubeURL } from "../../../components/common/functions";
-import { insertMultipleUploadImage } from "../../../components/common/imageUpload";
-import  "../../../components/errorPopup/ErrorPopup.css";
-import ErrorPopup from "../../../components/errorPopup/ErrorPopup.js";
+import { capitalizeFirstChar, validateYouTubeURL } from "../../../components/common/Functions";
+import { insertMultipleUploadImage } from "../../../components/common/ImageUpload";
+import  "../../../components/common/error-popup/ErrorPopup.css";
+import ErrorPopup from "../../../components/common/error-popup/ErrorPopup.js";
 
 const resolveIdByName = (stateName, statesList) => {
     const state = statesList.find((state) => state.name === stateName);

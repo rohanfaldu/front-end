@@ -287,6 +287,12 @@
     "contactSeller": "Contacter les vendeurs",
     "findprojects": "Trouver des projets",
     "nodatafound": "Aucune donnée trouvée",
-    "from": "Depuis"
+    "from": "Depuis",
+    "otherDetail": "Autres détails",
+    "credit":"Crédit",
+    "whatsupNumber" : "Numéro WhatsApp",
+    "taxNumber" : "Numéro fiscal",
+    "licenseNumber" : "Numéro de licence",
+    "serviceArea" : "Aire de service"
 }
   
