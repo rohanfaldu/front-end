@@ -96,7 +96,7 @@ import { useTranslation } from "react-i18next";
 import { useSearchParams } from "next/navigation";
 export default function AgencyDetail({ params }) {
 	const { id } = params;
-	console.log(id,">>>>>>>>>>>>>> SLUG");
+	console.log(id, ">>>>>>>>>>>>>> SLUG");
 	const searchParams = useSearchParams();
 	const projectId = searchParams.get("id");
 	const [isAccordion, setIsAccordion] = useState(1)
@@ -139,15 +139,15 @@ export default function AgencyDetail({ params }) {
 	// Translation hook
 	const { t, i18n } = useTranslation();
 
-	
+
 	return (
 		<>
-			{loading?
+			{loading ?
 				<Preloader />
 				:
 				<Layout headerStyle={1} footerStyle={1} breadcrumbTitle={agencyDetails?.full_name}>
 					<div>
-					{/* <section className="flat-section flat-banner-about">
+						{/* <section className="flat-section flat-banner-about">
 						<div className="container">
 							<div className="row">
 								<div className="col-md-5">
@@ -159,174 +159,177 @@ export default function AgencyDetail({ params }) {
 							</div>
 						</div>
 					</section> */}
-					<section className="flat-section pt-10 flat-property-detail">
-						<div className="container">
-							
-							<div className="row">
-								<div className="col-lg-8">
-									<div className="single-property-element single-property-desc">
-										{agencyDetails.agency_name !== null ? (
-											<div class="content-top d-flex justify-content-between align-items-center">
-												<div class="box-name">
-													<a class="flag-tag primary" href="#">{agencyDetails?.agency_name}</a>
+						<section className="flat-section pt-10 flat-property-detail">
+							<div className="container">
+
+								<div className="row">
+									<div className="col-lg-8">
+										<div className="single-property-element single-property-desc">
+											{agencyDetails.agency_name !== null ? (
+												<div class="content-top d-flex justify-content-between align-items-center">
+													<div class="box-name">
+														<a class="flag-tag primary" href="#">{agencyDetails?.agency_name}</a>
+													</div>
 												</div>
-											</div>
-										): ''}
-										{agencyDetails.description !== null ? (
-											<>
-												<div className="h7 title fw-7">{t("description")}</div>
-												<p className="body-2 text-variant-1">{agencyDetails.description}</p>
-											</>
-										): ''}
-									</div>
-									<div className="single-property-element single-property-overview">
-										<div className="h7 title fw-7">Social Information</div>
-										<ul className="info-box">
-											{agencyDetails.facebook_link !== null ? (
-												<li className="item">
-													<Link target="_blank" href={agencyDetails.facebook_link}className="box-icon w-52"><i className="icon icon-house-line" /></Link>
-													<div className="content">
-														<span className="label">Facebook</span>
-													</div>
-												</li>
-											): ''}
-											{agencyDetails.twitter_link !== null ? (
-												<li className="item">
-													<Link target="_blank" href={agencyDetails.twitter_link}className="box-icon w-52"><i className="icon icon-house-line" /></Link>
-													<div className="content">
-														<span className="label">Twitter</span>
-													</div>
-												</li>
-											): ''}
-											{agencyDetails.youtube_link !== null ? (
-												<li className="item">
-													<Link target="_blank" href={agencyDetails.youtube_link}className="box-icon w-52"><i className="icon icon-house-line" /></Link>
-													<div className="content">
-														<span className="label">Youtube</span>
-													</div>
-												</li>
-											): ''}
-											{agencyDetails.pinterest_link !== null ? (
-												<li className="item">
-													<Link target="_blank" href={agencyDetails.pinterest_link}className="box-icon w-52"><i className="icon icon-house-line" /></Link>
-													<div className="content">
-														<span className="label">pinterest</span>
-													</div>
-												</li>
-											): ''}
+											) : ''}
+											{agencyDetails.description !== null ? (
+												<>
+													<div className="h7 title fw-7">{t("description")}</div>
+													<p className="body-2 text-variant-1">{agencyDetails.description}</p>
+												</>
+											) : ''}
+										</div>
+										<div className="single-property-element single-property-overview">
+											<div className="h7 title fw-7">Social Information</div>
+											<ul className="info-box">
+												{agencyDetails.facebook_link !== null ? (
+													<li className="item">
+														<Link target="_blank" href={agencyDetails.facebook_link} className="box-icon w-52"><i className="icon icon-facebook" /></Link>
+														<div className="content">
+															<span className="label">Facebook</span>
+														</div>
+													</li>
+												) : ''}
+												{agencyDetails.twitter_link !== null ? (
+													<li className="item">
+														<Link target="_blank" href={agencyDetails.twitter_link} className="box-icon w-52"><i className="icon icon-twitter" /></Link>
+														<div className="content">
+															<span className="label">Twitter</span>
+														</div>
+													</li>
+												) : ''}
+												{agencyDetails.youtube_link !== null ? (
+													<li className="item">
+														<Link target="_blank" href={agencyDetails.youtube_link} className="box-icon w-52"><i className="icon icon-youtube" /></Link>
+														<div className="content">
+															<span className="label">Youtube</span>
+														</div>
+													</li>
+												) : ''}
+												{agencyDetails.pinterest_link !== null ? (
+													<li className="item">
+														<Link target="_blank" href={agencyDetails.pinterest_link} className="box-icon w-52"><i className="icon icon-pinterest" /></Link>
+														<div className="content">
+															<span className="label">pinterest</span>
+														</div>
+													</li>
+												) : ''}
 												{agencyDetails.linkedin_link !== null ? (
-												<li className="item">
-													<Link target="_blank" href={agencyDetails.linkedin_link}className="box-icon w-52"><i className="icon icon-house-line" /></Link>
-													<div className="content">
-														<span className="label">linkedin</span>
-													</div>
-												</li>
-											): ''}
-											{agencyDetails.instagram_link !== null ? (
-												<li className="item">
-													<Link target="_blank" href={agencyDetails.instagram_link}className="box-icon w-52"><i className="icon icon-house-line" /></Link>
-													<div className="content">
-														<span className="label">instagram</span>
-													</div>
-												</li>
-											): ''}
-										</ul>
-									</div>
-
-									<div className="single-property-element single-property-info">
-										<div className="h7 title fw-7">{t("otherDetail")}</div>
-										<div className="row">
-											{agencyDetails?.credit !== null ? (
-												<div className="col-md-12">
-													<div className="inner-box">
-														<span className="label">{t("credit")}:</span>
-														<div className="content fw-7">{agencyDetails?.credit}</div>
-													</div>
-												</div>
-											): ''}
-											{agencyDetails?.whatsup_number !== null ? (
-												<div className="col-md-12">
-													<div className="inner-box">
-														<span className="label">{t("whatsupNumber")}:</span>
-														<div className="content fw-7">{agencyDetails?.whatsup_number}</div>
-													</div>
-												</div>
-											): ''}
-											{agencyDetails?.tax_number !== null ? (
-												<div className="col-md-12">
-													<div className="inner-box">
-														<span className="label">{t("taxNumber")}:</span>
-														<div className="content fw-7">{agencyDetails?.tax_number}</div>
-													</div>
-												</div>
-											): ''}
-											{agencyDetails?.tax_number !== null ? (
-												<div className="col-md-12">
-													<div className="inner-box">
-														<span className="label">{t("licenseNumber")}:</span>
-														<div className="content fw-7">{agencyDetails?.license_number}</div>
-													</div>
-												</div>
-											): ''}
-											{agencyDetails?.service_area !== null ? (
-												<div className="col-md-12">
-													<div className="inner-box">
-														<span className="label">{t("serviceArea")}:</span>
-														<div className="content fw-7">{agencyDetails?.service_area}</div>
-													</div>
-												</div>
-											): ''}
-										</div>
-									</div>
-								</div>
-								<div className="col-lg-4">
-									<div className="widget-sidebar fixed-sidebar wrapper-sidebar-right">
-										<div className="widget-box single-property-contact bg-surface">
-											{/* <div className="h7 title fw-7">Contact Sellers</div> */}
-											<div className="box-avatar">
-												{agencyDetails?.image !== null ?(		
-													<div className="avatar avt-100 round">
-														<img src={agencyDetails?.image} alt="avatar" />
-													</div>
-												): ''}
-												{agencyDetails?.image !== null ?(		
-													<div className="info">
-														<div className="text-1 name">{agencyDetails?.user_name}</div>
-														<span>{agencyDetails?.user_email_adress}</span><br/>
-														<span>{agencyDetails?.user_country_code} {agencyDetails?.user_mobile_number}</span>
-													</div>
-												): ''}
-											</div>
-										</div>
-
-										<div className="widget-box single-property-whychoose bg-surface">
-											<div className="h7 title fw-7">{t("whychooseus")}</div>
-											<ul className="box-whychoose">
-												<li className="item-why">
-													<i className="icon icon-secure" />
-													{t("securebooking")}
-												</li>
-												<li className="item-why">
-													<i className="icon icon-guarantee" />
-													{t("bestpriceguarantee")}
-												</li>
-												<li className="item-why">
-													<i className="icon icon-booking" />
-													{t("easybookingprocess")}
-												</li>
-												<li className="item-why">
-													<i className="icon icon-support" />
-													{t("availablesupport24/7")}
-												</li>
+													<li className="item">
+														<Link target="_blank" href={agencyDetails.linkedin_link} className="box-icon w-52"><i className="icon icon-linkedin" /></Link>
+														<div className="content">
+															<span className="label">linkedin</span>
+														</div>
+													</li>
+												) : ''}
+												{agencyDetails.instagram_link !== null ? (
+													<li className="item">
+														<Link target="_blank" href={agencyDetails.instagram_link} className="box-icon w-52"><i className="icon icon-instagram" /></Link>
+														<div className="content">
+															<span className="label">instagram</span>
+														</div>
+													</li>
+												) : ''}
 											</ul>
 										</div>
+
+										<div className="single-property-element single-property-info">
+											<div className="h7 title fw-7">{t("otherDetail")}</div>
+											<div className="row">
+												{agencyDetails?.credit !== null ? (
+													<div className="col-md-12">
+														<div className="inner-box">
+															<span className="label">{t("credit")}:</span>
+															<div className="content fw-7">{agencyDetails?.credit}</div>
+														</div>
+													</div>
+												) : ''}
+												{agencyDetails?.whatsup_number !== null ? (
+													<div className="col-md-12">
+														<div className="inner-box">
+															<span className="label">{t("whatsupNumber")}:</span>
+															<div className="content fw-7">{agencyDetails?.whatsup_number}</div>
+														</div>
+													</div>
+												) : ''}
+												{agencyDetails?.tax_number !== null ? (
+													<div className="col-md-12">
+														<div className="inner-box">
+															<span className="label">{t("taxNumber")}:</span>
+															<div className="content fw-7">{agencyDetails?.tax_number}</div>
+														</div>
+													</div>
+												) : ''}
+												{agencyDetails?.tax_number !== null ? (
+													<div className="col-md-12">
+														<div className="inner-box">
+															<span className="label">{t("licenseNumber")}:</span>
+															<div className="content fw-7">{agencyDetails?.license_number}</div>
+														</div>
+													</div>
+												) : ''}
+												{agencyDetails?.service_area !== null ? (
+													<div className="col-md-12">
+														<div className="inner-box">
+															<span className="label">{t("serviceArea")}:</span>
+															<div className="content fw-7">{agencyDetails?.service_area}</div>
+														</div>
+													</div>
+												) : ''}
+											</div>
+										</div>
 									</div>
+									<div className="col-lg-4">
+										<div className="widget-sidebar fixed-sidebar wrapper-sidebar-right">
+											<div className="widget-box single-property-contact bg-surface">
+												{/* <div className="h7 title fw-7">Contact Sellers</div> */}
+												<div className="box-avatar">
+													<div className="avatar avt-100 round">
+														<img
+															src={agencyDetails?.image && agencyDetails.image !== ''
+																? agencyDetails.image
+																: '/images/avatar/user-image.png'}
+															alt="avatar"
+														/>
+													</div>
+													{agencyDetails ? (
+														<div className="info">
+															<div className="text-1 name truncate-text">{agencyDetails?.user_name}</div>
+															<span className="truncate-text">{agencyDetails?.user_email_adress}</span><br />
+															<span>{agencyDetails?.user_country_code} {agencyDetails?.user_mobile_number}</span>
+														</div>
+													) : ''}
+												</div>
+											</div>
+
+											<div className="widget-box single-property-whychoose bg-surface">
+												<div className="h7 title fw-7">{t("whychooseus")}</div>
+												<ul className="box-whychoose">
+													<li className="item-why">
+														<i className="icon icon-secure" />
+														{t("securebooking")}
+													</li>
+													<li className="item-why">
+														<i className="icon icon-guarantee" />
+														{t("bestpriceguarantee")}
+													</li>
+													<li className="item-why">
+														<i className="icon icon-booking" />
+														{t("easybookingprocess")}
+													</li>
+													<li className="item-why">
+														<i className="icon icon-support" />
+														{t("availablesupport24/7")}
+													</li>
+												</ul>
+											</div>
+										</div>
+									</div >
 								</div >
 							</div >
-						</div >
-					</section >
+						</section >
 
-				</div>
+					</div>
 
 				</Layout >
 			}

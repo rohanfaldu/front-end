@@ -10,9 +10,9 @@ import { insertData, insertImageData } from "../../components/api/Axios/Helper";
 import { insertMultipleUploadImage } from "../../components/common/ImageUpload";
 import { capitalizeFirstChar, validateYouTubeURL } from "../../components/common/Functions";
 import Preloader from "@/components/elements/Preloader";
-import SuccessPopup from "@/components/common/success-popup/SuccessPopup";
-import  "../../components/common/error-popup/ErrorPopup.css";
-import ErrorPopup from "../../components/common/error-popup/ErrorPopup.js";
+import SuccessPopup from "@/components/success-popup/SuccessPopup";
+import  "../../components/error-popup/ErrorPopup.css";
+import ErrorPopup from "../../components/error-popup/ErrorPopup.js";
 import { handleDropdownChange } from "../../components/common/Location";
 import { InputTextFields, InputTextAreaFields, SelectOptionFields, InputPriceFields, InputNumberFields } from "@/components/common/InputFields";
 export default function CreateProperty() {
