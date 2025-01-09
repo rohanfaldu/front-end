@@ -1,12 +1,22 @@
 'use client';
 import React, { useState, useCallback, useEffect, useRef } from 'react';
-import { GoogleMap, useJsApiLoader, Marker, Autocomplete } from '@react-google-maps/api';
+import { GoogleMap, useJsApiLoader, Autocomplete } from '@react-google-maps/api';
 import Preloader from './Preloader';
+import { defaultLatlong } from '../common/Variable';
 
-export default function PropertyMapMarker({ isGeolocation, latitude, longitude, zoom, onPlaceSelected, address }) {
+export default function PropertyMapMarker({
+  isGeolocation,
+  latitude,
+  longitude,
+  zoom,
+  onPlaceSelected,
+  address = ""
+}) {
   const [currentLocation, setCurrentLocation] = useState({ lat: latitude || 0, lng: longitude || 0 });
   const [zoomlevel, setZoomlevel] = useState(8);
   const [map, setMap] = useState(null);
+  const [currentLocationAddress, setCurrentLocationAddress] = useState(address);
+  const markerRef = useRef(null);
   const autocompleteRef = useRef(null);
 
   const containerStyle = {
@@ -20,10 +30,8 @@ export default function PropertyMapMarker({ isGeolocation, latitude, longitude, 
     libraries: ['places'], // Required for Autocomplete
   });
 
-
-
   useEffect(() => {
-      setZoomlevel(zoom);
+    setZoomlevel(zoom);
     if (isGeolocation) {
       if ('geolocation' in navigator) {
         navigator.geolocation.getCurrentPosition(
@@ -34,11 +42,11 @@ export default function PropertyMapMarker({ isGeolocation, latitude, longitude, 
             });
           },
           () => {
-            setCurrentLocation({ lat: 33.985047, lng: -118.469483 }); // Default location
+            setCurrentLocation({ lat: defaultLatlong.lat, lng: defaultLatlong.lng }); // Default location
           }
         );
       } else {
-        setCurrentLocation({ lat: 33.985047, lng: -118.469483 });
+        setCurrentLocation({ lat: defaultLatlong.lat, lng: defaultLatlong.lng });
       }
     } else if (latitude && longitude) {
       setCurrentLocation({ lat: Number(latitude), lng: Number(longitude) });
@@ -47,81 +55,121 @@ export default function PropertyMapMarker({ isGeolocation, latitude, longitude, 
 
   const handlePlaceSelect = () => {
     const place = autocompleteRef.current.getPlace();
-    console.log('Selected place:', place);
-    // Ensure the place contains geometry (location)
     if (place.geometry) {
       const { lat, lng } = place.geometry.location;
       setCurrentLocation({ lat: lat(), lng: lng() });
       setZoomlevel(14);
-      // Retrieve the address from place details
+
       const formattedAddress = place.formatted_address || 'No address found';
-      const addressComponents = place.address_components;
-      const addressName = place.name;
-
-      // Optionally, handle address components for more detailed info
-      let fullAddress = formattedAddress;
-      if (addressComponents) {
-        fullAddress = addressComponents.map((component) => component.long_name).join(', ');
-      }
-
-      console.log('Full Address:', `${addressName},${fullAddress}`); // Log the full address
+      setCurrentLocationAddress(formattedAddress);
 
       if (onPlaceSelected) {
-        // Pass the selected address and coordinates to the parent component
-        onPlaceSelected(fullAddress, { lat: lat(), lng: lng() });
+        onPlaceSelected(formattedAddress, { lat: lat(), lng: lng() });
       }
 
-      // Optionally, pan the map to the selected place
       if (map && place.geometry) {
         map.panTo(place.geometry.location);
       }
     } else {
-      alert("Place details are not available.");
+      alert('Place details are not available.');
     }
+  };
+
+  const geocodeLatLng = (lat, lng) => {
+    const geocoder = new google.maps.Geocoder();
+    geocoder.geocode({ location: { lat, lng } }, (results, status) => {
+      console.log("results>>>>>>>>>>>",results);
+      if (status === 'OK' && results[0]) {
+        const formattedAddress = results[0].formatted_address;
+        setCurrentLocationAddress(formattedAddress);
+
+        if (onPlaceSelected) {
+          onPlaceSelected(formattedAddress, { lat, lng });
+        }
+      } else {
+        console.error('Geocoder failed due to:', status);
+      }
+    });
   };
 
   const onLoad = useCallback((mapInstance) => {
     setMap(mapInstance);
-  }, []);
+
+    // Create a new marker
+    if (markerRef.current) {
+      markerRef.current.setMap(null); // Remove the old marker if it exists
+    }
+    markerRef.current = new google.maps.Marker({
+      position: currentLocation,
+      map: mapInstance,
+      draggable: true, // Make marker draggable
+      title: 'Drag me!',
+    });
+
+    // Add dragend event listener
+    markerRef.current.addListener('dragend', (event) => {
+      const newLat = event.latLng.lat();
+      const newLng = event.latLng.lng();
+      setCurrentLocation({ lat: newLat, lng: newLng });
+      geocodeLatLng(newLat, newLng); // Update address based on new position
+    });
+  }, [currentLocation]);
 
   const onUnmount = useCallback(() => {
     setMap(null);
+    if (markerRef.current) {
+      markerRef.current.setMap(null); // Clean up the marker
+    }
   }, []);
+
+  useEffect(() => {
+    if (map && markerRef.current) {
+      // Update marker position when currentLocation changes
+      markerRef.current.setPosition(currentLocation);
+    }
+  }, [currentLocation, map]);
+
+  // Handle manual address input change
+  const handleAddressChange = (e) => {
+    const newAddress = e.target.value;
+    setCurrentLocationAddress(newAddress);
+
+    if (onPlaceSelected) {
+      onPlaceSelected(newAddress, currentLocation);
+    }
+
+    // Optionally, trigger geocode request to update the map based on new address
+    // geocodeLatLng(currentLocation.lat, currentLocation.lng);  // Uncomment if needed
+  };
 
   return (
     <>
       {isLoaded ? (
         <>
-          {/* Search Input */}
-          <div >
+          <div>
             <Autocomplete
-            onLoad={(autocomplete) => (autocompleteRef.current = autocomplete)}
-            onPlaceChanged={handlePlaceSelect}
+              onLoad={(autocomplete) => (autocompleteRef.current = autocomplete)}
+              onPlaceChanged={handlePlaceSelect}
             >
               <fieldset className="fieldset-input">
                 <input
                   type="text"
-                  value={address}
+                  value={currentLocationAddress}
+                  onChange={handleAddressChange} // Allow manual editing
                   label="Search for a place"
                   className="ip-file map-search-input"
                   placeholder="Search for a place"
-                  
                 />
               </fieldset>
-            
             </Autocomplete>
           </div>
-
-			{/* Google Map */}
-			<GoogleMap
-				mapContainerStyle={containerStyle}
-				center={currentLocation}
-				zoom={zoomlevel}
-				onLoad={onLoad}
-				onUnmount={onUnmount}
-			>
-				<Marker position={currentLocation} />
-			</GoogleMap>
+          <GoogleMap
+            mapContainerStyle={containerStyle}
+            center={currentLocation}
+            zoom={zoomlevel}
+            onLoad={onLoad}
+            onUnmount={onUnmount}
+          />
         </>
       ) : (
         <Preloader />

@@ -12,6 +12,7 @@
         "dependencies": {
                 "@babel/runtime": "^7.24.5",
                 "@fancyapps/ui": "^5.0.36",
+                "@googlemaps/adv-markers-utils": "^1.2.4",
                 "@headlessui/react": "^2.0.3",
                 "@prisma/client": "^5.21.0",
                 "@react-google-maps/api": "^2.20.5",

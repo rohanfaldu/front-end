@@ -10,7 +10,7 @@ import { insertData, insertImageData } from "../../components/api/Axios/Helper";
 import { insertMultipleUploadImage } from "../../components/common/ImageUpload";
 import { capitalizeFirstChar, validateYouTubeURL } from "../../components/common/Functions";
 import Preloader from "@/components/elements/Preloader";
-import SuccessPopup from "@/components/success-popup/SuccessPopup";
+import SuccessPopup from "../../components/success-popup/SuccessPopup";
 import  "../../components/error-popup/ErrorPopup.css";
 import ErrorPopup from "../../components/error-popup/ErrorPopup.js";
 import { handleDropdownChange } from "../../components/common/Location";
@@ -355,7 +355,7 @@ export default function CreateProperty() {
                                         }}
                                         options={transactionType}
                                     />
-                                    {console.log()}
+               
                                     <SelectOptionFields
                                         name="property_type"
                                         label="Property Type:"
@@ -648,9 +648,6 @@ export default function CreateProperty() {
                                     />
                                 </div>
                                 <div className="box box-fieldset">
-                                    <div className="box-ip">
-                                        <Link href="#" className="btn-location"><i className="icon icon-location" /></Link>
-                                    </div>
                                     <PropertyMapMarker
                                         latitude={propertyMapCoords.latitude}
                                         longitude={propertyMapCoords.longitude}
