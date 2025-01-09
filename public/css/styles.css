@@ -6973,7 +6973,7 @@ label {
 }
 .wrapper-layout-3 .wrap-inner {
   padding: 30px;
-  width: 80.3%;
+  width: 47.3%;
   padding-bottom: 0;
   height: calc(100vh - 80px);
   overflow-x: hidden;
@@ -6987,7 +6987,7 @@ label {
   overflow-x: hidden;
   overflow-y: auto;
 }
-.wrapper-layout-3 .col-md-6 {
+.wrap-inner-2 .col-md-6 {
   flex: 0 0 auto;
   width: 33%;
 }

@@ -5,10 +5,11 @@ import Layout from "@/components/layout/Layout";
 import Preloader from "@/components/elements/Preloader";
 import React, { useEffect, useState } from 'react';
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 
 export default function NotFound() {
     const [loading, setLoading] = useState(true);
-
+    const { t } = useTranslation();
     useEffect(() => {
         // Simulate a delay to mimic loading (e.g., fetching data)
         const timer = setTimeout(() => {
@@ -25,10 +26,10 @@ export default function NotFound() {
 
                 <div className="wrap-dashboard-content">
                     <div className="error-container">
-                        <h1>Error 404</h1>
-                        <p>Oops! The page you are looking for does not exist.</p>
+                        <h1>{t("error404")}</h1>
+                        <p>{t("Oops!Thepageyouarelookingfordoesnotexist.")}</p>
                         <Link href="/" className="back-to-home">
-                            Go Back to Home
+                            {t("GoBacktoHome")}
                         </Link>
                     </div>
                 </div>
