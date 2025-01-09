@@ -203,7 +203,7 @@ export default function developerListing() {
               </div >
             </div >
           </div >
-          <div className="wrap-inner">
+          <div className="wrap-inner-2">
             <div className="box-title-listing style-1">
               <h5>Developer listing</h5>
             </div>

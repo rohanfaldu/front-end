@@ -6973,11 +6973,23 @@ label {
 }
 .wrapper-layout-3 .wrap-inner {
   padding: 30px;
-  width: 47.3%;
+  width: 80.3%;
   padding-bottom: 0;
   height: calc(100vh - 80px);
   overflow-x: hidden;
   overflow-y: auto;
+}
+.wrapper-layout-3 .wrap-inner-2 {
+  padding: 30px;
+  width: 80.3%;
+  padding-bottom: 0;
+  height: calc(100vh - 80px);
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.wrapper-layout-3 .col-md-6 {
+  flex: 0 0 auto;
+  width: 33%;
 }
 .wrapper-layout-3 .wrap-inner::-webkit-scrollbar {
   width: 8px;
@@ -10754,4 +10766,43 @@ tr {
 .icon-mapPin {
   font-size: 20px; /* Adjust size as required */
    /* Optional: Set custom color */
+}
+
+.error-container {
+  margin-top: 6%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1; /* Push the footer to the bottom */
+  text-align: center;
+}
+
+.error-container h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.error-container p {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+
+.back-to-home {
+  color: #007bff;
+  text-decoration: none;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid #007bff;
+  border-radius: 4px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.back-to-home:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+
+footer {
+  margin-top: 10%; /* Ensure the footer is pushed to the bottom */
 }
