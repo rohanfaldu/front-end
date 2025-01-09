@@ -295,6 +295,9 @@
     "whatsupNumber" : "Numéro WhatsApp",
     "taxNumber" : "Numéro fiscal",
     "licenseNumber" : "Numéro de licence",
-    "serviceArea" : "Aire de service"
+    "serviceArea" : "Aire de service",
+    "error404" : "Erreur 404",
+    "Oops!Thepageyouarelookingfordoesnotexist.":"Oups ! La page que vous recherchez n'existe pas.",
+    "GoBacktoHome":"Retourner à la maison"
 }
   
