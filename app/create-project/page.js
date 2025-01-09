@@ -11,7 +11,7 @@ import { useRouter } from 'next/navigation';
 import passwordShow from "../../public/images/favicon/password-show.png";
 import passwordHide from "../../public/images/favicon/password-hide.png";
 import { insertData, insertImageData } from "../../components/api/Axios/Helper";
-import { insertMultipleUploadImage } from "../../components/common/imageUpload";
+import { insertMultipleUploadImage } from "../../components/common/ImageUpload";
 import { capitalizeFirstChar, validateYouTubeURL } from "../../components/common/Functions";
 import PropertyMapMarker from "@/components/elements/PropertyMapMarker";
 import ErrorPopup from "../../components/error-popup/ErrorPopup.js";

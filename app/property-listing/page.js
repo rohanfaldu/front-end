@@ -9,7 +9,7 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import EditIcon from "../../public/images/favicon/edit.png";
 import DeleteIcon from "../../public/images/favicon/delete.png";
-//import variablesList from "../../components/common/variable";
+//import variablesList from "@/components/common/Variable";
 import ViewIcon from "../../public/images/favicon/view.png";
 
 export default function PropertyListing() {

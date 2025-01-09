@@ -14,7 +14,7 @@ import { insertData, updateData } from "../../../components/api/Axios/Helper";
 import Preloader from '@/components/elements/Preloader';
 import PropertyMapMarker from "@/components/elements/PropertyMapMarker";
 import { capitalizeFirstChar, validateYouTubeURL } from "../../../components/common/Functions";
-import { insertMultipleUploadImage } from "../../../components/common/imageUpload";
+import { insertMultipleUploadImage } from "../../../components/common/ImageUpload";
 import "../../../components/error-popup/ErrorPopup.css";
 import ErrorPopup from "../../../components/error-popup/ErrorPopup.js";
 

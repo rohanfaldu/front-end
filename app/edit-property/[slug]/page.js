@@ -9,7 +9,7 @@ import { useFormik } from 'formik';
 import { use, useState, useEffect } from "react"
 import { useRouter } from 'next/navigation';
 import { insertData, insertImageData, updateData } from "@/components/api/Axios/Helper";
-import { insertMultipleUploadImage } from "@/components/common/imageUpload";
+import { insertMultipleUploadImage } from "@/components/common/ImageUpload";
 import { capitalizeFirstChar } from "@/components/common/Functions";
 import Preloader from "@/components/elements/Preloader";
 import "../../../components/error-popup/ErrorPopup.css";
