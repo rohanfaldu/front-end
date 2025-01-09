@@ -10,6 +10,7 @@ import ReactSlider from "react-slider"
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from "react-i18next";
 import Preloader from "@/components/elements/Preloader";
+import variablesList from "@/components/common/Variable";
 export default function PropertyHalfmapList() {
 	const [isToggled, setToggled] = useState(false)
 	const handleToggle = () => setToggled(!isToggled)
@@ -33,8 +34,8 @@ export default function PropertyHalfmapList() {
 	const [pagination, setPagination] = useState({
 		totalCount: 0,
 		totalPages: 1,
-		currentPage: 1,
-		itemsPerPage: 10,
+		currentPage: variablesList.currentPage,
+		itemsPerPage: variablesList.itemsPerPage,
 	}); // Track pagination info
 	const [filters, setFilters] = useState({
 		title: '',

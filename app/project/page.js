@@ -11,7 +11,7 @@ import ReactSlider from "react-slider"
 import { useTranslation } from "react-i18next";
 const { defaultImage } = "/images/banner/no-banner.png";
 import Preloader from "@/components/elements/Preloader";
-
+import variablesList from "@/components/common/Variable";
 
 export default function ProjectHalfmapList() {
 	const [isToggled, setToggled] = useState(false)
@@ -37,8 +37,8 @@ export default function ProjectHalfmapList() {
 	const [pagination, setPagination] = useState({
 		totalCount: 0,
 		totalPages: 1,
-		currentPage: 1,
-		itemsPerPage: 10,
+		currentPage: variablesList.currentPage,
+		itemsPerPage: variablesList.itemsPerPage,
 	}); // Track pagination info
 	const [filters, setFilters] = useState({
 		title: '',
