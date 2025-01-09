@@ -17,6 +17,8 @@ import { capitalizeFirstChar, validateYouTubeURL } from "../../../components/com
 import { insertMultipleUploadImage } from "../../../components/common/ImageUpload";
 import "../../../components/error-popup/ErrorPopup.css";
 import ErrorPopup from "../../../components/error-popup/ErrorPopup.js";
+import SuccessPopup from "@/components/success-popup/SuccessPopup.js";
+
 
 const resolveIdByName = (stateName, statesList) => {
     const state = statesList.find((state) => state.name === stateName);
@@ -337,6 +339,7 @@ export default function EditProject({ params }) {
 
 
         try {
+            setSucessMessage("Processing .........");
 
             // const uploadImageObj = [values.picture_img, values.video];
             // const uploadImageUrl = await insertMultipleUploadImage("image", uploadImageObj);
@@ -1043,6 +1046,12 @@ export default function EditProject({ params }) {
                                         validationSchema={validationSchema}
                                         onClose={() => setShowErrorPopup(false)}
                                     />
+                                )}
+                                {sucessMessage && (
+                                        <SuccessPopup
+                                        message={sucessMessage}
+                                        onClose={() => setSucessMessage(false)}
+                                        />
                                 )}
                             </Form>
                         )}

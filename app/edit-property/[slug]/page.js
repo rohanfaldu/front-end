@@ -14,6 +14,7 @@ import { capitalizeFirstChar } from "@/components/common/Functions";
 import Preloader from "@/components/elements/Preloader";
 import "../../../components/error-popup/ErrorPopup.css";
 import ErrorPopup from "../../../components/error-popup/ErrorPopup.js";
+import SuccessPopup from "@/components/success-popup/SuccessPopup.js";
 
 export default function EditProperty({ params }) {
     const { slug } = params;
@@ -89,6 +90,14 @@ export default function EditProperty({ params }) {
                 if (getpropertyInfo.data) {
                     setPropertyDetail(getpropertyInfo.data);
 
+
+                    setPropertyMapCoords({
+                        latitude: parseFloat(getpropertyInfo.data.latitude),
+                        longitude: parseFloat(getpropertyInfo.data.longitude),
+                        zoom: 14
+                    });
+
+                    
                     const cityObj = { state_id: getpropertyInfo.data.state, lang: "en" };
                     const getCityInfo = await insertData('api/city/getbystate', cityObj, true);
                     if (getCityInfo.status) {
@@ -232,8 +241,8 @@ export default function EditProperty({ params }) {
         if (selectedState) {
             const { latitude, longitude } = selectedState;
             setPropertyMapCoords({
-                latitude: latitude,
-                longitude: longitude,
+                latitude: parseFloat(latitude),
+                longitude: parseFloat(longitude),
                 zoom: 10
             });
 
@@ -253,8 +262,8 @@ export default function EditProperty({ params }) {
         setNeighborhoodList([]);
 
         setPropertyMapCoords({
-            latitude: latitude,
-            longitude: longitude,
+            latitude: parseFloat(latitude),
+            longitude: parseFloat(longitude),
             zoom: 12
         });
 
@@ -282,8 +291,8 @@ export default function EditProperty({ params }) {
             console.log('selectedNeighborhood ID:', selecteNeighborhood.latitude);
             const { latitude, longitude } = selecteNeighborhood;
             setPropertyMapCoords({
-                latitude: latitude,
-                longitude: longitude,
+                latitude: parseFloat(latitude),
+                longitude: parseFloat(longitude),
                 zoom: 14
             });
         } else {
@@ -384,7 +393,7 @@ export default function EditProperty({ params }) {
         console.log(values);
 
         try {
-
+            setSucessMessage("Processing .........");
             if (!isVideoUpload && !values.video_link) {
                 setErrors({ serverError: "Please enter a YouTube video link." });
                 setShowErrorPopup(true);
@@ -1109,6 +1118,12 @@ export default function EditProperty({ params }) {
                                             errors={errors}
                                             validationSchema={validationSchema}
                                             onClose={() => setShowErrorPopup(false)}
+                                        />
+                                    )}
+                                    {sucessMessage && (
+                                        <SuccessPopup
+                                        message={sucessMessage}
+                                        onClose={() => setSucessMessage(false)}
                                         />
                                     )}
                                 </Form>

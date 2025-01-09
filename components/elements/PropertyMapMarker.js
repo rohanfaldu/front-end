@@ -10,12 +10,12 @@ export default function PropertyMapMarker({
   longitude,
   zoom,
   onPlaceSelected,
-  address = ""
+  address: initialAddress
 }) {
   const [currentLocation, setCurrentLocation] = useState({ lat: latitude || 0, lng: longitude || 0 });
   const [zoomlevel, setZoomlevel] = useState(8);
   const [map, setMap] = useState(null);
-  const [currentLocationAddress, setCurrentLocationAddress] = useState(address);
+  const [currentLocationAddress, setCurrentLocationAddress] = useState(initialAddress || "");
   const markerRef = useRef(null);
   const autocompleteRef = useRef(null);
 
@@ -74,6 +74,10 @@ export default function PropertyMapMarker({
       alert('Place details are not available.');
     }
   };
+
+  useEffect(() => {
+    setCurrentLocationAddress(initialAddress || '');
+  }, [initialAddress]);
 
   const geocodeLatLng = (lat, lng) => {
     const geocoder = new google.maps.Geocoder();
@@ -142,6 +146,7 @@ export default function PropertyMapMarker({
     // geocodeLatLng(currentLocation.lat, currentLocation.lng);  // Uncomment if needed
   };
 
+  console.log(currentLocationAddress,"currentLocationAddress")
   return (
     <>
       {isLoaded ? (
