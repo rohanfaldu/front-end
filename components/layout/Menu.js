@@ -16,7 +16,14 @@ export default function Menu() {
 
 	const checkCurrentMenuItem = (path) => currentMenuItem === path ? "current" : ""
 	const checkParentActive = (paths) => paths.some(path => currentMenuItem.startsWith(path)) ? "current" : ""
-	const isActive = (path) => pathname === path ? "nav-link-item active" : "nav-link-item";
+	const isActive = (path) => {
+        // If it's the root '/', ensure it's an exact match
+        if (path === '/') {
+            return pathname === '/' ? "nav-link-item active" : "nav-link-item";
+        }
+        // For other paths, check if pathname starts with the given path
+        return pathname.startsWith(path) ? "nav-link-item active" : "nav-link-item";
+    };
 	return (
 		<>
 			<ul className="navigation clearfix">

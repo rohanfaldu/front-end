@@ -68,7 +68,7 @@ export default function EditProject({ params }) {
                     project_slug: slug,
                 };
                 const getProjectInfo = await insertData('api/projects/getbyIds', requestData, true);
-                console.log(getProjectInfo);
+                console.log('>>>>>>>>>>>>>>>>>>>>>DS>>>>>>>',getProjectInfo);
                 setPropertyMapCoords({
                     latitude: getProjectInfo.data.latitude,
                     longitude: getProjectInfo.data.longitude,
@@ -579,7 +579,7 @@ export default function EditProject({ params }) {
                                                 <Field type="text" name="vr_link" className="box-fieldset" />
                                             </fieldset>
                                         </div>
-                                        <div className="box grid-3 gap-30">
+                                        {/* <div className="box grid-3 gap-30">
                                             <fieldset className="box box-fieldset">
                                                 <label htmlFor="title">User Listing:</label>
                                                 <Field as="select" name="user_id" className="nice-select country-code"
@@ -599,7 +599,7 @@ export default function EditProject({ params }) {
                                                     )}
                                                 </Field>
                                             </fieldset>
-                                        </div>
+                                        </div> */}
                                         <div className="box grid-3 gap-30">
                                             {projectOfNumberListing && projectOfNumberListing.length > 0 ? (
                                                 projectOfNumberListing.map((project) => (

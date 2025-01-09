@@ -84,7 +84,7 @@ export default function EditProperty({ params }) {
                     property_slug: slug,
                 };
                 const getpropertyInfo = await insertData('api/property/getbyIds', requestData, true);
-                // console.log(getpropertyInfo);
+                console.log('',getpropertyInfo);
 
                 if (getpropertyInfo.data) {
                     setPropertyDetail(getpropertyInfo.data);
@@ -550,6 +550,13 @@ export default function EditProperty({ params }) {
     };
     console.log(checkedItems);
     const messageClass = (sucessMessage) ? "message success" : "message error";
+
+    const directionType = [
+        { id: 'north', name: 'North', },
+        { id: 'south', name: 'South', },
+        { id: 'east', name: 'East', },
+        { id: 'west', name: 'West', },
+    ];
     return (
         <>
             {loading ? (
@@ -666,7 +673,7 @@ export default function EditProperty({ params }) {
                                                         )}
                                                     </Field>
                                                 </fieldset>
-                                                <fieldset className="box box-fieldset">
+                                                {/* <fieldset className="box box-fieldset">
                                                     <label htmlFor="title">User Listing:</label>
                                                     <Field as="select" name="user_id" className="nice-select country-code"
                                                         onChange={(e) => {
@@ -683,7 +690,7 @@ export default function EditProperty({ params }) {
                                                             <></>
                                                         )}
                                                     </Field>
-                                                </fieldset>
+                                                </fieldset> */}
 
                                             </div>
                                             <div className="box grid-3 gap-30">
@@ -703,7 +710,7 @@ export default function EditProperty({ params }) {
                                                             <option value="">Select Currency</option>
                                                             {currencyList && currencyList.length > 0 ? (
                                                                 currencyList.map((currency, index) => (
-                                                                    <option key={index} value={currency.id}>{currency.symbol}
+                                                                    <option key={index} value={currency.id}>{currency.name}
                                                                     </option>
                                                                 ))
                                                             ) : (
@@ -713,6 +720,28 @@ export default function EditProperty({ params }) {
                                                         <Field type="text" id="price" name="price" className="form-control style-1" />
                                                     </div>
 
+                                                </fieldset>
+                                                <fieldset className="box-fieldset">
+                                                    <label htmlFor="description">Direction:<span>*</span></label>
+                                                    <Field as="select" name="direction" className="nice-select country-code"
+                                                        onChange={(e) => {
+                                                            const selectedDirection = e.target.value;
+                                                            setFieldValue("direction", selectedDirection);
+                                                        }}
+                                                    >
+                                                        <option value="">Select Direction</option>
+                                                        {directionType && directionType.length > 0 ? (
+                                                            directionType.map((directionList) => (
+                                                                <option key={directionList.id} value={directionList.id}>{capitalizeFirstChar(directionList.name)}</option>
+                                                            ))
+                                                        ) : (
+                                                            <></>
+                                                        )}
+                                                    </Field>
+                                                </fieldset>
+                                                <fieldset className="box-fieldset">
+                                                    <label htmlFor="description">Size of SqMeter:<span>*</span></label>
+                                                    <Field type="number" id="size_sqft" name="size_sqft" className="form-control style-1" min="0" />
                                                 </fieldset>
                                             </div>
                                             <div className="box grid-3 gap-30">
@@ -724,10 +753,10 @@ export default function EditProperty({ params }) {
                                         <label htmlFor="desc">Credit:</label>
                                         <Field type="text" name="credit" className="box-fieldset"  />
                                     </fieldset> */}
-                                                <fieldset className="box-fieldset">
+                                                {/* <fieldset className="box-fieldset">
                                                     <label htmlFor="description">Size of SqMeter:<span>*</span></label>
                                                     <Field type="number" id="size_sqft" name="size_sqft" className="form-control style-1" min="0" />
-                                                </fieldset>
+                                                </fieldset> */}
                                             </div>
                                             <div className="box grid-3 gap-30">
                                                 {propertyOfNumberListing && propertyOfNumberListing.length > 0 ? (

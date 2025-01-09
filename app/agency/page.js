@@ -203,7 +203,7 @@ export default function AgencyListing() {
 							</div >
 						</div >
 					</div >
-					<div className="wrap-inner">
+					<div className="wrap-inner-2">
 						<div className="box-title-listing style-1">
 							<h5>Agency listing</h5>
 						</div>
@@ -322,9 +322,7 @@ export default function AgencyListing() {
 							))}
 						</ul>
 					</div >
-					{/* <div className="wrap-map">
-						<PropertyMap topmap={false} singleMap={false} propertys={agencyList} />
-					</div> */}
+					
 				</section >
 
 			</Layout >
