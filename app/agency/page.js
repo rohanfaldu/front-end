@@ -59,7 +59,7 @@ export default function AgencyListing() {
 				limit: pagination.itemsPerPage,
 				...updatedFilters, // Spread the updated filters only (dynamic fields)
 			};
-
+			console.log(requestData);
 			const response = await getData("api/agencies", requestData, true);
 			console.log(response);
 			if (response.status) {

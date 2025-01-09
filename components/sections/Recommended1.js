@@ -7,6 +7,7 @@ import Preloader from "../elements/Preloader";
 import { getData } from "../api/Helper";
 import { useTranslation } from "react-i18next";
 import noBannerImg from "../../public/images/banner/no-banner.png";
+import noAvatarImg from "../../public/images/avatar/user-image.png";
 export default function Recommended1() {
 	const [isTab, setIsTab] = useState(0)
 	const [isVisible, setIsVisible] = useState(true)
@@ -179,7 +180,11 @@ export default function Recommended1() {
 															<div className="archive-bottom d-flex justify-content-between align-items-center">
 																<div className="d-flex gap-8 align-items-center">
 																	<div className="avatar avt-40 round">
-																		<img src={property.user_image} alt="Owner Avatar" />
+																		{property.user_image ? 
+																			<img src={property.user_image} alt="Owner Avatar" /> 
+																		: 
+																			<Image src={noAvatarImg} alt="Owner Avatar" width={40} height={40} />
+																		}
 																	</div>
 																	<span>{property.user_name}</span>
 																</div>
