@@ -192,9 +192,9 @@ export default function developerListing() {
 
                             </div>
                           </div>
-                          <div className="form-btn-fixed">
+                          {/* <div className="form-btn-fixed">
                             <button type="submit" className="tf-btn primary" href="#">{t("findpdeveloper")}</button>
-                          </div>
+                          </div> */}
                         </div>
                       </div>
                     </form>
