@@ -8,7 +8,7 @@ const customMsrker = L.icon({
 	iconSize: [30, 30]
 });
 
-export default function MapCluster({ topmap, propertys }) {
+export default function MapCluster({ topmap, propertys, slug }) {
 	console.log('>>>>>>propertydxesds', propertys);
 
 	return (
@@ -49,7 +49,7 @@ export default function MapCluster({ topmap, propertys }) {
                                                         .join(', ')}
 											</p>
 											<div className="title">
-												<a href={`property/${property.slug}`} >{/* Link to property details */}
+												<a href={`${slug}/${property.slug}`} >{/* Link to property details */}
 													{property.title}
 												</a>
 											</div>

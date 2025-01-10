@@ -452,7 +452,7 @@ export default function PropertyHalfmapList() {
 						</ul>
 					</div >
 					<div className="wrap-map">
-						<PropertyMap topmap={false} singleMap={false} propertys={propertys} />
+						<PropertyMap topmap={false} singleMap={false} propertys={propertys} slug="property" />
 					</div>
 				</section >
 

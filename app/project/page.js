@@ -488,7 +488,7 @@ export default function ProjectHalfmapList() {
 						</ul>
 					</div >
 					<div className="wrap-map">
-						<PropertyMap topmap={false} singleMap={false} propertys={projects} />
+						<PropertyMap topmap={false} singleMap={false} propertys={projects} slug="project" />
 					</div>
 				</section >
 
