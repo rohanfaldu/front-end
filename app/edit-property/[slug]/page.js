@@ -15,7 +15,6 @@ import Preloader from "@/components/elements/Preloader";
 import "../../../components/error-popup/ErrorPopup.css";
 import ErrorPopup from "../../../components/error-popup/ErrorPopup.js";
 import SuccessPopup from "@/components/success-popup/SuccessPopup.js";
-import variablesList from "@/components/common/Variable";
 import { defaultLatlong } from '../common/Variable';
 export default function EditProperty({ params }) {
     const { slug } = params;
