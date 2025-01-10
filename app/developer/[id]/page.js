@@ -103,9 +103,8 @@ export default function AgencyDetail({ params }) {
     const [isAccordion, setIsAccordion] = useState(1)
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [developerDetails, setDeveloperDetails] = useState('');
-    const [properties, setProperties] = useState([]);
-    const [propertiesList, setPropertiesList] = useState([]);
+    const [developerDetails, setDeveloperDetails] = useState([]);
+    const [propertiesList, setPropertiesList] = useState('');
     const fetchDeveloperDetails = async () => {
         setLoading(true); // Start loading
         try {
@@ -115,19 +114,10 @@ export default function AgencyDetail({ params }) {
             console.log(234)
             // API call
             const response = await insertData(`api/developer/getbyid`, requestData, false);
-            // const getPropertyObj = {page: 1, limit: 5, searchTerm: "", status: ""};
-            
-            // const propertyResponse = await insertData(`api/property/agent-developer`, getPropertyObj, true);
-            // if(propertyResponse.status && propertiesList.length === 0){
-            //     setPropertiesList(propertyResponse.data.list);
-            // }
-            // console.log('API Response:', propertyResponse.data.list);
-            
-
             
             if (response.status) {
                 setDeveloperDetails(response.data.developer);
-                setProperties(response.data.property_details);
+                setPropertiesList(response.data.developer.property_details);
                 setError(null);
             } else {
                 setError("No project details found.");
@@ -139,11 +129,11 @@ export default function AgencyDetail({ params }) {
             setLoading(false); // Stop loading
         }
     };
-
+    console.log(propertiesList, ">>>>>>>>>>>>>> PROPERTY LIST");
     // Fetch data on component mount
     useEffect(() => {
         fetchDeveloperDetails();
-    }, [propertiesList]);
+    }, []);
 
     // Translation hook
     const { t, i18n } = useTranslation();
@@ -337,7 +327,7 @@ export default function AgencyDetail({ params }) {
                                 </div >
                             </div >
                         </section >
-                        {/* <section className="flat-latest-property">
+                        <section className="flat-latest-property">
                             <div className="container">
                                 {propertiesList.length > 0 && ( // Render title only if properties.length > 0
                                     <div className="box-title">
@@ -357,7 +347,7 @@ export default function AgencyDetail({ params }) {
                                     </Swiper>
                                 </div>
                             </div>
-                        </section> */}
+                        </section>
                     </div>
 
                 </Layout >
