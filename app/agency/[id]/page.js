@@ -116,6 +116,7 @@ export default function AgencyDetail({ params }) {
 
 			if (response.status) {
 				setAgencyDetails(response.data);
+				setPropertiesList(response.data.property_details);
 				setProperties(response.data.property_details);
 				setError(null);
 			} else {
@@ -138,7 +139,7 @@ export default function AgencyDetail({ params }) {
 	// Fetch data on component mount
 	useEffect(() => {
 		fetchAgencyDetails();
-	}, [propertiesList]);
+	}, []);
 
 	// Translation hook
 	const { t, i18n } = useTranslation();
@@ -332,7 +333,7 @@ export default function AgencyDetail({ params }) {
 								</div >
 							</div >
 						</section >
-						{/* <section className="pt-0 flat-latest-property">
+						<section className="pt-0 flat-latest-property">
 							<div className="container">
 								{propertiesList.length > 0 && ( // Render title only if properties.length > 0
 									<div className="box-title">
@@ -352,7 +353,7 @@ export default function AgencyDetail({ params }) {
 									</Swiper>
 								</div>
 							</div>
-						</section> */}
+						</section>
 					</div>
 
 				</Layout >

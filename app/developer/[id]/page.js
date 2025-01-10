@@ -129,7 +129,6 @@ export default function AgencyDetail({ params }) {
             setLoading(false); // Stop loading
         }
     };
-    console.log(propertiesList, ">>>>>>>>>>>>>> PROPERTY LIST");
     // Fetch data on component mount
     useEffect(() => {
         fetchDeveloperDetails();
@@ -137,7 +136,6 @@ export default function AgencyDetail({ params }) {
 
     // Translation hook
     const { t, i18n } = useTranslation();
-    console.log('API Response Data:', propertiesList);
 
     return (
         <>
@@ -146,18 +144,6 @@ export default function AgencyDetail({ params }) {
                 :
                 <Layout headerStyle={1} footerStyle={1} breadcrumbTitle={developerDetails?.full_name}>
                     <div>
-                        {/* <section className="flat-section flat-banner-about">
-						<div className="container">
-							<div className="row">
-								<div className="col-md-5">
-									<h3>{t("welcometothe")} <br /> {t("immofind")} </h3>
-								</div>
-								<div className="col-md-7 hover-btn-view">
-									<p className="body-2 text-variant-1"> {developerDetails?.description} </p>									
-								</div>
-							</div>
-						</div>
-					</section> */}
                         <section className="flat-section pt-10 flat-property-detail">
                             <div className="container">
 
@@ -230,52 +216,6 @@ export default function AgencyDetail({ params }) {
                                                     </li>
                                                 ) : ''}
                                             </ul>
-                                        </div>
-
-                                        <div className="single-property-element single-property-info">
-                                            <div className="h7 title fw-7">{t("otherDetail")}</div>
-                                            <div className="row">
-                                                {developerDetails?.credit !== null ? (
-                                                    <div className="col-md-12">
-                                                        <div className="inner-box">
-                                                            <span className="label">{t("credit")}:</span>
-                                                            <div className="content fw-7">{developerDetails?.credit}</div>
-                                                        </div>
-                                                    </div>
-                                                ) : ''}
-                                                {developerDetails?.whatsup_number !== null ? (
-                                                    <div className="col-md-12">
-                                                        <div className="inner-box">
-                                                            <span className="label">{t("whatsupNumber")}:</span>
-                                                            <div className="content fw-7">{developerDetails?.whatsup_number}</div>
-                                                        </div>
-                                                    </div>
-                                                ) : ''}
-                                                {developerDetails?.tax_number !== null ? (
-                                                    <div className="col-md-12">
-                                                        <div className="inner-box">
-                                                            <span className="label">{t("taxNumber")}:</span>
-                                                            <div className="content fw-7">{developerDetails?.tax_number}</div>
-                                                        </div>
-                                                    </div>
-                                                ) : ''}
-                                                {developerDetails?.tax_number !== null ? (
-                                                    <div className="col-md-12">
-                                                        <div className="inner-box">
-                                                            <span className="label">{t("licenseNumber")}:</span>
-                                                            <div className="content fw-7">{developerDetails?.license_number}</div>
-                                                        </div>
-                                                    </div>
-                                                ) : ''}
-                                                {developerDetails?.service_area !== null ? (
-                                                    <div className="col-md-12">
-                                                        <div className="inner-box">
-                                                            <span className="label">{t("serviceArea")}:</span>
-                                                            <div className="content fw-7">{developerDetails?.service_area}</div>
-                                                        </div>
-                                                    </div>
-                                                ) : ''}
-                                            </div>
                                         </div>
                                     </div>
                                     <div className="col-lg-4">
