@@ -100,9 +100,21 @@ export default function Header1({ scroll, isMobileMenu, handleMobileMenu, isLogi
 						<div className="bottom-canvas">
 							<div className="login-box flex align-items-center">
 								<div className="login-registraion-sec">
-									<a onClick={handleLogin}>{t("login")}</a>
-									<span>/</span>
-									<a onClick={handleRegister}>{t("register")}</a>
+								{userStatus ? 
+												<>
+													<a className={`box-avatar `} onClick={handDashboard}>
+														<p className="name harmburger-name ">{userName??""}</p>
+													</a>
+												</> 
+											: 
+												<>
+													<ul className="d-flex">
+														<li><a onClick={handleLogin}>{t("login")}</a></li>
+														<li>/</li>
+														<li><a onClick={handleRegister}>{t("register")}</a></li>
+													</ul>
+												</>
+											}
 								</div>
 								<div className="lang-sec">
 									<LanguageSwitcher />

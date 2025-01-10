@@ -53,7 +53,7 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 						},
 					});
 					if(response.data.status === true) {
-						localStorage.setItem('token', response.data.token);
+						localStorage.setItem('token', response.data.data.token);
 						localStorage.setItem('user', JSON.stringify(response.data.data.userProfile));
 						const expirationTime = Date.now() + 3600000; // 1 hour from now
 						localStorage.setItem('tokenExpiration', expirationTime);
@@ -107,8 +107,9 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 						'Content-Type': 'application/json'
 					},
 				});
+				console.log(response,"ffffff")
 				if(response.data.status === true) {
-					localStorage.setItem('token', response.data.token);
+					localStorage.setItem('token', response.data.data.token);
 					localStorage.setItem('user', JSON.stringify(response.data.data.userProfile));
 					const expirationTime = Date.now() + 3600000; // 1 hour from now
 					localStorage.setItem('tokenExpiration', expirationTime);
@@ -174,6 +175,7 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 			
 			const checkData = { email_address: values.email_address,  phone_number: '' }
 			const getUserInfo = await insertData('auth/check/user', checkData);
+			console.log(getUserInfo,"response")
 
 			if(getUserInfo.status === true) {
 				const sendData = JSON.stringify({email_address: values.email_address, phone_number: values.phone_number, password: values.password, device_type: "web"});
@@ -196,9 +198,14 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 					setErrorMessage(response.data.message);
 				}
 			}else{
-				if(getUserInfo.data.userProfile.user_login_type != 'NONE'){
-					setErrorMessage('User already exists with another social app.');
-				}
+				console.log(getUserInfo)
+				setErrorMessage(getUserInfo.message);
+
+				// if(getUserInfo.data.userProfile.user_login_type != 'NONE'){
+				// 	setErrorMessage('User already exists with another social app.');
+				// }else{
+				// 	console.log(getUserInfo)
+				// }
 			}
 		  } catch (error) {
 			setErrorMessage('Server Error. Please try again later.');

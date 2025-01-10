@@ -203,7 +203,7 @@ export default function AgencyListing() {
 							</div >
 						</div >
 					</div >
-					<div className="wrap-inner-2">
+					<div className="wrap-inner-55">
 						<div className="box-title-listing style-1">
 							<h5>Agency listing</h5>
 						</div>
@@ -218,7 +218,7 @@ export default function AgencyListing() {
 							) : (
 								<div className="row">
 									{agencyList.map((agencyUserData) => (
-										<div className="col-md-6" key={agencyUserData.id}>
+										<div className="col-md-4" key={agencyUserData.id}>
 											<div className="homeya-box">
 												<div className="archive-top">
 													<Link

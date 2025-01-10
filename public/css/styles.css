@@ -1553,12 +1553,12 @@ label {
 .close-btn {
   position: fixed;
   right: 16px;
-  top: 25px;
+  top: 15px;
   line-height: 30px;
   width: 30px;
   text-align: center;
   font-size: 16px;
-  color: #ffffff;
+  color: #00a8c1;
   cursor: pointer;
   transition: all 0.3s ease;
   z-index: 9999999999;
@@ -6987,9 +6987,28 @@ label {
   overflow-x: hidden;
   overflow-y: auto;
 }
+
+.wrapper-layout-3 .wrap-inner-55 {
+  padding: 30px;
+  width: 100%;
+  padding-bottom: 0;
+  height: calc(100vh - 80px);
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
 .wrap-inner-2 .col-md-6 {
   flex: 0 0 auto;
   width: 33%;
+}
+
+.wrapper-layout-7 .wrap-inner-2 {
+  padding: 30px;
+  width: 80.3%;
+  padding-bottom: 0;
+  height: calc(100vh - 80px);
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 @media  (max-width: 768px) { /* Target mobile devices */
@@ -6998,6 +7017,22 @@ label {
     width: 100%;
   }
   .wrapper-layout-3 .wrap-inner-2 {
+    padding: 30px;
+    width: 100%;
+    padding-bottom: 0;
+    height: calc(100vh - 80px);
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+  .wrapper-layout-3 .wrap-inner-55 {
+    padding: 30px;
+    width: 100%;
+    padding-bottom: 0;
+    height: calc(100vh - 80px);
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+  .wrapper-layout-7 .wrap-inner-2 {
     padding: 30px;
     width: 100%;
     padding-bottom: 0;
@@ -10820,4 +10855,9 @@ tr {
 
 footer {
   margin-top: 10%; /* Ensure the footer is pushed to the bottom */
+}
+
+.harmburger-name{
+  font-size: 18px;
+  font-weight: 600;
 }

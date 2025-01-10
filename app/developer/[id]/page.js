@@ -3,7 +3,7 @@ import { Autoplay, Navigation, Pagination } from "swiper/modules"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { insertData } from "../../../components/api/Axios/Helper";
 import SidebarFilter from "@/components/elements/SidebarFilter";
-import PropertyBlog from "@/components/sections/PropertyBlog";
+import ProjectBlog from "@/components/sections/ProjectBlog";
 const toCapitalCase = (str) => {
     if (!str) return '';
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
@@ -117,7 +117,7 @@ export default function AgencyDetail({ params }) {
             
             if (response.status) {
                 setDeveloperDetails(response.data.developer);
-                setPropertiesList(response.data.developer.property_details);
+                setPropertiesList(response.data.developer.project_details);
                 setError(null);
             } else {
                 setError("No project details found.");
@@ -272,14 +272,14 @@ export default function AgencyDetail({ params }) {
                                 {propertiesList.length > 0 && ( // Render title only if properties.length > 0
                                     <div className="box-title">
                                         <div className="text-subtitle text-primary">{t("featureproperties")}</div>
-                                        <h4 className="mt-4">{t("themostrecentestate")}</h4>
+                                        <h4 className="mt-4">{t("themostrecentproject")}</h4>
                                     </div>
                                 )}
                                 <div className="swiper tf-latest-property" data-preview-lg={3} data-preview-md={2} data-preview-sm={2} data-space={30} data-loop="true">
                                     <Swiper {...swiperOptions2} className="swiper-wrapper">
                                         {propertiesList.map((property) => (
                                             <SwiperSlide>
-                                                <PropertyBlog data={property} slide={true} />
+                                                <ProjectBlog data={property} slide={true} />
                                                 
                                             </SwiperSlide>
                                         ))}
