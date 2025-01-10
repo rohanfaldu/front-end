@@ -39,7 +39,7 @@ export default function ModalForgotPassword({ isLogin, isForgotPassword, handleF
 			});
 			if(response.data.status === true) {
 				const sendMailData = {email_address: values.email_address, subject: "Password Reset Code"}
-				const sendMailResponse = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/sendmail`, sendMailData, {
+				const sendMailResponse = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/agencies/sendmail`, sendMailData, {
 					headers: {
 					"Content-Type": "application/json",
 					},

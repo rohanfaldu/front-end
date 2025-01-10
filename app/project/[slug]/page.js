@@ -816,7 +816,7 @@ export default function ProjectDetailsView({ params }) {
 											<div className="h7">{t("leaveareply")}</div>
 											<div id="comments" className="comments">
 												<div className="respond-comment">
-													<form method="post" id="contactform" className="comment-form form-submit" action="./contact/contact-process.php" acceptCharset="utf-8" noValidate="novalidate">
+													<form method="post" id="contactform" className="comment-form form-submit" acceptCharset="utf-8" noValidate="novalidate">
 														<div className="form-wg group-ip">
 															<fieldset>
 																<label className="sub-ip">{t("name")}</label>
@@ -835,7 +835,7 @@ export default function ProjectDetailsView({ params }) {
 															<label className="sub-ip">{t("review")}</label>
 															<textarea id="comment-message" name="message" rows={4} tabIndex={4} placeholder="Write comment " aria-required="true" defaultValue={""} />
 														</fieldset>
-														<button className="form-wg tf-btn primary" name="submit" type="submit">
+														<button className="form-wg tf-btn primary" name="button" type="button">
 															<span>{t("postcomment")}</span>
 														</button>
 													</form>

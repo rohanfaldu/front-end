@@ -203,7 +203,7 @@ export default function developerListing() {
               </div >
             </div >
           </div >
-          <div className="wrap-inner-2">
+          <div className="wrap-inner-55">
             <div className="box-title-listing style-1">
               <h5>Developer listing</h5>
             </div>
@@ -218,7 +218,7 @@ export default function developerListing() {
               ) : (
                 <div className="row">
                   {developerList?.map((developerUserData) => (
-                    <div className="col-md-6" key={developerUserData.id}>
+                    <div className="col-md-4" key={developerUserData.id}>
                       <div className="homeya-box">
                         <div className="archive-top">
                           <Link
