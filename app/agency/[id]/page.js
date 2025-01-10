@@ -68,7 +68,7 @@ const swiperOptions2 = {
 	slidesPerView: 1,
 	loop: true,
 	spaceBetween: 30,
-	centeredSlides: true,
+	centeredSlides: false,
 	breakpoints: {
 		600: {
 			slidesPerView: 2,
@@ -144,7 +144,7 @@ export default function AgencyDetail({ params }) {
 	// Translation hook
 	const { t, i18n } = useTranslation();
 
-
+	
 	return (
 		<>
 			{loading ?
@@ -170,14 +170,14 @@ export default function AgencyDetail({ params }) {
 								<div className="row">
 									<div className="col-lg-8">
 										<div className="single-property-element single-property-desc">
-											{agencyDetails.agency_name !== null ? (
+											{agencyDetails.agency_name !== "" ? (
 												<div class="content-top d-flex justify-content-between align-items-center">
 													<div class="box-name">
 														<a class="flag-tag primary" href="#">{agencyDetails?.agency_name}</a>
 													</div>
 												</div>
 											) : ''}
-											{agencyDetails.description !== null ? (
+											{agencyDetails.description !== "" ? (
 												<>
 													<div className="h7 title fw-7">{t("description")}</div>
 													<p className="body-2 text-variant-1">{agencyDetails.description}</p>
