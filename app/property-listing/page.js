@@ -24,7 +24,8 @@ export default function PropertyListing() {
       currentPage: 1,
       itemsPerPage: 100,
   }); // Track pagination info
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [deletePropertyid, setDeletePropertyid] = useState('');
   const fetchProperties = async (page = 1, term = '', status = '') => {
     setLoading(true);
     try {
@@ -69,11 +70,12 @@ export default function PropertyListing() {
     setPagination({ ...pagination, currentPage: 1 }); // Reset to first page on filter
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async () => {
     try {
-      const response = await deletedData(`api/property/${id}`, { propertyId: id });
+      const response = await deletedData(`api/property/${deletePropertyid}`, { propertyId: deletePropertyid });
       if (response.status) {
         fetchProperties(pagination.currentPage, searchTerm, statusFilter);
+        setIsModalOpen(false);
       } else {
         alert(response.message);
       }
@@ -89,6 +91,15 @@ export default function PropertyListing() {
   const handleView = (slug) => {
     const URL = `${process.env.NEXT_PUBLIC_SITE_URL}/property/${slug}`;
       window.open(URL, '_blank')
+  };
+
+  const openModal = (id) => {
+    setIsModalOpen(true);
+    setDeletePropertyid(id);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
   };
 
   return (
@@ -161,7 +172,7 @@ export default function PropertyListing() {
                                     </Link>
                                   </li>
                                   <li className="delete">
-                                    <a className="remove-file item"  onClick={() => handleDelete(property.id)}>
+                                    <a className="remove-file item"  onClick={() => openModal(property.id)}>
                                       <Image
                                           src={DeleteIcon} // Imported image object or static path
                                           alt="Delete icon"
@@ -208,6 +219,22 @@ export default function PropertyListing() {
                         ))}
                       </ul>
                     </div>
+                    {isModalOpen && (
+                      <div className="custom-modal">
+                      <div className="custom-modal-content">
+                        <>
+   
+                          <h2>Delete Item</h2>
+                          <p>Are you sure you want to delete this item?</p>
+                          <div>
+                            <button className="tf-btn primary " onClick={handleDelete}>Yes, Delete</button>
+                            <button className="tf-btn primary" onClick={closeModal}>Cancel</button>
+                          </div>
+                        </>
+                        
+                      </div>
+                      </div>
+                    )}
                   </>
                 ) : (
                   <div>No records found</div>

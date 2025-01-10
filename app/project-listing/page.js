@@ -23,7 +23,8 @@ export default function ProjectListing() {
       currentPage: variablesList.currentPage,
       itemsPerPage: variablesList.itemsPerPage,
   }); // Track pagination info
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [deleteProjectId, setDeleteProjectId] = useState('');
   const fetchProperties = async (page = variablesList.currentPage, term = '', status = '') => {
     setLoading(true);
     try {
@@ -69,11 +70,14 @@ export default function ProjectListing() {
     setPagination({ ...pagination, currentPage: 1 }); // Reset to first page on filter
   };
 
-  const handleDelete = async (id) => {
-    console.log(id);
+  const handleDelete = async () => {
+    console.log(deleteProjectId, '>>>>>>> Delete id New');
     try {
-      const response = await deletedData(`api/projects/${id}`, { propertyId: id });
+
+      console.log(deleteProjectId, '>>>>>>> Delete id Here');
+      const response = await deletedData(`api/projects/${deleteProjectId}`, { propertyId: deleteProjectId });
       console.log(response);
+      setIsModalOpen(false);
       if (response.status) {
         fetchProperties(pagination.currentPage, searchTerm, statusFilter);
       } else {
@@ -93,6 +97,14 @@ export default function ProjectListing() {
     setPagination({ ...pagination, currentPage: page });
   };
 
+  const openModal = (id) => {
+    setIsModalOpen(true);
+    setDeleteProjectId(id);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
   return (
     <>
       {loading ? (
@@ -156,7 +168,7 @@ export default function ProjectListing() {
                                     </Link>
                                   </li>
                                   <li className="delete">
-                                    <a className="remove-file item" onClick={() => handleDelete(property.id)}>
+                                    <a className="remove-file item" onClick={() => openModal(property.id)}>
                                       <Image
                                           src={DeleteIcon} // Imported image object or static path
                                           alt="Delete icon"
@@ -203,6 +215,22 @@ export default function ProjectListing() {
                         ))}
                       </ul>
                     </div>
+                    {isModalOpen && (
+                      <div className="custom-modal">
+                      <div className="custom-modal-content">
+                        <>
+   
+                          <h2>Delete Item</h2>
+                          <p>Are you sure you want to delete this item?</p>
+                          <div>
+                            <button className="tf-btn primary " onClick={handleDelete}>Yes, Delete</button>
+                            <button className="tf-btn primary" onClick={closeModal}>Cancel</button>
+                          </div>
+                        </>
+                        
+                      </div>
+                      </div>
+                    )}
                   </>
                 ) : (
                   <div>No records found</div>
