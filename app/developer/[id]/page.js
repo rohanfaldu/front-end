@@ -233,7 +233,7 @@ export default function AgencyDetail({ params }) {
                                                     </div>
                                                     {developerDetails ? (
                                                         <div className="info">
-                                                            <div className="text-1 name truncate-text">{developerDetails?.user_name}</div>
+                                                            <div className="text-1 name">{developerDetails?.user_name}</div>
                                                             <span className="truncate-text">{developerDetails?.user_email_adress}</span><br />
                                                             <span>{developerDetails?.user_country_code} {developerDetails?.user_mobile_number}</span>
                                                         </div>

@@ -193,7 +193,7 @@ export default function AgencyListing() {
 														</div>
 													</div>
 													<div className="form-btn-fixed">
-														<button type="submit" className="tf-btn primary" href="#">{t("findprojects")}</button>
+														<button className="tf-btn primary" href="#">{t("findagency")}</button>
 													</div>
 												</div>
 											</div>

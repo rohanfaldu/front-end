@@ -15,24 +15,46 @@ export default function MobileMenu() {
 
 	const checkCurrentMenuItem = (path) => currentMenuItem === path ? "current" : ""
 	const checkParentActive = (paths) => paths.some(path => currentMenuItem.startsWith(path)) ? "current" : ""
-	
+
 	const [isAccordion, setIsAccordion] = useState(1)
 
 	const handleAccordion = (key) => {
 		setIsAccordion(prevState => prevState === key ? null : key)
 	}
+	const isActive = (path) => {
+		// If it's the root '/', ensure it's an exact match
+		if (path === '/') {
+			return pathname === '/' ? "nav-link-item active" : "nav-link-item";
+		}
+		// For other paths, check if pathname starts with the given path
+		return pathname.startsWith(path) ? "nav-link-item active" : "nav-link-item";
+	};
 	return (
 		<>
 			<div className="menu-outer">
 				<div className="navbar-collapse collapse clearfix" id="navbarSupportedContent">
-				<ul className="navigation clearfix">
-					<li><Link href="/">{t("home")}</Link></li>
-					<li><Link href="/about-us">{t("aboutus")}</Link></li>
-					<li><Link href="/property">{t("property")}</Link></li>
-					<li><Link href="/project">{t("project")}</Link></li>
-					<li><Link href="/blog">{t("blog")}</Link></li>
-				</ul>
-				{ /*
+					<ul className="navigation clearfix">
+						<li className={isActive('/')}>
+							<Link href="/">{t("home")}</Link>
+						</li>
+
+						<li className={isActive('/property')}>
+							<Link href="/property">{t("property")}</Link>
+						</li>
+						<li className={isActive('/project')}>
+							<Link href="/project">{t("project")}</Link>
+						</li>
+						<li className={isActive('/agency')}>
+							<Link href="/agency">{t("agency")}</Link>
+						</li>
+						<li className={isActive('/developer')}>
+							<Link href="/developer">{t("developer")}</Link>
+						</li>
+						<li className={isActive('/about-us')}>
+							<Link href="/about-us">{t("aboutus")}</Link>
+						</li>
+					</ul>
+					{ /*
 					<ul className="navigation clearfix">
 						<li className={`dropdown2 home ${isAccordion  == 1 ? "open" : ""} ${checkParentActive([
 							"/home-02",
