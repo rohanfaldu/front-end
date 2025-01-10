@@ -87,7 +87,7 @@ const swiperOptions2 = {
 }
 
 import PropertyMap from "@/components/elements/PropertyMap"
-import PropertyMapMarker from "@/components/elements/PropertyMapMarker"
+import MapMarker from "@/components/elements/MapMarker"
 import RangeSlider from "@/components/elements/RangeSlider"
 import SidebarFilter from "@/components/elements/SidebarFilter"
 import TabNav from "@/components/elements/TabNav"
@@ -507,7 +507,7 @@ export default function PropertyDetailsV1({ params }) {
 									)}
 									<div className="single-property-element single-property-map">
 										<div className="h7 title fw-7">{t("map")}</div>
-										<PropertyMapMarker latitude={properties.latitude} longitude={properties.longitude} zoom={14} />
+										<MapMarker latitude={properties.latitude} longitude={properties.longitude} zoom={14} />
 
 										<ul className="info-map">
 											<li>

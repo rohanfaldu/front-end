@@ -4,7 +4,7 @@ import { GoogleMap, useJsApiLoader, Autocomplete } from '@react-google-maps/api'
 import Preloader from './Preloader';
 import { defaultLatlong } from '../common/Variable';
 
-export default function PropertyMapMarker({
+export default function MapMarker({
   isGeolocation,
   latitude,
   longitude,
@@ -106,17 +106,17 @@ export default function PropertyMapMarker({
     markerRef.current = new google.maps.Marker({
       position: currentLocation,
       map: mapInstance,
-      draggable: true, // Make marker draggable
+      draggable: false, // Make marker draggable
       title: 'Drag me!',
     });
 
     // Add dragend event listener
-    markerRef.current.addListener('dragend', (event) => {
-      const newLat = event.latLng.lat();
-      const newLng = event.latLng.lng();
-      setCurrentLocation({ lat: newLat, lng: newLng });
-      geocodeLatLng(newLat, newLng); // Update address based on new position
-    });
+    // markerRef.current.addListener('dragend', (event) => {
+    //   const newLat = event.latLng.lat();
+    //   const newLng = event.latLng.lng();
+    //   setCurrentLocation({ lat: newLat, lng: newLng });
+    //   geocodeLatLng(newLat, newLng); // Update address based on new position
+    // });
   }, [currentLocation]);
 
   const onUnmount = useCallback(() => {

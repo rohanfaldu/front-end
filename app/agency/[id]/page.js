@@ -2,7 +2,8 @@
 import { Autoplay, Navigation, Pagination } from "swiper/modules"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { insertData } from "../../../components/api/Axios/Helper";
-import SidebarFilter from "@/components/elements/SidebarFilter"
+import SidebarFilter from "@/components/elements/SidebarFilter";
+import PropertyBlog from "@/components/sections/PropertyBlog";
 const toCapitalCase = (str) => {
 	if (!str) return '';
 	return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
@@ -99,14 +100,11 @@ export default function AgencyDetail({ params }) {
 	console.log(id, ">>>>>>>>>>>>>> SLUG");
 	const searchParams = useSearchParams();
 	const projectId = searchParams.get("id");
-	const [isAccordion, setIsAccordion] = useState(1)
 	const [error, setError] = useState(null);
 	const [loading, setLoading] = useState(true);
 	const [agencyDetails, setAgencyDetails] = useState('');
-	const [isOpen, setIsOpen] = useState(false);
-	const [videoUrl, setVideoUrl] = useState("");
+	const [propertiesList, setPropertiesList] = useState([]);
 	const [properties, setProperties] = useState([]);
-	const [currentImage, setCurrentImage] = useState(null); // Current image in the modal
 	const fetchAgencyDetails = async () => {
 		setLoading(true); // Start loading
 		try {
@@ -123,6 +121,12 @@ export default function AgencyDetail({ params }) {
 			} else {
 				setError("No project details found.");
 			}
+
+			// const getPropertyObj = {page: 1, limit: 5, searchTerm: "", status: ""};
+			// const propertyResponse = await insertData(`api/property/agent-developer`, getPropertyObj, true);
+			// if(propertyResponse.status && propertiesList.length === 0){
+			// 	setPropertiesList(propertyResponse.data.list);
+			// }
 		} catch (err) {
 			// Handle API errors
 			setError(err.response?.data?.message || "An error occurred");
@@ -134,7 +138,7 @@ export default function AgencyDetail({ params }) {
 	// Fetch data on component mount
 	useEffect(() => {
 		fetchAgencyDetails();
-	}, []);
+	}, [propertiesList]);
 
 	// Translation hook
 	const { t, i18n } = useTranslation();
@@ -328,7 +332,27 @@ export default function AgencyDetail({ params }) {
 								</div >
 							</div >
 						</section >
+						{/* <section className="pt-0 flat-latest-property">
+							<div className="container">
+								{propertiesList.length > 0 && ( // Render title only if properties.length > 0
+									<div className="box-title">
+										<div className="text-subtitle text-primary">{t("featureproperties")}</div>
+										<h4 className="mt-4">{t("themostrecentestate")}</h4>
+									</div>
+								)}
+								<div className="swiper tf-latest-property" data-preview-lg={3} data-preview-md={2} data-preview-sm={2} data-space={30} data-loop="true">
+									<Swiper {...swiperOptions2} className="swiper-wrapper">
+										{propertiesList.map((property) => (
+											<SwiperSlide>
+												<PropertyBlog data={property} slide={true} />
+												
+											</SwiperSlide>
+										))}
 
+									</Swiper>
+								</div>
+							</div>
+						</section> */}
 					</div>
 
 				</Layout >

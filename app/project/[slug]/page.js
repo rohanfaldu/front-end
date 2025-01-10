@@ -87,7 +87,7 @@ const swiperOptions2 = {
 }
 
 import PropertyMap from "@/components/elements/PropertyMap"
-import PropertyMapMarker from "@/components/elements/PropertyMapMarker"
+import MapMarker from "@/components/elements/MapMarker"
 import RangeSlider from "@/components/elements/RangeSlider"
 import SidebarFilter from "@/components/elements/SidebarFilter"
 import TabNav from "@/components/elements/TabNav"
@@ -101,7 +101,7 @@ import { useRouter } from 'next/navigation';
 import Preloader from '@/components/elements/Preloader';
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "next/navigation";
-export default function ProjectDetailsV1({ params }) {
+export default function ProjectDetailsView({ params }) {
 	const { slug } = params;
 	const searchParams = useSearchParams();
 	const projectId = searchParams.get("id");
@@ -470,7 +470,7 @@ export default function ProjectDetailsV1({ params }) {
 									)}
 									<div className="single-property-element single-property-map">
 										<div className="h7 title fw-7">{t("map")}</div>
-										<PropertyMapMarker latitude={projectDetails?.latitude} longitude={projectDetails?.longitude} zoom={14} />
+										<MapMarker latitude={projectDetails?.latitude} longitude={projectDetails?.longitude} zoom={14} />
 
 										<ul className="info-map">
 											<li>
@@ -1116,7 +1116,7 @@ export default function ProjectDetailsV1({ params }) {
 							</div >
 						</div >
 					</section >
-					<section className="flat-section pt-0 flat-latest-property">
+					<section className="flat-latest-property">
 						<div className="container">
 							{properties.length > 0 && ( // Render title only if properties.length > 0
 								<div className="box-title">

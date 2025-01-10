@@ -43,7 +43,7 @@ export default function AdvancedFilter({ sidecls }) {
 						</a>
 					</div>
 				</div>
-				<button type="submit" className="tf-btn primary">{t("findproperties")}</button>
+				<button type="button" className="tf-btn primary">{t("findproperties")}</button>
 			</div >
 			<div className={`wd-search-form ${isToggled ? "show" : ""}`}>
 				<div className="grid-2 group-box group-price">

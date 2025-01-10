@@ -2,7 +2,8 @@
 import { Autoplay, Navigation, Pagination } from "swiper/modules"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { insertData } from "../../../components/api/Axios/Helper";
-import SidebarFilter from "@/components/elements/SidebarFilter"
+import SidebarFilter from "@/components/elements/SidebarFilter";
+import PropertyBlog from "@/components/sections/PropertyBlog";
 const toCapitalCase = (str) => {
     if (!str) return '';
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
@@ -103,10 +104,8 @@ export default function AgencyDetail({ params }) {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
     const [developerDetails, setDeveloperDetails] = useState('');
-    const [isOpen, setIsOpen] = useState(false);
-    const [videoUrl, setVideoUrl] = useState("");
     const [properties, setProperties] = useState([]);
-    const [currentImage, setCurrentImage] = useState(null); // Current image in the modal
+    const [propertiesList, setPropertiesList] = useState([]);
     const fetchDeveloperDetails = async () => {
         setLoading(true); // Start loading
         try {
@@ -116,8 +115,16 @@ export default function AgencyDetail({ params }) {
             console.log(234)
             // API call
             const response = await insertData(`api/developer/getbyid`, requestData, false);
-            console.log('API Response:', response);
+            // const getPropertyObj = {page: 1, limit: 5, searchTerm: "", status: ""};
+            
+            // const propertyResponse = await insertData(`api/property/agent-developer`, getPropertyObj, true);
+            // if(propertyResponse.status && propertiesList.length === 0){
+            //     setPropertiesList(propertyResponse.data.list);
+            // }
+            // console.log('API Response:', propertyResponse.data.list);
+            
 
+            
             if (response.status) {
                 setDeveloperDetails(response.data.developer);
                 setProperties(response.data.property_details);
@@ -136,11 +143,11 @@ export default function AgencyDetail({ params }) {
     // Fetch data on component mount
     useEffect(() => {
         fetchDeveloperDetails();
-    }, []);
+    }, [propertiesList]);
 
     // Translation hook
     const { t, i18n } = useTranslation();
-
+    console.log('API Response Data:', propertiesList);
 
     return (
         <>
@@ -330,7 +337,27 @@ export default function AgencyDetail({ params }) {
                                 </div >
                             </div >
                         </section >
+                        {/* <section className="flat-latest-property">
+                            <div className="container">
+                                {propertiesList.length > 0 && ( // Render title only if properties.length > 0
+                                    <div className="box-title">
+                                        <div className="text-subtitle text-primary">{t("featureproperties")}</div>
+                                        <h4 className="mt-4">{t("themostrecentestate")}</h4>
+                                    </div>
+                                )}
+                                <div className="swiper tf-latest-property" data-preview-lg={3} data-preview-md={2} data-preview-sm={2} data-space={30} data-loop="true">
+                                    <Swiper {...swiperOptions2} className="swiper-wrapper">
+                                        {propertiesList.map((property) => (
+                                            <SwiperSlide>
+                                                <PropertyBlog data={property} slide={true} />
+                                                
+                                            </SwiperSlide>
+                                        ))}
 
+                                    </Swiper>
+                                </div>
+                            </div>
+                        </section> */}
                     </div>
 
                 </Layout >

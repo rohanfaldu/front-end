@@ -6,8 +6,7 @@ import React, { useEffect, useState } from 'react';
 import Preloader from "../elements/Preloader";
 import { getData } from "../api/Helper";
 import { useTranslation } from "react-i18next";
-import noBannerImg from "../../public/images/banner/no-banner.png";
-import noAvatarImg from "../../public/images/avatar/user-image.png";
+import PropertyBlog from "../sections/PropertyBlog";
 export default function Recommended1() {
 	const [isTab, setIsTab] = useState(0)
 	const [isVisible, setIsVisible] = useState(true)
@@ -102,97 +101,13 @@ export default function Recommended1() {
 								</ul>
 								<div className="tab-content">
 									<div
-									// style={{ opacity: isVisible ? 1 : 0 }}
-									// className={selectTab == 1 ? "tab-pane fade show active" : "tab-pane fade"}
-									// id="viewAll"
-									// role="tabpanel"
 									>
 										<div className="row">
 											{properties?.length ? (
 												properties.map((property) => (
 													<div key={property.id} className="col-xl-4 col-lg-6 col-md-6">
 														{/* Render property card */}
-														<div className="homeya-box">
-															<div className="archive-top">
-																<Link href={`/property/${property.slug}`} className="images-group">
-																	<div className="images-style">
-																		{property.picture[0] ?
-																			<img src={property.picture[0]} alt="Property" />
-																			:
-																			<Image src={noBannerImg} alt="Property" />
-																		}
-																	</div>
-																	<div className="top">
-																		{property.transaction ? (
-																			<>
-																				<ul className="d-flex gap-8">
-																					<li className={`flag-tag style-1}`}>
-																						{property.transaction}
-																					</li>
-																				</ul>
-																			</>
-																		) : (<></>)}
-																		{/* <ul className="d-flex gap-4">
-																		<li className="box-icon w-32">
-																			<span className="icon icon-arrLeftRight" />
-																		</li>
-																		<li className="box-icon w-32">
-																			<span className="icon icon-heart" />
-																		</li>
-																		<li className="box-icon w-32">
-																			<span className="icon icon-eye" />
-																		</li>
-																	</ul> */}
-																	</div>
-																	<div className="bottom">
-																		<span className="flag-tag style-2">{property.type_details.title}</span>
-																	</div>
-																</Link>
-																<div className="content">
-																	<div className="h7 text-capitalize fw-7">
-																		<Link href={`/property/${property.slug}`} className="link">
-																			{property.title}
-																		</Link>
-																	</div>
-																	<div className="desc">
-																		<i className="fs-16 icon icon-mapPin" />
-																		<p>{[property?.district, property?.city, property?.state]
-																			.filter(Boolean)
-																			.join(', ')} </p>
-
-																	</div>
-																	<ul className="meta-list">
-																		<li className="item">
-																			<i className="icon icon-bed" />
-																			<span>{property.bedRooms === "0" ? '-' : `${property.bedRooms}`}</span>
-																		</li>
-																		<li className="item">
-																			<i className="icon icon-bathtub" />
-																			<span>{property.bathRooms === "0" ? '-' : `${property.bathRooms}`}</span>
-																		</li>
-																		<li className="item">
-																			<i className="icon icon-ruler" />
-																			<span>{property.size === null ? '-' : `${property.size}`}</span>
-																		</li>
-																	</ul>
-																</div>
-															</div>
-															<div className="archive-bottom d-flex justify-content-between align-items-center">
-																<div className="d-flex gap-8 align-items-center">
-																	<div className="avatar avt-40 round">
-																		{property.user_image ? 
-																			<img src={property.user_image} alt="Owner Avatar" /> 
-																		: 
-																			<Image src={noAvatarImg} alt="Owner Avatar" width={40} height={40} />
-																		}
-																	</div>
-																	<span>{property.user_name}</span>
-																</div>
-																<div className="d-flex align-items-center">
-																	<h6>{property.price + " " + property.currency}</h6>
-																</div>
-															</div>
-														</div>
+														<PropertyBlog data={property} slide={false} />
 													</div>
 												))
 											) : (
