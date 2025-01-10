@@ -15,7 +15,8 @@ import Preloader from "@/components/elements/Preloader";
 import "../../../components/error-popup/ErrorPopup.css";
 import ErrorPopup from "../../../components/error-popup/ErrorPopup.js";
 import SuccessPopup from "@/components/success-popup/SuccessPopup.js";
-
+import variablesList from "@/components/common/Variable";
+import { defaultLatlong } from '../common/Variable';
 export default function EditProperty({ params }) {
     const { slug } = params;
     const [loading, setLoading] = useState(false); // Loader state
@@ -485,8 +486,8 @@ export default function EditProperty({ params }) {
                     city_id: values.city_id,
                     district_id: values.districts_id,
                     neighborhood_id: values.neighborhood_id,
-                    latitude: values.latitude ? String(values.latitude) : "defaultLatlong.lat",
-                    longitude: values.longitude ? String(values.longitude) : "defaultLatlong.lng",
+                    latitude: values.latitude ? String(values.latitude) : defaultLatlong.lat,
+                    longitude: values.longitude ? String(values.longitude) : defaultLatlong.lng,
                     transaction: values.transaction_type,
                     type_id: values.property_type,
                     size: parseInt(values.size_sqft) ?? 0,
