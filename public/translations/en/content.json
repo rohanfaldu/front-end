@@ -299,5 +299,7 @@
     "serviceArea" : "Service Area",
      "error404" : "Error 404",
      "Oops!Thepageyouarelookingfordoesnotexist.":"Oops! The page you are looking for does not exist.",
-     "GoBacktoHome":"Go Back to Home"
+     "GoBacktoHome":"Go Back to Home",
+     "findpdeveloper":"Find Developer",
+     "findagency":"Find Agency"
 }

@@ -6991,6 +6991,21 @@ label {
   flex: 0 0 auto;
   width: 33%;
 }
+
+@media  (max-width: 768px) { /* Target mobile devices */
+  .wrap-inner-2 .col-md-6 {
+    flex: 0 0 auto;
+    width: 100%;
+  }
+  .wrapper-layout-3 .wrap-inner-2 {
+    padding: 30px;
+    width: 100%;
+    padding-bottom: 0;
+    height: calc(100vh - 80px);
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+}
 .wrapper-layout-3 .wrap-inner::-webkit-scrollbar {
   width: 8px;
 }
