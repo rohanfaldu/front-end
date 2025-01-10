@@ -42,11 +42,11 @@ export default function MapMarker({
             });
           },
           () => {
-            setCurrentLocation({ lat: variablesList.defaultLatlong.lat, lng: variablesList.defaultLatlong.lng }); // Default location
+            setCurrentLocation({ lat:33.5724032, lng: -7.6693941 }); // Default location
           }
         );
       } else {
-        setCurrentLocation({ lat: variablesList.defaultLatlong.lat, lng: variablesList.defaultLatlong.lng });
+        setCurrentLocation({ lat:33.5724032, lng: -7.6693941 });
       }
     } else if (latitude && longitude) {
       setCurrentLocation({ lat: Number(latitude), lng: Number(longitude) });
