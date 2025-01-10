@@ -238,7 +238,7 @@ export default function AgencyDetail({ params }) {
 											</ul>
 										</div>
 
-										<div className="single-property-element single-property-info">
+										{/* <div className="single-property-element single-property-info">
 											<div className="h7 title fw-7">{t("otherDetail")}</div>
 											<div className="row">
 												{agencyDetails?.credit !== null ? (
@@ -282,7 +282,7 @@ export default function AgencyDetail({ params }) {
 													</div>
 												) : ''}
 											</div>
-										</div>
+										</div> */}
 									</div>
 									<div className="col-lg-4">
 										<div className="widget-sidebar fixed-sidebar wrapper-sidebar-right">

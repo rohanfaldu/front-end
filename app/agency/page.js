@@ -222,7 +222,7 @@ export default function AgencyListing() {
 											<div className="homeya-box">
 												<div className="archive-top">
 													<Link
-														href={`/agency/${agencyUserData.id}`}
+														href={`/agency/${agencyUserData.user_id}`}
 														className="images-group"
 													>
 

@@ -222,7 +222,7 @@ export default function developerListing() {
                       <div className="homeya-box">
                         <div className="archive-top">
                           <Link
-                            href={`/developer/${developerUserData.id}`}
+                            href={`/developer/${developerUserData.user_id}`}
                             className="images-group"
                           >
 
