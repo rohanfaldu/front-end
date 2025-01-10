@@ -38,7 +38,7 @@ export default function AgencyListing() {
 		totalCount: 0,
 		totalPages: 0,
 		currentPage: variablesList.currentPage,
-		itemsPerPage: variablesList.itemsPerPage,
+		itemsPerPage: 9,
 	}); // Track pagination info
 	const [filters, setFilters] = useState({
 		title: '',
@@ -192,9 +192,9 @@ export default function AgencyListing() {
 
 														</div>
 													</div>
-													<div className="form-btn-fixed">
+													{/* <div className="form-btn-fixed">
 														<button className="tf-btn primary" href="#">{t("findagency")}</button>
-													</div>
+													</div> */}
 												</div>
 											</div>
 										</form>
