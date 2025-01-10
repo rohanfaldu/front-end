@@ -2,7 +2,7 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { GoogleMap, useJsApiLoader, Autocomplete } from '@react-google-maps/api';
 import Preloader from './Preloader';
-import { defaultLatlong } from '../common/Variable';
+import variablesList from "@/components/common/Variable";
 
 export default function MapMarker({
   isGeolocation,
@@ -42,11 +42,11 @@ export default function MapMarker({
             });
           },
           () => {
-            setCurrentLocation({ lat: defaultLatlong.lat, lng: defaultLatlong.lng }); // Default location
+            setCurrentLocation({ lat: variablesList.defaultLatlong.lat, lng: variablesList.defaultLatlong.lng }); // Default location
           }
         );
       } else {
-        setCurrentLocation({ lat: defaultLatlong.lat, lng: defaultLatlong.lng });
+        setCurrentLocation({ lat: variablesList.defaultLatlong.lat, lng: variablesList.defaultLatlong.lng });
       }
     } else if (latitude && longitude) {
       setCurrentLocation({ lat: Number(latitude), lng: Number(longitude) });
