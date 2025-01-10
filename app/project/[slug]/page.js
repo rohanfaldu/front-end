@@ -66,7 +66,7 @@ const swiperOptions2 = {
 	slidesPerView: 1,
 	loop: true,
 	spaceBetween: 30,
-	centeredSlides: true,
+	centeredSlides: false,
 	breakpoints: {
 		600: {
 			slidesPerView: 2,
