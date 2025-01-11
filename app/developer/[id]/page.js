@@ -68,7 +68,7 @@ const swiperOptions2 = {
     slidesPerView: 1,
     loop: true,
     spaceBetween: 30,
-    centeredSlides: true,
+    centeredSlides: false,
     breakpoints: {
         600: {
             slidesPerView: 2,
@@ -97,7 +97,6 @@ import { useTranslation } from "react-i18next";
 import { useSearchParams } from "next/navigation";
 export default function AgencyDetail({ params }) {
     const { id } = params;
-    console.log(id, ">>>>>>>>>>>>>> SLUG");
     const searchParams = useSearchParams();
     const projectId = searchParams.get("id");
     const [isAccordion, setIsAccordion] = useState(1)
@@ -136,7 +135,7 @@ export default function AgencyDetail({ params }) {
 
     // Translation hook
     const { t, i18n } = useTranslation();
-
+    console.log(developerDetails,'>>>>>>>>>>>>>>>> Developer Details');
     return (
         <>
             {loading ?
@@ -157,7 +156,7 @@ export default function AgencyDetail({ params }) {
                                                     </div>
                                                 </div>
                                             ) : ''}
-                                            {developerDetails.description !== null ? (
+                                            {developerDetails.description !== "" ? (
                                                 <>
                                                     <div className="h7 title fw-7">{t("description")}</div>
                                                     <p className="body-2 text-variant-1">{developerDetails.description}</p>
