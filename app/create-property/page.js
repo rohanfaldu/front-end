@@ -254,6 +254,7 @@ export default function CreateProperty() {
                 project_id: values.project_id ?? null,
                 address: values.address,
             };
+            
 
             console.log("Property Data:", propertyData); 
             const createPropertyInfo = await insertData("api/property/create", propertyData, true);
