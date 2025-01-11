@@ -22,7 +22,7 @@ export default function PropertyHalfmapList() {
 	const handleTab = (i) => {
 		setIsTab(i)
 	}
-	const { t } = useTranslation();
+	const { t, i18n } = useTranslation();
 	const [propertys, setPropertys] = useState([]); // Store properties for the current page
 	const [loading, setLoading] = useState(true); // Manage loading state
 	const [error, setError] = useState(null); // Manage error state
@@ -49,13 +49,13 @@ export default function PropertyHalfmapList() {
 	const fetchPropertys = async (page = 1, updatedFilters = {}) => {
 		setLoading(true);
 		try {
-			// Set the filters to the updated filters, defaulting to empty values if not provided
+			const lang = i18n.language;
 			const requestData = {
 				page,
+				lang,
 				limit: pagination.itemsPerPage,
 				...updatedFilters, // Spread the updated filters only (dynamic fields)
 			};
-
 			const response = await getData("api/property", requestData, true);
 			if (response.status) {
 				const { list, totalCount, totalPages, currentPage, property_meta_details, maxPriceSliderRange, property_types, cities } = response.data;
@@ -93,12 +93,6 @@ export default function PropertyHalfmapList() {
 	};
 
 	// Handle Amenities Change (Multi-Select)
-	const handleAmenitiesChange = (selectedAmenities) => {
-		setFilters({
-			...filters,
-			amenities_id: selectedAmenities,
-		});
-	};
 
 	const getChangedFilters = () => {
 		const changedFilters = {};
@@ -114,14 +108,9 @@ export default function PropertyHalfmapList() {
 		return changedFilters;
 	};
 	// Apply Filters Button
-	const applyFilters = () => {
-		const updatedFilters = getChangedFilters();  // Get only changed filters
-		fetchPropertys(1, updatedFilters);  // Fetch data with updated filters
-	};
-
 	useEffect(() => {
 		fetchPropertys(pagination.currentPage);
-	}, [pagination.currentPage]);
+	}, [pagination.currentPage, i18n.language]);
 
 	const handlePageChange = (page) => {
 		setPagination({ ...pagination, currentPage: page });

@@ -24,7 +24,7 @@ export default function ProjectHalfmapList() {
 	const handleTab = (i) => {
 		setIsTab(i)
 	}
-	const { t } = useTranslation();
+	const { t, i18n } = useTranslation();
 	const [projects, setProjects] = useState([]); // Store properties for the current page
 	const [loading, setLoading] = useState(true); // Manage loading state
 	const [error, setError] = useState(null); // Manage error state
@@ -53,9 +53,11 @@ export default function ProjectHalfmapList() {
 	const fetchProjects = async (page = 1, updatedFilters = {}) => {
 		setLoading(true);
 		try {
+			const lang = i18n.language;
 			// Set the filters to the updated filters, defaulting to empty values if not provided
 			const requestData = {
 				page,
+				lang,
 				limit: pagination.itemsPerPage,
 				...updatedFilters, // Spread the updated filters only (dynamic fields)
 			};
@@ -133,7 +135,7 @@ export default function ProjectHalfmapList() {
 
 	useEffect(() => {
 		fetchProjects(pagination.currentPage);
-	}, [pagination.currentPage]);
+	}, [pagination.currentPage, i18n.language]);
 
 	const handlePageChange = (page) => {
 		setPagination({ ...pagination, currentPage: page });
