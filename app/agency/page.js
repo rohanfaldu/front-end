@@ -255,7 +255,7 @@ export default function AgencyListing() {
 													<div className="content">
 														<div className="h7 text-capitalize fw-7">
 															<Link
-																href={`/agency/${agencyUserData.id}`}// Pass ID as query param
+																href={`/agency/${agencyUserData.user_id}`}// Pass ID as query param
 																className="link"
 															>
 																{agencyUserData.user_name}

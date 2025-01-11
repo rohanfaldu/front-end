@@ -255,7 +255,7 @@ export default function developerListing() {
                           <div className="content">
                             <div className="h7 text-capitalize fw-7">
                               <Link
-                                href={`/developer/${developerUserData.id}`}// Pass ID as query param
+                                href={`/developer/${developerUserData.user_id}`}// Pass ID as query param
                                 className="link"
                               >
                                 {developerUserData.user_name}
