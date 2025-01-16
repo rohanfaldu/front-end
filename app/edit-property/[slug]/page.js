@@ -74,6 +74,7 @@ export default function EditProperty({ params }) {
         property_type: Yup.string().required("Property type is required"),
         user_id: Yup.string().required("User is required"),
         size_sqft: Yup.string().required("Size is required"),
+        direction: Yup.string().required("Direction is required"),
     });
 
 
@@ -494,6 +495,7 @@ export default function EditProperty({ params }) {
                     currency_id: values.currency_id,
                     project_id: values.project_id ?? null,
                     address: values.address,
+                    direction: values.direction
                 };
 
                 console.log("Property Data:", propertyData);
@@ -595,6 +597,7 @@ export default function EditProperty({ params }) {
                                 project_id: propertyDetail?.project_id || "",
                                 user_id: propertyDetail?.user || "",
                                 size_sqft: propertyDetail?.size || "",
+                                direction: propertyDetail?.direction,
                                 ...propertyOfMetaNumberValue
                             }}
 
@@ -732,7 +735,7 @@ export default function EditProperty({ params }) {
                                                 </fieldset>
                                                 <fieldset className="box-fieldset">
                                                     <label htmlFor="description">Direction:<span>*</span></label>
-                                                    <Field as="select" name="direction" className="nice-select country-code"
+                                                    <Field as="select" name="direction" id="direction" className="nice-select country-code"
                                                         onChange={(e) => {
                                                             const selectedDirection = e.target.value;
                                                             setFieldValue("direction", selectedDirection);

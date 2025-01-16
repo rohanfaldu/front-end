@@ -10712,7 +10712,7 @@ tr {
 
 .swiper .swiper-slide .box-imgage-detail img{
   object-fit: cover;
-  height: 100% !important;
+  /* height: 100% !important; */
   width: 100%;
 }
 
@@ -10731,6 +10731,33 @@ tr {
   cursor: pointer;
   border-radius: 4px; /* Rounded corners */
   transition: all 0.2s ease-in-out;
+}
+
+.nav-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 45px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.prev-arrow {
+  left: 25px;
+}
+
+.next-arrow {
+  right: 25px;
+}
+
+.nav-arrow:hover {
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
 .pagination-container button.active {
@@ -10765,13 +10792,13 @@ tr {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 9999;
 }
 
 .modal-content-custom {
-  width: 700px;
+  /* width: 700px; */
   background: white;
-  padding: 20px;
+  padding: 20px 20px 20px 20px;
   border-radius: 10px;
   max-width: 90%;
   max-height: 90%;
@@ -10786,18 +10813,19 @@ tr {
 
 .close-button {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 5px;
+  right: 5px;
   background: #000;
   color: white;
   border: none;
   border-radius: 50%;
-  padding: 5px 10px;
+  padding: 2px 10px;
   cursor: pointer;
 }
 
 .custom-overlay{
   position: absolute;
+  overflow-x: hidden;
 }
 .list-action {
   display: flex;

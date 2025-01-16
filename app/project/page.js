@@ -50,6 +50,8 @@ export default function ProjectHalfmapList() {
 		amenities_id: [],
 	});
 
+	const lang = i18n.language;
+
 	const fetchProjects = async (page = 1, updatedFilters = {}) => {
 		setLoading(true);
 		try {
@@ -157,7 +159,7 @@ export default function ProjectHalfmapList() {
 				<section className="wrapper-layout-3">
 					<div className="wrap-sidebar">
 						<div className="flat-tab flat-tab-form widget-filter-search">
-							<div className="h7 title fw-7">Search</div>
+							<div className="h7 title fw-7">{t("search")}</div>
 
 							<div className="tab-content">
 								<div className="tab-pane fade active show" role="tabpanel">
@@ -174,7 +176,7 @@ export default function ProjectHalfmapList() {
 															value={filters.title}
 															onChange={handleFilterChange}
 															name="title"
-															placeholder="Search Title"
+															placeholder={t("searchtitle")}
 
 														/>
 													</div>
@@ -187,7 +189,7 @@ export default function ProjectHalfmapList() {
 																value={filters.description}
 																onChange={handleFilterChange}
 																name="description"
-																placeholder="Search Description"
+																placeholder={t("searchdescription")}
 
 															/>
 
@@ -201,7 +203,7 @@ export default function ProjectHalfmapList() {
 															value={filters.city}
 															onChange={handleFilterChange}
 														>
-															<option value="">Select city</option>
+															<option value="">{t("selectcity")}</option>
 															{cities.map((city) => (
 																<option key={city.id} value={city.id}>
 																	{city.city_name}
@@ -219,7 +221,7 @@ export default function ProjectHalfmapList() {
 															onChange={handleFilterChange}
 															disabled={!filters.city} // Disable until a city is selected
 														>
-															<option value="">Select district</option>
+															<option value="">{t("selectdistrict")}</option>
 															{districts.map((district) => (
 																<option key={district.id} value={district.id}>
 																	{district.title}
@@ -237,7 +239,7 @@ export default function ProjectHalfmapList() {
 															onChange={handleFilterChange}
 															disabled={!filters.district} // Disable until a district is selected
 														>
-															<option value="">Select neighbourhood</option>
+															<option value="">{t("selectneighbourhood")}</option>
 															{neighbourhoods.map((neighbourhood) => (
 																<option key={neighbourhood.id} value={neighbourhood.id}>
 																	{neighbourhood.title}
@@ -272,7 +274,7 @@ export default function ProjectHalfmapList() {
 													<div className="form-style btn-show-advanced" onClick={handleToggle} style={{ display: `${isToggled ? "none" : "block"}` }}>
 														<a className="filter-advanced pull-right">
 															<span className="icon icon-faders" />
-															<span className="text-advanced">Show Advanced</span>
+															<span className="text-advanced">{t("showadvance")}</span>
 														</a>
 													</div>
 													<div className="form-style wd-amenities" style={{ display: `${isToggled ? "block" : "none"}` }}>
@@ -335,7 +337,7 @@ export default function ProjectHalfmapList() {
 													<div className="form-style btn-hide-advanced" onClick={handleToggle} style={{ display: `${isToggled ? "block" : "none"}` }}>
 														<a className="filter-advanced pull-right">
 															<span className="icon icon-faders" />
-															<span className="text-advanced">Hide Advanced</span>
+															<span className="text-advanced">{t("hideadvance")}</span>
 														</a>
 													</div>
 													<div className="form-btn-fixed">
@@ -351,7 +353,7 @@ export default function ProjectHalfmapList() {
 					</div >
 					<div className="wrap-inner">
 						<div className="box-title-listing style-1">
-							<h5>Project listing</h5>
+							<h5>{t("projectlisting")}</h5>
 							<div className="box-filter-tab">
 								{/* <ul className="nav-tab-filter" role="tablist">
 									<li className="nav-tab-item" onClick={() => handleTab(1)}>
@@ -376,7 +378,9 @@ export default function ProjectHalfmapList() {
 							) : error ? (
 								<p>{error}</p>
 							) : projects.length === 0 ? (
-								<p>Not Found</p>
+								<div style={{ textAlign: "center"}}>
+									<img src="/images/not-found/item-not-found.png" alt="No projects found" style={{ height: "300px"}}/>
+								</div>
 							) : (
 								<div className="row">
 									{projects.map((project) => (

@@ -64,6 +64,7 @@ export default function CreateProperty() {
         transaction_type: Yup.string().required("Transaction type is required"),
         property_type: Yup.string().required("Property type is required"),
         size_sqft: Yup.string().required("Size is required"),
+        direction: Yup.string().required("Direction is required"),
     });
 
 
@@ -253,6 +254,7 @@ export default function CreateProperty() {
                 currency_id: values.currency_id,
                 project_id: values.project_id ?? null,
                 address: values.address,
+                direction: values.direction
             };
 
             console.log("Property Data:", propertyData); 
@@ -319,6 +321,7 @@ export default function CreateProperty() {
                     transaction_type: "",
                     property_type: "",
                     size_sqft: "",
+                    direction:""
                  }}
                 validationSchema={validationSchema}
                 onSubmit={handleSubmit}
@@ -401,6 +404,7 @@ export default function CreateProperty() {
                                     <SelectOptionFields
                                         name="direction"
                                         label="Direction:"
+                                        id="direction"
                                         required={false}
                                         optionText="Select Direction"
                                         onChange={(e) => {

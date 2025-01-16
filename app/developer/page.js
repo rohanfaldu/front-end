@@ -156,7 +156,7 @@ export default function developerListing() {
         <section className="wrapper-layout-3">
           <div className="wrap-sidebar">
             <div className="flat-tab flat-tab-form widget-filter-search">
-              <div className="h7 title fw-7">Search</div>
+              <div className="h7 title fw-7">{t("search")}</div>
 
               <div className="tab-content">
                 <div className="tab-pane fade active show" role="tabpanel">
@@ -173,7 +173,7 @@ export default function developerListing() {
                               value={filters.title}
                               onChange={handleFilterChange}
                               name="title"
-                              placeholder="Search Title"
+                              placeholder={t("searchtitle")}
 
                             />
                           </div>
@@ -186,7 +186,7 @@ export default function developerListing() {
                                 value={filters.description}
                                 onChange={handleFilterChange}
                                 name="description"
-                                placeholder="Search Description"
+                                placeholder={t("searchdescription")}
 
                               />
 
@@ -205,7 +205,7 @@ export default function developerListing() {
           </div >
           <div className="wrap-inner-55">
             <div className="box-title-listing style-1">
-              <h5>Developer listing</h5>
+              <h5>{t("developerlisting")}</h5>
             </div>
             <div className="tab-content">
 

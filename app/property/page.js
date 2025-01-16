@@ -46,6 +46,8 @@ export default function PropertyHalfmapList() {
 		type_id: ''
 	});
 
+	const lang = i18n.language;
+
 	const fetchPropertys = async (page = 1, updatedFilters = {}) => {
 		setLoading(true);
 		try {
@@ -54,6 +56,7 @@ export default function PropertyHalfmapList() {
 				page,
 				lang,
 				limit: pagination.itemsPerPage,
+				lang,
 				...updatedFilters, // Spread the updated filters only (dynamic fields)
 			};
 			const response = await getData("api/property", requestData, true);
@@ -133,7 +136,7 @@ export default function PropertyHalfmapList() {
 				<section className="wrapper-layout-3">
 					<div className="wrap-sidebar">
 						<div className="flat-tab flat-tab-form widget-filter-search">
-							<div className="h7 title fw-7">Search</div>
+							<div className="h7 title fw-7">{t("search")}</div>
 							<ul className="nav-tab-form" role="tablist">
 								<TabNav />
 							</ul>
@@ -152,7 +155,7 @@ export default function PropertyHalfmapList() {
 															value={filters.title}
 															onChange={handleFilterChange}
 															name="title"
-															placeholder="Search Title"
+															placeholder={t("searchtitle")}
 
 														/>
 													</div>
@@ -165,7 +168,7 @@ export default function PropertyHalfmapList() {
 																value={filters.description}
 																onChange={handleFilterChange}
 																name="description"
-																placeholder="Search Description"
+																placeholder={t("searchdescription")}
 
 															/>
 
@@ -181,7 +184,7 @@ export default function PropertyHalfmapList() {
 															value={filters.city} // Two-way binding with filters.type_id
 															onChange={handleFilterChange} // Handle dropdown change
 														>
-															<option value="">Select city</option> {/* Placeholder */}
+															<option value="">{t("selectcity")}</option> {/* Placeholder */}
 															{/* {city.map((city) => ( // Dynamic dropdown options
 																<option key={city.id} value={city.id}>
 																	{city.city_name}
@@ -198,7 +201,7 @@ export default function PropertyHalfmapList() {
 															value={filters.city} // Two-way binding with filters.type_id
 															onChange={handleFilterChange} // Handle dropdown change
 														>
-															<option value="">Select distric</option> {/* Placeholder */}
+															<option value="">{t("selectdistrict")}</option> {/* Placeholder */}
 															{/* {distric.map((distric) => ( // Dynamic dropdown options
 																<option key={distric.id} value={property.id}>
 																	{distric.title}
@@ -215,7 +218,7 @@ export default function PropertyHalfmapList() {
 															value={filters.city} // Two-way binding with filters.type_id
 															onChange={handleFilterChange} // Handle dropdown change
 														>
-															<option value="">Select neighbourhood</option> {/* Placeholder */}
+															<option value="">{t("selectneighbourhood")}</option> {/* Placeholder */}
 															{/* {neighbourhood.map((neighbourhood) => ( // Dynamic dropdown options
 																<option key={neighbourhood.id} value={neighbourhood.id}>
 																	{neighbourhood.title}
@@ -225,7 +228,7 @@ export default function PropertyHalfmapList() {
 													</div>
 
 													<div className="form-style">
-														<label className="title-select">Property Type</label>
+														<label className="title-select">{t("propertytype")}</label>
 														<select
 															className="form-control"
 															id="propertyType"
@@ -233,7 +236,7 @@ export default function PropertyHalfmapList() {
 															value={filters.type_id} // Two-way binding with filters.type_id
 															onChange={handleFilterChange} // Handle dropdown change
 														>
-															<option value="">Select Property Type</option> {/* Placeholder */}
+															<option value="">{t("selectpropertytype")}</option> {/* Placeholder */}
 															{propertyType.map((property) => ( // Dynamic dropdown options
 																<option key={property.id} value={property.id}>
 																	{property.title}
@@ -267,7 +270,7 @@ export default function PropertyHalfmapList() {
 													<div className="form-style btn-show-advanced" onClick={handleToggle} style={{ display: `${isToggled ? "none" : "block"}` }}>
 														<a className="filter-advanced pull-right">
 															<span className="icon icon-faders" />
-															<span className="text-advanced">Show Advanced</span>
+															<span className="text-advanced">{t("showadvance")}</span>
 														</a>
 													</div>
 													<div className="form-style wd-amenities" style={{ display: `${isToggled ? "block" : "none"}` }}>
@@ -299,7 +302,7 @@ export default function PropertyHalfmapList() {
 													<div className="form-style btn-hide-advanced" onClick={handleToggle} style={{ display: `${isToggled ? "block" : "none"}` }}>
 														<a className="filter-advanced pull-right">
 															<span className="icon icon-faders" />
-															<span className="text-advanced">Hide Advanced</span>
+															<span className="text-advanced">{t("hideadvance")}</span>
 														</a>
 													</div>
 													<div className="form-btn-fixed">
@@ -315,7 +318,7 @@ export default function PropertyHalfmapList() {
 					</div >
 					<div className="wrap-inner">
 						<div className="box-title-listing style-1">
-							<h5>Property listing</h5>
+							<h5>{t("propertylisting")}</h5>
 							{/* <div className="box-filter-tab">
 								<ul className="nav-tab-filter" role="tablist">
 									<li className="nav-tab-item" onClick={() => handleTab(1)}>
@@ -339,7 +342,9 @@ export default function PropertyHalfmapList() {
 							) : error ? (
 								<p>{error}</p>
 							) : propertys.length === 0 ? (
-								<p>Not Found</p>
+								<div style={{ textAlign: "center"}}>
+									<img src="/images/not-found/item-not-found.png" alt="No projects found" style={{ height: "300px"}}/>
+								</div>
 							) : (
 
 								<div className="row">

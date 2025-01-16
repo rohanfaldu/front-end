@@ -54,37 +54,32 @@ const swiperOptions = (projectDetails) => ({
 		: {}, // No breakpoints for single image
 });
 
-const swiperOptions2 = {
+const swiperOptions2 = (projectDetails) => ({
+	spaceBetween: 10,
+    slidesPerView: 1,
+	loop: projectDetails?.picture.length > 1,
 	modules: [Autoplay, Pagination, Navigation],
-	autoplay: {
-		delay: 2000,
-		disableOnInteraction: false,
-		reverseDirection: false,
-	},
-
-	speed: 3000,
-	slidesPerView: 1,
-	loop: true,
-	spaceBetween: 30,
-	centeredSlides: false,
-	breakpoints: {
-		600: {
-			slidesPerView: 2,
-			spaceBetween: 20,
-			centeredSlides: false,
-		},
-		991: {
-			slidesPerView: 3,
-			spaceBetween: 20,
-			centeredSlides: false,
-		},
-
-		1550: {
-			slidesPerView: 3,
-			spaceBetween: 30,
-		},
-	},
-}
+	autoplay: projectDetails?.picture.length > 1
+		? {
+			delay: 2000,
+			disableOnInteraction: false,
+		}
+		: false,
+	speed: 2000,
+    navigation: projectDetails?.picture.length > 1
+		? { // Enable navigation buttons only for multiple images
+			clickable: true,
+			nextEl: ".nav-prev-location",
+			prevEl: ".nav-next-location",
+		}
+		: false, // Hide navigation buttons for single image
+    pagination: projectDetails?.picture.length > 1
+		? { // Enable pagination only for multiple images
+			el: ".swiper-pagination1",
+			clickable: true,
+		}
+		: false, // Hide pagination for single image
+});
 
 import PropertyMap from "@/components/elements/PropertyMap"
 import MapMarker from "@/components/elements/MapMarker"
@@ -96,7 +91,7 @@ import Link from "next/link"
 import Video from "@/components/elements/Video"
 import axios from 'axios';
 import { useParams } from "react-router-dom"
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Preloader from '@/components/elements/Preloader';
 import { useTranslation } from "react-i18next";
@@ -112,7 +107,9 @@ export default function PropertyDetailsV1({ params }) {
 	const [isAccordion, setIsAccordion] = useState(1);
 	const [isOpen, setIsOpen] = useState(false); // State for controlling modal
 	const [currentImage, setCurrentImage] = useState(null); // Current image in the modal
+	const [currentImageIndex, setCurrentImageIndex] = useState(0);
 	const { t, i18n } = useTranslation();
+	const modalSwiperRef = useRef(null);
 	useEffect(() => {
 		console.log(properties);
 		const fetchData = async () => {
@@ -197,6 +194,7 @@ export default function PropertyDetailsV1({ params }) {
 		console.log('image');
 		console.log(image);
 		setCurrentImage(image);
+		setCurrentImageIndex(image);
 		setIsOpen(true);
 	};
 
@@ -208,63 +206,82 @@ export default function PropertyDetailsV1({ params }) {
 	return (
 		<>
 
-			<Layout headerStyle={1} footerStyle={1}>
+			<Layout headerStyle={isOpen ? 0 : 1} footerStyle={1}>
 				<div className={isOpen ? "custom-overlay" : ""}>
-					<section className="flat-location flat-slider-detail-v1">
-						<div className="swiper tf-sw-location">
-							<Swiper {...swiperOptions(properties)} className="swiper-wrapper">
-								{(properties?.picture.length > 0 ? properties.picture : ["/images/banner/no-banner.png"]).map((item, index) => (
-									<SwiperSlide key={index}>
-										<div
-											onClick={() => openPopup(item)}
-											className={`box-imgage-detail d-block property-image ${properties?.picture.length === 1 ? "full-screen" : ""
-												}`}
-										>
-											<img src={item} alt="img-property" />
-										</div>
-									</SwiperSlide>
-								))}
-								{/* <SwiperSlide>
-									<Link href="/images/banner/banner-property-1.jpg" data-fancybox="gallery" className="box-imgage-detail d-block">
-										<img src="/images/banner/banner-property-1.jpg" alt="img-property" />
-									</Link>
-								</SwiperSlide> */}
-							</Swiper>
-							{isOpen && (
-								<div className="modal-overlay-custom" onClick={closePopup}>
-									<div
-										className="modal-content-custom"
-										onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
-									>
-										<img src={currentImage} alt="img-property-large" />
-										<button onClick={closePopup} className="close-button">
-											X
-										</button>
-									</div>
-								</div>
-							)}
-							{properties?.picture.length > 2 && (
-								<div className="box-navigation">
-									<div className="navigation swiper-nav-next nav-next-location">
-										<span className="icon icon-arr-l" />
-									</div>
-									<div className="navigation swiper-nav-prev nav-prev-location">
-										<span className="icon icon-arr-r" />
-									</div>
-								</div>
-							)}
-							{/* <div className="icon-box">
-                  				<Link href="#" className="item"><span className="icon icon-map-trifold"></span></Link>
-								  {properties.picture.length > 0 && properties.picture.map((item, index) => (
-										<Link  href={item} className="item active" data-fancybox="gallery">
-										<span className="icon icon-images"></span>
-									</Link>
-								))}
-								
-							</div> */}
-						</div>
-						{/* <img src={properties.picture?properties.picture:"/images/banner/banner-property-1.jpg"} alt="img-property" className="property-image" /> */}
-					</section>
+				<section className="flat-location flat-slider-detail-v1">
+    <div className="swiper tf-sw-location">
+        {/* Main Image Slider */}
+        <Swiper {...swiperOptions(properties)} className="swiper-wrapper">
+            {(properties?.picture.length > 0 ? properties.picture : ["/images/banner/no-banner.png"]).map((item, index) => (
+                <SwiperSlide key={index}>
+                    <div
+                        onClick={() => openPopup(index)} // Pass the clicked image index
+                        className={`box-imgage-detail d-block property-image ${properties?.picture.length === 1 ? "full-screen" : ""}`}
+                    >
+                        <img src={item} alt="img-property" />
+                    </div>
+                </SwiperSlide>
+            ))}
+        </Swiper>
+
+        {/* Modal for Enlarged Image Slider */}
+        {isOpen && (
+            <div className="modal-overlay-custom" onClick={closePopup}>
+			<div
+				className="modal-content-custom"
+				onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
+			>
+				{properties?.picture.length > 1 && (
+					<>
+						<button
+							className="nav-arrow prev-arrow"
+							onClick={() => modalSwiperRef.current?.slidePrev()}
+						>
+							&#8249;
+						</button>
+						<button
+							className="nav-arrow next-arrow"
+							onClick={() => modalSwiperRef.current?.slideNext()}
+						>
+							&#8250;
+						</button>
+					</>
+				)}
+				<Swiper
+					{...swiperOptions2(properties)}
+					initialSlide={currentImageIndex}
+					className="swiper-wrapper"
+					onSwiper={(swiper) => (modalSwiperRef.current = swiper)} // Reference the modal swiper
+				>
+					{properties.picture.map((item, index) => (
+						<SwiperSlide key={index}>
+							<div className="box-imgage-detail">
+								<img src={item} alt={`property-large-${index}`} />
+							</div>
+						</SwiperSlide>
+					))}
+				</Swiper>
+				{/* <button onClick={closePopup} className="close-button">
+					X
+				</button> */}
+			</div>
+		</div>
+        )}
+
+        {/* Navigation for Main Slider */}
+        {properties?.picture.length > 2 && (
+            <div className="box-navigation">
+                <div className="navigation swiper-nav-next nav-next-location">
+                    <span className="icon icon-arr-l" />
+                </div>
+                <div className="navigation swiper-nav-prev nav-prev-location">
+                    <span className="icon icon-arr-r" />
+                </div>
+            </div>
+        )}
+    </div>
+</section>
+
 					<section className="flat-section pt-0 flat-property-detail">
 						<div className="container">
 							<div className="header-property-detail">
@@ -420,17 +437,17 @@ export default function PropertyDetailsV1({ params }) {
 														<div className="form-wg group-ip">
 															<fieldset>
 																<label className="sub-ip">{t("name")}</label>
-																<input type="text" className="form-control" name="text" placeholder="Your name" required />
+																<input type="text" className="form-control" name="text" placeholder={t("yourname")} required />
 															</fieldset>
 															<fieldset>
 																<label className="sub-ip">{t("email")}</label>
-																<input type="email" className="form-control" name="email" placeholder="Your email" required />
+																<input type="email" className="form-control" name="email" placeholder={t("youremail")} required />
 															</fieldset>
 														</div>
 
 														<fieldset className="form-wg">
 															<label className="sub-ip">{t("review")}</label>
-															<textarea id="comment-message" name="message" rows={4} tabIndex={4} placeholder="Write comment " aria-required="true" defaultValue={""} />
+															<textarea id="comment-message" name="message" rows={4} tabIndex={4} placeholder={t("writecomment")} aria-required="true" defaultValue={""} />
 														</fieldset>
 														<button className="form-wg tf-btn primary" name="button" type="button">
 															<span>{t("postcomment")}</span>

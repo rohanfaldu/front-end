@@ -117,7 +117,7 @@ export default function Recommended1() {
 									</div>
 								</div>
 								<div className="text-center">
-									<Link href="/property" className="tf-btn primary size-1">View All Properties</Link>
+									<Link href="/property" className="tf-btn primary size-1">{t("viewallproperties")}</Link>
 								</div>
 							</div>
 						</div>

@@ -9,30 +9,30 @@ const toCapitalCase = (str) => {
 
 const swiperOptions = (projectDetails) => ({
 	modules: [Autoplay, Pagination, Navigation],
-	autoplay: projectDetails?.picture.length > 1
+	autoplay: projectDetails?.picture?.length > 1
 		? {
 			delay: 2000,
 			disableOnInteraction: false,
 		}
 		: false, // Disable autoplay for single image
 	speed: 2000,
-	navigation: projectDetails?.picture.length > 1
+	navigation: projectDetails?.picture?.length > 1
 		? { // Enable navigation buttons only for multiple images
 			clickable: true,
 			nextEl: ".nav-prev-location",
 			prevEl: ".nav-next-location",
 		}
 		: false, // Hide navigation buttons for single image
-	pagination: projectDetails?.picture.length > 1
+	pagination: projectDetails?.picture?.length > 1
 		? { // Enable pagination only for multiple images
 			el: ".swiper-pagination1",
 			clickable: true,
 		}
 		: false, // Hide pagination for single image
 	slidesPerView: 1,
-	loop: projectDetails?.picture.length > 1, // Disable loop for single image
-	spaceBetween: projectDetails?.picture.length > 1 ? 20 : 0, // No spacing for single image
-	centeredSlides: projectDetails?.picture.length > 1, // Center slide for single image
+	loop: projectDetails?.picture?.length > 1, // Disable loop for single image
+	spaceBetween: projectDetails?.picture?.length > 1 ? 20 : 0, // No spacing for single image
+	centeredSlides: projectDetails?.picture?.length > 1, // Center slide for single image
 	breakpoints: projectDetails?.picture.length > 1
 		? { // Enable breakpoints only for multiple images
 			600: {
@@ -86,6 +86,33 @@ const swiperOptions2 = {
 	},
 }
 
+
+const swiperOptions3 = (projectDetails) => ({
+	spaceBetween: 10,
+    slidesPerView: 1,
+	loop: projectDetails?.picture?.length > 1,
+	modules: [Autoplay, Pagination, Navigation],
+	autoplay: projectDetails?.picture?.length > 1
+		? {
+			delay: 2000,
+			disableOnInteraction: false,
+		}
+		: false,
+	speed: 2000,
+    navigation: projectDetails?.picture?.length > 1
+		? { // Enable navigation buttons only for multiple images
+			clickable: true,
+			nextEl: ".nav-prev-location",
+			prevEl: ".nav-next-location",
+		}
+		: false, // Hide navigation buttons for single image
+    pagination: projectDetails?.picture?.length > 1
+		? { // Enable pagination only for multiple images
+			el: ".swiper-pagination1",
+			clickable: true,
+		}
+		: false, // Hide pagination for single image
+});
 import PropertyMap from "@/components/elements/PropertyMap"
 import MapMarker from "@/components/elements/MapMarker"
 import RangeSlider from "@/components/elements/RangeSlider"
@@ -96,7 +123,7 @@ import Link from "next/link"
 import Video from "@/components/elements/Video"
 import axios from 'axios';
 import { useParams } from "react-router-dom"
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Preloader from '@/components/elements/Preloader';
 import { useTranslation } from "react-i18next";
@@ -112,6 +139,9 @@ export default function ProjectDetailsView({ params }) {
 	const [isOpen, setIsOpen] = useState(false);
 	const [videoUrl, setVideoUrl] = useState("");
 	const [properties, setProperties] = useState([]);
+	const [currentImageIndex, setCurrentImageIndex] = useState(0);
+	const modalSwiperRef = useRef(null);
+	
 	const [currentImage, setCurrentImage] = useState(null); // Current image in the modal
 	const fetchProjectsDetails = async () => {
 		setLoading(true); // Start loading
@@ -176,6 +206,7 @@ export default function ProjectDetailsView({ params }) {
 		console.log('image');
 		console.log(image);
 		setCurrentImage(image);
+		setCurrentImageIndex(image);
 		setIsOpen(true);
 	};
 
@@ -186,7 +217,7 @@ export default function ProjectDetailsView({ params }) {
 	return (
 		<>
 
-			<Layout headerStyle={1} footerStyle={1}>
+			<Layout headerStyle={isOpen ? 0 : 1} footerStyle={1}>
 				<div className={isOpen ? "custom-overlay" : ""}>
 					<section className="flat-location flat-slider-detail-v1">
 						<div className="swiper tf-sw-location">
@@ -194,9 +225,8 @@ export default function ProjectDetailsView({ params }) {
 								{(projectDetails?.picture.length > 0 ? projectDetails.picture : ["/images/banner/no-banner.png"]).map((item, index) => (
 									<SwiperSlide key={index}>
 										<div
-											onClick={() => openPopup(item)}
-											className={`box-imgage-detail d-block property-image ${projectDetails?.picture.length === 1 ? "full-screen" : ""
-												}`}
+											onClick={() => openPopup(index)} // Pass the clicked image index
+                        					className={`box-imgage-detail d-block property-image ${projectDetails?.picture.length === 1 ? "full-screen" : ""}`}
 										>
 											<img src={item} alt="img-property" />
 										</div>
@@ -209,10 +239,36 @@ export default function ProjectDetailsView({ params }) {
 										className="modal-content-custom"
 										onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
 									>
-										<img src={currentImage} alt="img-property-large" />
-										<button onClick={closePopup} className="close-button">
-											X
-										</button>
+										{projectDetails?.picture.length > 1 && (
+															<>
+																<button
+																	className="nav-arrow prev-arrow"
+																	onClick={() => modalSwiperRef.current?.slidePrev()}
+																>
+																	&#8249;
+																</button>
+																<button
+																	className="nav-arrow next-arrow"
+																	onClick={() => modalSwiperRef.current?.slideNext()}
+																>
+																	&#8250;
+																</button>
+															</>
+														)}
+														<Swiper
+															{...swiperOptions3(properties)}
+															initialSlide={currentImageIndex}
+															className="swiper-wrapper"
+															onSwiper={(swiper) => (modalSwiperRef.current = swiper)} // Reference the modal swiper
+														>
+															{projectDetails.picture.map((item, index) => (
+																<SwiperSlide key={index}>
+																	<div className="box-imgage-detail">
+																		<img src={item} alt={`property-large-${index}`} />
+																	</div>
+																</SwiperSlide>
+															))}
+														</Swiper>
 									</div>
 								</div>
 							)}
@@ -820,11 +876,11 @@ export default function ProjectDetailsView({ params }) {
 														<div className="form-wg group-ip">
 															<fieldset>
 																<label className="sub-ip">{t("name")}</label>
-																<input type="text" className="form-control" name="text" placeholder="Your name" required />
+																<input type="text" className="form-control" name="text" placeholder={t("yourname")} required />
 															</fieldset>
 															<fieldset>
 																<label className="sub-ip">{t("email")}</label>
-																<input type="email" className="form-control" name="email" placeholder="Your email" required />
+																<input type="email" className="form-control" name="email" placeholder={t("youremail")} required />
 															</fieldset>
 														</div>
 														{/* <fieldset className="form-wg d-flex align-items-center gap-8">
@@ -833,7 +889,7 @@ export default function ProjectDetailsView({ params }) {
 														</fieldset> */}
 														<fieldset className="form-wg">
 															<label className="sub-ip">{t("review")}</label>
-															<textarea id="comment-message" name="message" rows={4} tabIndex={4} placeholder="Write comment " aria-required="true" defaultValue={""} />
+															<textarea id="comment-message" name="message" rows={4} tabIndex={4} placeholder={t("writecomment")} aria-required="true" defaultValue={""} />
 														</fieldset>
 														<button className="form-wg tf-btn primary" name="button" type="button">
 															<span>{t("postcomment")}</span>
