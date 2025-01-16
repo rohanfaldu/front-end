@@ -164,7 +164,7 @@ export default function AgencyDetail({ params }) {
                                             ) : ''}
                                         </div>
                                         <div className="single-property-element single-property-overview">
-                                            <div className="h7 title fw-7">Social Information</div>
+                                            <div className="h7 title fw-7">{t("socialinformation")}</div>
                                             <ul className="info-box">
                                                 {developerDetails.facebook_link !== null ? (
                                                     <li className="item">

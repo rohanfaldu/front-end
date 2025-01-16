@@ -156,7 +156,7 @@ export default function AgencyListing() {
 				<section className="wrapper-layout-3">
 					<div className="wrap-sidebar">
 						<div className="flat-tab flat-tab-form widget-filter-search">
-							<div className="h7 title fw-7">Search</div>
+							<div className="h7 title fw-7">{t("search")}</div>
 
 							<div className="tab-content">
 								<div className="tab-pane fade active show" role="tabpanel">
@@ -173,7 +173,7 @@ export default function AgencyListing() {
 															value={filters.title}
 															onChange={handleFilterChange}
 															name="title"
-															placeholder="Search Title"
+															placeholder={t("searchtitle")}
 
 														/>
 													</div>
@@ -186,7 +186,7 @@ export default function AgencyListing() {
 																value={filters.description}
 																onChange={handleFilterChange}
 																name="description"
-																placeholder="Search Description"
+																placeholder={t("searchdescription")}
 
 															/>
 
@@ -205,7 +205,7 @@ export default function AgencyListing() {
 					</div >
 					<div className="wrap-inner-55">
 						<div className="box-title-listing style-1">
-							<h5>Agency listing</h5>
+							<h5>{t("agencylisting")}</h5>
 						</div>
 						<div className="tab-content">
 
@@ -214,7 +214,9 @@ export default function AgencyListing() {
 							) : error ? (
 								<p>{error}</p>
 							) : agencyList.length === 0 ? (
-								<p>Not Found</p>
+								<div style={{ textAlign: "center"}}>
+									<img src="/images/not-found/item-not-found.png" alt="No projects found" style={{ height: "300px"}}/>
+								</div>
 							) : (
 								<div className="row">
 									{agencyList.map((agencyUserData) => (
