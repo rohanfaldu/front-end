@@ -2720,6 +2720,14 @@ label {
   color: #ffffff;
   border-color: #00a8c1;
 }
+
+.tf-btn.primary-1 {
+  background-color: #ffffff;
+  color: #00a8c1;
+  border-color: #00a8c1;
+}
+
+
 .tf-btn.primary:hover {
   background-color: #045c8d;
 }
@@ -4117,6 +4125,20 @@ label {
   background-color: #00a8c1;
   color: #ffffff;
   border-color: #00a8c1;
+}
+
+.liked{
+  background-color: #00a8c1;
+  color: #ffffff;
+  border-color: #00a8c1;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  height: 40px;
+  width: 40px;
 }
 
 /*------------ hover ---------------- */
@@ -6955,7 +6977,7 @@ label {
   height: 100%;
 }
 .wrapper-layout-3 .wrap-sidebar {
-  height: calc(100vh - 80px);
+  height: calc(95vh - 80px);
   width: 23.3%;
   padding-bottom: 80px;
   overflow-x: hidden;
@@ -10829,7 +10851,7 @@ tr {
 }
 .list-action {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   gap: 10px;
 }
 
@@ -10916,3 +10938,23 @@ footer {
 .custom-modal-content button {
   margin: 10px;
 } 
+
+.city-dropdown {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #ccc;
+  max-height: 200px;
+  overflow-y: auto;
+  background-color: #fff;
+  z-index: 1000;
+}
+
+.city-option {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.city-option:hover {
+  background-color: #f0f0f0;
+}

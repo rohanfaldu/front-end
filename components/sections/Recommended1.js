@@ -103,17 +103,23 @@ export default function Recommended1() {
 									<div
 									>
 										<div className="row">
-											{properties?.length ? (
-												properties.map((property) => (
+											{properties?.filter(property => property.status)?.length ? (
+												properties.filter(property => property.status).map((property) => (
 													<div key={property.id} className="col-xl-4 col-lg-6 col-md-6">
-														{/* Render property card */}
 														<PropertyBlog data={property} slide={false} />
 													</div>
 												))
 											) : (
-												<p className="note body-1 text-center">{t("nodatafound")}</p>
+												<div style={{ textAlign: "center" }}>
+													<img 
+														src="/images/not-found/item-not-found.png" 
+														alt="No projects found" 
+														style={{ height: "300px" }} 
+													/>
+												</div>
 											)}
 										</div>
+
 									</div>
 								</div>
 								<div className="text-center">

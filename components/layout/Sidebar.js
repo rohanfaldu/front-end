@@ -119,6 +119,12 @@ export default function Sidebar() {
 						<Link className="nav-menu-link" href="/my-profile"><span className="icon icon-profile" /> My Profile</Link>
 					</li>
 					*/}
+
+					<li className={`nav-menu-item ${pathname === '/liked-properties' ? 'active' : ''}`}>
+						<Link className="nav-menu-link" href="/liked-properties">
+							<img src={'/images/logo/thumbs-up-black.svg'} className="icon" style={{ height: "24px" }}/> Liked Properties
+						</Link>
+					</li>
 					<li className={`nav-menu-item ${pathname === '/' ? 'active' : ''}`}>
 						<Link className="nav-menu-link" onClick={handleLogout} href="/"><span className="icon icon-sign-out" /> Logout</Link>
 					</li>
