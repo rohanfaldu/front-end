@@ -21,7 +21,7 @@ export default function Breadcrumb({ breadcrumbTitle }) {
 	return (
 		<>
 
-			<section className="flat-title-page style-2">
+			<section className="flat-title-page style-2 cover-set-image" style={{backgroundImage: `url(${breadcrumbTitle?.cover})`}}>
 				<div className="container">
 					<ul className="breadcrumb">
 						{/* <li><Link href="/">Home</Link></li>
@@ -37,7 +37,7 @@ export default function Breadcrumb({ breadcrumbTitle }) {
 							</li>
 						))} */}
 					</ul>
-					<h2 className="text-center">{breadcrumbTitle}</h2>
+					<h2 className="text-center">{breadcrumbTitle?.full_name}</h2>
 					<ul className="breadcrumb">
 
 

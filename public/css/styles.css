@@ -4479,6 +4479,13 @@ label {
   padding: 85px 0px 85px;
   background-color: #f7f7f7;
 }
+
+.cover-set-image{
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
 .flat-title-page h2 {
   text-align: center;
   color: #161e2d;

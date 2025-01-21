@@ -141,7 +141,7 @@ export default function AgencyDetail({ params }) {
             {loading ?
                 <Preloader />
                 :
-                <Layout headerStyle={1} footerStyle={1} breadcrumbTitle={developerDetails?.full_name}>
+                <Layout headerStyle={1} footerStyle={1} breadcrumbTitle={developerDetails}>
                     <div>
                         <section className="flat-section pt-10 flat-property-detail">
                             <div className="container">

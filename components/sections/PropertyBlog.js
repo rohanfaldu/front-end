@@ -79,9 +79,9 @@ export default function PropertyBlog(propertyData, slide){
                                         </li>
                                     </ul>
                                     <ul className="d-flex gap-4">
-										<li className="box-icon w-40">
+										{/* <li className="box-icon w-40">
 											<span className="icon icon-heart" />
-										</li>
+										</li> */}
                                         <li
                                             className={`${isLiked ? "liked" : "w-40 box-icon"}`}
                                             onClick={() => handleLike(isLiked, propertyData.data.id)}

@@ -149,7 +149,7 @@ export default function AgencyDetail({ params }) {
 			{loading ?
 				<Preloader />
 				:
-				<Layout headerStyle={1} footerStyle={1} breadcrumbTitle={agencyDetails?.full_name}>
+				<Layout headerStyle={1} footerStyle={1} breadcrumbTitle={agencyDetails}>
 					<div>
 						{/* <section className="flat-section flat-banner-about">
 						<div className="container">

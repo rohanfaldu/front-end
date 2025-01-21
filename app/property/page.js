@@ -12,6 +12,7 @@ import { useTranslation } from "react-i18next";
 import Preloader from "@/components/elements/Preloader";
 import variablesList from "@/components/common/Variable";
 import debounce from "lodash.debounce";
+import PropertyBlog from "@/components/sections/PropertyBlog"
 
 export default function PropertyHalfmapList() {
 	const [isToggled, setToggled] = useState(false)
@@ -456,7 +457,7 @@ export default function PropertyHalfmapList() {
 															name="city"
 															value={searchCity}
 															onChange={handleInputChange}
-															placeholder={t("typeToSearchCity")}
+															placeholder={t("searchCity")}
 														/>
 														{searchTerm.length > 0 && cityOptions.length === 0 ? (
 															<ul className="city-dropdown form-style" style={{ marginTop: "0px" }}>
@@ -494,7 +495,7 @@ export default function PropertyHalfmapList() {
 															name="district"
 															value={searchDistrict}
 															onChange={handleInputChangeDistrict}
-															placeholder={t("typeToSearchDistrict")}
+															placeholder={t("searchDistrict")}
 														/>
 
 
@@ -548,7 +549,7 @@ export default function PropertyHalfmapList() {
 															name="neighbourhood"
 															value={searchNeighbourhood}
 															onChange={handleInputChangeNeighbourhood}
-															placeholder={t("typeToSearchNeighbourhood")}
+															placeholder={t("searchNeighbourhood")}
 														/>
 
 														{searchTermNeighbourhood.length > 0 && neighbourhoodOptions.length === 0 ? (
@@ -823,86 +824,8 @@ export default function PropertyHalfmapList() {
 									</div>
 								) : (
 									propertys.filter(property => property.status).map((property) => (
-										<div className="col-md-6" key={property.id}>
-											<div className="homeya-box">
-												<div className="archive-top">
-													<Link
-														href={`/property/${property.slug}`}
-														className="images-group"
-													>
-														<div className="images-style">
-															<img
-																src={property.picture[0] || "/images/banner/no-banner.png"}
-																alt={property.name}
-															/>
-														</div>
-														<div className="top">
-															<ul className="d-flex gap-8">
-																<li className="flag-tag style-1">{property.transaction}</li>
-															</ul>
-															<ul className="d-flex gap-4">
-																<li className="box-icon w-40">
-																	<span className="icon icon-heart" />
-																</li>
-																<li
-																	className={` ${
-																		property.like ? "liked" : "w-40 box-icon"
-																	}`}
-																>
-																	<img
-																		src={'/images/logo/thumbs-up.svg'}
-																		className="icon"
-																		style={{ height: "24px" }}
-																	/>
-																</li>
-															</ul>
-														</div>
-														<div className="bottom">
-															<span className="flag-tag style-2">{property.type_details.title}</span>
-														</div>
-													</Link>
-													<div className="content">
-														<div className="h7 text-capitalize fw-7">
-															<Link href={`/property/${property.slug}`} className="link">
-																{property.title}
-															</Link>
-														</div>
-														<div className="desc">
-															<i className="fs-16 icon icon-mapPin" />
-															<p>{[property?.district, property?.city, property?.state]
-																.filter(Boolean)
-																.join(', ')} </p>
-														</div>
-														<ul className="meta-list">
-															<li className="item">
-																<i className="icon icon-bed" />
-																<span>{property.bedRooms === "0" ? '-' : `${property.bedRooms}`}</span>
-															</li>
-															<li className="item">
-																<i className="icon icon-bathtub" />
-																<span>{property.bathRooms === "0" ? '-' : `${property.bathRooms}`}</span>
-															</li>
-															<li className="item">
-																<i className="icon icon-ruler" />
-																<span>{property.size === null ? '-' : `${property.size}`}</span>
-															</li>
-														</ul>
-													</div>
-												</div>
-												<div className="archive-bottom d-flex justify-content-between align-items-center">
-													<div className="d-flex gap-8 align-items-center">
-														<div className="avatar avt-40 round">
-															<img src={property.user_image} alt="user" />
-														</div>
-														{console.log(property)}
-														<span>{property.user_name}</span>
-													</div>
-													<div className="d-flex align-items-center">
-														<h6>{property.price} {property.currency}</h6>
-														<span className="text-variant-1"></span>
-													</div>
-												</div>
-											</div>
+										<div key={property.id} className="col-md-6">
+											<PropertyBlog data={property} slide={false} />
 										</div>
 									))
 								)}
