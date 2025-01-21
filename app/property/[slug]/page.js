@@ -2,6 +2,7 @@
 import { Autoplay, Navigation, Pagination } from "swiper/modules"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { getData } from "../../../components/api/Helper";
+import ContactSeller from "@/components/sections/ContactSeller";
 import Image from "next/image";
 const toCapitalCase = (str) => {
 	if (!str) return '';
@@ -83,6 +84,7 @@ const swiperOptions2 = (projectDetails) => ({
 
 import PropertyMap from "@/components/elements/PropertyMap"
 import MapMarker from "@/components/elements/MapMarker"
+import NearByMapMarker from "@/components/elements/NearByMapMarker";
 import RangeSlider from "@/components/elements/RangeSlider"
 import SidebarFilter from "@/components/elements/SidebarFilter"
 import TabNav from "@/components/elements/TabNav"
@@ -110,6 +112,8 @@ export default function PropertyDetailsV1({ params }) {
 	const [currentImageIndex, setCurrentImageIndex] = useState(0);
 	const { t, i18n } = useTranslation();
 	const modalSwiperRef = useRef(null);
+	const [isLiked, setIsLiked] = useState(false);
+	
 	useEffect(() => {
 		console.log(properties);
 		const fetchData = async () => {
@@ -121,6 +125,8 @@ export default function PropertyDetailsV1({ params }) {
 			const propertyList = response.data.list;
 			const result = propertyList.find(item => item.slug === slug);
 			setProperties(result);
+			console.log(result,"rrrrrrrrrrrrrrr")
+			setIsLiked(result.like)
 
 			const filteredDetails = result.meta_details.filter(
 				(propertyDetail) => propertyDetail.key !== 'bathrooms' && propertyDetail.key !== 'rooms'
@@ -188,6 +194,61 @@ export default function PropertyDetailsV1({ params }) {
 	console.log('video');
 	console.log(properties);
 
+
+	const handleLike = async (isLiked, id) => {
+        if (isLiked) {
+            try {
+                const token = localStorage.getItem('token');
+    
+                const response = await fetch(`http://localhost:7000/api/property/${id}/like`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                });
+    
+                if (!response.status) {
+                    const errorData = await response.json();
+                    console.error('Error:', errorData.message);
+                    return;
+                }
+    
+                const data = await response.json();
+                console.log(data.message);
+                setIsLiked(!isLiked);
+    
+            } catch (error) {
+                console.error('Error liking the property:', error);
+            }
+        } else {
+            try {
+                const token = localStorage.getItem('token');
+    
+                const response = await fetch(`http://localhost:7000/api/property/${id}/like`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                });
+    
+                if (!response.status) {
+                    const errorData = await response.json();
+                    console.error('Error:', errorData.message);
+                    return;
+                }
+    
+                const data = await response.json();
+                console.log(data.message);
+                setIsLiked(!isLiked);
+
+    
+            } catch (error) {
+                console.error('Error liking the property:', error);
+            }
+        }
+    };
 
 
 	const openPopup = (image) => {
@@ -308,11 +369,21 @@ export default function PropertyDetailsV1({ params }) {
 										<div className="label">LOCATION:</div>
 										<p className="meta-item"><span className="icon icon-mapPin" /> 8 Broadway, Brooklyn, New York</p>
 									</div> */}
-									{/* <ul className="icon-box">
-										<li><Link href="#" className="item"><span className="icon icon-arrLeftRight" /> </Link></li>
+									<ul className="icon-box">
+										{/* <li><Link href="#" className="item"><span className="icon icon-arrLeftRight" /> </Link></li>
 										<li><Link href="#" className="item"><span className="icon icon-share" /></Link></li>
-										<li><Link href="#" className="item"><span className="icon icon-heart" /></Link></li>
-									</ul> */}
+										<li><Link href="#" className="item"><span className="icon icon-heart" /></Link></li> */}
+										<li
+                                            className={`${isLiked ? "liked" : "w-40 box-icon thumb-icon"}`}
+                                            onClick={() => handleLike(isLiked, properties.id)}
+                                        >
+                                            <img
+                                                src={'/images/logo/thumbs-up.svg'}
+                                                className="icon"
+                                                style={{ height: "24px" }}
+                                            />
+                                        </li>
+									</ul>
 								</div>
 							</div>
 							<div className="row">
@@ -407,7 +478,7 @@ export default function PropertyDetailsV1({ params }) {
 									)}
 									<div className="single-property-element single-property-map">
 										<div className="h7 title fw-7">{t("map")}</div>
-										<MapMarker latitude={properties.latitude} longitude={properties.longitude} zoom={14} />
+										<NearByMapMarker latitude={properties.latitude} longitude={properties.longitude} zoom={14} />
 
 										<ul className="info-map">
 											<li>
@@ -492,22 +563,7 @@ export default function PropertyDetailsV1({ params }) {
 												</div>
 											</div>
 											: <></>}
-										<div className="widget-box single-property-contact bg-surface">
-											<div className="h7 title fw-7">{t("contactSeller")}</div>
-											<div className="box-avatar">
-												{properties.user_image ? (
-													<div className="avatar avt-100 round">
-														<img src={properties.user_image} alt="avatar" />
-													</div>
-												) :
-													null
-												}
-
-												<div className="info">
-													<div className="text-1 name">{properties.user_name}</div>
-												</div>
-											</div>
-										</div>
+										<ContactSeller data={properties}></ContactSeller>
 
 										<div className="widget-box single-property-whychoose bg-surface">
 											<div className="h7 title fw-7">{t("whychooseus")}</div>

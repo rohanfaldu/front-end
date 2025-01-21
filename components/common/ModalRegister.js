@@ -102,7 +102,7 @@ export default function ModalRegister({ isRegister, handleRegister, handleLogin 
 											</fieldset>
 											<fieldset className="box-fieldset ">
 												<label htmlFor="name">{t("mobilenumber")}<span>*</span>:</label>
-													<div className="phone-and-country-code">
+													{/* <div className="phone-and-country-code">
 														<Field as="select" name="country_code" className="nice-select country-code"
 															id="country-code"
 															value={selectedCode}
@@ -126,7 +126,40 @@ export default function ModalRegister({ isRegister, handleRegister, handleLogin 
 															)}
 														</Field>
 														<Field type="text" id="mobile_number" name="mobile_number" className="form-control style-1" />
-													</div>
+													</div> */}
+
+
+													<div className="phone-and-country-code">
+                                                            <select
+                                                                name="country_code"
+                                                                className="nice-select country-code"
+                                                                id="country-code"
+                                                                value={selectedCode || "+33"} // Default to +33
+                                                                onChange={(e) => {
+                                                                    const selectedState = e.target.value;
+                                                                    setSelectedCode(selectedState);
+																    setFieldValue("country_code", selectedState);
+                                                                }}
+                                                            >
+                                                                {/* Default selected option: Show only the country code */}
+                                                                <option value={selectedCode || "+33"}>
+                                                                    {selectedCode || "+33"}
+                                                                </option>
+
+                                                                {/* Dropdown options: Show country name and code */}
+                                                                {allCountries &&
+                                                                    allCountries.length > 0 &&
+                                                                    allCountries
+                                                                        .filter((country) => country.name !== "Western Sahara") // Exclude Western Sahara
+                                                                        .sort((a, b) => a.dialCode.localeCompare(b.dialCode)) // Sort by dial code
+                                                                        .map((country, index) => (
+                                                                            <option key={index} value={`+${country.dialCode}`}>
+                                                                                {country.name} (+{country.dialCode})
+                                                                            </option>
+                                                                        ))}
+                                                            </select>
+                                                        <Field type="text" id="mobile_number" name="mobile_number" className="form-control style-1" />
+                                                    </div>
 												<ErrorMessage name="mobile_number" component="div" className="error" />
 												<ErrorMessage name="country_code" component="div" className="error" />
 											</fieldset>
