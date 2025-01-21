@@ -10965,3 +10965,37 @@ footer {
 .city-option:hover {
   background-color: #f0f0f0;
 }
+
+
+.cover-set-image {
+  position: relative;
+  z-index: 1;
+}
+.cover-set-image::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: -1;
+}
+.cover-set-image .text-center{
+  color: #FFF;
+}
+
+.thumb-icon{
+  background-color: rgba(11, 33, 50, 0.4);
+    border-radius: 4px;
+}
+
+.text {
+  display: -webkit-box; /* Enable the multi-line truncation effect */
+  -webkit-line-clamp: 1; /* Limit to 1 line */
+  -webkit-box-orient: vertical; /* Vertical text orientation */
+  overflow: hidden; /* Hide overflowing content */
+  text-overflow: ellipsis; /* Add the ellipsis (...) */
+  max-width: 100%; /* Ensure it fits within the container */
+  white-space: nowrap; /* Prevent wrapping for single-line truncation */
+}
