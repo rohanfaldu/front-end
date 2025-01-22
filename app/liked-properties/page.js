@@ -23,6 +23,7 @@ export default function LikedProperty() {
       currentPage: 1,
       itemsPerPage: 5,
   }); // Track pagination info
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
   const fetchProperties = async (page = variablesList.currentPage, term = '', status = '') => {
     setLoading(true);
     try {
@@ -65,7 +66,7 @@ export default function LikedProperty() {
         try {
             const token = localStorage.getItem('token');
 
-            const response = await fetch(`http://localhost:7000/api/property/${id}/like`, {
+            const response = await fetch(`${API_URL}/property/${id}/like`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',

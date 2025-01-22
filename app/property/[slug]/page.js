@@ -113,6 +113,7 @@ export default function PropertyDetailsV1({ params }) {
 	const { t, i18n } = useTranslation();
 	const modalSwiperRef = useRef(null);
 	const [isLiked, setIsLiked] = useState(false);
+	const API_URL = process.env.NEXT_PUBLIC_API_URL;
 	
 	useEffect(() => {
 		console.log(properties);
@@ -200,7 +201,7 @@ export default function PropertyDetailsV1({ params }) {
             try {
                 const token = localStorage.getItem('token');
     
-                const response = await fetch(`http://localhost:7000/api/property/${id}/like`, {
+                const response = await fetch(`${API_URL}/api/property/${id}/like`, {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json',
@@ -225,7 +226,7 @@ export default function PropertyDetailsV1({ params }) {
             try {
                 const token = localStorage.getItem('token');
     
-                const response = await fetch(`http://localhost:7000/api/property/${id}/like`, {
+                const response = await fetch(`${API_URL}/api/property/${id}/like`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

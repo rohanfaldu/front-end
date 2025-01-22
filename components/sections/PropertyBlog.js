@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 export default function PropertyBlog(propertyData, slide){
     const propertySlide = (slide)? "style-2": "";
     console.log(propertyData,">>>>>>>>> property Data");
+    const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
     const [isLiked, setIsLiked] = useState(propertyData.data.like);
     const handleLike = async (isLiked, id) => {
@@ -10,7 +11,7 @@ export default function PropertyBlog(propertyData, slide){
             try {
                 const token = localStorage.getItem('token');
     
-                const response = await fetch(`http://localhost:7000/api/property/${id}/like`, {
+                const response = await fetch(`${API_URL}/api/property/${id}/like`, {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json',
@@ -35,7 +36,7 @@ export default function PropertyBlog(propertyData, slide){
             try {
                 const token = localStorage.getItem('token');
     
-                const response = await fetch(`http://localhost:7000/api/property/${id}/like`, {
+                const response = await fetch(`${API_URL}/api/property/${id}/like`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
