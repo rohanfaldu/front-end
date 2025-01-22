@@ -66,7 +66,7 @@ export default function LikedProperty() {
         try {
             const token = localStorage.getItem('token');
 
-            const response = await fetch(`${API_URL}/property/${id}/like`, {
+            const response = await fetch(`${API_URL}/api/property/${id}/like`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
