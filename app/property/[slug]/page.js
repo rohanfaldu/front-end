@@ -84,7 +84,7 @@ const swiperOptions2 = (projectDetails) => ({
 
 import PropertyMap from "@/components/elements/PropertyMap"
 import MapMarker from "@/components/elements/MapMarker"
-import NearByMapMarker from "@/components/elements/NearByMapMarker";
+// import NearByMapMarker from "@/components/elements/NearByMapMarker";
 import RangeSlider from "@/components/elements/RangeSlider"
 import SidebarFilter from "@/components/elements/SidebarFilter"
 import TabNav from "@/components/elements/TabNav"
