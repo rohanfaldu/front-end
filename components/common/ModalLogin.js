@@ -200,83 +200,12 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 			}else{
 				console.log(getUserInfo)
 				setErrorMessage(getUserInfo.message);
-
-				// if(getUserInfo.data.userProfile.user_login_type != 'NONE'){
-				// 	setErrorMessage('User already exists with another social app.');
-				// }else{
-				// 	console.log(getUserInfo)
-				// }
 			}
 		  } catch (error) {
 			setErrorMessage('Server Error. Please try again later.');
 		}
     };
 	
-	// const otpvalidationSchema = Yup.object({
-	// 	otp: Yup.array()
-	// 	.of(Yup.string().length(1, "Each OTP digit must be 1 character").matches(/^\d$/, "Each OTP digit must be a number"))
-	// 	.length(6, "OTP must be 6 digits")
-	// 	.required("OTP is required"),
-	// });
-
-	// const handleOtpChange = (e, index) => {
-	// 	let value = e.target.value;
-	// 	if (value.match(/^\d$/)) {
-	// 	  const updatedOtp = [...otp];
-	// 	  updatedOtp[index] = value;
-	// 	  setOtp(updatedOtp);
-
-	// 	  if (index < otp.length - 1) {
-	// 		document.getElementById(`otp-${index + 1}`).focus();
-	// 	  }
-
-	// 	}
-	// };
-	// const handleKeyDown = (e, index) => {
-	// 	if (e.key === "Backspace") {
-	// 	  const updatedOtp = [...otp];
-	// 	  if (otp[index] === "") {
-	// 		// If the current field is empty, focus on the previous field
-	// 		if (index > 0) {
-	// 		  document.getElementById(`otp-${index - 1}`).focus();
-	// 		}
-	// 	  } else {
-	// 		// Clear the current field value
-	// 		updatedOtp[index] = "";
-	// 		setOtp(updatedOtp);
-	// 	  }
-	// 	}
-	//   };
-	// const otphandleSubmit =async (values) => {
-	// 	try {
-	// 		const OTP = otp.join('');
-	// 		const sendData = JSON.stringify({email_address: emailAddress, phone_number: phoneNumber, code: OTP});
-	// 		const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, sendData, {
-	// 		  headers: {
-	// 			"Content-Type": "application/json",
-	// 		  },
-	// 		});
-	// 		if(response.data.status === true) {
-	// 			localStorage.setItem('token', response.data.token);
-	// 			localStorage.setItem('user', JSON.stringify(response.data.data.userProfile));
-
-	// 			// Set the token to expire in 1 hour (3600 seconds)
-	// 			const expirationTime = Date.now() + 3600000; // 1 hour from now
-	// 			localStorage.setItem('tokenExpiration', expirationTime);
-	// 			localStorage.setItem('isLoggedIn', 'true');
-	// 			router.push('/dashboard');
-	// 		} else {
-	// 			setErrorOtpMessage(response.data.message);
-	// 		}	
-	// 	  } catch (error) {
-	// 		setErrorOtpMessage('Server Error. Please try again later.');
-	// 	}
-    // };
-	// const handleOTP = () => {
-	// 	document.body.classList.remove("modal-open");
-	// 	setOTPEnter(false);
-	// 	setErrorMessage("");
-	// }
 	const messageClass = (sucessMessage) ? "message success" : "message error";
 	return (
 		<>

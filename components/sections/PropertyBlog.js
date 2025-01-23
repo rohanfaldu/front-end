@@ -1,78 +1,71 @@
-import Link from "next/link"
+import Link from "next/link";
 import React, { useState } from 'react';
-export default function PropertyBlog(propertyData, slide){
-    const propertySlide = (slide)? "style-2": "";
-    console.log(propertyData,">>>>>>>>> property Data");
+import ModalLogin from "../common/ModalLogin";
+
+export default function PropertyBlog(propertyData, slide) {
+    const propertySlide = slide ? "style-2" : "";
+    console.log(propertyData, ">>>>>>>>>> property Data");
     const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
     const [isLiked, setIsLiked] = useState(propertyData.data.like);
-    const handleLike = async (isLiked, id) => {
-        if (isLiked) {
-            try {
-                const token = localStorage.getItem('token');
-    
-                const response = await fetch(`${API_URL}/api/property/${id}/like`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                });
-    
-                if (!response.status) {
-                    const errorData = await response.json();
-                    console.error('Error:', errorData.message);
-                    return;
-                }
-    
-                const data = await response.json();
-                console.log(data.message);
-                setIsLiked(!isLiked);
-    
-            } catch (error) {
-                console.error('Error liking the property:', error);
-            }
-        } else {
-            try {
-                const token = localStorage.getItem('token');
-    
-                const response = await fetch(`${API_URL}/api/property/${id}/like`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                });
-    
-                if (!response.status) {
-                    const errorData = await response.json();
-                    console.error('Error:', errorData.message);
-                    return;
-                }
-    
-                const data = await response.json();
-                console.log(data.message);
-                setIsLiked(!isLiked);
+    const [isModelOpen, setIsModelOpen] = useState(false);
 
-    
-            } catch (error) {
-                console.error('Error liking the property:', error);
+    const handleLike = async (isLiked, id) => {
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+            setIsModelOpen(true);
+            return;
+        }
+
+        try {
+            const method = isLiked ? 'DELETE' : 'POST';
+            const response = await fetch(`${API_URL}/api/property/${id}/like`, {
+                method,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.error('Error:', errorData.message);
+                return;
             }
+
+            const data = await response.json();
+            console.log(data.message);
+            setIsLiked(!isLiked);
+        } catch (error) {
+            console.error('Error liking the property:', error);
         }
     };
 
-    
+    const [isLogin, setLogin] = useState(false)
+    const [showLoginModal, setShowLoginModal] = useState(false)
+
+    const handleLogin = () => {
+        console.log(isLogin,"///////////////////////////")
+		setLogin(!isLogin)
+		!isLogin ? document.body.classList.add("modal-open") : document.body.classList.remove("modal-open")
+	}
+
+    const closeModal = () => {
+        setIsModelOpen(false);
+        setShowLoginModal(true);
+    };
 
     return (
         <>
-            <div className={`homeya-box  ${propertySlide}`} >
+            <div className={`homeya-box ${propertySlide}`}>
                 <div className="archive-top">
                     <div className="images-group">
                         <div className="images-style">
-                            <img src={(propertyData.data.picture[0])?propertyData.data.picture[0]:"/images/banner/no-banner.png"} alt="Property" /> 
+                            <img src={(propertyData.data.picture[0]) ? propertyData.data.picture[0] : "/images/banner/no-banner.png"} alt="Property" />
                         </div>
                         <div className="top">
-                            {propertyData.data.transaction ? (
+                            {propertyData.data.transaction && (
                                 <>
                                     <ul className="d-flex gap-8">
                                         <li className={`flag-tag style-1}`}>
@@ -80,9 +73,6 @@ export default function PropertyBlog(propertyData, slide){
                                         </li>
                                     </ul>
                                     <ul className="d-flex gap-4">
-										{/* <li className="box-icon w-40">
-											<span className="icon icon-heart" />
-										</li> */}
                                         <li
                                             className={`${isLiked ? "liked" : "w-40 box-icon"}`}
                                             onClick={() => handleLike(isLiked, propertyData.data.id)}
@@ -93,13 +83,12 @@ export default function PropertyBlog(propertyData, slide){
                                                 style={{ height: "24px" }}
                                             />
                                         </li>
-
-									</ul>
+                                    </ul>
                                 </>
-                            ) : (<></>)}
+                            )}
                         </div>
                         <div className="bottom">
-                            <span className="flag-tag style-2">{(propertyData.data?.type_details?.title)?propertyData.data?.type_details?.title:propertyData.data.type}</span>
+                            <span className="flag-tag style-2">{propertyData.data?.type_details?.title ? propertyData.data?.type_details?.title : propertyData.data.type}</span>
                         </div>
                     </div>
                     <div className="content">
@@ -113,7 +102,6 @@ export default function PropertyBlog(propertyData, slide){
                             <p>{[propertyData.data?.district, propertyData.data?.city, propertyData.data?.state]
                                 .filter(Boolean)
                                 .join(', ')} </p>
-
                         </div>
                         <ul className="meta-list">
                             <li className="item">
@@ -134,7 +122,7 @@ export default function PropertyBlog(propertyData, slide){
                 <div className="archive-bottom d-flex justify-content-between align-items-center">
                     <div className="d-flex gap-8 align-items-center">
                         <div className="avatar avt-40 round">
-                            <img src={(propertyData.data.user_image)?propertyData.data.user_image:"/images/avatar/user-image.png"} alt="Owner Avatar" /> 
+                            <img src={(propertyData.data.user_image) ? propertyData.data.user_image : "/images/avatar/user-image.png"} alt="Owner Avatar" />
                         </div>
                         <span>{propertyData.data.user_name}</span>
                     </div>
@@ -143,6 +131,27 @@ export default function PropertyBlog(propertyData, slide){
                     </div>
                 </div>
             </div>
+
+            {isModelOpen && (
+                <div className="modal" style={{ display: 'block', position: 'fixed', zIndex: 1000, top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+                    <div className="modal-content" style={{ position: 'relative', margin: 'auto', padding: '20px', background: '#fff', borderRadius: '8px', maxWidth: '400px', top: '50%', transform: 'translateY(-50%)' }}>
+                        <>
+                            <h4>Login Alert</h4>
+                            <p>Please login first!!!</p>
+                            <div style={{ textAlign: 'end' }}>
+                                <button className="tf-btn primary" onClick={() => {
+                                    closeModal();
+                                    setLogin(true)
+                                }}>Login</button>
+                                <button className="tf-btn primary" onClick={() => setIsModelOpen(false)} style={{ marginLeft: '15px' }}>Cancel</button>
+                            </div>
+                        </>
+                    </div>
+                </div>
+            )}
+            {showLoginModal && <ModalLogin isLogin={isLogin} handleLogin={handleLogin} />}
+
+
         </>
-    )
+    );
 }
