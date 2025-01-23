@@ -43,7 +43,7 @@ export default function RootLayout({ children }) {
         <link rel="icon" href="/images/logo/favicon.svg" />
         {/* <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCwhqQx0uqNX7VYhsgByiF9TzXwy81CFag&libraries=places,marker"></script> */}
       </Head>
-      <html lang={i18n.language || "en"}>
+      <html lang={i18n.language || "fr"}>
         <body className="body">{children}</body>
       </html>
     </>

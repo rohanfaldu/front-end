@@ -3,7 +3,7 @@ import { useState } from "react";
 
 const LanguageSwitcher = () => {
   const { i18n } = useTranslation();
-  const[isGetlang, setGetlang] = useState('en');
+  const[isGetlang, setGetlang] = useState('fr');
   // Function to change the language
   const changeLanguage = (lang) => {
     setGetlang(lang);

@@ -10,7 +10,7 @@ const frLang = require("../public/translations/fr/content.json");
 const isServer = typeof window === "undefined";
 
 i18n.use(initReactI18next).init({
-	fallbackLng: "en",
+	fallbackLng: "fr",
 	interpolation: { escapeValue: false },
 	react: { useSuspense: false }, // Disable Suspense
 	resources: {
