@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ModalLogin from "../common/ModalLogin";
 
 export default function PropertyBlog(propertyData, slide) {
@@ -8,7 +8,13 @@ export default function PropertyBlog(propertyData, slide) {
     const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
     const [isLiked, setIsLiked] = useState(propertyData.data.like);
+    const [percentage, setPercentage] = useState(propertyData.data.filter_result.total_percentage);
     const [isModelOpen, setIsModelOpen] = useState(false);
+
+
+    useEffect(() => {
+        setPercentage(propertyData.data.filter_result.total_percentage)
+    }, [propertyData]);
 
     const handleLike = async (isLiked, id) => {
         const token = localStorage.getItem('token');
@@ -73,7 +79,7 @@ export default function PropertyBlog(propertyData, slide) {
                                         </li>
                                     </ul>
                                     <ul className="d-flex gap-4">
-                                        <li
+                                        {/* <li
                                             className={`${isLiked ? "liked" : "w-40 box-icon"}`}
                                             onClick={() => handleLike(isLiked, propertyData.data.id)}
                                         >
@@ -82,7 +88,14 @@ export default function PropertyBlog(propertyData, slide) {
                                                 className="icon"
                                                 style={{ height: "24px" }}
                                             />
-                                        </li>
+                                        </li> */}
+
+                                        <li className="box-icon w-40" onClick={() => handleLike(isLiked, propertyData.data.id)}>
+											<span className="icon icon-heart" />
+										</li>
+                                        <li className="box-icon">
+											<span className="icon icon-vf" style={{fontSize: "15px", padding: "10px", color: "#ffffff"}}>{percentage}%</span>
+										</li>
                                     </ul>
                                 </>
                             )}

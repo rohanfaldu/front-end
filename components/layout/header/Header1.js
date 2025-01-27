@@ -13,6 +13,7 @@ export default function Header1({ scroll, isMobileMenu, handleMobileMenu, isLogi
 	const [userImage, setUserImage] = useState('');
 	const [userStatus, setUserStatus] = useState(false);
 	const [loggedin, setLoggedin] = useState(false);
+	const [lang, setLang] = useState('en');
 	const router = useRouter();
 	const { t } = useTranslation();
 	const handDashboard = () => {
@@ -26,7 +27,14 @@ export default function Header1({ scroll, isMobileMenu, handleMobileMenu, isLogi
 			const capitalizedString = capitalizeFirstChar(userDetail.user_name);
 			setUserName(capitalizedString)
 			setUserStatus(localStorage.getItem('isLoggedIn'));
+			
 		}
+		console.log(localStorage.getItem("lang"),"/////////////////////")
+			if(localStorage.getItem("lang") !== null && localStorage.getItem("lang") !== undefined){
+				setLang(localStorage.getItem("lang"))
+			}else{
+				setLang("fr")
+			}
 	}, []);
 
 	return (
@@ -80,7 +88,7 @@ export default function Header1({ scroll, isMobileMenu, handleMobileMenu, isLogi
 												</>
 											}
 									</div>
-									<LanguageSwitcher />
+									<LanguageSwitcher language={lang} />
 									{/* <div className="flat-bt-top">
 										<Link className="tf-btn primary" href="/add-property">Submit Property</Link>
 									</div> */}
@@ -117,7 +125,7 @@ export default function Header1({ scroll, isMobileMenu, handleMobileMenu, isLogi
 											}
 								</div>
 								<div className="lang-sec">
-									<LanguageSwitcher />
+									<LanguageSwitcher language={lang} />
 								</div>
 							</div>
 							<MobileMenu />
