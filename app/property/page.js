@@ -7,7 +7,7 @@ import Layout from "@/components/layout/Layout"
 import Link from "next/link"
 import { getData, insertData } from "../../components/api/Helper";
 import ReactSlider from "react-slider"
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef  } from 'react';
 import { useTranslation } from "react-i18next";
 import Preloader from "@/components/elements/Preloader";
 import variablesList from "@/components/common/Variable";
@@ -20,7 +20,7 @@ export default function PropertyHalfmapList() {
   	const [cityOptions, setCityOptions] = useState([]);
 	const [districtOptions, setDistrictOptions] = useState([]);
 	const [neighbourhoodOptions, setNeighbourhoodOptions] = useState([]);
-
+	const [checkURL, setCheckURL] = useState(false);
 
 
 	const [initialMaxPrice, setInitialMaxPrice] = useState(0); // Store the maximum price initially
@@ -36,8 +36,9 @@ export default function PropertyHalfmapList() {
 	}
 	const { t, i18n } = useTranslation();
 	const [propertys, setPropertys] = useState([]); // Store properties for the current page
-	const [loading, setLoading] = useState(true); // Manage loading state
+	const [loading, setLoading] = useState(false); // Manage loading state
 	const [error, setError] = useState(null); // Manage error state
+	const [params, setParams] = useState({}); // Store query parameters
 
 	const [searchTerm, setSearchTerm] = useState(''); // Store search input
 	const [searchTermDistrict, setSearchTermDistrict] = useState('');
@@ -93,8 +94,122 @@ export default function PropertyHalfmapList() {
 	});
 
 	const lang = i18n.language;
+	const isInitialRender = useRef(true);
+
+	useEffect(() => {
+		const url = window.location.href;
+		const urlParams = new URLSearchParams(new URL(url).search);
+		console.log('urlParams: ', urlParams);
+		if(urlParams.size !== 0){
+			setCheckURL(true);
+			const params = {
+				title: urlParams.get("title") || null,
+				description: urlParams.get("description") || null,
+				type_id: urlParams.get("type_id") || null,
+				city: urlParams.get("city") || null,
+				district: urlParams.get("district") || null,
+				neighbourhood: urlParams.get("neighbourhood") || null,
+				minPrice: urlParams.get("minPrice") !== "undefined" ? urlParams.get("minPrice") : priceRange[0],
+				maxPrice: urlParams.get("maxPrice") !== "undefined" ? urlParams.get("maxPrice") : priceRange[1],
+				minSize: urlParams.get("minSize") !== "undefined" ? urlParams.get("minSize") : sizeRange[0],
+				maxSize: urlParams.get("maxSize") !== "undefined" ? urlParams.get("maxSize") : sizeRange[1],
+				amenities_id_object_with_value: urlParams.get("amenities_id_object_with_value") 
+				  ? JSON.parse(urlParams.get("amenities_id_object_with_value")) 
+				  : null,
+				amenities_id_array: urlParams.get("amenities_id_array") || null,
+				developer_id: urlParams.get("developer_id") || null,
+				direction: urlParams.get("direction") || null,
+			  };
+		  
+			  console.log("Extracted Parameters:", params);
+			  // setParams(params)
+	  
+			  setFilters(() => ({
+				  ...params,
+				}));
+				console.log(params, '>>>>>>>>>>>>> Params')
+				console.log(params.minPrice,"/////////////")
+				console.log(params.maxPrice,"/////////////")
+				setPriceRange([0, 936]);
+				setSizeRange([params.minSize, params.maxSize]);
 
 
+
+				const getFilterData = async (page = 1,) => {
+					console.log("Filters:", filters);
+					const lang = i18n.language;
+					const requestData = {
+						page,
+						lang,
+						limit: pagination.itemsPerPage,
+						title: params.title,
+						description: params.description,
+						city_id: params.city,
+						district_id: params.district,
+						neighborhoods_id: params.neighbourhood,
+						type_id: params.type_id,
+						minPrice: params.minPrice,
+						maxPrice: params.maxPrice,
+						amenities_id_array: params.amenities_id_array,
+						minSize: params.minSize,
+						maxSize: params.maxSize,
+						direction: params.direction,
+						developer_id: params.developer_id,
+						amenities_id_object_with_value: params.amenities_id_object_with_value,
+			
+						transaction: transaction
+					};
+					const response = await getData("api/property", requestData, true);
+					if (response.status) {
+						const { list, totalCount, totalPages, currentPage, property_meta_details, maxPriceSliderRange, property_types, cities, maxSizeSliderRange, developers } = response.data;
+						setPropertys(list);
+						setPagination({
+							...pagination,
+							totalCount,
+							totalPages,
+							currentPage,
+						});
+						setAmenities(property_meta_details);
+						setpropertyType(property_types);
+						setDevelopers(developers);
+						console.log(developers,"////////////////////")
+						setCity(cities);
+						if (!initialMaxPrice) {
+								setInitialMaxPrice(maxPriceSliderRange);
+								setMaxPriceSliderRange(maxPriceSliderRange);
+								setPriceRange([0, maxPriceSliderRange]);
+							}
+			
+							if (!initialMaxSize){
+								setInitialMaxSize(maxSizeSliderRange);
+								setSizeRange([0, maxSizeSliderRange])
+							}
+						setError(null);
+					}
+				  };
+				  getFilterData();
+		}else{
+			 fetchPropertys(pagination.currentPage);
+		}
+		
+
+	  }, [params, pagination.currentPage, i18n.language, transaction]);
+
+
+
+
+	//   useEffect(() => {
+	// 	if(!checkURL){
+	// 		fetchPropertys(pagination.currentPage);
+	// 	}
+	// }, [pagination.currentPage, i18n.language, transaction]);
+
+
+
+
+
+	  console.log(priceRange, ' >>>>>>>>>>>> Price')
+	
 	const fetchCityOptions = debounce(async (value, page = 1) => {
 		if (value.trim() === "") {
 		  setCityOptions([]);
@@ -195,7 +310,6 @@ export default function PropertyHalfmapList() {
 
 
 	const fetchPropertys = async (page = 1, updatedFilters = {}) => {
-		setLoading(true);
 		try {
 			const lang = i18n.language;
 			const requestData = {
@@ -232,8 +346,6 @@ export default function PropertyHalfmapList() {
 			}
 		} catch (err) {
 			setError(err.response?.data?.message || "An error occurred");
-		} finally {
-			setLoading(false);
 		}
 	};
 
@@ -297,15 +409,14 @@ export default function PropertyHalfmapList() {
 	};
 	
 	  
-	useEffect(() => {
-		fetchPropertys(pagination.currentPage);
-	}, [pagination.currentPage, i18n.language, transaction]);
+
 
 	const handlePageChange = (page) => {
 		setPagination({ ...pagination, currentPage: page });
 	};
 
 	const handlePriceChange = (newRange) => {
+		console.log(newRange,";;;;;;;;;;;;;;;;;;;")
 		setPriceRange(newRange); // Update the range state
 		setFilters((prevFilters) => ({
 			...prevFilters,
