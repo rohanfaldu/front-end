@@ -26,7 +26,7 @@ export default function PropertyHalfmapList() {
 	const [initialMaxPrice, setInitialMaxPrice] = useState(0); // Store the maximum price initially
 	const [initialMaxSize, setInitialMaxSize] = useState(0);
 	const [maxPriceSliderRange, setMaxPriceSliderRange] = useState(0); // Dynamic slider range
-
+	const [calculationStatus, setCalculationStatus] = useState(false);
 
 	const [priceRange, setPriceRange] = useState([]); // Selected range
 	const [sizeRange, setSizeRange] = useState([]); // Selected range
@@ -435,6 +435,7 @@ export default function PropertyHalfmapList() {
 	};
 
 	const handleSubmit = async (page = 1,) => {
+		setCalculationStatus(true)
 		console.log("Filters:", filters);
 		const lang = i18n.language;
 		const requestData = {
@@ -936,7 +937,7 @@ export default function PropertyHalfmapList() {
 								) : (
 									propertys.filter(property => property.status).map((property) => (
 										<div key={property.id} className="col-md-6">
-											<PropertyBlog data={property} slide={false} />
+											<PropertyBlog  data={property} slide={false} calsulation={calculationStatus}/>
 										</div>
 									))
 								)}

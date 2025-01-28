@@ -2,8 +2,8 @@ import Link from "next/link";
 import React, { useState, useEffect } from 'react';
 import ModalLogin from "../common/ModalLogin";
 
-export default function PropertyBlog(propertyData, slide) {
-    const propertySlide = slide ? "style-2" : "";
+export default function PropertyBlog( propertyData, slide, calsulation) {
+        const propertySlide = slide ? "style-2" : "";
     console.log(propertyData, ">>>>>>>>>> property Data");
     const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -93,9 +93,14 @@ export default function PropertyBlog(propertyData, slide) {
                                         <li className={`${isLiked ? "liked" : "w-40 box-icon"}`} onClick={() => handleLike(isLiked, propertyData.data.id)}>
 											<span className="icon icon-heart" />
 										</li>
-                                        <li className="box-icon">
-											<span className="icon icon-vf" style={{fontSize: "15px", padding: "10px", color: "#ffffff"}}>{percentage}%</span>
-										</li>
+                                        {
+                                            (propertyData.calsulation)?
+                                                <li className="box-icon">
+                                                    <span className="icon icon-vf" style={{fontSize: "15px", padding: "10px", color: "#ffffff"}}>{percentage}%</span>
+                                                </li>
+                                            : 
+                                                ""
+                                        }
                                     </ul>
                                 </>
                             )}
