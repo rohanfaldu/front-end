@@ -374,7 +374,7 @@ export default function PropertyDetailsV1({ params }) {
 										{/* <li><Link href="#" className="item"><span className="icon icon-arrLeftRight" /> </Link></li>
 										<li><Link href="#" className="item"><span className="icon icon-share" /></Link></li>
 										<li><Link href="#" className="item"><span className="icon icon-heart" /></Link></li> */}
-										<li
+										{/* <li
                                             className={`${isLiked ? "liked" : "w-40 box-icon thumb-icon"}`}
                                             onClick={() => handleLike(isLiked, properties.id)}
                                         >
@@ -383,7 +383,11 @@ export default function PropertyDetailsV1({ params }) {
                                                 className="icon"
                                                 style={{ height: "24px" }}
                                             />
-                                        </li>
+                                        </li> */}
+
+										<li className={`${isLiked ? "liked" : "w-40 box-icon"}`} onClick={() => handleLike(isLiked, properties.id)}>
+											<span className="icon icon-heart" />
+										</li>
 									</ul>
 								</div>
 							</div>

@@ -90,7 +90,7 @@ export default function PropertyBlog(propertyData, slide) {
                                             />
                                         </li> */}
 
-                                        <li className="box-icon w-40" onClick={() => handleLike(isLiked, propertyData.data.id)}>
+                                        <li className={`${isLiked ? "liked" : "w-40 box-icon"}`} onClick={() => handleLike(isLiked, propertyData.data.id)}>
 											<span className="icon icon-heart" />
 										</li>
                                         <li className="box-icon">
