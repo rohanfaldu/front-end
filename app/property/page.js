@@ -130,7 +130,7 @@ export default function PropertyHalfmapList() {
 				console.log(params, '>>>>>>>>>>>>> Params')
 				console.log(params.minPrice,"/////////////")
 				console.log(params.maxPrice,"/////////////")
-				setPriceRange([0, 936]);
+				setPriceRange([params.minPrice, params.maxPrice]);
 				setSizeRange([params.minSize, params.maxSize]);
 
 
