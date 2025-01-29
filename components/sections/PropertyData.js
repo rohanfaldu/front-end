@@ -104,11 +104,11 @@ export default function PropertyBlog( propertyData, slide, calsulation) {
                             <span className="flag-tag style-2">{propertyData.data?.type_details?.title ? propertyData.data?.type_details?.title : propertyData.data.type}</span>
                         </div>
                     </Link>
-                    <div className="content">
+                    <Link className="content" href={`/property/${propertyData.data.slug}`}>
                         <div className="h7 text-capitalize fw-7">
-                            <Link href={`/property/${propertyData.data.slug}`} className="link">
+                            
                                 {propertyData.data.title}
-                            </Link>
+
                         </div>
                         <div className="desc">
                             <i className="fs-16 icon icon-mapPin" />
@@ -130,9 +130,9 @@ export default function PropertyBlog( propertyData, slide, calsulation) {
                                 <span>{propertyData.data.size === null ? '-' : `${propertyData.data.size}`}</span>
                             </li>
                         </ul>
-                    </div>
+                    </Link>
                 </div>
-                <div className="archive-bottom d-flex justify-content-between align-items-center">
+                <Link className="archive-bottom d-flex justify-content-between align-items-center" href={`/property/${propertyData.data.slug}`}>
                     <div className="d-flex gap-8 align-items-center">
                         <div className="avatar avt-40 round">
                             <img src={(propertyData.data.user_image) ? propertyData.data.user_image : "/images/avatar/user-image.png"} alt="Owner Avatar" />
@@ -142,7 +142,7 @@ export default function PropertyBlog( propertyData, slide, calsulation) {
                     <div className="d-flex align-items-center">
                         <h6>{propertyData.data.price + " " + propertyData.data.currency}</h6>
                     </div>
-                </div>
+                </Link>
             </div>
 
             {isModelOpen && (
