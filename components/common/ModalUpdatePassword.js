@@ -121,7 +121,7 @@ export default function ModalUpdatePassword({isUpdatePassword, handleUpdatePassw
 												<ErrorMessage name="confirmPassword" component="div" className="error" />
 											</fieldset>
 											<div className="d-flex justify-content-between flex-wrap gap-12">
-												<button type="submit" className="tf-btn primary w-100">Forgot Password</button>
+												<button type="submit" className="tf-btn primary w-100">Update Password</button>
 											</div>
 										</Form>
 									)}

@@ -66,7 +66,7 @@ export default function PropertyBlog( propertyData, slide, calsulation) {
         <>
             <div className={`homeya-box ${propertySlide}`}>
                 <div className="archive-top">
-                    <div className="images-group">
+                    <Link className="images-group" href={`/property/${propertyData.data.slug}`}>
                         <div className="images-style">
                             <img src={(propertyData.data.picture[0]) ? propertyData.data.picture[0] : "/images/banner/no-banner.png"} alt="Property" />
                         </div>
@@ -79,18 +79,13 @@ export default function PropertyBlog( propertyData, slide, calsulation) {
                                         </li>
                                     </ul>
                                     <ul className="d-flex gap-4">
-                                        {/* <li
-                                            className={`${isLiked ? "liked" : "w-40 box-icon"}`}
-                                            onClick={() => handleLike(isLiked, propertyData.data.id)}
+                                        <li className={`${isLiked ? "liked" : "w-40 box-icon"}`} 
+                                        onClick={(event) => {
+                                            event.preventDefault();
+                                            event.stopPropagation();
+                                            handleLike(isLiked, propertyData.data.id);
+                                        }}
                                         >
-                                            <img
-                                                src={'/images/logo/thumbs-up.svg'}
-                                                className="icon"
-                                                style={{ height: "24px" }}
-                                            />
-                                        </li> */}
-
-                                        <li className={`${isLiked ? "liked" : "w-40 box-icon"}`} onClick={() => handleLike(isLiked, propertyData.data.id)}>
 											<span className="icon icon-heart" />
 										</li>
                                         {
@@ -108,7 +103,7 @@ export default function PropertyBlog( propertyData, slide, calsulation) {
                         <div className="bottom">
                             <span className="flag-tag style-2">{propertyData.data?.type_details?.title ? propertyData.data?.type_details?.title : propertyData.data.type}</span>
                         </div>
-                    </div>
+                    </Link>
                     <div className="content">
                         <div className="h7 text-capitalize fw-7">
                             <Link href={`/property/${propertyData.data.slug}`} className="link">
