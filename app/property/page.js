@@ -13,9 +13,10 @@ import Preloader from "@/components/elements/Preloader";
 import variablesList from "@/components/common/Variable";
 import debounce from "lodash.debounce";
 import PropertyBlog from "@/components/sections/PropertyBlog"
-
+import TinderCard from "react-tinder-card";
 export default function PropertyHalfmapList() {
 	const [isToggled, setToggled] = useState(false)
+	const API_URL = process.env.NEXT_PUBLIC_API_URL;
 	const handleToggle = () => setToggled(!isToggled)
   	const [cityOptions, setCityOptions] = useState([]);
 	const [districtOptions, setDistrictOptions] = useState([]);
@@ -70,6 +71,8 @@ export default function PropertyHalfmapList() {
 	const [transaction, setTransaction] = useState("rental");
 
 
+	const [isModelOpen, setIsModelOpen] = useState(false);
+
 	const [pagination, setPagination] = useState({
 		totalCount: 0,
 		totalPages: 1,
@@ -95,6 +98,51 @@ export default function PropertyHalfmapList() {
 
 	const lang = i18n.language;
 	const isInitialRender = useRef(true);
+
+	const handleLike = async (isLiked, id) => {
+		console.log("right")
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+            setIsModelOpen(true);
+            return;
+        }
+
+        try {
+            const method = isLiked ? 'DELETE' : 'POST';
+            const response = await fetch(`${API_URL}/api/property/${id}/like`, {
+                method,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.error('Error:', errorData.message);
+                return;
+            }
+
+            const data = await response.json();
+            console.log(data.message);
+        } catch (error) {
+            console.error('Error liking the property:', error);
+        }
+    };
+
+	const [isLogin, setLogin] = useState(false)
+		const [showLoginModal, setShowLoginModal] = useState(false)
+		const handleLogin = () => {
+			console.log(isLogin,"///////////////////////////")
+			setLogin(!isLogin)
+			!isLogin ? document.body.classList.add("modal-open") : document.body.classList.remove("modal-open")
+		}
+
+	const closeModal = () => {
+        setIsModelOpen(false);
+        setShowLoginModal(true);
+    };
 
 	useEffect(() => {
 		const url = window.location.href;
@@ -434,6 +482,8 @@ export default function PropertyHalfmapList() {
 		}));
 	};
 
+	const filteredProperties = propertys.filter(property => property.status).reverse(); // Reverse before mapping
+	const lastPropertyId = filteredProperties.length > 0 ? filteredProperties[0].id : null; // First item is now the last one
 	const handleSubmit = async (page = 1,) => {
 		setCalculationStatus(true)
 		console.log("Filters:", filters);
@@ -919,33 +969,61 @@ export default function PropertyHalfmapList() {
 								</select>
 							</div> */}
 						</div>
-						<div className="tab-content">
+						<div className="tab-content" style={{ position: "relative", height: "0px" }}>
 						{loading ? (
 							<Preloader />
 						) : error ? (
 							<p>{error}</p>
 						) : (
-							<div className="row">
-								{propertys.filter(property => property.status).length === 0 ? (
-									<div style={{ textAlign: "center" }}>
-										<img 
-											src="/images/not-found/item-not-found.png" 
-											alt="No projects found" 
-											style={{ height: "300px" }} 
-										/>
-									</div>
-								) : (
-									propertys.filter(property => property.status).map((property) => (
-										<div key={property.id} className="col-md-6">
-											<PropertyBlog  data={property} slide={false} calsulation={calculationStatus}/>
-										</div>
-									))
-								)}
+							<div className="row" style={{ position: "relative", height: "100%" }}>
+							{propertys.filter(property => property.status).length === 0 ? (
+								<div style={{ textAlign: "center" }}>
+								<img
+									src="/images/not-found/item-not-found.png"
+									alt="No projects found"
+									style={{ height: "300px" }}
+								/>
+								</div>
+							) : (
+								filteredProperties.map((property) => (
+									<TinderCard
+									  key={property.id}
+									  onSwipe={(direction) => {
+										if (direction === "left") {
+										  console.log("left");
+										  if (property.id === lastPropertyId) {
+											handlePageChange(pagination.currentPage + 1);
+										  }
+										}
+										if (direction === "right") {
+										  console.log("ooooooooooooooooooooo");
+										  handleLike(property.like, property.id);
+										}
+									  }}
+									  preventSwipe={["up", "down"]}
+									  className="swipe"
+									>
+									  <div
+										className="tinder-card"
+										style={{
+										  position: "absolute",
+										  width: "100%",
+										  top: 0,
+										  display: "flex",
+										  justifyContent: "center",
+										  alignItems: "center",
+										}}
+									  >
+										<PropertyBlog data={property} slide={false} calculation={calculationStatus} />
+									  </div>
+									</TinderCard>
+								  ))
+							)}
 							</div>
 						)}
 					</div>
 
-						<ul className="wd-navigation">
+						{/* <ul className="wd-navigation">
 							{Array.from({ length: pagination.totalPages }, (_, index) => (
 								<li key={index}>
 									<Link
@@ -957,7 +1035,7 @@ export default function PropertyHalfmapList() {
 									</Link>
 								</li>
 							))}
-						</ul>
+						</ul> */}
 					</div >
 					<div className="wrap-map">
 						<PropertyMap topmap={false} singleMap={false} propertys={propertys} slug="property" />
@@ -965,6 +1043,25 @@ export default function PropertyHalfmapList() {
 				</section >
 
 			</Layout >
+
+			{isModelOpen && (
+				<div className="modal" style={{ display: 'block', position: 'fixed', zIndex: 1000, top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+					<div className="modal-content" style={{ position: 'relative', margin: 'auto', padding: '20px', background: '#fff', borderRadius: '8px', maxWidth: '400px', top: '50%', transform: 'translateY(-50%)' }}>
+						<>
+							<h4>Login Alert</h4>
+							<p>Please login first!!!</p>
+							<div style={{ textAlign: 'end' }}>
+								<button className="tf-btn primary" onClick={() => {
+									closeModal();
+									setLogin(true)
+								}}>Login</button>
+								<button className="tf-btn primary" onClick={() => setIsModelOpen(false)} style={{ marginLeft: '15px' }}>Cancel</button>
+							</div>
+						</>
+					</div>
+				</div>
+			)}
+			{showLoginModal && <ModalLogin isLogin={isLogin} handleLogin={handleLogin} />}
 		</>
 	)
 }

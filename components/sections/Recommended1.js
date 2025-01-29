@@ -7,6 +7,7 @@ import Preloader from "../elements/Preloader";
 import { getData } from "../api/Helper";
 import { useTranslation } from "react-i18next";
 import PropertyBlog from "../sections/PropertyBlog";
+import PropertyData from "../sections/PropertyData";
 export default function Recommended1() {
 	const [isTab, setIsTab] = useState(0)
 	const [isVisible, setIsVisible] = useState(true)
@@ -106,7 +107,7 @@ export default function Recommended1() {
 											{properties?.filter(property => property.status)?.length ? (
 												properties.filter(property => property.status).map((property) => (
 													<div key={property.id} className="col-xl-4 col-lg-6 col-md-6">
-														<PropertyBlog data={property} slide={false} />
+														<PropertyData data={property} slide={false} />
 													</div>
 												))
 											) : (
