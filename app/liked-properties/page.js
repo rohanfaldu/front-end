@@ -168,7 +168,7 @@ export default function LikedProperty() {
                                                 onClick={() => unLike(property.property.id)}
                                             >
                                                 <img
-                                                src="/images/logo/thumbs-dark.svg"
+                                                src="/images/logo/heart.png"
                                                 alt="Delete icon"
                                                 width={25}
                                                 height={25}
