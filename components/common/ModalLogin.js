@@ -58,7 +58,7 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 						const expirationTime = Date.now() + 3600000; // 1 hour from now
 						localStorage.setItem('tokenExpiration', expirationTime);
 						localStorage.setItem('isLoggedIn', 'true');
-						router.push('/dashboard');
+						window.location.reload();
 					}
 					
 				} catch (error) {
@@ -73,7 +73,7 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 					const expirationTime = Date.now() + 3600000; // 1 hour from now
 					localStorage.setItem('tokenExpiration', expirationTime);
 					localStorage.setItem('isLoggedIn', 'true');
-					router.push('/dashboard');
+					window.location.reload();
 				}
 			}
 		}
@@ -114,7 +114,7 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 					const expirationTime = Date.now() + 3600000; // 1 hour from now
 					localStorage.setItem('tokenExpiration', expirationTime);
 					localStorage.setItem('isLoggedIn', 'true');
-					router.push('/dashboard');
+					window.location.reload();
 				}
 				
 			} catch (error) {
@@ -131,7 +131,7 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 				const expirationTime = Date.now() + 3600000; // 1 hour from now
 				localStorage.setItem('tokenExpiration', expirationTime);
 				localStorage.setItem('isLoggedIn', 'true');
-				router.push('/dashboard');
+				window.location.reload();
 			}
 		}
 	};
@@ -193,7 +193,7 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 					const expirationTime = Date.now() + 3600000; // 1 hour from now
 					localStorage.setItem('tokenExpiration', expirationTime);
 					localStorage.setItem('isLoggedIn', 'true');
-					router.push('/dashboard');
+					window.location.reload();
 				} else {
 					setErrorMessage(response.data.message);
 				}
