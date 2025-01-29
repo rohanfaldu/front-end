@@ -89,14 +89,9 @@ export default function PropertyBlog(propertyData, slide, calsulation) {
                                             >
                                                 <span className="icon icon-heart" />
                                             </li>
-                                            {
-                                                (propertyData.calsulation) ?
                                                     <li className="box-icon">
                                                         <span className="icon icon-vf" style={{ fontSize: "15px", padding: "10px", color: "#ffffff" }}>{percentage}%</span>
                                                     </li>
-                                                    :
-                                                    ""
-                                            }
                                         </ul>
                                     </>
                                 )}
