@@ -359,6 +359,7 @@ export default function PropertyHalfmapList() {
 
 	const fetchPropertys = async (page = 1, updatedFilters = {}) => {
 		try {
+			setLoading(true);
 			const lang = i18n.language;
 			const requestData = {
 				page,
@@ -394,6 +395,8 @@ export default function PropertyHalfmapList() {
 			}
 		} catch (err) {
 			setError(err.response?.data?.message || "An error occurred");
+		} finally{
+			setLoading(false);
 		}
 	};
 
@@ -487,6 +490,8 @@ export default function PropertyHalfmapList() {
 	const handleSubmit = async (page = 1,) => {
 		setCalculationStatus(true)
 		console.log("Filters:", filters);
+		setLoading(true);
+
 		const lang = i18n.language;
 		const requestData = {
 			page,
@@ -535,6 +540,8 @@ export default function PropertyHalfmapList() {
 					setSizeRange([0, maxSizeSliderRange])
 				}
 			setError(null);
+			setLoading(false);
+
 		}
 	  };
 
@@ -1021,7 +1028,7 @@ export default function PropertyHalfmapList() {
 							)}
 							</div>
 						)}
-					</div>
+						</div>
 
 						{/* <ul className="wd-navigation">
 							{Array.from({ length: pagination.totalPages }, (_, index) => (

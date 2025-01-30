@@ -1,6 +1,7 @@
 import Link from "next/link";
 import React, { useState, useEffect } from 'react';
 import ModalLogin from "../common/ModalLogin";
+import PercentageHeart from "../elements/PercentageHeart";
 
 export default function PropertyBlog(propertyData, slide, calsulation) {
     const propertySlide = slide ? "style-2" : "";
@@ -69,7 +70,7 @@ export default function PropertyBlog(propertyData, slide, calsulation) {
                     <div className="archive-top">
                         <div className="images-group" href={`/property/${propertyData.data.slug}`}>
                             <div className="images-style">
-                                <img src={(propertyData.data.picture[0]) ? propertyData.data.picture[0] : "/images/banner/no-banner.png"} alt="Property" />
+                                <img style={{height:"500px"}} src={(propertyData.data.picture[0]) ? propertyData.data.picture[0] : "/images/banner/no-banner.png"} alt="Property" />
                             </div>
                             <div className="top">
                                 {propertyData.data.transaction && (
@@ -89,18 +90,107 @@ export default function PropertyBlog(propertyData, slide, calsulation) {
                                             >
                                                 <span className="icon icon-heart" />
                                             </li>
-                                                    <li className="box-icon">
-                                                        <span className="icon icon-vf" style={{ fontSize: "15px", padding: "10px", color: "#ffffff" }}>{percentage}%</span>
-                                                    </li>
                                         </ul>
                                     </>
                                 )}
                             </div>
+
+
+                                <div className="middle">
+                                    <div className="flag-tag style-2" style={{fontSize:"30px"}}>
+                                        <Link href={`/property/${propertyData.data.slug}`} className="link" style={{color:"#fff"}}>
+                                            {propertyData.data.title}
+                                        </Link>
+                                    </div>
+                                    <div className="desc" style={{display:"flex",color:"#fff",paddingTop:"3%"}}>
+                                        <i className="fs-16 icon icon-mapPin" />
+                                        <p style={{fontSize:"16px"}}>{[propertyData.data?.district, propertyData.data?.city, propertyData.data?.state]
+                                            .filter(Boolean)
+                                            .join(', ')} </p>
+                                    </div>
+                                    <ul className="meta-list" style={{display:"flex",color:"#fff",paddingTop:"3%"}}>
+                                        <li className="item" style={{fontSize:"24px",paddingRight:"15px"}}>
+                                            <i className="icon icon-bed" />
+                                            <span>{propertyData.data.bedRooms === "0" ? '-' : `${propertyData.data.bedRooms}`}</span>
+                                        </li>
+                                        <li className="item" style={{fontSize:"24px",paddingRight:"15px"}}>
+                                            <i className="icon icon-bathtub" />
+                                            <span>{propertyData.data.bathRooms === "0" ? '-' : `${propertyData.data.bathRooms}`}</span>
+                                        </li>
+                                        <li className="item" style={{fontSize:"24px",paddingRight:"15px"}}>
+                                            <i className="icon icon-ruler" />
+                                            <span>{propertyData.data.size === null ? '-' : `${propertyData.data.size}`}</span>
+                                        </li>
+                                    </ul>
+                                    <div className="d-flex align-items-center" style={{paddingTop:"3%",paddingBottom:"3%"}}>
+                                        <h6 style={{color:"#fff"}}>{propertyData.data.price + " " + propertyData.data.currency}</h6>
+                                    </div>
+                                    <div style={{display:"flex", alignItems:"center", justifyContent:"space-between"}}>
+                                        <div style={{paddingTop:"3%", border:"1px solid #fff",borderRadius:"10px",padding:"3%", color:"#fff", display:"flex", alignItems:"center", width:"fit-content"}}>
+                                            <div className="avatar avt-40 round">
+                                                <img src={(propertyData.data.user_image) ? propertyData.data.user_image : "/images/avatar/user-image.png"} alt="Owner Avatar" />
+                                            </div>
+                                            <div style={{marginLeft:"5%", width:"200px"}}>
+                                                <span>{propertyData.data.user_name}</span>
+                                                <div className="owner-social">
+                                                    <a href="#" className="social-link" style={{color:"#fff"}}><i className="icon-twitter"></i></a>
+                                                    <a href="#" className="social-link" style={{color:"#fff"}}><i className="icon-instagram"></i></a>
+                                                    <a href="#" className="social-link" style={{color:"#fff"}}><i className="icon-facebook"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style={{ border:"1px solid #fff",borderRadius:"10px",padding:"3%", color:"#fff", display:"flex", alignItems:"center", width:"fit-content", padding:"5%"}}>
+                                            <ul className="d-flex gap-4">
+                                                <li style={{height:"40px", width:"40px", display:"flex", alignItems:"center", justifyContent:"center"}}
+                                                    onClick={(event) => {
+                                                        event.preventDefault();
+                                                        event.stopPropagation();
+                                                        handleLike(isLiked, propertyData.data.id);
+                                                    }}
+                                                >
+                                                    <PercentageHeart percentage={percentage} />
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            {/* <div className="content">
+                                <div className="h7 text-capitalize fw-7">
+                                    <Link href={`/property/${propertyData.data.slug}`} className="link">
+                                        {propertyData.data.title}
+                                    </Link>
+                                </div>
+                                <div className="desc">
+                                    <i className="fs-16 icon icon-mapPin" />
+                                    <p>{[propertyData.data?.district, propertyData.data?.city, propertyData.data?.state]
+                                        .filter(Boolean)
+                                        .join(', ')} </p>
+                                </div>
+                                <ul className="meta-list">
+                                    <li className="item">
+                                        <i className="icon icon-bed" />
+                                        <span>{propertyData.data.bedRooms === "0" ? '-' : `${propertyData.data.bedRooms}`}</span>
+                                    </li>
+                                    <li className="item">
+                                        <i className="icon icon-bathtub" />
+                                        <span>{propertyData.data.bathRooms === "0" ? '-' : `${propertyData.data.bathRooms}`}</span>
+                                    </li>
+                                    <li className="item">
+                                        <i className="icon icon-ruler" />
+                                        <span>{propertyData.data.size === null ? '-' : `${propertyData.data.size}`}</span>
+                                    </li>
+                                </ul>
+                            </div> */}
+
+
                             <div className="bottom">
                                 <span className="flag-tag style-2">{propertyData.data?.type_details?.title ? propertyData.data?.type_details?.title : propertyData.data.type}</span>
                             </div>
                         </div>
-                        <div className="content">
+
+
+
+                        {/* <div className="content">
                             <div className="h7 text-capitalize fw-7">
                                 <Link href={`/property/${propertyData.data.slug}`} className="link">
                                     {propertyData.data.title}
@@ -126,9 +216,12 @@ export default function PropertyBlog(propertyData, slide, calsulation) {
                                     <span>{propertyData.data.size === null ? '-' : `${propertyData.data.size}`}</span>
                                 </li>
                             </ul>
-                        </div>
+                        </div> */}
+
+
+
                     </div>
-                    <div className="archive-bottom d-flex justify-content-between align-items-center">
+                    {/* <div className="archive-bottom d-flex justify-content-between align-items-center">
                         <div className="d-flex gap-8 align-items-center">
                             <div className="avatar avt-40 round">
                                 <img src={(propertyData.data.user_image) ? propertyData.data.user_image : "/images/avatar/user-image.png"} alt="Owner Avatar" />
@@ -138,12 +231,12 @@ export default function PropertyBlog(propertyData, slide, calsulation) {
                         <div className="d-flex align-items-center">
                             <h6>{propertyData.data.price + " " + propertyData.data.currency}</h6>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
                 <style jsx>{`
                 .tinder-container {
                     position: relative;
-                    width: 50%;
+                    width: 65%;
                     max-width: 600px;
                     margin: 0 auto;
                 }
