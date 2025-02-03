@@ -386,7 +386,7 @@ export default function PropertyDetailsV1({ params }) {
                                         </li> */}
 
 										<li className={`${isLiked ? "liked" : "w-40 box-icon"}`} onClick={() => handleLike(isLiked, properties.id)}>
-											<span className="icon icon-heart" />
+											<span className="icon icon-heart" style={{fontSize: "30px"}} />
 										</li>
 									</ul>
 								</div>
