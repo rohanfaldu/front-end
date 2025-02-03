@@ -55,7 +55,9 @@ export default function AdvancedFilter({ sidecls }) {
 		neighbourhood: "",
 		direction: "",
 		developer_id: '',
-
+		city_name: '',
+		district_name: '',
+		neighbourhood_name: '',
 
 		
 		// amenities: [],
@@ -80,6 +82,10 @@ export default function AdvancedFilter({ sidecls }) {
 
 	const handleDistrictSelect = (districtId, districtName) => {
 		setSearchDistrict(districtName); // Set the selected city name in the input
+		setFormData(() => ({
+			...formData,
+			district_name: districtName
+		}));
 		handleFilterChange({ target: { name: 'district', value: districtId } }); // Call filter change with selected city ID
 	};
 
@@ -88,7 +94,22 @@ export default function AdvancedFilter({ sidecls }) {
 		setSearchCity(e.target.value)
 	  };
 
+	//   const handlePriceChange = (newRange) => {
+	// 	setPriceRange(newRange); // Update the range state
+	// 	setFormData((prevFilters) => ({
+	// 		...prevFilters,
+	// 		minPrice: newRange[0], // Set minPrice
+	// 		maxPrice: newRange[1], // Set maxPrice
+	// 	}));
+	// };
+
+
 	  const handleCitySelect = (cityId, cityName) => {
+		console.log(cityName);
+		setFormData(() => ({
+			...formData,
+			city_name: cityName
+		}));
 		setSearchCity(cityName); // Set the selected city name in the input
 		handleFilterChange({ target: { name: 'city', value: cityId } }); // Call filter change with selected city ID
 	};
@@ -105,6 +126,10 @@ export default function AdvancedFilter({ sidecls }) {
 
 	  const handleNeighbourhoodSelect = (neighbourhoodId, neighbourhoodName) => {
 		setSearchNeighbourhood(neighbourhoodName);
+		setFormData(() => ({
+			...formData,
+			neighbourhood_name: neighbourhoodName
+		}));
 		handleFilterChange({ target: { name: 'neighbourhood', value: neighbourhoodId } });
 	};
 
@@ -504,7 +529,7 @@ export default function AdvancedFilter({ sidecls }) {
 						</select>
 					</div>
 
-					<div className="form-style">
+					{/* <div className="form-style">
 						<label className="title-select">{t("developedby")}</label>
 						<select
 							className="form-control"
@@ -520,7 +545,7 @@ export default function AdvancedFilter({ sidecls }) {
 								</option>
 							))}
 						</select>
-					</div>
+					</div> */}
 				</div>
 			</div>
 

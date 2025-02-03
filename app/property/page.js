@@ -69,7 +69,7 @@ export default function PropertyHalfmapList() {
 	const [showNeighbourhood, setShowNeighbourhood] = useState(false);
 
 	const [transaction, setTransaction] = useState("rental");
-
+	const [addressLatLong, setAddressLatLong] = useState([]);
 
 	const [isModelOpen, setIsModelOpen] = useState(false);
 
@@ -93,7 +93,9 @@ export default function PropertyHalfmapList() {
 		city: "",
 		district: "",
 		neighbourhood: "",
-		direction: ""
+		direction: "",
+		filter_latitude: addressLatLong[0],
+		filter_longitude: addressLatLong[1],
 	});
 
 	const lang = i18n.language;
@@ -155,6 +157,9 @@ export default function PropertyHalfmapList() {
 				description: urlParams.get("description") || null,
 				type_id: urlParams.get("type_id") || null,
 				city: urlParams.get("city") || null,
+				city_name: urlParams.get("city_name") || null,
+				district_name: urlParams.get("district_name") || null,
+				neighbourhood_name: urlParams.get("neighbourhood_name") || null,
 				district: urlParams.get("district") || null,
 				neighbourhood: urlParams.get("neighbourhood") || null,
 				minPrice: urlParams.get("minPrice") !== "undefined" ? urlParams.get("minPrice") : priceRange[0],
@@ -180,7 +185,9 @@ export default function PropertyHalfmapList() {
 				console.log(params.maxPrice,"/////////////")
 				setPriceRange([params.minPrice, params.maxPrice]);
 				setSizeRange([params.minSize, params.maxSize]);
-
+				handleCitySelect(params.city, params.city_name);
+				handleDistrictSelect(params.district, params.district_name);
+				handleNeighbourhoodSelect(params.neighbourhood, params.neighbourhood_name);
 
 
 				const getFilterData = async (page = 1,) => {
@@ -341,17 +348,22 @@ export default function PropertyHalfmapList() {
 		setSearchNeighbourhood(e.target.value)	
 	  }
 
-	  const handleCitySelect = (cityId, cityName) => {
+	  const handleCitySelect = (cityId, cityName, latitude, longitude) => {
+		console.log(latitude, longitude);
+		setAddressLatLong([latitude, longitude]);
 		setSearchCity(cityName); // Set the selected city name in the input
 		handleFilterChange({ target: { name: 'city', value: cityId } }); // Call filter change with selected city ID
 	};
 
-	const handleDistrictSelect = (districtId, districtName) => {
+	const handleDistrictSelect = (districtId, districtName, latitude, longitude) => {
+		setAddressLatLong([latitude, longitude]);
 		setSearchDistrict(districtName); // Set the selected city name in the input
 		handleFilterChange({ target: { name: 'district', value: districtId } }); // Call filter change with selected city ID
 	};
 
-	const handleNeighbourhoodSelect = (neighbourhoodId, neighbourhoodName) => {
+
+	const handleNeighbourhoodSelect = (neighbourhoodId, neighbourhoodName, latitude, longitude) => {
+		setAddressLatLong([latitude, longitude]);
 		setSearchNeighbourhood(neighbourhoodName); // Set the selected city name in the input
 		handleFilterChange({ target: { name: 'neighbourhood', value: neighbourhoodId } }); // Call filter change with selected city ID
 	};
@@ -377,6 +389,14 @@ export default function PropertyHalfmapList() {
 					totalPages,
 					currentPage,
 				});
+
+				setFilters({
+					...filters,
+					minPrice: 0,
+					maxPrice: maxPriceSliderRange,
+					minSize: 0,
+					maxSize: maxSizeSliderRange,
+				})
 				setAmenities(property_meta_details);
 				setDevelopers(developers);
 				setpropertyType(property_types);
@@ -488,6 +508,7 @@ export default function PropertyHalfmapList() {
 	const filteredProperties = propertys.filter(property => property.status).reverse(); // Reverse before mapping
 	const lastPropertyId = filteredProperties.length > 0 ? filteredProperties[0].id : null; // First item is now the last one
 	const handleSubmit = async (page = 1,) => {
+		console.log(addressLatLong,"/////////////////")
 		setCalculationStatus(true)
 		console.log("Filters:", filters);
 		setLoading(true);
@@ -512,7 +533,8 @@ export default function PropertyHalfmapList() {
 			direction: filters.direction,
 			developer_id: filters.developer_id,
 			amenities_id_object_with_value: filters.amenities_id_object_with_value,
-
+			filter_latitude: addressLatLong[0],
+			filter_longitude: addressLatLong[1],
 			transaction: transaction
 		};
 		const response = await getData("api/property", requestData, true);
@@ -639,7 +661,7 @@ export default function PropertyHalfmapList() {
 																		<li
 																			key={city.id}
 																			onClick={() => {
-																				handleCitySelect(city.id, city.city_name); // Pass city name to the function
+																				handleCitySelect(city.id, city.city_name, city.latitude, city.longitude); // Pass city name to the function
 																				setSearchTerm(''); // Clear the search term
 																			}}
 																			className="city-option"
@@ -679,7 +701,7 @@ export default function PropertyHalfmapList() {
 																		<li
 																			key={city.id}
 																			onClick={() => {
-																				handleDistrictSelect(city.id, city.name);
+																				handleDistrictSelect(city.id, city.name, city.latitude, city.longitude); // Pass city name to the function
 																				setSearchTermDistrict('');
 																			}}
 																			className="city-option"
@@ -732,7 +754,7 @@ export default function PropertyHalfmapList() {
 																		<li
 																			key={city.id}
 																			onClick={() => {
-																				handleNeighbourhoodSelect(city.id, city.name);
+																				handleNeighbourhoodSelect(city.id, city.name, city.latitude, city.longitude);
 																				setSearchTermNeighbourhood('');
 																			}}
 																			className="city-option"
@@ -785,7 +807,7 @@ export default function PropertyHalfmapList() {
 													</div>
 													
 
-													<div className="form-style">
+													{/* <div className="form-style">
 														<label className="title-select">{t("developedby")}</label>
 														<select
 															className="form-control"
@@ -801,7 +823,7 @@ export default function PropertyHalfmapList() {
 																</option>
 															))}
 														</select>
-													</div>
+													</div> */}
 
 
 													<div className="form-style widget-price">
