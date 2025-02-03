@@ -602,7 +602,7 @@ export default function AdvancedFilter({ sidecls }) {
 								project.type === "number" ? (
 									<fieldset key={project.id} className="box box-fieldset">
 									<label className="title-select text-variant-1" htmlFor={project.id}>
-										{project.name}:
+										{t("numberOfAminities")}{project.name}:
 									</label>
 									<input
 										type="number"
