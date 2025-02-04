@@ -17,7 +17,7 @@ export default function PropertyBlog(propertyData, slide, calsulation) {
         setPercentage(propertyData.data.filter_result.total_percentage)
     }, [propertyData]);
 
-    const handleLike = async (isLiked, id) => {
+    const handleLike = async (isLiked, id, propertyPublisherId) => {
         const token = localStorage.getItem('token');
 
         if (!token) {
@@ -26,24 +26,47 @@ export default function PropertyBlog(propertyData, slide, calsulation) {
         }
 
         try {
-            const method = isLiked ? 'DELETE' : 'POST';
-            const response = await fetch(`${API_URL}/api/property/${id}/like`, {
-                method,
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                console.error('Error:', errorData.message);
-                return;
+            if(!isLiked){
+                const response = await fetch(`${API_URL}/api/property/like`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        propertyId: id,  // The property ID you are liking
+                        propertyPublisherId: propertyPublisherId // The publisher ID
+                    })
+                });
+            
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    console.error('Error:', errorData.message);
+                    return;
+                }
+            
+                const data = await response.json();
+                console.log(data.message);
+                setIsLiked(!isLiked);
+            }else{
+                const response = await fetch(`${API_URL}/api/property/${id}/like`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                });
+    
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    console.error('Error:', errorData.message);
+                    return;
+                }
+    
+                const data = await response.json();
+                console.log(data.message);
+                setIsLiked(!isLiked);
             }
-
-            const data = await response.json();
-            console.log(data.message);
-            setIsLiked(!isLiked);
         } catch (error) {
             console.error('Error liking the property:', error);
         }
@@ -85,7 +108,7 @@ export default function PropertyBlog(propertyData, slide, calsulation) {
                                                 onClick={(event) => {
                                                     event.preventDefault();
                                                     event.stopPropagation();
-                                                    handleLike(isLiked, propertyData.data.id);
+                                                    handleLike(isLiked, propertyData.data.id, propertyData.data.user_id);
                                                 }}
                                             >
                                                 <span className="icon icon-heart" />
@@ -145,7 +168,7 @@ export default function PropertyBlog(propertyData, slide, calsulation) {
                                                     onClick={(event) => {
                                                         event.preventDefault();
                                                         event.stopPropagation();
-                                                        handleLike(isLiked, propertyData.data.id);
+                                                        handleLike(isLiked, propertyData.data.id, propertyData.data.user_id);
                                                     }}
                                                 >
                                                     <PercentageHeart percentage={percentage} />
@@ -183,8 +206,15 @@ export default function PropertyBlog(propertyData, slide, calsulation) {
                             </div> */}
 
 
-                            <div className="bottom">
-                                <span className="flag-tag style-2">{propertyData.data?.type_details?.title ? propertyData.data?.type_details?.title : propertyData.data.type}</span>
+                            <div className="bottom" style={{display:"flex", justifyContent:"space-between", width:"93%"}}>
+                                <div>
+                                    <span className="flag-tag style-2">{propertyData.data?.type_details?.title ? propertyData.data?.type_details?.title : propertyData.data.type}</span>
+                                </div>
+                                <div>
+                                    <Link href={`/property/${propertyData.data.slug}`} className="link">
+                                        <span className="flag-tag style-2" style={{fontSize:"25px"}}>&gt;&gt;&gt;</span>
+                                    </Link>
+                                </div>
                             </div>
                         </div>
 
