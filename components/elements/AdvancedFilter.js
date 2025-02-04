@@ -349,7 +349,7 @@ export default function AdvancedFilter({ sidecls }) {
 							onChange={handleInputChange}
 						/>
 					</div>
-					<div className="form-group-2 form-style">
+					{/* <div className="form-group-2 form-style">
 						<label>{t("description")}</label>
 						<div className="group-ip">
 							<input
@@ -363,7 +363,7 @@ export default function AdvancedFilter({ sidecls }) {
 								onChange={handleInputChange}
 							/>
 						</div>
-					</div>
+					</div> */}
 					<div className="form-group-3 form-style">
 						<label>{t("propertytype")}</label>
 						<div className="group-select">
@@ -512,7 +512,7 @@ export default function AdvancedFilter({ sidecls }) {
 
 			<div className="grid-1 group-box">
 				<div className="group-select grid-2">
-					<div className="form-style">
+					{/* <div className="form-style">
 						<label className="title-select">{t("direction")}</label>
 						<select
 							className="form-control"
@@ -527,7 +527,7 @@ export default function AdvancedFilter({ sidecls }) {
 							<option value="east">East</option>
 							<option value="west">West</option>
 						</select>
-					</div>
+					</div> */}
 
 					{/* <div className="form-style">
 						<label className="title-select">{t("developedby")}</label>
