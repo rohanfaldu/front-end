@@ -616,18 +616,18 @@ export default function PropertyHalfmapList() {
 											<div className="wd-filter-select">
 												<div className="inner-group inner-filter">
 													<div className="form-style">
-														<label className="title-select">{t("title")}</label>
+														<label className="title-select">{t("keyword")}</label>
 														<input
 															type="text"
 															className="form-control"
 															value={filters.title}
 															onChange={handleFilterChange}
 															name="title"
-															placeholder={t("searchtitle")}
+															placeholder={t("searchkeyword")}
 
 														/>
 													</div>
-													<div className="form-style">
+													{/* <div className="form-style">
 														<label className="title-select">{t("description")}</label>
 														<div className="group-ip ip-icon">
 															<input
@@ -641,7 +641,7 @@ export default function PropertyHalfmapList() {
 															/>
 
 														</div>
-													</div>
+													</div> */}
 
 													<div className="form-style">
 														<label className="title-select">{t("city")}</label>

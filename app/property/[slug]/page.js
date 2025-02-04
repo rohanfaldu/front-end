@@ -3,6 +3,8 @@ import { Autoplay, Navigation, Pagination } from "swiper/modules"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { getData } from "../../../components/api/Helper";
 import ContactSeller from "@/components/sections/ContactSeller";
+import PercentageHeart from "@/components/elements/PercentageHeart";
+
 import Image from "next/image";
 const toCapitalCase = (str) => {
 	if (!str) return '';
@@ -114,6 +116,11 @@ export default function PropertyDetailsV1({ params }) {
 	const modalSwiperRef = useRef(null);
 	const [isLiked, setIsLiked] = useState(false);
 	const API_URL = process.env.NEXT_PUBLIC_API_URL;
+	const [slugPart, matching] = slug.split('-');
+
+	// Now you have `slugPart` and `matching` variables
+	console.log('Slug:', slugPart);
+	console.log('Matching:', matching);
 	
 	useEffect(() => {
 		console.log(properties);
@@ -124,7 +131,7 @@ export default function PropertyDetailsV1({ params }) {
 			const propertyObj = { page: 1, limit: 1000, lang: lang };
 			const response = await getData('api/property/', propertyObj);
 			const propertyList = response.data.list;
-			const result = propertyList.find(item => item.slug === slug);
+			const result = propertyList.find(item => item.slug === slugPart);
 			setProperties(result);
 			console.log(result,"rrrrrrrrrrrrrrr")
 			setIsLiked(result.like)
@@ -352,8 +359,17 @@ export default function PropertyDetailsV1({ params }) {
 										<Link href="#" className="flag-tag primary">{properties.transaction}</Link>
 										<h4 className="title link">{properties.title}</h4>
 									</div>
-									<div className="box-price d-flex align-items-center">
-										<h4>{properties.price} {properties.currency}</h4>
+									<div className="box-price d-flex align-items-center" style={{width: "20%", justifyContent: "space-between"}}>
+										
+				
+										<div>
+											{(matching !== undefined) ? (
+												<PercentageHeart percentage={matching} />
+											) : null}
+										</div>
+										<div>
+											<h4>{properties.price} {properties.currency}</h4>
+										</div>
 										{/* <span className="body-1 text-variant-1">/month</span> */}
 									</div>
 								</div>
@@ -370,7 +386,7 @@ export default function PropertyDetailsV1({ params }) {
 										<div className="label">LOCATION:</div>
 										<p className="meta-item"><span className="icon icon-mapPin" /> 8 Broadway, Brooklyn, New York</p>
 									</div> */}
-									<ul className="icon-box">
+									<ul className="icon-box" style={{alignItems: "center"}}>
 										{/* <li><Link href="#" className="item"><span className="icon icon-arrLeftRight" /> </Link></li>
 										<li><Link href="#" className="item"><span className="icon icon-share" /></Link></li>
 										<li><Link href="#" className="item"><span className="icon icon-heart" /></Link></li> */}
@@ -384,7 +400,10 @@ export default function PropertyDetailsV1({ params }) {
                                                 style={{ height: "24px" }}
                                             />
                                         </li> */}
-
+						
+										{/* <li>
+											<span style={{fontSize: "25px"}}>Matching-{matching} %</span>
+										</li> */}
 										<li className={`${isLiked ? "liked" : "w-40 box-icon"}`} onClick={() => handleLike(isLiked, properties.id)}>
 											<span className="icon icon-heart" style={{fontSize: "30px"}} />
 										</li>

@@ -211,7 +211,7 @@ export default function PropertyBlog(propertyData, slide, calsulation) {
                                     <span className="flag-tag style-2">{propertyData.data?.type_details?.title ? propertyData.data?.type_details?.title : propertyData.data.type}</span>
                                 </div>
                                 <div>
-                                    <Link href={`/property/${propertyData.data.slug}`} className="link">
+                                    <Link href={`/property/${propertyData.data.slug}-${percentage}`} className="link">
                                         <span className="flag-tag style-2" style={{fontSize:"25px"}}>&gt;&gt;&gt;</span>
                                     </Link>
                                 </div>
