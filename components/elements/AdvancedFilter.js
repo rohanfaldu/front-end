@@ -615,6 +615,24 @@ export default function AdvancedFilter({ sidecls }) {
 								) : null
 								)
 							) : null}
+
+						<div className="form-style">
+							<label className="title-select">{t("direction")}</label>
+							<select
+								className="form-control"
+								id="direction"
+								name="direction"
+								value={formData.direction} 
+								onChange={handleFilterChange}
+								style={{padding:"10px 16px"}}
+							>
+								<option value="">{t("selectdiretion")}</option>
+								<option value="north">North</option>
+								<option value="south">South</option>
+								<option value="east">East</option>
+								<option value="west">West</option>
+							</select>
+						</div>
 					</div>
 				</div>
 				<div className="group-checkbox">
