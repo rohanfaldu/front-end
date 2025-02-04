@@ -232,12 +232,16 @@ export default function PropertyHalfmapList() {
 						if (!initialMaxPrice) {
 								setInitialMaxPrice(maxPriceSliderRange);
 								setMaxPriceSliderRange(maxPriceSliderRange);
-								setPriceRange([0, maxPriceSliderRange]);
+								if(params.minPrice == undefined && params.maxPrice == undefined){
+									setPriceRange([0, maxPriceSliderRange]);
+								}
 							}
 			
 							if (!initialMaxSize){
 								setInitialMaxSize(maxSizeSliderRange);
-								setSizeRange([0, maxSizeSliderRange])
+								if(params.minSize == undefined && params.maxSize == undefined){
+									setSizeRange([0, maxSizeSliderRange])
+								}
 							}
 						setError(null);
 					}
