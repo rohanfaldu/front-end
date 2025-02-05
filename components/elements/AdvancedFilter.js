@@ -432,7 +432,7 @@ export default function AdvancedFilter({ sidecls }) {
 						)}
 					</div>
 
-					{showDistrict && (
+					{/* {showDistrict && ( */}
 					<div className="form-style">
 						<label className="title-select">{t("distric")}</label>
 						<input
@@ -443,6 +443,7 @@ export default function AdvancedFilter({ sidecls }) {
 							value={searchDistrict}
 							onChange={handleInputChangeDistrict}
 							placeholder={t("searchDistrict")}
+							disabled ={!showDistrict}
 						/>
 						{searchTermDistrict.length > 0 && districtOptions.length === 0 ? (
 							<ul className="city-dropdown form-style" style={{ marginTop: "0px" }}>
@@ -467,9 +468,9 @@ export default function AdvancedFilter({ sidecls }) {
 							)
 						)}
 					</div>
-					)}
+					{/* )} */}
 
-					{showNeighbourhood && (
+					{/* {showNeighbourhood && ( */}
 						<div className="form-style">
 							<label className="title-select">{t("neighbourhood")}</label>
 							<input
@@ -480,6 +481,7 @@ export default function AdvancedFilter({ sidecls }) {
 								value={searchNeighbourhood}
 								onChange={handleInputChangeNeighbourhood}
 								placeholder={t("searchNeighbourhood")}
+								disabled ={!showNeighbourhood}
 							/>
 							{searchTermNeighbourhood.length > 0 && neighbourhoodOptions.length === 0 ? (
 								<ul className="city-dropdown form-style" style={{ marginTop: "0px" }}>
@@ -504,7 +506,7 @@ export default function AdvancedFilter({ sidecls }) {
 								)
 							)}
 						</div>
-						)}
+						{/* )} */}
 
 				</div>
 			</div>
@@ -566,8 +568,8 @@ export default function AdvancedFilter({ sidecls }) {
 							/>
 							<div className="group-range-title mt-2">
 								<label className="d-flex justify-content-between mb-0">
-									<span>{priceRange[0]}$</span>
-									<span>{priceRange[1]}$</span>
+									<span>{priceRange[0]}DH</span>
+									<span>{priceRange[1]}DH</span>
 								</label>
 							</div>
 						</div>
@@ -587,8 +589,8 @@ export default function AdvancedFilter({ sidecls }) {
 						/>
 						<div className="group-range-title mt-2">
 							<label className="d-flex justify-content-between mb-0">
-								<span>{sizeRange[0]} sqm</span>
-								<span>{sizeRange[1]} sqm</span>
+								<span>{sizeRange[0]} m²</span>
+								<span>{sizeRange[1]} m²</span>
 							</label>
 						</div>
 					</div>

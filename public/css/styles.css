@@ -11035,3 +11035,14 @@ footer {
   max-width: 100%; /* Ensure it fits within the container */
   white-space: nowrap; /* Prevent wrapping for single-line truncation */
 }
+
+
+.swipe-left {
+  transform: translateX(-100%) rotate(-10deg);
+  opacity: 0;
+}
+
+.swipe-right {
+  transform: translateX(100%) rotate(10deg);
+  opacity: 0;
+}

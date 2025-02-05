@@ -37,7 +37,7 @@ export default function PropertyHalfmapList() {
 	}
 	const { t, i18n } = useTranslation();
 	const [propertys, setPropertys] = useState([]); // Store properties for the current page
-	const [loading, setLoading] = useState(false); // Manage loading state
+	const [loading, setLoading] = useState(true); // Manage loading state
 	const [error, setError] = useState(null); // Manage error state
 	const [params, setParams] = useState({}); // Store query parameters
 
@@ -147,6 +147,8 @@ export default function PropertyHalfmapList() {
     };
 
 	useEffect(() => {
+		setLoading(true);
+		setTransaction(localStorage.getItem("transaction") || "rental");
 		const url = window.location.href;
 		const urlParams = new URLSearchParams(new URL(url).search);
 		console.log('urlParams: ', urlParams);
@@ -244,6 +246,9 @@ export default function PropertyHalfmapList() {
 								}
 							}
 						setError(null);
+						setLoading(false);
+					}else{
+						setLoading(false);
 					}
 				  };
 				  getFilterData();
@@ -680,7 +685,7 @@ export default function PropertyHalfmapList() {
 
 
 													
-													{showDistrict && (
+													{/* {showDistrict && ( */}
 													<div className="form-style">
 														<label className="title-select">{t("distric")}</label>
 														<input
@@ -691,6 +696,7 @@ export default function PropertyHalfmapList() {
 															value={searchDistrict}
 															onChange={handleInputChangeDistrict}
 															placeholder={t("searchDistrict")}
+															disabled ={!showDistrict}
 														/>
 
 
@@ -718,8 +724,8 @@ export default function PropertyHalfmapList() {
 														)}
 
 													</div>
-													)}
-													{showNeighbourhood && (
+													{/* )} */}
+													{/* {showNeighbourhood && ( */}
 													<div className="form-style">
 														{/* <label className="title-select">{t("neighbourhood")}</label>
 														<select
@@ -745,6 +751,7 @@ export default function PropertyHalfmapList() {
 															value={searchNeighbourhood}
 															onChange={handleInputChangeNeighbourhood}
 															placeholder={t("searchNeighbourhood")}
+															disabled ={!showNeighbourhood}
 														/>
 
 														{searchTermNeighbourhood.length > 0 && neighbourhoodOptions.length === 0 ? (
@@ -774,7 +781,7 @@ export default function PropertyHalfmapList() {
 													</div>
 
 													
-													)}
+													{/* )} */}
 													<div className="form-style">
 														<label className="title-select">{t("propertytype")}</label>
 														<select
@@ -793,7 +800,7 @@ export default function PropertyHalfmapList() {
 														</select>
 													</div>
 
-													<div className="form-style">
+													{/* <div className="form-style">
 														<label className="title-select">{t("direction")}</label>
 														<select
 															className="form-control"
@@ -808,7 +815,7 @@ export default function PropertyHalfmapList() {
 															<option value="east">East</option>
 															<option value="west">West</option>
 														</select>
-													</div>
+													</div> */}
 													
 
 													{/* <div className="form-style">
@@ -846,8 +853,8 @@ export default function PropertyHalfmapList() {
 
 															<div className="group-range-title mt-2">
 																<label className="d-flex justify-content-between mb-0">
-																	<span>{priceRange[0]}$</span>
-																	<span>{priceRange[1]}$</span>
+																	<span>{priceRange[0]}DH</span>
+																	<span>{priceRange[1]}DH</span>
 																</label>
 															</div>
 														</div>
@@ -869,8 +876,8 @@ export default function PropertyHalfmapList() {
 
 															<div className="group-range-title mt-2">
 																<label className="d-flex justify-content-between mb-0">
-																	<span>{sizeRange[0]} sqm</span>
-																	<span>{sizeRange[1]} sqm</span>
+																	<span>{sizeRange[0]} m²</span>
+																	<span>{sizeRange[1]} m²</span>
 																</label>
 															</div>
 														</div>
@@ -912,6 +919,22 @@ export default function PropertyHalfmapList() {
 																) : null
 																)
 															) : null}
+															</div>
+															<div className="form-style">
+																<label className="title-select">{t("direction")}</label>
+																<select
+																	className="form-control"
+																	id="direction"
+																	name="direction"
+																	value={filters.direction} 
+																	onChange={handleFilterChange}
+																>
+																	<option value="">{t("selectdiretion")}</option>
+																	<option value="north">North</option>
+																	<option value="south">South</option>
+																	<option value="east">East</option>
+																	<option value="west">West</option>
+																</select>
 															</div>
 														</div>
 													</div>

@@ -94,6 +94,7 @@ import React, { useEffect, useState } from 'react';
 import Preloader from '@/components/elements/Preloader';
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "next/navigation";
+import PropertyData from "@/components/sections/PropertyData";
 export default function AgencyDetail({ params }) {
 	const { id } = params;
 	console.log(id, ">>>>>>>>>>>>>> SLUG");
@@ -344,7 +345,7 @@ export default function AgencyDetail({ params }) {
 									<Swiper {...swiperOptions2} className="swiper-wrapper">
 										{propertiesList.map((property) => (
 											<SwiperSlide>
-												<PropertyBlog data={property} slide={true} />
+												<PropertyData data={property} slide={true} />
 												
 											</SwiperSlide>
 										))}

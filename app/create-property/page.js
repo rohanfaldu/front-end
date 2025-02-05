@@ -54,7 +54,7 @@ export default function CreateProperty() {
         description_en: Yup.string().required("Description is required"),
         description_fr: Yup.string().required("Description is required"),
         price: Yup.string().required("Price is required"),
-        picture_img: Yup.array().min(3, "At least three image is required").required("Image is required"),
+        picture_img: Yup.array().min(1, "At least one image is required").required("Image is required"),
         state_id: Yup.string().required("State is required"),
         videoLink: Yup.string().url("Enter a valid URL"),
         city_id: Yup.string().required("City is required"),
@@ -73,7 +73,7 @@ export default function CreateProperty() {
             try {
                 // Fetch state list
                 if (stateList.length === 0) {
-                    const getStateInfo = await insertData('api/state', {}, true);
+                    const getStateInfo = await insertData('api/state', { page: 1, limit: 100 }, true);
                     if (getStateInfo) {
                         setStateList(getStateInfo.data.states);
                     }
@@ -449,45 +449,39 @@ export default function CreateProperty() {
                                                         multiple
                                                         className="ip-file"
                                                         onChange={(event) => {
-                                                        let imageList = [];
-                                                        const files = Array.from(event.target.files); // Convert to an array
-                                                        const validPreviews = [];
-                                                        files.forEach((file) => {
-                                                            // Check file size (less than 150KB)
-                                                            if (file.size < 150000) {
-                                                            alert(`Please upload files above the size of 150KB`);
-                                                            } else {
-                                                            // Create an Image object to check its dimensions
-                                                            const img = new Image();
-                                                            const reader = new FileReader();
-                                                            reader.onload = (e) => {
-                                                                img.src = e.target.result; // Set image src to the file's data URL
-
-                                                                // Once the image is loaded, check its dimensions
-                                                                img.onload = () => {
-                                                                const imageHeight = img.height;  // Get image height
-                                                                const imageWidth = img.width;    // Get image width
-
-                                                                // You can add your dimension validation here
-                                                                if (imageHeight <= 800 || imageWidth <= 1100) {
-                                                                    alert('Please upload images with a maximum height of 800px and a maximum width of 1100px.');
+                                                            let newImageList = [...field.value]; // Retain previously selected files
+                                                            let newPreviews = [...filePreviews]; // Retain previous previews
+                                                        
+                                                            const files = Array.from(event.target.files); // Convert to an array
+                                                        
+                                                            files.forEach((file) => {
+                                                                if (file.size < 150000) {
+                                                                    alert(`Please upload files above the size of 150KB`);
                                                                 } else {
-                                                                    // Add the file as a valid image and generate the preview
-                                                                    validPreviews.push(URL.createObjectURL(file));
-                                                                    imageList.push(file); // Add valid file to the list
+                                                                    const img = new Image();
+                                                                    const reader = new FileReader();
+                                                        
+                                                                    reader.onload = (e) => {
+                                                                        img.src = e.target.result;
+                                                        
+                                                                        img.onload = () => {
+                                                                            if (img.height <= 800 || img.width <= 1100) {
+                                                                                alert('Please upload images with a maximum height of 800px and a maximum width of 1100px.');
+                                                                            } else {
+                                                                                newPreviews.push(URL.createObjectURL(file)); // Add preview
+                                                                                newImageList.push(file); // Add valid file
+                                                                            }
+                                                        
+                                                                            setFilePreviews(newPreviews);
+                                                                            form.setFieldValue(field.name, newImageList);
+                                                                        };
+                                                                    };
+                                                        
+                                                                    reader.readAsDataURL(file);
                                                                 }
-
-                                                                // Update state and Formik with valid files
-                                                                setFilePreviews(validPreviews); // Set previews for valid files
-                                                                form.setFieldValue(field.name, imageList);
-                                                                };
-                                                            };
-
-                                                            // Read the file as a Data URL to create a preview
-                                                            reader.readAsDataURL(file);
-                                                            }
-                                                        });
+                                                            });
                                                         }}
+                                                        
                                                         style={{ display: "none" }}
                                                     />
                                                     </label>

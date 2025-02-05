@@ -8,6 +8,8 @@ const TEXTS = ['Dream Home', 'Perfect Home', 'Real Estate']
 export default function Slider1() {
 	const [index, setIndex] = useState(1);
 	const { t } = useTranslation();
+	const [transaction, setTransaction] = useState("rental");
+
 	useEffect(() => {
 		const intervalId = setInterval(
 			() => setIndex((index) => index + 1),
@@ -36,7 +38,7 @@ export default function Slider1() {
 								</div>
 								<div className="flat-tab flat-tab-form">
 									<ul className="nav-tab-form style-1 justify-content-center" role="tablist">
-										<TabNav />
+										<TabNav setTransaction={setTransaction}/>
 									</ul>
 									<div className="tab-content">
 										<div className="tab-pane fade active show" role="tabpanel">

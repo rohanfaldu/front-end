@@ -2,19 +2,19 @@ import Link from "next/link";
 import React, { useState, useEffect } from 'react';
 import ModalLogin from "../common/ModalLogin";
 
-export default function PropertyBlog( propertyData, slide, calsulation) {
+export default function PropertyData( propertyData, slide, calsulation) {
         const propertySlide = slide ? "style-2" : "";
     console.log(propertyData, ">>>>>>>>>> property Data");
     const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
     const [isLiked, setIsLiked] = useState(propertyData.data.like);
-    const [percentage, setPercentage] = useState(propertyData.data.filter_result.total_percentage);
+    // const [percentage, setPercentage] = useState(propertyData.data.filter_result.total_percentage);
     const [isModelOpen, setIsModelOpen] = useState(false);
 
 
-    useEffect(() => {
-        setPercentage(propertyData.data.filter_result.total_percentage)
-    }, [propertyData]);
+    // useEffect(() => {
+    //     setPercentage(propertyData.data.filter_result.total_percentage)
+    // }, [propertyData]);
 
     const handleLike = async (isLiked, id, propertyPublisherId) => {
         const token = localStorage.getItem('token');
