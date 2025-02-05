@@ -203,11 +203,38 @@ export default function PropertyDetailsV1({ params }) {
 	console.log(properties);
 
 
-	const handleLike = async (isLiked, id) => {
-        if (isLiked) {
-            try {
-                const token = localStorage.getItem('token');
-    
+	const handleLike = async (isLiked, id, propertyPublisherId) => {
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+            setIsModelOpen(true);
+            return;
+        }
+
+        try {
+            if(!isLiked){
+                const response = await fetch(`${API_URL}/api/property/like`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        propertyId: id,  // The property ID you are liking
+                        propertyPublisherId: propertyPublisherId // The publisher ID
+                    })
+                });
+            
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    console.error('Error:', errorData.message);
+                    return;
+                }
+            
+                const data = await response.json();
+                console.log(data.message);
+                setIsLiked(!isLiked);
+            }else{
                 const response = await fetch(`${API_URL}/api/property/${id}/like`, {
                     method: 'DELETE',
                     headers: {
@@ -216,7 +243,7 @@ export default function PropertyDetailsV1({ params }) {
                     },
                 });
     
-                if (!response.status) {
+                if (!response.ok) {
                     const errorData = await response.json();
                     console.error('Error:', errorData.message);
                     return;
@@ -225,38 +252,12 @@ export default function PropertyDetailsV1({ params }) {
                 const data = await response.json();
                 console.log(data.message);
                 setIsLiked(!isLiked);
-    
-            } catch (error) {
-                console.error('Error liking the property:', error);
             }
-        } else {
-            try {
-                const token = localStorage.getItem('token');
-    
-                const response = await fetch(`${API_URL}/api/property/${id}/like`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                });
-    
-                if (!response.status) {
-                    const errorData = await response.json();
-                    console.error('Error:', errorData.message);
-                    return;
-                }
-    
-                const data = await response.json();
-                console.log(data.message);
-                setIsLiked(!isLiked);
-
-    
-            } catch (error) {
-                console.error('Error liking the property:', error);
-            }
+        } catch (error) {
+            console.error('Error liking the property:', error);
         }
     };
+
 
 
 	const openPopup = (image) => {
@@ -404,7 +405,7 @@ export default function PropertyDetailsV1({ params }) {
 										{/* <li>
 											<span style={{fontSize: "25px"}}>Matching-{matching} %</span>
 										</li> */}
-										<li className={`${isLiked ? "liked" : "w-40 box-icon"}`} onClick={() => handleLike(isLiked, properties.id)}>
+										<li className={`${isLiked ? "liked" : "w-40 box-icon"}`} onClick={() => handleLike(isLiked, properties.id, properties.user_id)}>
 											<span className="icon icon-heart" style={{fontSize: "30px"}} />
 										</li>
 									</ul>
