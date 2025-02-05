@@ -206,10 +206,10 @@ export default function PropertyDetailsV1({ params }) {
 	const handleLike = async (isLiked, id, propertyPublisherId) => {
         const token = localStorage.getItem('token');
 
-        if (!token) {
-            setIsModelOpen(true);
-            return;
-        }
+        // if (!token) {
+        //     setIsModelOpen(true);
+        //     return;
+        // }
 
         try {
             if(!isLiked){
