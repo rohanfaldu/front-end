@@ -18,7 +18,7 @@ export default function AdvancedFilter({ sidecls }) {
 	const [initialMaxSize, setInitialMaxSize] = useState(0);
 	const [sizeRange, setSizeRange] = useState([]);
 	const [priceRange, setPriceRange] = useState([]);
-	const [transaction, setTransaction] = useState("rental");
+	const [transaction, setTransaction] = useState();
 	const { t, i18n } = useTranslation();
 	const [cityOptions, setCityOptions] = useState([]);
 	const [error, setError] = useState(null);
@@ -308,6 +308,7 @@ export default function AdvancedFilter({ sidecls }) {
 
 
 	useEffect(() => {
+			setTransaction(localStorage.getItem("transaction"));
 			fetchPropertys(pagination.currentPage);
 			fetchCityOptions(searchTerm);
 			fetchDistrictOptions(searchTermDistrict)
