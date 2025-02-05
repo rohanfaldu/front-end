@@ -68,7 +68,7 @@ export default function PropertyHalfmapList() {
 	const [showDistrict, setShowDistrict] = useState(false);
 	const [showNeighbourhood, setShowNeighbourhood] = useState(false);
 
-	const [transaction, setTransaction] = useState("rental");
+	const [transaction, setTransaction] = useState();
 	const [addressLatLong, setAddressLatLong] = useState([]);
 
 	const [isModelOpen, setIsModelOpen] = useState(false);
@@ -148,7 +148,7 @@ export default function PropertyHalfmapList() {
 
 	useEffect(() => {
 		setLoading(true);
-		setTransaction(localStorage.getItem("transaction") || "rental");
+		setTransaction(localStorage.getItem("transaction"));
 		const url = window.location.href;
 		const urlParams = new URLSearchParams(new URL(url).search);
 		console.log('urlParams: ', urlParams);
@@ -216,6 +216,7 @@ export default function PropertyHalfmapList() {
 			
 						transaction: transaction
 					};
+					console.log(transaction,".....................")
 					const response = await getData("api/property", requestData, true);
 					if (response.status) {
 						const { list, totalCount, totalPages, currentPage, property_meta_details, maxPriceSliderRange, property_types, cities, maxSizeSliderRange, developers } = response.data;
