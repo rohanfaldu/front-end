@@ -91,7 +91,7 @@ export default function PropertyBlog(propertyData, slide, calsulation) {
             <div className="tinder-container">
                 <div className={`homeya-box ${propertySlide}`} style={{marginBottom : "0px"}}>
                     <div className="archive-top">
-                        <div className="images-group" href={`/property/${propertyData.data.slug}`}>
+                        <Link className="images-group" href={`/property/${propertyData.data.slug}`}>
                             <div className="images-style">
                                 <img style={{height:"500px"}} src={(propertyData.data.picture[0]) ? propertyData.data.picture[0] : "/images/banner/no-banner.png"} alt="Property" />
                             </div>
@@ -216,7 +216,7 @@ export default function PropertyBlog(propertyData, slide, calsulation) {
                                     </Link>
                                 </div>
                             </div>
-                        </div>
+                        </Link>
 
 
 

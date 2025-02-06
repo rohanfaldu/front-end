@@ -1101,27 +1101,6 @@ export default function PropertyHalfmapList() {
 												<PropertyBlog data={property} slide={false} calculation={calculationStatus} />
 											</div>
 											<div className="button-container" style={{textAlign : "center", paddingBottom : "10px", display : "flex", justifyContent : "center"}}>
-												{/* <button
-													onClick={() => {
-														console.log("Button clicked", property.id, lastPropertyId);
-														if (property.id === lastPropertyId) {
-															handleLike(property.like, property.id, property.user_id);
-															handlePageChange(pagination.currentPage + 1);
-														}
-													}}
-													>
-													Like
-												</button>  */}
-												<img src="/images/logo/like.svg" alt="like"
-													onClick={() => {
-														console.log("Button clicked", property.id, lastPropertyId);
-														if (property.id === lastPropertyId) {
-															handleLike(property.like, property.id, property.user_id);
-															handlePageChange(pagination.currentPage + 1);
-														}
-													}}
-													style={{width : "60px", height : "60px", cursor : "pointer"}}
-												/>
 												<img
 													src="/images/logo/like.svg"
 													alt="dislike"
@@ -1135,6 +1114,17 @@ export default function PropertyHalfmapList() {
 													cursor : "pointer"
 													}}
 												/>
+												<img src="/images/logo/like.svg" alt="like"
+													onClick={() => {
+														console.log("Button clicked", property.id, lastPropertyId);
+														if (property.id === lastPropertyId) {
+															handleLike(property.like, property.id, property.user_id);
+															handlePageChange(pagination.currentPage + 1);
+														}
+													}}
+													style={{width : "60px", height : "60px", cursor : "pointer"}}
+												/>
+												
 											</div>
 										{/* </TinderCard> */}
 									</div><div className="wrap-map">
