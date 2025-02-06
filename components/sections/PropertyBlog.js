@@ -89,7 +89,7 @@ export default function PropertyBlog(propertyData, slide, calsulation) {
     return (
         <>
             <div className="tinder-container">
-                <div className={`homeya-box ${propertySlide}`}>
+                <div className={`homeya-box ${propertySlide}`} style={{marginBottom : "0px"}}>
                     <div className="archive-top">
                         <div className="images-group" href={`/property/${propertyData.data.slug}`}>
                             <div className="images-style">

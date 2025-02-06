@@ -101,7 +101,7 @@ export default function PropertyHalfmapList() {
 	const lang = i18n.language;
 	const isInitialRender = useRef(true);
 
-	const handleLike = async (isLiked, id) => {
+	const handleLike = async (isLiked, id, propertyPublisherId) => {
 		console.log("right")
         const token = localStorage.getItem('token');
 
@@ -111,23 +111,47 @@ export default function PropertyHalfmapList() {
         }
 
         try {
-            const method = isLiked ? 'DELETE' : 'POST';
-            const response = await fetch(`${API_URL}/api/property/${id}/like`, {
-                method,
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                console.error('Error:', errorData.message);
-                return;
+            if(!isLiked){
+                const response = await fetch(`${API_URL}/api/property/like`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        propertyId: id,  // The property ID you are liking
+                        propertyPublisherId: propertyPublisherId // The publisher ID
+                    })
+                });
+            
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    console.error('Error:', errorData.message);
+                    return;
+                }
+            
+                const data = await response.json();
+                console.log(data.message);
+                // setIsLiked(!isLiked);
+            }else{
+                const response = await fetch(`${API_URL}/api/property/${id}/like`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                });
+    
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    console.error('Error:', errorData.message);
+                    return;
+                }
+    
+                const data = await response.json();
+                console.log(data.message);
+                // setIsLiked(!isLiked);
             }
-
-            const data = await response.json();
-            console.log(data.message);
         } catch (error) {
             console.error('Error liking the property:', error);
         }
@@ -252,7 +276,7 @@ export default function PropertyHalfmapList() {
 						setLoading(false);
 					}
 				  };
-				  getFilterData();
+				  getFilterData(pagination.currentPage);
 		}else{
 			 fetchPropertys(pagination.currentPage);
 		}
@@ -1044,7 +1068,7 @@ export default function PropertyHalfmapList() {
 							) : (
 								filteredProperties.map((property) => (
 									<><div>
-										<TinderCard
+										{/* <TinderCard
 											key={property.id}
 											onSwipe={(direction) => {
 												if (direction === "left") {
@@ -1061,11 +1085,11 @@ export default function PropertyHalfmapList() {
 											} }
 											preventSwipe={["up", "down"]}
 											className="swipe"
-										>
+										> */}
 											<div
 												className="tinder-card"
 												style={{
-													position: "absolute",
+													
 													width: "100%",
 													top: 0,
 													display: "flex",
@@ -1076,7 +1100,43 @@ export default function PropertyHalfmapList() {
 											>
 												<PropertyBlog data={property} slide={false} calculation={calculationStatus} />
 											</div>
-										</TinderCard>
+											<div className="button-container" style={{textAlign : "center", paddingBottom : "10px", display : "flex", justifyContent : "center"}}>
+												{/* <button
+													onClick={() => {
+														console.log("Button clicked", property.id, lastPropertyId);
+														if (property.id === lastPropertyId) {
+															handleLike(property.like, property.id, property.user_id);
+															handlePageChange(pagination.currentPage + 1);
+														}
+													}}
+													>
+													Like
+												</button>  */}
+												<img src="/images/logo/like.svg" alt="like"
+													onClick={() => {
+														console.log("Button clicked", property.id, lastPropertyId);
+														if (property.id === lastPropertyId) {
+															handleLike(property.like, property.id, property.user_id);
+															handlePageChange(pagination.currentPage + 1);
+														}
+													}}
+													style={{width : "60px", height : "60px", cursor : "pointer"}}
+												/>
+												<img
+													src="/images/logo/like.svg"
+													alt="dislike"
+													onClick={() => handlePageChange(pagination.currentPage + 1)}
+													style={{
+													transform: "rotate(180deg)",
+													cursor: "pointer",
+													marginLeft: "10px",
+													width : "60px",
+													height : "60px",
+													cursor : "pointer"
+													}}
+												/>
+											</div>
+										{/* </TinderCard> */}
 									</div><div className="wrap-map">
 											<PropertyMap topmap={false} singleMap={false} propertys={property} slug="property" lat={property.latitude} lng={property.longitude} />
 										</div></>
