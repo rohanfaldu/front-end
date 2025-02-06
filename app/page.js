@@ -26,7 +26,7 @@ export default function Home() {
 	const [properties, setProperties] = useState();
 	const { t, i18n } = useTranslation();
 	const [transaction, setTransaction] = useState("");
-
+	const [loading, setLoading] = useState(true);
 	useEffect(() => {
 		fetchPropertys(pagination.currentPage);
 		setTransaction(localStorage.getItem("transaction"));
@@ -54,6 +54,7 @@ export default function Home() {
 						totalPages,
 						currentPage,
 					});
+					setLoading(false);
 				}
 			} catch (err) {
 				// setError(err.response?.data?.message || "An error occurred");
@@ -64,7 +65,7 @@ export default function Home() {
 		<>
 
 			<Layout headerStyle={1} footerStyle={1}>
-				{ properties && ( 
+				{ loading && ( 
 					<>
 						<Slider1 properties={properties}/>
 						<Recommended1 />
