@@ -526,7 +526,7 @@ export default function ProjectDetailsView({ params }) {
 									)}
 									<div className="single-property-element single-property-map">
 										<div className="h7 title fw-7">{t("map")}</div>
-										<MapMarker latitude={projectDetails?.latitude} longitude={projectDetails?.longitude} zoom={14} />
+										<MapMarker latitude={projectDetails?.latitude} longitude={projectDetails?.longitude} zoom={18} />
 
 										<ul className="info-map">
 											<li>
