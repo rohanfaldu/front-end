@@ -5,7 +5,7 @@ import AdvancedFilter from "../elements/AdvancedFilter"
 import TabNav from "../elements/TabNav";
 import { useTranslation } from "react-i18next";
 const TEXTS = ['Dream Home', 'Perfect Home', 'Real Estate']
-export default function Slider1() {
+export default function Slider1({properties}) {
 	const [index, setIndex] = useState(1);
 	const { t } = useTranslation();
 	const [transaction, setTransaction] = useState("rental");
@@ -14,6 +14,7 @@ export default function Slider1() {
 		const intervalId = setInterval(
 			() => setIndex((index) => index + 1),
 			3000, // every 3 seconds
+			console.log(properties,"aaaaaaaaaaaaaaaaaaaaaaaaaaaa")
 		)
 		return () => clearTimeout(intervalId)
 	}, [])
@@ -44,7 +45,9 @@ export default function Slider1() {
 										<div className="tab-pane fade active show" role="tabpanel">
 											<div className="form-sl">
 												<form method="post">
-													<AdvancedFilter sidecls="shadow-st" />
+													{properties && (
+														<AdvancedFilter sidecls="shadow-st" propertiesData = {properties}/>)}
+													{/* <AdvancedFilter sidecls="shadow-st" propertiesData = {properties}/> */}
 												</form>
 											</div>
 										</div>

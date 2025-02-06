@@ -12,6 +12,7 @@ import { useTranslation } from "react-i18next";
 const { defaultImage } = "/images/banner/no-banner.png";
 import Preloader from "@/components/elements/Preloader";
 import variablesList from "@/components/common/Variable";
+import ProjectMap from "@/components/elements/ProjectMap"
 
 export default function ProjectHalfmapList() {
 	const [isToggled, setToggled] = useState(false)
@@ -494,7 +495,7 @@ export default function ProjectHalfmapList() {
 						</ul>
 					</div >
 					<div className="wrap-map">
-						<PropertyMap topmap={false} singleMap={false} propertys={projects} slug="project" />
+						<ProjectMap topmap={false} singleMap={false} propertys={projects} slug="project"/>
 					</div>
 				</section >
 

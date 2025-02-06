@@ -8,7 +8,7 @@ import { getData, insertData } from "../../components/api/Helper";
 import ReactSlider from "react-slider"
 import debounce from "lodash.debounce";
 
-export default function AdvancedFilter({ sidecls }) {
+export default function AdvancedFilter({ sidecls, propertiesData }) {
 	const [isToggled, setToggled] = useState(false);
 	const [propertyType, setpropertyType] = useState([]);
 	const [propertys, setPropertys] = useState([]); 
@@ -309,7 +309,30 @@ export default function AdvancedFilter({ sidecls }) {
 
 	useEffect(() => {
 			setTransaction(localStorage.getItem("transaction"));
-			fetchPropertys(pagination.currentPage);
+			// fetchPropertys(pagination.currentPage);
+			if(propertiesData !== undefined){
+			const { list, totalCount, totalPages, currentPage, property_meta_details, maxPriceSliderRange, property_types, maxSizeSliderRange, developers } = propertiesData;
+			setPropertys(list);
+			setPagination({
+				...pagination,
+				totalCount,
+				totalPages,
+				currentPage,
+			});
+			setAmenities(property_meta_details);
+			setDevelopers(developers);
+			setpropertyType(property_types);
+			console.log(property_types,"property_types")
+			if (initialMaxPrice !== maxPriceSliderRange) {
+				setInitialMaxPrice(maxPriceSliderRange);
+				setPriceRange([0, maxPriceSliderRange]);
+			}
+			if (initialMaxSize !== maxSizeSliderRange){
+				setInitialMaxSize(maxSizeSliderRange);
+				setSizeRange([0, maxSizeSliderRange])
+			}
+		}
+
 			fetchCityOptions(searchTerm);
 			fetchDistrictOptions(searchTermDistrict)
 			fetchNeighbourhoodOptions(searchTermNeighbourhood)
