@@ -196,6 +196,10 @@ export default function PropertyHalfmapList() {
 		}
 	};
 
+	const filterSet = () => {
+		setShowNoMore(false);
+		pagination.currentPage = 1;
+	}
 
 	useEffect(() => {
 		setLoading(true);
@@ -663,7 +667,7 @@ export default function PropertyHalfmapList() {
 					<div className="wrap-sidebar">
 						<div className="flat-tab flat-tab-form widget-filter-search">
 							<div className="h7 title fw-7">{t("search")}</div>
-							<ul className="nav-tab-form" role="tablist">
+							<ul className="nav-tab-form" role="tablist" onClick={filterSet}>
 								<TabNav setTransaction={setTransaction}/>
 							</ul>
 							<div className="tab-content">
