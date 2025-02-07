@@ -171,13 +171,16 @@ export default function PropertyHalfmapList() {
     };
 
 	const [currentIndex, setCurrentIndex] = useState(0);
-
+	const [showNoMore, setShowNoMore] = useState(false);
 	const handleDislike = () => {
 		if (currentIndex < filteredProperties.length - 1) {
 			setCurrentIndex((prevIndex) => prevIndex + 1);
 		} else if (currentIndex === filteredProperties.length - 1 && pagination.totalPages > pagination.currentPage) {
 			setCurrentIndex(0);
 			handlePageChange(pagination.currentPage + 1);
+		} else if(pagination.totalPages == pagination.currentPage && currentIndex === filteredProperties.length - 1){
+			setCurrentIndex(0);
+			setShowNoMore(true);
 		}
 	};
 
@@ -187,6 +190,9 @@ export default function PropertyHalfmapList() {
 		} else if (currentIndex === filteredProperties.length - 1 && pagination.totalPages > pagination.currentPage) {
 			setCurrentIndex(0);
 			handlePageChange(pagination.currentPage + 1);
+		} else if(pagination.totalPages == pagination.currentPage && currentIndex === filteredProperties.length - 1){
+			setCurrentIndex(0);
+			setShowNoMore(true);
 		}
 	};
 
@@ -1078,7 +1084,7 @@ export default function PropertyHalfmapList() {
 							<p>{error}</p>
 						) : (
 							<div className="row" style={{ position: "relative", height: "100%" }}>
-							{propertys.filter(property => property.status).length === 0 ? (
+							{propertys.filter(property => property.status).length === 0 || showNoMore ? (
 								<div style={{ textAlign: "center" }}>
 								<img
 									src="/images/not-found/item-not-found.png"
@@ -1088,7 +1094,7 @@ export default function PropertyHalfmapList() {
 								</div>
 							) : (
 								<>
-        {filteredProperties.length > 0 && (
+        {filteredProperties.length > 0 && !showNoMore && (
             <>
                 <div>
                     <div
