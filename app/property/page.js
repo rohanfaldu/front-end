@@ -77,7 +77,7 @@ export default function PropertyHalfmapList() {
 		totalCount: 0,
 		totalPages: 1,
 		currentPage: variablesList.currentPage,
-		itemsPerPage:1,
+		itemsPerPage: 10,
 	}); // Track pagination info
 	const [filters, setFilters] = useState({
 		title: '',
@@ -169,6 +169,27 @@ export default function PropertyHalfmapList() {
         setIsModelOpen(false);
         setShowLoginModal(true);
     };
+
+	const [currentIndex, setCurrentIndex] = useState(0);
+
+	const handleDislike = () => {
+		if (currentIndex < filteredProperties.length - 1) {
+			setCurrentIndex((prevIndex) => prevIndex + 1);
+		} else if (currentIndex === filteredProperties.length - 1 && pagination.totalPages > pagination.currentPage) {
+			setCurrentIndex(0);
+			handlePageChange(pagination.currentPage + 1);
+		}
+	};
+
+	const handleLikeClick = () => {
+		if (currentIndex < filteredProperties.length - 1) {
+			setCurrentIndex((prevIndex) => prevIndex + 1);
+		} else if (currentIndex === filteredProperties.length - 1 && pagination.totalPages > pagination.currentPage) {
+			setCurrentIndex(0);
+			handlePageChange(pagination.currentPage + 1);
+		}
+	};
+
 
 	useEffect(() => {
 		setLoading(true);
@@ -1066,72 +1087,63 @@ export default function PropertyHalfmapList() {
 								/>
 								</div>
 							) : (
-								filteredProperties.map((property) => (
-									<><div>
-										{/* <TinderCard
-											key={property.id}
-											onSwipe={(direction) => {
-												if (direction === "left") {
-													console.log("left")
-													if (property.id === lastPropertyId) {
-														handlePageChange(pagination.currentPage + 1)
-													}
-												}
-												if (direction === "right") {
-													console.log("ooooooooooooooooooooo")
-													// handleLike(property.like, property.id)
-													handlePageChange(pagination.currentPage + 1)
-												}
-											} }
-											preventSwipe={["up", "down"]}
-											className="swipe"
-										> */}
-											<div
-												className="tinder-card"
-												style={{
-													
-													width: "100%",
-													top: 0,
-													display: "flex",
-													justifyContent: "center",
-													alignItems: "center",
-													zIndex: 1000
-												}}
-											>
-												<PropertyBlog data={property} slide={false} calculation={calculationStatus} />
-											</div>
-											<div className="button-container" style={{textAlign : "center", paddingBottom : "10px", display : "flex", justifyContent : "center"}}>
-												<img
-													src="/images/logo/like.svg"
-													alt="dislike"
-													onClick={() => handlePageChange(pagination.currentPage + 1)}
-													style={{
-													transform: "rotate(180deg)",
-													cursor: "pointer",
-													marginLeft: "10px",
-													width : "60px",
-													height : "60px",
-													cursor : "pointer"
-													}}
-												/>
-												<img src="/images/logo/like.svg" alt="like"
-													onClick={() => {
-														console.log("Button clicked", property.id, lastPropertyId);
-														if (property.id === lastPropertyId) {
-															handleLike(property.like, property.id, property.user_id);
-															handlePageChange(pagination.currentPage + 1);
-														}
-													}}
-													style={{width : "60px", height : "60px", cursor : "pointer"}}
-												/>
-												
-											</div>
-										{/* </TinderCard> */}
-									</div><div className="wrap-map">
-											<PropertyMap topmap={false} singleMap={false} propertys={property} slug="property" lat={property.latitude} lng={property.longitude} />
-										</div></>
-									
-								  ))
+								<>
+        {filteredProperties.length > 0 && (
+            <>
+                <div>
+                    <div
+                        className="tinder-card"
+                        style={{
+                            width: "100%",
+                            top: 0,
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            zIndex: 1000,
+                        }}
+                    >
+                        <PropertyBlog data={filteredProperties[currentIndex]} slide={false} calculation={calculationStatus} />
+                    </div>
+                    <div className="button-container" style={{ textAlign: "center", paddingBottom: "10px", display: "flex", justifyContent: "center" }}>
+                        <img
+                            src="/images/logo/like.svg"
+                            alt="dislike"
+                            onClick={handleDislike}
+                            style={{
+                                transform: "rotate(180deg)",
+                                cursor: "pointer",
+                                marginLeft: "10px",
+                                width: "60px",
+                                height: "60px",
+                            }}
+                        />
+						<img src="/images/logo/like.svg" alt="like"
+							onClick={() => {
+								console.log("Button clicked", filteredProperties[currentIndex].id, lastPropertyId);
+								handleLikeClick();
+								handleLike(
+									filteredProperties[currentIndex].like,
+									filteredProperties[currentIndex].id,
+									filteredProperties[currentIndex].user_id
+								);
+							}}
+							style={{width : "60px", height : "60px", cursor : "pointer"}}
+						/>
+                    </div>
+                </div>
+                <div className="wrap-map">
+                    <PropertyMap
+                        topmap={false}
+                        singleMap={false}
+                        propertys={filteredProperties[currentIndex]}
+                        slug="property"
+                        lat={filteredProperties[currentIndex].latitude}
+                        lng={filteredProperties[currentIndex].longitude}
+                    />
+                </div>
+            </>
+        )}
+    </>
 							)}
 							</div>
 						)}
