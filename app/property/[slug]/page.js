@@ -99,6 +99,8 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Preloader from '@/components/elements/Preloader';
 import { useTranslation } from "react-i18next";
+import ModalLogin from "@/components/common/ModalLogin";
+
 import Modal from "react-modal";
 export default function PropertyDetailsV1({ params }) {
 	const { slug } = params;
@@ -117,6 +119,9 @@ export default function PropertyDetailsV1({ params }) {
 	const [isLiked, setIsLiked] = useState(false);
 	const API_URL = process.env.NEXT_PUBLIC_API_URL;
 	const [slugPart, matching] = slug.split('-');
+	const [isModelOpen, setIsModelOpen] = useState(false);
+	const [isLogin, setLogin] = useState(false)
+	const [showLoginModal, setShowLoginModal] = useState(false)
 
 	// Now you have `slugPart` and `matching` variables
 	console.log('Slug:', slugPart);
@@ -206,10 +211,10 @@ export default function PropertyDetailsV1({ params }) {
 	const handleLike = async (isLiked, id, propertyPublisherId) => {
         const token = localStorage.getItem('token');
 
-        // if (!token) {
-        //     setIsModelOpen(true);
-        //     return;
-        // }
+        if (!token) {
+            setIsModelOpen(true);
+            return;
+        }
 
         try {
             if(!isLiked){
@@ -272,6 +277,19 @@ export default function PropertyDetailsV1({ params }) {
 		setIsOpen(false);
 		setCurrentImage(null);
 	};
+
+
+	
+	const handleLogin = () => {
+		console.log(isLogin,"///////////////////////////")
+		setLogin(!isLogin)
+		!isLogin ? document.body.classList.add("modal-open") : document.body.classList.remove("modal-open")
+	}
+
+	const closeModal = () => {
+        setIsModelOpen(false);
+        setShowLoginModal(true);
+    };
 
 	return (
 		<>
@@ -619,6 +637,25 @@ export default function PropertyDetailsV1({ params }) {
 				</div >
 
 			</Layout >
+
+			{isModelOpen && (
+				<div className="modal" style={{ display: 'block', position: 'fixed', zIndex: 1000, top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+					<div className="modal-content" style={{ position: 'relative', margin: 'auto', padding: '20px', background: '#fff', borderRadius: '8px', maxWidth: '400px', top: '50%', transform: 'translateY(-50%)' }}>
+						<>
+							<h4>Login Alert</h4>
+							<p>Please login first!!!</p>
+							<div style={{ textAlign: 'end' }}>
+								<button className="tf-btn primary" onClick={() => {
+									closeModal();
+									setLogin(true)
+								}}>Login</button>
+								<button className="tf-btn primary" onClick={() => setIsModelOpen(false)} style={{ marginLeft: '15px' }}>Cancel</button>
+							</div>
+						</>
+					</div>
+				</div>
+			)}
+			{showLoginModal && <ModalLogin isLogin={isLogin} handleLogin={handleLogin} />}
 		</>
 	)
 }

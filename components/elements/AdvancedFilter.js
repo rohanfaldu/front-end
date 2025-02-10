@@ -642,7 +642,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 								)
 							) : null}
 
-						<div className="form-style">
+						{/* <div className="form-style">
 							<label className="title-select">{t("direction")}</label>
 							<select
 								className="form-control"
@@ -658,7 +658,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 								<option value="east">East</option>
 								<option value="west">West</option>
 							</select>
-						</div>
+						</div> */}
 					</div>
 				</div>
 				<div className="group-checkbox">

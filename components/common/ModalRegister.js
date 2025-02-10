@@ -23,11 +23,6 @@ export default function ModalRegister({ isRegister, handleRegister, handleLogin 
         email_address: Yup.string()
 		  .email("Invalid email address")
           .required("Please enter valid Email address is required"),
-		mobile_number: Yup.string()
-			.matches(/^\d{10}$/, "Phone number must be exactly 10 digits")
-			.required("Phone Number is required"),
-			country_code: Yup.string()
-			.required("Country Code is required"),
         password: Yup.string()
           .required("Password is required"),
 		confirmPassword: Yup.string()
@@ -54,8 +49,8 @@ export default function ModalRegister({ isRegister, handleRegister, handleLogin 
 		}
 
         const checkData = {
-			email_address: values.email, 
-			phone_number: parseInt(values.mobile_number,10)
+			email_address: values.email_address, 
+			// phone_number: parseInt(values.mobile_number,10)
 		}
 		const getUserInfo = await insertData('auth/check/user', checkData);
         if(getUserInfo.status === false) {
