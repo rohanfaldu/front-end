@@ -100,6 +100,7 @@ import { useRouter } from 'next/navigation';
 import Preloader from '@/components/elements/Preloader';
 import { useTranslation } from "react-i18next";
 import ModalLogin from "@/components/common/ModalLogin";
+import variablesList from "@/components/common/Variable";
 
 import Modal from "react-modal";
 export default function PropertyDetailsV1({ params }) {
@@ -122,70 +123,142 @@ export default function PropertyDetailsV1({ params }) {
 	const [isModelOpen, setIsModelOpen] = useState(false);
 	const [isLogin, setLogin] = useState(false)
 	const [showLoginModal, setShowLoginModal] = useState(false)
+	const [rating, setRating] = useState(5);
+	const [comment, setComment] = useState("");
+	const [getComment, setGetComment] = useState([]);
 
+
+	const [pagination, setPagination] = useState({
+		totalCount: 0,
+		totalPages: 1,
+		currentPage: variablesList.currentPage,
+		itemsPerPage: 1,
+	}); 
 	// Now you have `slugPart` and `matching` variables
 	console.log('Slug:', slugPart);
 	console.log('Matching:', matching);
 	
+	
+
+
 	useEffect(() => {
-		console.log(properties);
+		console.log("Fetching properties...");
+	  
 		const fetchData = async () => {
-			//try {
+		  try {
 			const lang = i18n.language;
-
 			const propertyObj = { page: 1, limit: 1000, lang: lang };
-			const response = await getData('api/property/', propertyObj);
+			const response = await getData("api/property/", propertyObj);
+	  
+			if (!response || !response.data) {
+			  throw new Error("Invalid response from API");
+			}
+	  
 			const propertyList = response.data.list;
-			const result = propertyList.find(item => item.slug === slugPart);
-			setProperties(result);
-			console.log(result,"rrrrrrrrrrrrrrr")
-			setIsLiked(result.like)
-
-			const filteredDetails = result.meta_details.filter(
-				(propertyDetail) => propertyDetail.key !== 'bathrooms' && propertyDetail.key !== 'rooms'
-			);
-			const metaNumberFieldDetails = [];
-			const metaCheckboxFieldDetails = [];
-			result.meta_details.map((propertyDetail) => {
-				if (propertyDetail.type === 'number') {
-					metaNumberFieldDetails.push(propertyDetail)
+			const result = propertyList.find((item) => item.slug === slugPart);
+	  
+			if (result) {
+			  setProperties(result);
+			  setIsLiked(result.like);
+	  
+			  const filteredDetails = result.meta_details.filter(
+				(propertyDetail) => propertyDetail.key !== "bathrooms" && propertyDetail.key !== "rooms"
+			  );
+	  
+			  const metaNumberFieldDetails = [];
+			  const metaCheckboxFieldDetails = [];
+	  
+			  result.meta_details.forEach((propertyDetail) => {
+				if (propertyDetail.type === "number") {
+				  metaNumberFieldDetails.push(propertyDetail);
 				} else {
-					metaCheckboxFieldDetails.push(propertyDetail);
+				  metaCheckboxFieldDetails.push(propertyDetail);
 				}
-			});
-
-			console.log('metaNumberFieldDetails')
-			console.log(metaNumberFieldDetails);
-
-			console.log('metaCheckboxFieldDetails')
-			console.log(metaCheckboxFieldDetails);
-
-
-			const chunkArray = (array, size) => {
+			  });
+	  
+			  const chunkArray = (array, size) => {
 				const result = [];
 				for (let i = 0; i < array.length; i += size) {
-					result.push(array.slice(i, i + size));
+				  result.push(array.slice(i, i + size));
 				}
 				return result;
-			};
-
-			const metadetail = chunkArray(metaCheckboxFieldDetails, Math.ceil(metaCheckboxFieldDetails.length / 3));
-			console.log('metadetail');
-			console.log(metadetail);
-			setMetaDetails(metadetail);
-			setMetaNumberList(metaNumberFieldDetails);
-			// Save data to state
-			setLoading(false); // Stop loading
-			setError(null); // Clear errors
-			// } catch (err) {
-			// 	setError(err.response?.data?.message || 'An error occurred'); // Handle error
-			// 	setLoading(false); // Stop loading
-			// }
+			  };
+	  
+			  const metadetail = chunkArray(metaCheckboxFieldDetails, Math.ceil(metaCheckboxFieldDetails.length / 3));
+	  
+			  setMetaDetails(metadetail);
+			  setMetaNumberList(metaNumberFieldDetails);
+			  setLoading(false);
+			  setError(null);
+			} else {
+			  console.warn("Property not found!");
+			}
+		  } catch (err) {
+			setError(err.message || "An error occurred");
+			setLoading(false);
+		  }
 		};
-		console.log('properties List');
-		console.log(properties);
-		fetchData(); // Fetch data on component mount
-	}, [i18n.language]); // Empty dependency array ensures this runs only once on mount
+	  
+		fetchData();
+	  }, [i18n.language]);
+	  
+	  // Fetch property comments only after properties is set
+	  useEffect(() => {
+        if (!properties?.id) return; // Avoid unnecessary API calls
+        const token = localStorage.getItem("token");
+
+        const getPropertyComment = async () => {
+            console.log("Fetching property comments...");
+            try {
+                const requestData = {
+                    page: pagination.currentPage,
+                    limit: pagination.itemsPerPage,
+                    propertyId: properties.id,
+                };
+
+                const response = await fetch(`${API_URL}/api/property/getbycommentid`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                    body: JSON.stringify(requestData),
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                if (data.data.list) {
+                    setGetComment((prevComments) => 
+                        pagination.currentPage === 1 ? data.data.list : [...prevComments, ...data.data.list]
+                    );
+
+                    setPagination((prevPagination) => ({
+                        ...prevPagination,
+                        totalCount: data.data.totalCount,
+                        totalPages: data.data.totalPages,
+                    }));
+                }
+            } catch (error) {
+                console.error("Error fetching comments:", error);
+            }
+        };
+
+        getPropertyComment();
+    }, [properties, pagination.currentPage]); // Trigger only when `properties.id` or `currentPage` changes
+
+    const loadMoreComments = () => {
+        if (pagination.currentPage < pagination.totalPages) {
+            setPagination((prev) => ({
+                ...prev,
+                currentPage: prev.currentPage + 1,
+            }));
+        }
+    };
+	  
 
 	if (loading) {
 		return (
@@ -206,6 +279,35 @@ export default function PropertyDetailsV1({ params }) {
 	}
 	console.log('video');
 	console.log(properties);
+
+
+	
+	  
+
+
+	const handleComment = async () => {
+        const token = localStorage.getItem('token');
+
+		try {
+		  const response = await fetch(`${API_URL}/api/property/comment`, {
+			method: "POST",
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': `Bearer ${token}`
+			},
+			body: JSON.stringify({ rating, comment, propertyId: properties.id }),
+		  });
+	
+		  const data = await response.json();
+		  console.log("API Response:", data);
+	
+		  if (response.ok) {
+			setComment("");
+		  }
+		} catch (error) {
+		  console.error("Error submitting review:", error);
+		}
+	  };
 
 
 	const handleLike = async (isLiked, id, propertyPublisherId) => {
@@ -541,14 +643,44 @@ export default function PropertyDetailsV1({ params }) {
 											<div className="h7 fw-7">{t("guestreviews")}</div>
 											<Link href="#" className="tf-btn">{t("viewallreviews")}</Link>
 										</div>
-										<hr></hr>
 
+										<div className="wrap-review">
+										<ul className="box-review">
+											{getComment.map((comment) => (
+												<li key={comment.id} className="list-review-item">
+													<div className="avatar avt-60 round">
+														<img src={comment.users.image} alt="avatar" />
+													</div>
+													<div className="content" style={{width : "100%"}}>
+														<div className="name h7 fw-7 text-black">
+															{comment.users.full_name}
+														</div>
+														<span className="mt-4 d-inline-block date body-3 text-variant-2">
+															{new Date(comment.created_at).toLocaleDateString()}
+														</span>
+														<ul className="mt-8 list-star">
+															{Array.from({ length: comment.rating }).map((_, index) => (
+																<li key={index} className="icon-star" />
+															))}
+														</ul>
+														<p className="mt-12 body-2 text-black">{comment.comment}</p>
+														{pagination.currentPage < pagination.totalPages && (
+															<div onClick={loadMoreComments} className="view-question" style={{cursor: 'pointer'}}>
+																See more answered questions ({pagination.totalCount - getComment.length})
+															</div>
+														)}
+													</div>
+												</li>
+											))}
+										</ul>
+								
+										</div>
 										<div className="wrap-form-comment">
 											<div className="h7">{t("leaveareply")}</div>
 											<div id="comments" className="comments">
 												<div className="respond-comment">
 													<form method="post" id="contactform" className="comment-form form-submit" acceptCharset="utf-8" noValidate="novalidate">
-														<div className="form-wg group-ip">
+														{/* <div className="form-wg group-ip">
 															<fieldset>
 																<label className="sub-ip">{t("name")}</label>
 																<input type="text" className="form-control" name="text" placeholder={t("yourname")} required />
@@ -557,15 +689,44 @@ export default function PropertyDetailsV1({ params }) {
 																<label className="sub-ip">{t("email")}</label>
 																<input type="email" className="form-control" name="email" placeholder={t("youremail")} required />
 															</fieldset>
-														</div>
+														</div> */}
 
 														<fieldset className="form-wg">
-															<label className="sub-ip">{t("review")}</label>
-															<textarea id="comment-message" name="message" rows={4} tabIndex={4} placeholder={t("writecomment")} aria-required="true" defaultValue={""} />
+															<div>
+																<div style={{display: "flex", justifyContent: "space-between"}}>
+																	<div>
+																		<label className="sub-ip">{t("review")}</label>
+																	</div>
+																	<div>
+																		{[1, 2, 3, 4, 5].map((star) => (
+																		<img
+																			key={star}
+																			src={star <= rating ? "/images/logo/star-solid.svg" : "/images/logo/star-blank.svg"}
+																			alt="star"
+																			style={{ width: "25px", cursor: "pointer" }}
+																			onClick={() => setRating(star)}
+																		/>
+																		))}
+																	</div>
+																</div>
+																<div>
+																	<textarea
+																		id="comment-message"
+																		name="message"
+																		rows={4}
+																		tabIndex={4}
+																		placeholder={t("writecomment")}
+																		aria-required="true"
+																		value={comment}
+																		onChange={(e) => setComment(e.target.value)} // Update state on change
+																	/>
+																</div>
+															</div>
+															<button className="form-wg tf-btn primary" name="button" type="button"  disabled={comment.trim() === ""}  onClick={handleComment}>
+																<span>{t("postcomment")}</span>
+															</button>
 														</fieldset>
-														<button className="form-wg tf-btn primary" name="button" type="button">
-															<span>{t("postcomment")}</span>
-														</button>
+														
 													</form>
 												</div>
 											</div>
