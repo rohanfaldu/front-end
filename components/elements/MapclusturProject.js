@@ -15,10 +15,10 @@ export default function MapClusterProject({ topmap, propertys, slug }) {
 		<>
 			<MapContainer
 				style={{ height: `${topmap ? "460px" : "100vh"}`, zIndex: -1 }}
-				center={[51.0, 19.0]}
-				zoom={4}
+				center={[32.1854916, -7.3880943]}
+				zoom={6}
 				maxZoom={18}
-				scrollWheelZoom={false}
+				scrollWheelZoom={true}
 			>
 				<TileLayer url="https://{s}.tile.osm.org/{z}/{x}/{y}.png" />
 				{propertys.map((property, index) => (
