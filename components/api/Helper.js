@@ -28,6 +28,26 @@ export const getData = async (endpoint, parameter) => {
 };
 
 
+export const getDataWithOutTOken = async (endpoint, parameter) => {
+  const options = {
+      method: 'POST',
+      url: `${API_URL}/${endpoint}`,
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      data: parameter
+  };
+
+  try {
+      const { data } = await axios.request(options);
+      return data;
+  } catch (error) {
+      console.error('Error fetching data:', error);
+      throw error; // Re-throw the error for further handling
+  }
+};
+
+
 export const insertData = async (endpoint, data, flag) => {
     try {
       let header;

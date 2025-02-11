@@ -1,7 +1,7 @@
 'use client'
 import { Autoplay, Navigation, Pagination } from "swiper/modules"
 import { Swiper, SwiperSlide } from "swiper/react"
-import { getData } from "../../../components/api/Helper";
+import { getData, getDataWithOutTOken } from "../../../components/api/Helper";
 import ContactSeller from "@/components/sections/ContactSeller";
 import PercentageHeart from "@/components/elements/PercentageHeart";
 
@@ -132,7 +132,7 @@ export default function PropertyDetailsV1({ params }) {
 		totalCount: 0,
 		totalPages: 1,
 		currentPage: variablesList.currentPage,
-		itemsPerPage: 1,
+		itemsPerPage: variablesList.itemsPerPage,
 	}); 
 	// Now you have `slugPart` and `matching` variables
 	console.log('Slug:', slugPart);
@@ -202,53 +202,53 @@ export default function PropertyDetailsV1({ params }) {
 		fetchData();
 	  }, [i18n.language]);
 	  
-	  // Fetch property comments only after properties is set
-	  useEffect(() => {
-        if (!properties?.id) return; // Avoid unnecessary API calls
-        const token = localStorage.getItem("token");
-
-        const getPropertyComment = async () => {
-            console.log("Fetching property comments...");
-            try {
-                const requestData = {
-                    page: pagination.currentPage,
-                    limit: pagination.itemsPerPage,
-                    propertyId: properties.id,
-                };
-
-                const response = await fetch(`${API_URL}/api/property/getbycommentid`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`,
-                    },
-                    body: JSON.stringify(requestData),
-                });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-
-                const data = await response.json();
-
-                if (data.data.list) {
-                    setGetComment((prevComments) => 
-                        pagination.currentPage === 1 ? data.data.list : [...prevComments, ...data.data.list]
-                    );
-
-                    setPagination((prevPagination) => ({
-                        ...prevPagination,
-                        totalCount: data.data.totalCount,
-                        totalPages: data.data.totalPages,
-                    }));
-                }
-            } catch (error) {
-                console.error("Error fetching comments:", error);
-            }
-        };
-
-        getPropertyComment();
-    }, [properties, pagination.currentPage]); // Trigger only when `properties.id` or `currentPage` changes
+	  const getPropertyComment = async () => {
+		if (!properties?.id) return; // Avoid unnecessary API calls
+		console.log("Fetching property comments...");
+		const token = localStorage.getItem("token");
+	
+		try {
+			const requestData = {
+				page: pagination.currentPage,
+				limit: pagination.itemsPerPage,
+				propertyId: properties.id,
+			};
+	
+			const response = await fetch(`${API_URL}/api/property/getbycommentid`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+				body: JSON.stringify(requestData),
+			});
+	
+			if (!response.ok) {
+				throw new Error(`HTTP error! Status: ${response.status}`);
+			}
+	
+			const data = await response.json();
+	
+			if (data.data.list) {
+				setGetComment((prevComments) => 
+					pagination.currentPage === 1 ? data.data.list : [...prevComments, ...data.data.list]
+				);
+	
+				setPagination((prevPagination) => ({
+					...prevPagination,
+					totalCount: data.data.totalCount,
+					totalPages: data.data.totalPages,
+				}));
+			}
+		} catch (error) {
+			console.error("Error fetching comments:", error);
+		}
+	};
+	
+	// Call getPropertyComment in useEffect
+	useEffect(() => {
+		getPropertyComment();
+	}, [properties, pagination.currentPage]);
 
     const loadMoreComments = () => {
         if (pagination.currentPage < pagination.totalPages) {
@@ -303,6 +303,8 @@ export default function PropertyDetailsV1({ params }) {
 	
 		  if (response.ok) {
 			setComment("");
+			getPropertyComment();
+
 		  }
 		} catch (error) {
 		  console.error("Error submitting review:", error);
@@ -641,7 +643,7 @@ export default function PropertyDetailsV1({ params }) {
 									<div className="single-property-element single-wrapper-review">
 										<div className="box-title-review d-flex justify-content-between align-items-center flex-wrap gap-20">
 											<div className="h7 fw-7">{t("guestreviews")}</div>
-											<Link href="#" className="tf-btn">{t("viewallreviews")}</Link>
+											{/* <Link href="#" className="tf-btn">{t("viewallreviews")}</Link> */}
 										</div>
 
 										<div className="wrap-review">
@@ -664,14 +666,15 @@ export default function PropertyDetailsV1({ params }) {
 															))}
 														</ul>
 														<p className="mt-12 body-2 text-black">{comment.comment}</p>
-														{pagination.currentPage < pagination.totalPages && (
-															<div onClick={loadMoreComments} className="view-question" style={{cursor: 'pointer'}}>
-																See more answered questions ({pagination.totalCount - getComment.length})
-															</div>
-														)}
+														
 													</div>
 												</li>
 											))}
+											{pagination.currentPage < pagination.totalPages && (
+												<div onClick={loadMoreComments} className="view-question" style={{cursor: 'pointer'}}>
+													See more answered questions ({pagination.totalCount - getComment.length})
+												</div>
+											)}
 										</ul>
 								
 										</div>
