@@ -92,6 +92,10 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 	const handleInputChangeCity = (e) => {
 		setSearchTerm(e.target.value);
 		setSearchCity(e.target.value)
+		setFormData(() => ({
+			...formData,
+			title: e.target.value
+		}));
 	  };
 
 	//   const handlePriceChange = (newRange) => {
@@ -111,6 +115,11 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 			city_name: cityName
 		}));
 		setSearchCity(cityName); // Set the selected city name in the input
+		setFormData(() => ({
+			...formData,
+			title: cityName
+		}));
+
 		handleFilterChange({ target: { name: 'city', value: cityId } }); // Call filter change with selected city ID
 	};
 
@@ -370,8 +379,26 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 							title="Search for"
 							required
 							value={formData.title}
-							onChange={handleInputChange}
+							onChange={handleInputChangeCity}
 						/>
+						{searchTerm.length > 0 && (
+							cityOptions.length > 0 && (
+								<ul className="city-dropdown form-style" style={{ marginTop: "0px" }}>
+									{cityOptions.map((city) => (
+										<li
+											key={city.id}
+											onClick={() => {
+												handleCitySelect(city.id, city.city_name);
+												setSearchTerm('');
+											}}
+											className="city-option"
+										>
+											{city.city_name}
+										</li>
+									))}
+								</ul>
+							)
+						)}
 					</div>
 					{/* <div className="form-group-2 form-style">
 						<label>{t("description")}</label>
