@@ -383,7 +383,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 						/>
 						{searchTerm.length > 0 && (
 							cityOptions.length > 0 && (
-								<ul className="city-dropdown form-style" style={{ marginTop: "0px" }}>
+								<ul className="city-dropdown form-style" style={{ marginTop: "0px", position: "absolute", width: "35%" }}>
 									{cityOptions.map((city) => (
 										<li
 											key={city.id}
