@@ -272,7 +272,7 @@ export default function PropertyDetailsV1({ params }) {
 	const handleAccordion = (key) => {
 		setIsAccordion(prevState => prevState === key ? null : key)
 	}
-	if ((properties.video != null) && (!properties.video.endsWith(".mp4")) && (videoUrl === "")) {
+	if ((properties.video != null) && (videoUrl === "")) {
 		const urlParams = new URLSearchParams(new URL(properties.video).search);
 		const videoId = urlParams.get('v');
 		setVideoUrl('https://www.youtube.com/embed/' + videoId);
