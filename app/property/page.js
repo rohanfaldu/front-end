@@ -44,6 +44,7 @@ export default function PropertyHalfmapList() {
 	const [params, setParams] = useState({}); // Store query parameters
 
 	const [searchTerm, setSearchTerm] = useState(''); // Store search input
+	const [searchTermTitle, setSearchTermTitle] = useState(''); // Store search input
 	const [searchTermDistrict, setSearchTermDistrict] = useState('');
 	const [searchTermNeighbourhood, setSearchTermNeighbourhood] = useState('');
 
@@ -393,16 +394,28 @@ export default function PropertyHalfmapList() {
 
 
 	  useEffect(() => {
+		if(searchTerm){
 			fetchCityOptions(searchTerm);
+		}else if(searchTermTitle){
+			fetchCityOptions(searchTermTitle);
+		}
 			fetchDistrictOptions(searchTermDistrict)
 			fetchNeighbourhoodOptions(searchTermNeighbourhood)
-	  }, [searchTerm, searchTermDistrict, searchTermNeighbourhood]);
+	  }, [searchTerm, searchTermDistrict, searchTermNeighbourhood, searchTermTitle]);
 
 
 	
 	  const handleInputChange = (e) => {
 		setSearchTerm(e.target.value);
 		setSearchCity(e.target.value)
+	  };
+
+	  const handleInputChangeTitle = (e) => {
+		setSearchTermTitle(e.target.value);
+		setFilters((prevFilters) => ({
+			...prevFilters,
+			title : e.target.value,
+		}))
 	  };
 	
 	  const handleInputChangeDistrict = (e) => {
@@ -420,6 +433,14 @@ export default function PropertyHalfmapList() {
 		setAddressLatLong([latitude, longitude]);
 		setSearchCity(cityName); // Set the selected city name in the input
 		handleFilterChange({ target: { name: 'city', value: cityId } }); // Call filter change with selected city ID
+	};
+
+
+	  const handleCitySelectTitle = (cityId, cityName, latitude, longitude) => {
+		setFilters((prevFilters) => ({
+			...prevFilters,
+			title : cityName,
+		}))
 	};
 
 	const handleDistrictSelect = (districtId, districtName, latitude, longitude) => {
@@ -684,11 +705,29 @@ export default function PropertyHalfmapList() {
 															type="text"
 															className="form-control"
 															value={filters.title}
-															onChange={handleFilterChange}
+															onChange={handleInputChangeTitle}
 															name="title"
 															placeholder={t("searchkeyword")}
 
 														/>
+														{searchTermTitle.length > 0 && (
+															cityOptions.length > 0 && (
+																<ul className="city-dropdown form-style" style={{ marginTop: "0px"}}>
+																	{cityOptions.map((city) => (
+																		<li
+																			key={city.id}
+																			onClick={() => {
+																				handleCitySelectTitle(city.id, city.city_name);
+																				setSearchTermTitle('');
+																			}}
+																			className="city-option"
+																		>
+																			{city.city_name}
+																		</li>
+																	))}
+																</ul>
+															)
+														)}
 													</div>
 													{/* <div className="form-style">
 														<label className="title-select">{t("description")}</label>
@@ -717,7 +756,7 @@ export default function PropertyHalfmapList() {
 															onChange={handleInputChange}
 															placeholder={t("searchCity")}
 														/>
-														{searchTerm.length > 0 && cityOptions.length === 0 ? (
+														{/* {searchTerm.length > 0 && cityOptions.length === 0 ? (
 															<ul className="city-dropdown form-style" style={{ marginTop: "0px" }}>
 																<li className="city-option">City not found</li>
 															</ul>
@@ -730,6 +769,25 @@ export default function PropertyHalfmapList() {
 																			onClick={() => {
 																				handleCitySelect(city.id, city.city_name, city.latitude, city.longitude); // Pass city name to the function
 																				setSearchTerm(''); // Clear the search term
+																			}}
+																			className="city-option"
+																		>
+																			{city.city_name}
+																		</li>
+																	))}
+																</ul>
+															)
+														)} */}
+
+														{searchTerm.length > 0 && (
+															cityOptions.length > 0 && (
+																<ul className="city-dropdown form-style" style={{ marginTop: "0px"}}>
+																	{cityOptions.map((city) => (
+																		<li
+																			key={city.id}
+																			onClick={() => {
+																				handleCitySelect(city.id, city.city_name);
+																				setSearchTerm('');
 																			}}
 																			className="city-option"
 																		>
