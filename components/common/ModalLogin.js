@@ -184,6 +184,7 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 						"Content-Type": "application/json",
 					},
 				});
+				console.log(response.data.data.userProfile.role_id,"response.data.userProfile.role_id")
 
 				if(response.data.status === true) {
 					localStorage.setItem('token', response.data.data.token);
@@ -193,7 +194,13 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 					const expirationTime = Date.now() + 3600000; // 1 hour from now
 					localStorage.setItem('tokenExpiration', expirationTime);
 					localStorage.setItem('isLoggedIn', 'true');
-					window.location.reload();
+					// window.location.reload();
+					console.log(response.data.data.userProfile.role_id,"response.data.userProfile.role_id")
+					if(response.data.data.userProfile.role_id == 'c326e1e2-6f82-4af4-ba25-06029eba658f'){
+						window.location.reload();
+					}else{
+						window.location.href = '/dashboard';
+					}
 				} else {
 					setErrorMessage(response.data.message);
 				}

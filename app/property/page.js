@@ -1187,18 +1187,25 @@ export default function PropertyHalfmapList() {
                                 height: "60px",
                             }}
                         />
-						<img src="/images/logo/like.svg" alt="like"
+						<img 
+							src="/images/logo/like.svg" 
+							alt="like"
 							onClick={() => {
-								console.log("Button clicked", filteredProperties[currentIndex].id, lastPropertyId);
-								handleLikeClick();
-								handleLike(
-									filteredProperties[currentIndex].like,
-									filteredProperties[currentIndex].id,
-									filteredProperties[currentIndex].user_id
-								);
+								console.log("Button clicked", filteredProperties[currentIndex]?.id, lastPropertyId);
+								
+								if (localStorage.getItem('token')) {
+									handleLikeClick();
+								} else {
+									handleLike(
+										filteredProperties[currentIndex]?.like,
+										filteredProperties[currentIndex]?.id,
+										filteredProperties[currentIndex]?.user_id
+									);
+								}
 							}}
-							style={{width : "60px", height : "60px", cursor : "pointer"}}
+							style={{ width: "60px", height: "60px", cursor: "pointer" }}
 						/>
+
                     </div>
                 </div>
                 <div className="wrap-map">

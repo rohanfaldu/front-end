@@ -33,6 +33,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 	const [searchTerm, setSearchTerm] = useState('');
 	const [searchTermDistrict, setSearchTermDistrict] = useState('');
 	const [searchTermNeighbourhood, setSearchTermNeighbourhood] = useState('');
+	const [searchTermTitle, setSearchTermTitle] = useState(''); // Store search input
 
 	const [showDistrict, setShowDistrict] = useState(false);
 	const [showNeighbourhood, setShowNeighbourhood] = useState(false);
@@ -92,12 +93,15 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 	const handleInputChangeCity = (e) => {
 		setSearchTerm(e.target.value);
 		setSearchCity(e.target.value)
-		setFormData(() => ({
-			...formData,
-			title: e.target.value
-		}));
 	  };
 
+	  const handleInputChangeTitle = (e) => {
+		setSearchTermTitle(e.target.value);
+		setFormData((prevFilters) => ({
+			...prevFilters,
+			title : e.target.value,
+		}))
+	  };
 	//   const handlePriceChange = (newRange) => {
 	// 	setPriceRange(newRange); // Update the range state
 	// 	setFormData((prevFilters) => ({
@@ -115,12 +119,14 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 			city_name: cityName
 		}));
 		setSearchCity(cityName); // Set the selected city name in the input
-		setFormData(() => ({
-			...formData,
-			title: cityName
-		}));
-
 		handleFilterChange({ target: { name: 'city', value: cityId } }); // Call filter change with selected city ID
+	};
+
+	const handleCitySelectTitle = (cityId, cityName, latitude, longitude) => {
+		setFormData((prevFilters) => ({
+			...prevFilters,
+			title : cityName,
+		}))
 	};
 
 	const handleInputChangeDistrict = (e) => {
@@ -342,10 +348,14 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 			}
 		}
 
-			fetchCityOptions(searchTerm);
+			if(searchTerm){
+				fetchCityOptions(searchTerm);
+			}else if(searchTermTitle){
+				fetchCityOptions(searchTermTitle);
+			}
 			fetchDistrictOptions(searchTermDistrict)
 			fetchNeighbourhoodOptions(searchTermNeighbourhood)
-	}, [pagination.currentPage, i18n.language, transaction, searchTerm, searchTermDistrict, searchTermNeighbourhood]);
+	}, [pagination.currentPage, i18n.language, transaction, searchTerm, searchTermDistrict, searchTermNeighbourhood, searchTermTitle]);
 
 	const passingData = () => {
 		// Create a shallow copy of formData
@@ -379,17 +389,17 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 							title="Search for"
 							required
 							value={formData.title}
-							onChange={handleInputChangeCity}
+							onChange={handleInputChangeTitle}
 						/>
-						{searchTerm.length > 0 && (
+						{searchTermTitle.length > 0 && (
 							cityOptions.length > 0 && (
-								<ul className="city-dropdown form-style" style={{ marginTop: "0px", position: "absolute", width: "35%" }}>
+								<ul className="city-dropdown form-style" style={{ marginTop: "0px"}}>
 									{cityOptions.map((city) => (
 										<li
 											key={city.id}
 											onClick={() => {
-												handleCitySelect(city.id, city.city_name);
-												setSearchTerm('');
+												handleCitySelectTitle(city.id, city.city_name);
+												setSearchTermTitle('');
 											}}
 											className="city-option"
 										>
@@ -459,13 +469,9 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 							onChange={handleInputChangeCity}
 							placeholder={t("searchCity")}
 						/>
-						{searchTerm.length > 0 && cityOptions.length === 0 ? (
-							<ul className="city-dropdown form-style" style={{ marginTop: "0px" }}>
-								<li className="city-option">City not found</li>
-							</ul>
-						) : (
+						{searchTerm.length > 0 && (
 							cityOptions.length > 0 && (
-								<ul className="city-dropdown form-style" style={{ marginTop: "0px" }}>
+								<ul className="city-dropdown form-style" style={{ marginTop: "0px"}}>
 									{cityOptions.map((city) => (
 										<li
 											key={city.id}

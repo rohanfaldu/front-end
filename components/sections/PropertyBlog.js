@@ -86,6 +86,63 @@ export default function PropertyBlog(propertyData, slide, calsulation) {
         setShowLoginModal(true);
     };
 
+    const clickTwitter = () => {
+        console.log('twitterUrl: ', propertyData.data);
+
+        if (propertyData?.data?.user_twitter) {
+            let twitterUrl = propertyData.data.user_twitter;
+            console.log('twitterUrl: ', twitterUrl);
+    
+            // Ensure URL starts with "https://"
+            if (!twitterUrl.startsWith("http")) {
+                twitterUrl = `https://${twitterUrl}`;
+            }
+    
+            console.log("Opening URL:", twitterUrl);
+            window.open(twitterUrl, '_blank');
+        } else {
+            console.log("No Twitter URL available");
+        }
+    };
+
+    const clickInstagram = () => {
+        console.log('instagramUrl: ', propertyData.data);
+
+        if (propertyData?.data?.user_instagram) {
+            let instagramUrl = propertyData.data.user_instagram;
+            console.log('instagramUrl: ', instagramUrl);
+    
+            // Ensure URL starts with "https://"
+            if (!instagramUrl.startsWith("http")) {
+                instagramUrl = `https://${instagramUrl}`;
+            }
+    
+            console.log("Opening URL:", instagramUrl);
+            window.open(instagramUrl, '_blank');
+        } else {
+            console.log("No Instagram URL available");
+        }
+        };
+
+        const clickFacebook = () => {
+            console.log('facebookUrl: ', propertyData.data);
+
+            if (propertyData?.data?.user_facebook) {
+                let facebookUrl = propertyData.data.user_facebook;
+                console.log('facebookUrl: ', facebookUrl);
+        
+                // Ensure URL starts with "https://"
+                if (!facebookUrl.startsWith("http")) {
+                    facebookUrl = `https://${facebookUrl}`;
+                }
+        
+                console.log("Opening URL:", facebookUrl);
+                window.open(facebookUrl, '_blank');
+            } else {
+                console.log("No Facebook URL available");
+            }
+            };
+
     return (
         <>
             <div className="tinder-container">
@@ -103,7 +160,7 @@ export default function PropertyBlog(propertyData, slide, calsulation) {
                                                 {propertyData.data.transaction}
                                             </li>
                                         </ul>
-                                        <ul className="d-flex gap-4">
+                                        {/* <ul className="d-flex gap-4">
                                             <li className={`${isLiked ? "liked" : "w-40 box-icon"}`}
                                                 onClick={(event) => {
                                                     event.preventDefault();
@@ -113,7 +170,7 @@ export default function PropertyBlog(propertyData, slide, calsulation) {
                                             >
                                                 <span className="icon icon-heart" />
                                             </li>
-                                        </ul>
+                                        </ul> */}
                                     </>
                                 )}
                             </div>
@@ -154,11 +211,34 @@ export default function PropertyBlog(propertyData, slide, calsulation) {
                                                 <img src={(propertyData.data.user_image) ? propertyData.data.user_image : "/images/avatar/user-image.png"} alt="Owner Avatar" />
                                             </div>
                                             <div style={{marginLeft:"5%", width:"200px"}}>
-                                                <span>{propertyData.data.user_name}</span>
+                                                <Link href={`/${propertyData.data.user_role}/${propertyData.data.user_id}`} style={{color:"#fff"}}>
+                                                    {propertyData.data.user_name}
+                                                </Link>
+                                                {/* <span style={{cursor:"pointer"}} href={`/${propertyData.data.user_role}/${propertyData.data.user_id}`}>{propertyData.data.user_name}</span> */}
                                                 <div className="owner-social">
-                                                    <a href="#" className="social-link" style={{color:"#fff"}}><i className="icon-twitter"></i></a>
-                                                    <a href="#" className="social-link" style={{color:"#fff"}}><i className="icon-instagram"></i></a>
-                                                    <a href="#" className="social-link" style={{color:"#fff"}}><i className="icon-facebook"></i></a>
+                                                {propertyData.data.user_twitter != null&& 
+                                                    <a className="social-link" style={{color:"#fff"}} onClick={(event) => {
+                                                    event.preventDefault();
+                                                    event.stopPropagation();
+                                                    clickTwitter();
+                                                    }}><i className="icon-twitter"></i></a>
+                                                }
+
+                                                {propertyData.data.user_instagram != null&& 
+                                                    <a className="social-link" style={{color:"#fff"}} onClick={(event) => {
+                                                    event.preventDefault();
+                                                    event.stopPropagation();
+                                                    clickInstagram();
+                                                    }}><i className="icon-instagram"></i></a>
+                                                }
+
+                                                {propertyData.data.user_facebook != null&& 
+                                                    <a href="#" className="social-link" style={{color:"#fff"}} onClick={(event) => {
+                                                    event.preventDefault();
+                                                    event.stopPropagation();
+                                                    clickFacebook();
+                                                    }}><i className="icon-facebook"></i></a>
+                                                }
                                                 </div>
                                             </div>
                                         </div>
@@ -288,6 +368,11 @@ export default function PropertyBlog(propertyData, slide, calsulation) {
                     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
                     overflow: hidden;
                     transition: transform 0.3s ease;
+                }
+                @media (max-width: 650px) {
+                    .tinder-container {
+                        width: 85%;
+                    }
                 }
                 
             `}</style>
