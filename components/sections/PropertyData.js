@@ -89,7 +89,7 @@ export default function PropertyData( propertyData, slide, calsulation) {
         <>
             <div className={`homeya-box ${propertySlide}`}>
                 <div className="archive-top">
-                    <Link className="images-group" href={`/property/${propertyData.data.slug}-${propertyData.data.filter_result.total_percentage}`}>
+                    <Link className="images-group" href={`/property/${propertyData.data.slug}`}>
                         <div className="images-style">
                             <img src={(propertyData.data.picture[0]) ? propertyData.data.picture[0] : "/images/banner/no-banner.png"} alt="Property" />
                         </div>
