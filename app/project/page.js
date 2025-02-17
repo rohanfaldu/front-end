@@ -13,6 +13,7 @@ const { defaultImage } = "/images/banner/no-banner.png";
 import Preloader from "@/components/elements/Preloader";
 import variablesList from "@/components/common/Variable";
 import ProjectMap from "@/components/elements/ProjectMap"
+import debounce from "lodash.debounce";
 
 export default function ProjectHalfmapList() {
 	const [isToggled, setToggled] = useState(false)
@@ -30,11 +31,28 @@ export default function ProjectHalfmapList() {
 	const [loading, setLoading] = useState(true); // Manage loading state
 	const [error, setError] = useState(null); // Manage error state
 	const [searchTerm, setSearchTerm] = useState(''); // Store search input
+	const [searchTermDistrict, setSearchTermDistrict] = useState('');
+	const [searchTermNeighbourhood, setSearchTermNeighbourhood] = useState('');
+	const [searchNeighbourhood, setSearchNeighbourhood] = useState('');
+
+
+	const [searchCity, setSearchCity] = useState('');
+	const [cityOptions, setCityOptions] = useState([]);
+	const [districtOptions, setDistrictOptions] = useState([]);
+	const [neighbourhoodOptions, setNeighbourhoodOptions] = useState([]);
+	const [searchDistrict, setSearchDistrict] = useState('');
+
+
+	const [showDistrict, setShowDistrict] = useState(false);
+	const [showNeighbourhood, setShowNeighbourhood] = useState(false);
+
 	const [statusFilter, setStatusFilter] = useState(''); // Store selected status filter
 	const [amenities, setAmenities] = useState([]);
 	const [cities, setCities] = useState([]); // City options
 	const [districts, setDistricts] = useState([]); // District options
 	const [neighbourhoods, setNeighbourhoods] = useState([]);
+	const [cityId, setCityId] = useState(['']);
+	const [districtId, setDistrictId] = useState(['']);
 	const [pagination, setPagination] = useState({
 		totalCount: 0,
 		totalPages: 1,
@@ -43,12 +61,14 @@ export default function ProjectHalfmapList() {
 	}); // Track pagination info
 	const [filters, setFilters] = useState({
 		title: '',
-		description: '',
 		city: '',
+		district: '',
 		neighbourhood: '',
 		minPrice: priceRange[0],
 		maxPrice: priceRange[1],
-		amenities_id: [],
+		amenities_id_object_with_value: {},
+		amenities_id_array: [],
+
 	});
 
 	const lang = i18n.language;
@@ -75,6 +95,11 @@ export default function ProjectHalfmapList() {
 					totalPages,
 					currentPage,
 				});
+				setFilters({
+					...filters,
+					minPrice: 0,
+					maxPrice: maxPriceSliderRange,
+				})
 				setAmenities(project_meta_details || []);
 				setCities(cities);
 				if (!initialMaxPrice) { // Only set once
@@ -91,50 +116,78 @@ export default function ProjectHalfmapList() {
 		}
 	};
 
-	const fetchDistrict = async (cityId) => {
-		try {
-			const response = await getData('/api/district/getbycity', { city_id: cityId }, true);
-			setDistricts(response.data); // Update district dropdown options
-		} catch (error) {
-			console.error('Error fetching districts:', error);
+
+	const handleSubmit = async (page = 1,) => {
+			console.log("Filters:", filters);
+			setLoading(true);
+	
+			const lang = i18n.language;
+			const requestData = {
+				page,
+				lang,
+				limit: pagination.itemsPerPage,
+				title: filters.title,
+				city_id: filters.city,
+				district_id: filters.district,
+				neighborhoods_id: filters.neighbourhood,
+				minPrice: filters.minPrice,
+				maxPrice: filters.maxPrice,
+				amenities_id_array: filters.amenities_id_array,
+				amenities_id_object_with_value: filters.amenities_id_object_with_value,
+			};
+			const response = await getData("api/projects", requestData, true);
+			if (response.status) {
+				const { projects, totalCount, totalPages, currentPage, project_meta_details, maxPriceSliderRange, cities } = response.data;
+				setProjects(projects);
+				setPagination({
+					...pagination,
+					totalCount,
+					totalPages,
+					currentPage,
+				});
+				setAmenities(project_meta_details || []);
+				setCities(cities);
+				if (!initialMaxPrice) { // Only set once
+					setInitialMaxPrice(maxPriceSliderRange || 0); // Store the maximum price initially
+					setMaxPriceSliderRange(maxPriceSliderRange || 0); // Set slider max value
+					setPriceRange([0, maxPriceSliderRange || 0]);    // Default slider range
+				}
+				setError(null);
+				setLoading(false);
+			}
+		  };
+
+	// Handle Filter Changes
+	const handleFilterChange = async (e) => {
+		const { name, value } = e.target;
+
+		setFilters((prevFilters) => ({
+			...prevFilters,
+			[name]: value,
+			...(name === "city" && { district_id: "", neighbourhood_id: "" }),
+			...(name === "district" && { neighbourhood_id: "" }),
+		}));
+	
+		if (name === "city") {
+			setShowDistrict(false);
+			setShowNeighbourhood(false);
+	
+			if (value) {
+				setCityId(value);
+				setShowDistrict(true);
+			}
+		}
+	
+		if (name === "district") {
+			setShowNeighbourhood(false);
+	
+			if (value) {
+				setDistrictId(value);
+				setShowNeighbourhood(true);
+			}
 		}
 	};
 
-	// Handle Filter Changes
-	const handleFilterChange = (e) => {
-		const { name, value } = e.target;
-		setFilters({
-			...filters,
-			[name]: value, // Dynamically update filters based on input name
-		});
-	};
-
-	// Handle Amenities Change (Multi-Select)
-	const handleAmenitiesChange = (selectedAmenities) => {
-		setFilters({
-			...filters,
-			amenities_id: selectedAmenities,
-		});
-	};
-
-	const getChangedFilters = () => {
-		const changedFilters = {};
-
-		// Loop through all filter fields and include only the ones that are not empty or default
-		Object.keys(filters).forEach(key => {
-			// Include filter only if its value is not the default (empty string or empty array)
-			if (filters[key] !== '' && filters[key] !== undefined && filters[key] !== null && (Array.isArray(filters[key]) ? filters[key].length > 0 : true)) {
-				changedFilters[key] = filters[key];
-			}
-		});
-
-		return changedFilters;
-	};
-	// Apply Filters Button
-	const applyFilters = () => {
-		const updatedFilters = getChangedFilters();  // Get only changed filters
-		fetchProjects(1, updatedFilters);  // Fetch data with updated filters
-	};
 
 	useEffect(() => {
 		fetchProjects(pagination.currentPage);
@@ -152,7 +205,117 @@ export default function ProjectHalfmapList() {
 			maxPrice: newRange[1], // Set maxPrice
 		}));
 	};
-	console.log('>>>>>>>>projects', projects);
+
+
+	const fetchCityOptions = debounce(async (value, page = 1) => {
+		if (value.trim() === "") {
+		  setCityOptions([]);
+		  return;
+		}
+		try {
+			const lang = i18n.language;
+			const requestData = {
+				page,
+				lang,
+				limit: pagination.itemsPerPage,
+				city_name: value
+			};
+		  const response = await getData("api/city", requestData, true);
+		  setCityOptions(response.data.cities);
+		} catch (error) {
+		  console.error("Error fetching cities:", error);
+		}
+	  }, 300);
+
+	  const fetchDistrictOptions = debounce(async (value) => {
+		if (value.trim() === "") {
+			setDistrictOptions([]);
+		  return;
+		}
+		try {
+			const lang = i18n.language;
+			const requestData = {
+				lang,
+				city_id: cityId,
+				district_name: value
+			};
+		  const response = await getData("api/district/getbycity", requestData, true);
+		  setDistrictOptions(response.data);
+		} catch (error) {
+		  console.error("Error fetching cities:", error);
+		}
+	  }, 300);
+	
+	
+	  const fetchNeighbourhoodOptions = debounce(async (value) => {
+		if (value.trim() === "") {
+			setNeighbourhoodOptions([]);
+		  return;
+		}
+		try {
+			const lang = i18n.language;
+			const requestData = {
+				lang,
+				district_id: districtId,
+				neighbourhood_name: value
+			};
+		  const response = await getData("api/neighborhood/id", requestData, true);
+		  setNeighbourhoodOptions(response.data);
+		} catch (error) {
+		  console.error("Error fetching cities:", error);
+		}
+	  }, 300);
+
+
+	  useEffect(() => {
+		fetchCityOptions(searchTerm);
+		fetchDistrictOptions(searchTermDistrict)
+		fetchNeighbourhoodOptions(searchTermNeighbourhood)
+	  }, [searchTerm, searchTermDistrict, searchTermNeighbourhood]);
+
+
+	const handleInputChange = (e) => {
+		setSearchTerm(e.target.value);
+		setSearchCity(e.target.value)
+	  };
+	  const handleInputChangeDistrict = (e) => {
+		setSearchTermDistrict(e.target.value);
+		setSearchDistrict(e.target.value)	
+	  }
+
+	  const handleInputChangeNeighbourhood = (e) => {
+		setSearchTermNeighbourhood(e.target.value);
+		setSearchNeighbourhood(e.target.value)	
+	  }
+
+	const handleCitySelect = (cityId, cityName, latitude, longitude) => {
+	   console.log(latitude, longitude);
+	   setSearchCity(cityName); // Set the selected city name in the input
+	   handleFilterChange({ target: { name: 'city', value: cityId } }); // Call filter change with selected city ID
+	};
+
+	const handleDistrictSelect = (districtId, districtName, latitude, longitude) => {
+		setSearchDistrict(districtName); // Set the selected city name in the input
+		handleFilterChange({ target: { name: 'district', value: districtId } }); // Call filter change with selected city ID
+	};
+	
+	const handleNeighbourhoodSelect = (neighbourhoodId, neighbourhoodName, latitude, longitude) => {
+		setSearchNeighbourhood(neighbourhoodName); // Set the selected city name in the input
+		handleFilterChange({ target: { name: 'neighbourhood', value: neighbourhoodId } }); // Call filter change with selected city ID
+	};
+
+
+	const handleNumberChange = (amenityId, value) => {
+		setFilters((prevFilters) => ({
+			...prevFilters,
+			amenities_id_object_with_value: {
+				...prevFilters.amenities_id_object_with_value,
+				[amenityId]: value,
+			},
+		}));
+	};
+
+
 	return (
 		<>
 
@@ -166,7 +329,7 @@ export default function ProjectHalfmapList() {
 								<div className="tab-pane fade active show" role="tabpanel">
 									<div className="form-sl">
 										{/* <form method="post" onSubmit={(e) => { e.preventDefault(); applyFilters(); }}> */}
-										<form method="post" onSubmit={(e) => { e.preventDefault(); }}>
+										<form method="post" onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
 											<div className="wd-filter-select">
 												<div className="inner-group inner-filter">
 													<div className="form-style">
@@ -181,72 +344,114 @@ export default function ProjectHalfmapList() {
 
 														/>
 													</div>
-													<div className="form-style">
-														<label className="title-select">{t("description")}</label>
-														<div className="group-ip ip-icon">
-															<input
-																type="text"
-																className="form-control"
-																value={filters.description}
-																onChange={handleFilterChange}
-																name="description"
-																placeholder={t("searchdescription")}
 
-															/>
-
-														</div>
-													</div>
 													<div className="form-style">
 														<label className="title-select">{t("city")}</label>
-														<select
+														<input
+															type="text"
 															className="form-control"
+															id="city"
 															name="city"
-															value={filters.city}
-															onChange={handleFilterChange}
-														>
-															<option value="">{t("selectcity")}</option>
-															{cities.map((city) => (
-																<option key={city.id} value={city.id}>
-																	{city.city_name}
-																</option>
-															))}
-														</select>
+															value={searchCity}
+															onChange={handleInputChange}
+															placeholder={t("searchCity")}
+														/>
+														{searchTerm.length > 0 && (
+															cityOptions.length > 0 && (
+																<ul className="city-dropdown form-style" style={{ marginTop: "0px"}}>
+																	{cityOptions.map((city) => (
+																		<li
+																			key={city.id}
+																			onClick={() => {
+																				handleCitySelect(city.id, city.city_name);
+																				setSearchTerm('');
+																			}}
+																			className="city-option"
+																		>
+																			{city.city_name}
+																		</li>
+																	))}
+																</ul>
+															)
+														)}
 													</div>
 
 													<div className="form-style">
-														<label className="title-select">{t("district")}</label>
-														<select
+														<label className="title-select">{t("distric")}</label>
+														<input
+															type="text"
 															className="form-control"
+															id="district"
 															name="district"
-															value={filters.district}
-															onChange={handleFilterChange}
-															disabled={!filters.city} // Disable until a city is selected
-														>
-															<option value="">{t("selectdistrict")}</option>
-															{districts.map((district) => (
-																<option key={district.id} value={district.id}>
-																	{district.title}
-																</option>
-															))}
-														</select>
+															value={searchDistrict}
+															onChange={handleInputChangeDistrict}
+															placeholder={t("searchDistrict")}
+															disabled ={!showDistrict}
+														/>
+
+
+														{searchTermDistrict.length > 0 && districtOptions.length === 0 ? (
+															<ul className="city-dropdown form-style" style={{ marginTop: "0px" }}>
+																<li className="city-option">District not found</li>
+															</ul>
+														) : (
+															districtOptions.length > 0 && (
+																<ul className="city-dropdown form-style" style={{ marginTop: "0px" }}>
+																	{districtOptions.map((city) => (
+																		<li
+																			key={city.id}
+																			onClick={() => {
+																				handleDistrictSelect(city.id, city.name, city.latitude, city.longitude); // Pass city name to the function
+																				setSearchTermDistrict('');
+																			}}
+																			className="city-option"
+																		>
+																			{city.name}
+																		</li>
+																	))}
+																</ul>
+															)
+														)}
+
 													</div>
 
 													<div className="form-style">
 														<label className="title-select">{t("neighbourhood")}</label>
-														<select
+														<input
+															type="text"
 															className="form-control"
+															id="neighbourhood"
 															name="neighbourhood"
-															value={filters.neighbourhood}
-															onChange={handleFilterChange}
-															disabled={!filters.district} // Disable until a district is selected
-														>
-															<option value="">{t("selectneighbourhood")}</option>
-															{neighbourhoods.map((neighbourhood) => (
-																<option key={neighbourhood.id} value={neighbourhood.id}>
-																	{neighbourhood.title}
-																</option>
-															))}
-														</select>
+															value={searchNeighbourhood}
+															onChange={handleInputChangeNeighbourhood}
+															placeholder={t("searchNeighbourhood")}
+															disabled ={!showNeighbourhood}
+														/>
+
+														{searchTermNeighbourhood.length > 0 && neighbourhoodOptions.length === 0 ? (
+															<ul className="city-dropdown form-style" style={{ marginTop: "0px" }}>
+																<li className="city-option">Neighbourhood not found</li>
+															</ul>
+														) : (
+															neighbourhoodOptions.length > 0 && (
+																<ul className="city-dropdown form-style" style={{ marginTop: "0px" }}>
+																	{neighbourhoodOptions?.map((city) => (
+																		<li
+																			key={city.id}
+																			onClick={() => {
+																				handleNeighbourhoodSelect(city.id, city.name, city.latitude, city.longitude);
+																				setSearchTermNeighbourhood('');
+																			}}
+																			className="city-option"
+																		>
+																			{city.name}
+																		</li>
+																	))}
+																</ul>
+															)
+														)}
+
+
 													</div>
 
 
@@ -265,8 +470,8 @@ export default function ProjectHalfmapList() {
 
 															<div className="group-range-title mt-2">
 																<label className="d-flex justify-content-between mb-0">
-																	<span>{priceRange[0]}$</span>
-																	<span>{priceRange[1]}$</span>
+																	<span>{priceRange[0]}DH</span>
+																	<span>{priceRange[1]}DH</span>
 																</label>
 															</div>
 														</div>
@@ -278,17 +483,16 @@ export default function ProjectHalfmapList() {
 															<span className="text-advanced">{t("showadvance")}</span>
 														</a>
 													</div>
-													<div className="form-style wd-amenities" style={{ display: `${isToggled ? "block" : "none"}` }}>
+													{/* <div className="form-style wd-amenities" style={{ display: `${isToggled ? "block" : "none"}` }}>
 														<div className="group-checkbox">
 															<div className="text-1">Amenities:</div>
 															<div className="group-amenities">
-																{/* Sort amenities to show 'number' type first */}
 																{amenities
-																	.sort((a, b) => (a.type === "number" ? -1 : 1)) // Sort by type
+																	.sort((a, b) => (a.type === "number" ? -1 : 1))
 																	.map((amenity) => (
 																		<fieldset className="amenities-item" key={amenity.id}>
 																			{amenity.type === "number" ? (
-																				// Numeric input for number type
+																				
 																				<>
 																					<label
 																						htmlFor={`amenity-${amenity.id}`}
@@ -303,12 +507,12 @@ export default function ProjectHalfmapList() {
 																						value={filters[amenity.id] || ""} // Show current value or empty
 																						onChange={(e) =>
 																							setFilters({ ...filters, [amenity.id]: e.target.value })
-																						} // Update filters
+																						} 
 																						placeholder={`Enter ${amenity.name}`}
 																					/>
 																				</>
 																			) : amenity.type === "boolean" ? (
-																				// Checkbox for boolean type
+																				
 																				<>
 																					<input
 																						type="checkbox"
@@ -334,7 +538,73 @@ export default function ProjectHalfmapList() {
 																	))}
 															</div>
 														</div>
+													</div> */}
+
+
+
+<div
+													className="form-style wd-amenities"
+													style={{ display: `${isToggled ? "block" : "none"}` }}
+													>
+														<div className="group-checkbox">
+															<div className="group-amenities">
+															{amenities && amenities.length > 0 ? (
+																amenities.map((project) =>
+																project.type === "number" ? (
+																	<fieldset key={project.id} className="box box-fieldset">
+																	<label className="title-select" htmlFor={project.id}>
+																		{project.name}:
+																	</label>
+																	<input
+																		type="number"
+																		className="form-control"
+																		value={filters.amenities_id_object_with_value?.[project.id] || ""}
+																		name={project.id}
+																		onChange={(e) => handleNumberChange(project.id, e.target.value)}
+																	/>
+																	</fieldset>
+																) : null
+																)
+															) : null}
+															</div>
+														</div>
 													</div>
+
+
+
+
+													<div className="form-style wd-amenities" style={{ display: `${isToggled ? "block" : "none"}` }}>
+														<div className="group-checkbox">
+															<div className="text-1">Amenities:</div>
+															<div className="group-amenities">
+																{amenities.map((amenity) => (
+																	amenity.type === "boolean" ? (
+																	<fieldset className="amenities-item" key={amenity.id}>
+																		<input
+																			type="checkbox"
+																			className="tf-checkbox style-1"
+																			id={`amenity-${amenity.id}`}
+																			checked={filters?.amenities_id_array?.includes(amenity.id)} // Updated to amenities_id_array
+																			onChange={(e) => {
+																				const updatedAmenities = e.target.checked
+																					? [...filters.amenities_id_array, amenity.id] // Updated to amenities_id_array
+																					: filters.amenities_id_array.filter((id) => id !== amenity.id); // Updated to amenities_id_array
+																				setFilters({ ...filters, amenities_id_array: updatedAmenities }); // Updated to amenities_id_array
+																			}}
+																		/>
+																		<label htmlFor={`amenity-${amenity.id}`} className="text-cb-amenities">
+																			{amenity.name}
+																		</label>
+																	</fieldset>
+																	) : null
+																))}
+															</div>
+														</div>
+													</div>
+
+
+
+
 													<div className="form-style btn-hide-advanced" onClick={handleToggle} style={{ display: `${isToggled ? "block" : "none"}` }}>
 														<a className="filter-advanced pull-right">
 															<span className="icon icon-faders" />
@@ -352,26 +622,23 @@ export default function ProjectHalfmapList() {
 							</div >
 						</div >
 					</div >
+
+
+
+
+
+
+
+
+
+
+
+
 					<div className="wrap-inner">
 						<div className="box-title-listing style-1">
 							<h5>{t("projectlisting")}</h5>
-							<div className="box-filter-tab">
-								{/* <ul className="nav-tab-filter" role="tablist">
-									<li className="nav-tab-item" onClick={() => handleTab(1)}>
-										<a className={isTab == 1 ? "nav-link-item active" : "nav-link-item"} data-bs-toggle="tab"><i className="icon icon-grid" /></a>
-									</li>
-									<li className="nav-tab-item" onClick={() => handleTab(2)}>
-										<a className={isTab == 2 ? "nav-link-item active" : "nav-link-item"} data-bs-toggle="tab"><i className="icon icon-list" /></a>
-									</li>
-								</ul> */}
-								{/* <select className="nice-select">
-
-									<option data-value="default" className="option selected">{t("sortbydefualt")}</option>
-									<option data-value="new" className="option">{t("newest")}</option>
-									<option data-value="old" className="option">{t("oldest")}</option>
-								</select> */}
-							</div>
 						</div>
+
 						<div className="tab-content">
 
 							{loading ? (
@@ -441,22 +708,6 @@ export default function ProjectHalfmapList() {
 																	.join(', ')} </p> {/* Join remaining values with comma */}
 
 														</div>
-														{/* <ul className="meta-list">
-															<li className="item">
-																<i className="icon icon-bed" />
-																<span>{project.meta_details?.bedrooms || 0}</span>
-															</li>
-															<li className="item">
-																<i className="icon icon-bathtub" />
-																<span>{project.meta_details?.bathrooms || 0}</span>
-															</li>
-															<li className="item">
-																<i className="icon icon-ruler" />
-																<span>
-																	{project.meta_details?.size || '0'} SqFT
-																</span>
-															</li>
-														</ul> */}
 													</div>
 												</div>
 												<div className="archive-bottom d-flex justify-content-between align-items-center">

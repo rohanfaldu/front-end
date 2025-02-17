@@ -380,26 +380,25 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 			<div className={`wd-find-select ${sidecls ? sidecls : ""}`}>
 				<div className="inner-group">
 					<div className="form-group-1 search-form form-style">
-						<label>{t("keyword")}</label>
+					<label className="title-select">{t("city")}</label>
 						<input
 							type="text"
 							className="form-control"
-							placeholder={t("searchkeyword")}
-							name="title"
-							title="Search for"
-							required
-							value={formData.title}
-							onChange={handleInputChangeTitle}
+							id="city"
+							name="city"
+							value={searchCity}
+							onChange={handleInputChangeCity}
+							placeholder={t("searchCity")}
 						/>
-						{searchTermTitle.length > 0 && (
+						{searchTerm.length > 0 && (
 							cityOptions.length > 0 && (
-								<ul className="city-dropdown form-style" style={{ marginTop: "0px", position: "absolute", width: "35%" }}>
+								<ul className="city-dropdown form-style" style={{ marginTop: "0px", width: "35%", position: "absolute"}}>
 									{cityOptions.map((city) => (
 										<li
 											key={city.id}
 											onClick={() => {
-												handleCitySelectTitle(city.id, city.city_name);
-												setSearchTermTitle('');
+												handleCitySelect(city.id, city.city_name);
+												setSearchTerm('');
 											}}
 											className="city-option"
 										>
@@ -458,7 +457,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 
 			<div className="grid-1 group-box">
 				<div className="group-select grid-3">
-					<div className="form-style">
+					{/* <div className="form-style">
 						<label className="title-select">{t("city")}</label>
 						<input
 							type="text"
@@ -487,7 +486,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 								</ul>
 							)
 						)}
-					</div>
+					</div> */}
 
 					{/* {showDistrict && ( */}
 					<div className="form-style">
