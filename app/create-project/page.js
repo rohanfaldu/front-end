@@ -62,8 +62,6 @@ export default function CreateProject() {
         picture_img: Yup.array().min(1, "At one three image is required").required("Image is required"),
         state_id: Yup.string().required("State is required"),
         city_id: Yup.string().required("City is required"),
-        districts_id: Yup.string().required("District is required"),
-        neighborhood_id: Yup.string().required("Neighborhood is required"),
         icon: Yup.string().required("Icon is required"),
     });
 
