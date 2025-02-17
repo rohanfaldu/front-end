@@ -59,8 +59,6 @@ export default function CreateProperty() {
         videoLink: Yup.string().url("Enter a valid URL"),
         city_id: Yup.string().required("City is required"),
         currency_id: Yup.string().required("Currency is required"),
-        districts_id: Yup.string().required("District is required"),
-        neighborhood_id: Yup.string().required("Neighborhood is required"),
         transaction_type: Yup.string().required("Transaction type is required"),
         property_type: Yup.string().required("Property type is required"),
         size_sqft: Yup.string().required("Size is required"),
