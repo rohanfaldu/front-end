@@ -15,6 +15,7 @@ export default function Header3({ scroll, isSidebar, handleSidebar, isMobileMenu
 	const router = useRouter();
 	const [userType, setUserType] = useState('')
 	const [loggedin, setLoggedin] = useState(false);
+	const [showType, setShowType] = useState('');
 	useEffect(() => {
 		setLoggedin(true);
 	  const userDetail = JSON.parse(localStorage.getItem('user'));
@@ -22,6 +23,16 @@ export default function Header3({ scroll, isSidebar, handleSidebar, isMobileMenu
 	  const capitalizedString = capitalizeFirstChar(userDetail.user_name?userDetail.user_name:"user");
 	  setUserName(capitalizedString)
 	  console.log(userDetail.user_name);
+
+	  const userString  = localStorage.getItem('user')
+	  if (userString) {
+		const user = JSON.parse(userString);
+		if(user.roles.name){
+			setShowType(user.roles.name)
+		}
+	  } else {
+		console.log("No user data found in localStorage.");
+	  }
 	}, []);
 	const pathname = usePathname();
 
@@ -48,7 +59,12 @@ export default function Header3({ scroll, isSidebar, handleSidebar, isMobileMenu
 							<div className="inner-container d-flex justify-content-between align-items-center">
 								{/* Logo Box */}
 								<div className="logo-box d-flex">
-									<div className="logo"><img src="/images/logo/logo.svg" alt="logo" width={174} height={44} /></div>
+									{showType == 'user' &&
+										<div className="logo"><Link href="/"><img src="/images/logo/logo.svg" alt="logo" width={174} height={44} /></Link></div>
+									}
+									{showType != 'user' &&
+										<div className="logo"><img src="/images/logo/logo.svg" alt="logo" width={174} height={44} /></div>
+									}
 									<div className="button-show-hide" onClick={handleSidebar}>
 										<span className="icon icon-categories" />
 									</div>
