@@ -700,7 +700,7 @@ export default function PropertyHalfmapList() {
 										<form method="post" onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
 											<div className="wd-filter-select">
 												<div className="inner-group inner-filter">
-													<div className="form-style">
+													{/* <div className="form-style">
 														<label className="title-select">{t("keyword")}</label>
 														<input
 															type="text"
@@ -729,7 +729,7 @@ export default function PropertyHalfmapList() {
 																</ul>
 															)
 														)}
-													</div>
+													</div> */}
 													{/* <div className="form-style">
 														<label className="title-select">{t("description")}</label>
 														<div className="group-ip ip-icon">
