@@ -117,7 +117,7 @@ export default function ProjectHalfmapList() {
 	};
 
 
-	const handleSubmit = async (page = 1,) => {
+	const handleSubmit = async (page = pagination.currentPage) => {
 			console.log("Filters:", filters);
 			setLoading(true);
 	
@@ -190,11 +190,12 @@ export default function ProjectHalfmapList() {
 
 
 	useEffect(() => {
-		fetchProjects(pagination.currentPage);
+		handleSubmit(pagination.currentPage);
 	}, [pagination.currentPage, i18n.language]);
 
 	const handlePageChange = (page) => {
 		setPagination({ ...pagination, currentPage: page });
+		// handleSubmit(page)
 	};
 
 	const handlePriceChange = (newRange) => {

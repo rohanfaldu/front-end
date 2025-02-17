@@ -127,7 +127,7 @@ export default function PropertyData( propertyData, slide, calsulation) {
                             <span className="flag-tag style-2">{propertyData.data?.type_details?.title ? propertyData.data?.type_details?.title : propertyData.data.type}</span>
                         </div>
                     </Link>
-                    <Link className="content" href={`/property/${propertyData.data.slug}`}>
+                    <Link className="content" href={`/property/${propertyData.data.slug}`} style={{width: "100%"}}>
                         <div className="h7 text-capitalize fw-7">
                             
                                 {propertyData.data.title}

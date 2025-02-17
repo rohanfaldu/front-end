@@ -312,7 +312,8 @@ export default function PropertyHalfmapList() {
 				  };
 				  getFilterData(pagination.currentPage);
 		}else{
-			 fetchPropertys(pagination.currentPage);
+			//  fetchPropertys(pagination.currentPage);
+			handleSubmit(pagination.currentPage);
 		}
 		
 
@@ -457,7 +458,7 @@ export default function PropertyHalfmapList() {
 	};
 
 
-	const fetchPropertys = async (page = 1, updatedFilters = {}) => {
+	const fetchPropertys = async (page = pagination.currentPage) => {
 		try {
 			setLoading(true);
 			const lang = i18n.language;
@@ -595,7 +596,7 @@ export default function PropertyHalfmapList() {
 
 	const filteredProperties = propertys.filter(property => property.status).reverse(); // Reverse before mapping
 	const lastPropertyId = filteredProperties.length > 0 ? filteredProperties[0].id : null; // First item is now the last one
-	const handleSubmit = async (page = 1,) => {
+	const handleSubmit = async (page = pagination.currentPage) => {
 		console.log(addressLatLong,"/////////////////")
 		setCalculationStatus(true)
 		console.log("Filters:", filters);
