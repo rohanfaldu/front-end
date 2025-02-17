@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React, { useState, useEffect } from 'react';
-import ModalLogin from "../common/ModalLogin";
+import ModalLoginLike from "../common/ModelLoginLike";
 
 export default function PropertyData( propertyData, slide, calsulation) {
         const propertySlide = slide ? "style-2" : "";
@@ -185,7 +185,7 @@ export default function PropertyData( propertyData, slide, calsulation) {
                     </div>
                 </div>
             )}
-            {showLoginModal && <ModalLogin isLogin={isLogin} handleLogin={handleLogin} />}
+            {showLoginModal && <ModalLoginLike isLogin={isLogin} handleLogin={handleLogin} />}
 
 
         </>

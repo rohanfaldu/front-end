@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React, { useState, useEffect } from 'react';
-import ModalLogin from "../common/ModalLogin";
+import ModalLoginLike from "../common/ModelLoginLike";
 import PercentageHeart from "../elements/PercentageHeart";
 
 export default function PropertyBlog(propertyData, slide, calsulation) {
@@ -395,7 +395,7 @@ export default function PropertyBlog(propertyData, slide, calsulation) {
                     </div>
                 </div>
             )}
-            {showLoginModal && <ModalLogin isLogin={isLogin} handleLogin={handleLogin} />}
+            {showLoginModal && <ModalLoginLike isLogin={isLogin} handleLogin={handleLogin} />}
 
 
         </>

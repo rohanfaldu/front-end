@@ -99,7 +99,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Preloader from '@/components/elements/Preloader';
 import { useTranslation } from "react-i18next";
-import ModalLogin from "@/components/common/ModalLogin";
+import ModalLoginLike from "@/components/common/ModelLoginLike";
 import variablesList from "@/components/common/Variable";
 
 import Modal from "react-modal";
@@ -819,7 +819,7 @@ export default function PropertyDetailsV1({ params }) {
 					</div>
 				</div>
 			)}
-			{showLoginModal && <ModalLogin isLogin={isLogin} handleLogin={handleLogin} />}
+			{showLoginModal && <ModalLoginLike isLogin={isLogin} handleLogin={handleLogin} />}
 		</>
 	)
 }

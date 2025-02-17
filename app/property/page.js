@@ -14,7 +14,7 @@ import variablesList from "@/components/common/Variable";
 import debounce from "lodash.debounce";
 import PropertyBlog from "@/components/sections/PropertyBlog"
 import TinderCard from "react-tinder-card";
-import ModalLogin from "@/components/common/ModalLogin"
+import ModalLoginLike from "@/components/common/ModelLoginLike"
 
 export default function PropertyHalfmapList() {
 	const [isToggled, setToggled] = useState(false)
@@ -1262,7 +1262,7 @@ export default function PropertyHalfmapList() {
 					</div>
 				</div>
 			)}
-			{showLoginModal && <ModalLogin isLogin={isLogin} handleLogin={handleLogin} />}
+			{showLoginModal && <ModalLoginLike isLogin={isLogin} handleLogin={handleLogin} />}
 		</>
 	)
 }
