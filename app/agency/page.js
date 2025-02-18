@@ -93,7 +93,7 @@ export default function AgencyListing() {
 				page,
 				limit: pagination.itemsPerPage,
 				city_id: filters.city,
-
+				user_name: filters.title,
 			};
 			console.log(requestData);
 			const response = await getData("api/agencies", requestData, true);
@@ -174,6 +174,17 @@ export default function AgencyListing() {
 										<form method="post" onSubmit={(e) => { e.preventDefault(); handleSubmit();}}>
 											<div className="wd-filter-select">
 												<div className="inner-group inner-filter">
+												<div className="form-style">
+													<label className="title-select">{t("title")}</label>
+													<input
+														type="text"
+														className="form-control"
+														value={filters.title}
+														onChange={handleFilterChange}
+														name="title"
+														placeholder={t("searchtitle")}
+													/>
+												</div>
 												<div className="form-style">
 														<label className="title-select">{t("city")}</label>
 														<input

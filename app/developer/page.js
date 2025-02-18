@@ -134,6 +134,7 @@ const fetchCityOptions = debounce(async (value, page = 1) => {
         page,
         limit: pagination.itemsPerPage,
         city_id: filters.city,
+        user_name: filters.title,
       };
       console.log(requestData,"requestData")
       const response = await getData("api/developer", requestData, true);
@@ -203,6 +204,19 @@ const fetchCityOptions = debounce(async (value, page = 1) => {
 										<form method="post" onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
 											<div className="wd-filter-select">
 												<div className="inner-group inner-filter">
+
+                          <div className="form-style">
+														<label className="title-select">{t("title")}</label>
+														<input
+															type="text"
+															className="form-control"
+															value={filters.title}
+															onChange={handleFilterChange}
+															name="title"
+															placeholder={t("searchtitle")}
+
+														/>
+													</div>
 													<div className="form-style">
 														<label className="title-select">{t("city")}</label>
 														<input
@@ -261,7 +275,9 @@ const fetchCityOptions = debounce(async (value, page = 1) => {
               ) : error ? (
                 <p>{error}</p>
               ) : developerList?.length === 0 ? (
-                <p>Not Found</p>
+                <div style={{ textAlign: "center"}}>
+									<img src="/images/not-found/item-not-found.png" alt="No projects found" style={{ height: "300px"}}/>
+								</div>
               ) : (
                 <div className="row">
                   {developerList?.map((developerUserData) => (
