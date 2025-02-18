@@ -12,6 +12,8 @@ import { useTranslation } from "react-i18next";
 const { defaultImage } = "/images/banner/no-banner.png";
 import Preloader from "@/components/elements/Preloader";
 import variablesList from "@/components/common/Variable";
+import debounce from "lodash.debounce";
+
 
 export default function developerListing() {
   const [isToggled, setToggled] = useState(false)
@@ -34,6 +36,9 @@ export default function developerListing() {
   const [cities, setCities] = useState([]); // City options
   const [districts, setDistricts] = useState([]); // District options
   const [neighbourhoods, setNeighbourhoods] = useState([]);
+  const [searchCity, setSearchCity] = useState('');
+  const [cityOptions, setCityOptions] = useState([]);
+  
   const [pagination, setPagination] = useState({
     totalCount: 0,
     totalPages: 0,
@@ -49,6 +54,40 @@ export default function developerListing() {
     maxPrice: priceRange[1],
     amenities_id: [],
   });
+
+
+  const handleInputChange = (e) => {
+    console.log(e,"lllllllllllll")
+		setSearchTerm(e.target.value);
+		setSearchCity(e.target.value)
+    if (e.target.name === "city" && e.target.value.trim() === "") {
+      setFilters((prevFilters) => ({ ...prevFilters, city: "" }));
+    }
+	  };
+
+const fetchCityOptions = debounce(async (value, page = 1) => {
+    if (value.trim() === "") {
+      setCityOptions([]);
+      return;
+    }
+    try {
+      const requestData = {
+        page,
+        limit: pagination.itemsPerPage,
+        city_name: value
+      };
+      const response = await getData("api/city", requestData, true);
+      setCityOptions(response.data.cities);
+    } catch (error) {
+      console.error("Error fetching cities:", error);
+    }
+    }, 300);
+
+
+    useEffect(() => {
+      fetchCityOptions(searchTerm);
+    }, [searchTerm]);
+
 
   const fetchDeveloperList = async (page = 1, updatedFilters = {}) => {
     setLoading(true);
@@ -87,68 +126,68 @@ export default function developerListing() {
     }
   };
 
-  const fetchDistrict = async (cityId) => {
+  const handleSubmit = async (page = pagination.currentPage) => {
+    setLoading(true);
     try {
-      const response = await getData('/api/district/getbycity', { city_id: cityId }, true);
-      setDistricts(response.data); // Update district dropdown options
-    } catch (error) {
-      console.error('Error fetching districts:', error);
+      // Set the filters to the updated filters, defaulting to empty values if not provided
+      const requestData = {
+        page,
+        limit: pagination.itemsPerPage,
+        city_id: filters.city,
+      };
+      console.log(requestData,"requestData")
+      const response = await getData("api/developer", requestData, true);
+      console.log(response);
+      if (response.status) {
+        const { list, totalCount, totalPages, currentPage, project_meta_details, maxPriceSliderRange, cities } = response.data;
+        setDeveloperList(list);
+        setPagination({
+          ...pagination,
+          totalCount,
+          totalPages,
+          currentPage,
+        });
+        setAmenities(project_meta_details || []);
+        setCities(cities);
+        if (!initialMaxPrice) { // Only set once
+          setInitialMaxPrice(maxPriceSliderRange || 0); // Store the maximum price initially
+          setMaxPriceSliderRange(maxPriceSliderRange || 0); // Set slider max value
+          setPriceRange([0, maxPriceSliderRange || 0]);    // Default slider range
+        }
+        setError(null);
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || "An error occurred");
+    } finally {
+      setLoading(false);
     }
-  };
+  }
 
   // Handle Filter Changes
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
-    setFilters({
-      ...filters,
-      [name]: value, // Dynamically update filters based on input name
-    });
+
+		setFilters((prevFilters) => ({
+			...prevFilters,
+			[name]: value,
+			...(name === "city" && { district_id: "", neighbourhood_id: "" }),
+			...(name === "district" && { neighbourhood_id: "" }),
+		}));
   };
 
-  // Handle Amenities Change (Multi-Select)
-  const handleAmenitiesChange = (selectedAmenities) => {
-    setFilters({
-      ...filters,
-      amenities_id: selectedAmenities,
-    });
-  };
-
-  const getChangedFilters = () => {
-    const changedFilters = {};
-
-    // Loop through all filter fields and include only the ones that are not empty or default
-    Object.keys(filters).forEach(key => {
-      // Include filter only if its value is not the default (empty string or empty array)
-      if (filters[key] !== '' && filters[key] !== undefined && filters[key] !== null && (Array.isArray(filters[key]) ? filters[key].length > 0 : true)) {
-        changedFilters[key] = filters[key];
-      }
-    });
-
-    return changedFilters;
-  };
-  // Apply Filters Button
-  const applyFilters = () => {
-    const updatedFilters = getChangedFilters();  // Get only changed filters
-    fetchAgencyList(1, updatedFilters);  // Fetch data with updated filters
-  };
 
   useEffect(() => {
-    fetchDeveloperList(pagination.currentPage);
+    handleSubmit(pagination.currentPage);
   }, [pagination.currentPage]);
 
   const handlePageChange = (page) => {
     setPagination({ ...pagination, currentPage: page });
   };
 
-  const handlePriceChange = (newRange) => {
-    setPriceRange(newRange); // Update the range state
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      minPrice: newRange[0], // Set minPrice
-      maxPrice: newRange[1], // Set maxPrice
-    }));
-  };
-  console.log('>>>>>>>>developerList', developerList);
+  const handleCitySelect = (cityId, cityName, latitude, longitude) => {
+		setSearchCity(cityName); // Set the selected city name in the input
+		handleFilterChange({ target: { name: 'city', value: cityId } }); // Call filter change with selected city ID
+	};
   return (
     <>
 
@@ -159,48 +198,56 @@ export default function developerListing() {
               <div className="h7 title fw-7">{t("search")}</div>
 
               <div className="tab-content">
-                <div className="tab-pane fade active show" role="tabpanel">
-                  <div className="form-sl">
-                    {/* <form method="post" onSubmit={(e) => { e.preventDefault(); applyFilters(); }}> */}
-                    <form method="post" onSubmit={(e) => { e.preventDefault(); }}>
-                      <div className="wd-filter-select">
-                        <div className="inner-group inner-filter">
-                          <div className="form-style">
-                            <label className="title-select">{t("title")}</label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              value={filters.title}
-                              onChange={handleFilterChange}
-                              name="title"
-                              placeholder={t("searchtitle")}
-
-                            />
-                          </div>
-                          <div className="form-style">
-                            <label className="title-select">{t("description")}</label>
-                            <div className="group-ip ip-icon">
-                              <input
-                                type="text"
-                                className="form-control"
-                                value={filters.description}
-                                onChange={handleFilterChange}
-                                name="description"
-                                placeholder={t("searchdescription")}
-
-                              />
-
-                            </div>
-                          </div>
-                          {/* <div className="form-btn-fixed">
-                            <button type="submit" className="tf-btn primary" href="#">{t("findpdeveloper")}</button>
-                          </div> */}
-                        </div>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </div >
+								<div className="tab-pane fade active show" role="tabpanel">
+									<div className="form-sl">
+										<form method="post" onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
+											<div className="wd-filter-select">
+												<div className="inner-group inner-filter">
+													<div className="form-style">
+														<label className="title-select">{t("city")}</label>
+														<input
+															type="text"
+															className="form-control"
+															id="city"
+															name="city"
+															value={searchCity}
+															onChange={handleInputChange}
+															placeholder={t("searchCity")}
+														/>
+														{searchTerm.length > 0 && (
+															cityOptions.length > 0 && (
+																<ul className="city-dropdown form-style" style={{ marginTop: "0px"}}>
+																	{cityOptions.map((city) => (
+																		<li
+																			key={city.id}
+																			onClick={() => {
+																				handleCitySelect(city.id, city.city_name);
+																				setSearchTerm('');
+																			}}
+																			className="city-option"
+																		>
+																			{city.city_name}
+																		</li>
+																	))}
+																</ul>
+															)
+														)}
+													</div>
+													<div className="form-btn-fixed d-flex" style={{width:"19.3%"}}>
+													<button
+														type="submit"
+														className="tf-btn primary"
+														style={{ marginRight: "10px" }}
+													>
+														{t("finddeveloper")}
+													</button>
+													</div>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div >
             </div >
           </div >
           <div className="wrap-inner-55">
@@ -232,20 +279,7 @@ export default function developerListing() {
                                 alt={developerUserData.name}
                               />
                             </div>
-                            <div className="top">
-
-                              {/* <ul className="d-flex gap-4">
-																<li className="box-icon w-32">
-																	<span className="icon icon-arrLeftRight" />
-																</li>
-																<li className="box-icon w-32">
-																	<span className="icon icon-heart" />
-																</li>
-																<li className="box-icon w-32">
-																	<span className="icon icon-eye" />
-																</li>
-															</ul> */}
-                            </div>
+                            
                             <div className="bottom">
                               <span className="flag-tag style-2">
                                 {/* {agencyUserData.meta_details?.propertyType || 'Studio'} */}
@@ -261,14 +295,12 @@ export default function developerListing() {
                                 {developerUserData.user_name}
                               </Link>
                             </div>
-                            {/* <div className="desc">
-															<i className="fs-16 icon icon-mapPin" />
-															<p>
-																{[ project?.district, project?.city, project?.state]
-																	.filter(Boolean)
-																	.join(', ')} </p>
-
-														</div> */}
+                            <div className="desc">
+                              <i className="fs-16 icon icon-mapPin" />
+                              <p>{[developerUserData?.city]
+                                  .filter(Boolean)
+                                  .join(', ')} </p>
+                            </div>
                             {/* <ul className="meta-list">
 															<li className="item">
 																<i className="icon icon-bed" />

@@ -4,6 +4,7 @@ import { Swiper, SwiperSlide } from "swiper/react"
 import { insertData } from "../../../components/api/Axios/Helper";
 import SidebarFilter from "@/components/elements/SidebarFilter";
 import ProjectBlog from "@/components/sections/ProjectBlog";
+import MapMarker from "@/components/elements/MapMarker";
 const toCapitalCase = (str) => {
     if (!str) return '';
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
@@ -163,6 +164,22 @@ export default function AgencyDetail({ params }) {
                                                 </>
                                             ) : ''}
                                         </div>
+
+                                        <div className="single-property-element single-property-map">
+                                            <div className="h7 title fw-7">{t("map")}</div>
+                                            <MapMarker latitude={developerDetails.latitude} longitude={developerDetails.longitude} zoom={18} />
+                                            <ul className="info-map">
+                                                <li>
+                                                    <div className="fw-7">{t("address")}</div>
+                                                    {developerDetails.address !== "" && (<span className="mt-4 text-variant-1">{developerDetails.address}</span>)}<br />
+                                                    <span className="mt-4 text-variant-1 67886">
+                                                        {[developerDetails?.city]
+                                                            .filter(Boolean)
+                                                            .join(', ')}
+                                                    </span>
+                                                </li>
+                                            </ul>
+                                        </div>
                                         <div className="single-property-element single-property-overview">
                                             <div className="h7 title fw-7">{t("socialinformation")}</div>
                                             <ul className="info-box">
@@ -234,6 +251,7 @@ export default function AgencyDetail({ params }) {
                                                         <div className="info">
                                                             <div className="text-1 name">{developerDetails?.user_name}</div>
                                                             <span className="truncate-text">{developerDetails?.user_email_adress}</span><br />
+                                                            
                                                             <span>{developerDetails?.user_country_code} {developerDetails?.user_mobile_number}</span>
                                                         </div>
                                                     ) : ''}

@@ -4,6 +4,8 @@ import { Swiper, SwiperSlide } from "swiper/react"
 import { insertData } from "../../../components/api/Axios/Helper";
 import SidebarFilter from "@/components/elements/SidebarFilter";
 import PropertyBlog from "@/components/sections/PropertyBlog";
+import MapMarker from "@/components/elements/MapMarker";
+
 const toCapitalCase = (str) => {
 	if (!str) return '';
 	return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
@@ -183,6 +185,21 @@ export default function AgencyDetail({ params }) {
 													<p className="body-2 text-variant-1">{agencyDetails.description}</p>
 												</>
 											) : ''}
+										</div>
+										<div className="single-property-element single-property-map">
+											<div className="h7 title fw-7">{t("map")}</div>
+											<MapMarker latitude={agencyDetails.latitude} longitude={agencyDetails.longitude} zoom={18} />
+											<ul className="info-map">
+												<li>
+													<div className="fw-7">{t("address")}</div>
+													{agencyDetails.address !== "" && (<span className="mt-4 text-variant-1">{agencyDetails.address}</span>)}<br />
+													<span className="mt-4 text-variant-1 67886">
+														{[agencyDetails?.city]
+															.filter(Boolean)
+															.join(', ')}
+													</span>
+												</li>
+											</ul>
 										</div>
 										<div className="single-property-element single-property-overview">
 											<div className="h7 title fw-7">{t("socialinformation")}</div>
