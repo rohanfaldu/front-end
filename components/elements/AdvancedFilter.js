@@ -490,7 +490,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 
 					{/* {showDistrict && ( */}
 					<div className="form-style">
-						<label className="title-select">{t("distric")}</label>
+						<label className="title-select">{t("district")}</label>
 						<input
 							type="text"
 							className="form-control"
