@@ -434,6 +434,12 @@ export default function PropertyHalfmapList() {
 		setAddressLatLong([latitude, longitude]);
 		setSearchCity(cityName); // Set the selected city name in the input
 		handleFilterChange({ target: { name: 'city', value: cityId } }); // Call filter change with selected city ID
+
+		setSearchNeighbourhood(""); // Set the selected city name in the input
+		handleFilterChange({ target: { name: 'neighbourhood', value: "" } }); // Call filter change with selected city ID
+
+		setSearchDistrict(""); // Set the selected city name in the input
+		handleFilterChange({ target: { name: 'district', value: "" } }); // Call filter change with selected city ID
 	};
 
 
@@ -448,6 +454,9 @@ export default function PropertyHalfmapList() {
 		setAddressLatLong([latitude, longitude]);
 		setSearchDistrict(districtName); // Set the selected city name in the input
 		handleFilterChange({ target: { name: 'district', value: districtId } }); // Call filter change with selected city ID
+
+		setSearchNeighbourhood(""); // Set the selected city name in the input
+		handleFilterChange({ target: { name: 'neighbourhood', value: "" } }); // Call filter change with selected city ID
 	};
 
 
@@ -804,7 +813,7 @@ export default function PropertyHalfmapList() {
 													
 													{/* {showDistrict && ( */}
 													<div className="form-style">
-														<label className="title-select">{t("distric")}</label>
+														<label className="title-select">{t("district")}</label>
 														<input
 															type="text"
 															className="form-control"

@@ -342,6 +342,16 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 				setInitialMaxPrice(maxPriceSliderRange);
 				setPriceRange([0, maxPriceSliderRange]);
 			}
+			setFormData((prevFilters) => ({
+				...prevFilters,
+				minPrice: 0, // Set minPrice
+				maxPrice: maxPriceSliderRange, // Set maxPrice
+			}));
+			setFormData((prevFilters) => ({
+				...prevFilters,
+				minSize: 0, // Set minPrice
+				maxSize: maxSizeSliderRange, // Set maxPrice
+			}));
 			if (initialMaxSize !== maxSizeSliderRange){
 				setInitialMaxSize(maxSizeSliderRange);
 				setSizeRange([0, maxSizeSliderRange])
