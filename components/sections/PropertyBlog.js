@@ -76,7 +76,6 @@ export default function PropertyBlog(propertyData, slide, calsulation) {
     const [showLoginModal, setShowLoginModal] = useState(false)
 
     const handleLogin = () => {
-        console.log(isLogin,"///////////////////////////")
         setLogin(!isLogin)
         !isLogin ? document.body.classList.add("modal-open") : document.body.classList.remove("modal-open")
     }
@@ -95,7 +94,7 @@ export default function PropertyBlog(propertyData, slide, calsulation) {
     
             // Ensure URL starts with "https://"
             if (!twitterUrl.startsWith("http")) {
-                twitterUrl = `https://${twitterUrl}`;
+                twitterUrl = `${twitterUrl}`;
             }
     
             console.log("Opening URL:", twitterUrl);
@@ -114,7 +113,7 @@ export default function PropertyBlog(propertyData, slide, calsulation) {
     
             // Ensure URL starts with "https://"
             if (!instagramUrl.startsWith("http")) {
-                instagramUrl = `https://${instagramUrl}`;
+                instagramUrl = `${instagramUrl}`;
             }
     
             console.log("Opening URL:", instagramUrl);
@@ -133,7 +132,7 @@ export default function PropertyBlog(propertyData, slide, calsulation) {
         
                 // Ensure URL starts with "https://"
                 if (!facebookUrl.startsWith("http")) {
-                    facebookUrl = `https://${facebookUrl}`;
+                    facebookUrl = `${facebookUrl}`;
                 }
         
                 console.log("Opening URL:", facebookUrl);
@@ -189,17 +188,17 @@ export default function PropertyBlog(propertyData, slide, calsulation) {
                                             .join(', ')} </p>
                                     </div>
                                     <ul className="meta-list" style={{display:"flex",color:"#fff",paddingTop:"3%"}}>
-                                        <li className="item" style={{fontSize:"24px",paddingRight:"15px"}}>
+                                        <li className="item" style={{fontSize:"24px",paddingRight:"25px"}}>
                                             <i className="icon icon-bed" />
-                                            <span>{propertyData.data.bedRooms === "0" ? '-' : `${propertyData.data.bedRooms}`}</span>
+                                            <span>{propertyData.data.bedRooms === "0" ? '0' : `${propertyData.data.bedRooms}`}</span>
                                         </li>
-                                        <li className="item" style={{fontSize:"24px",paddingRight:"15px"}}>
+                                        <li className="item" style={{fontSize:"24px",paddingRight:"25px"}}>
                                             <i className="icon icon-bathtub" />
-                                            <span>{propertyData.data.bathRooms === "0" ? '-' : `${propertyData.data.bathRooms}`}</span>
+                                            <span>{propertyData.data.bathRooms === "0" ? '0' : `${propertyData.data.bathRooms}`}</span>
                                         </li>
-                                        <li className="item" style={{fontSize:"24px",paddingRight:"15px"}}>
+                                        <li className="item" style={{fontSize:"24px",paddingRight:"25px"}}>
                                             <i className="icon icon-ruler" />
-                                            <span>{propertyData.data.size === null ? '-' : `${propertyData.data.size}`}</span>
+                                            <span>{propertyData.data.size === null ? '0' : `${propertyData.data.size}`}</span>
                                         </li>
                                     </ul>
                                     <div className="d-flex align-items-center" style={{paddingTop:"3%",paddingBottom:"3%"}}>
