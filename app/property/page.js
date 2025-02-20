@@ -1082,10 +1082,12 @@ export default function PropertyHalfmapList() {
 																			checked={filters?.amenities_id_array?.includes(amenity.id)} // Updated to amenities_id_array
 																			onChange={(e) => {
 																				const updatedAmenities = e.target.checked
-																					? [...filters.amenities_id_array, amenity.id] // Updated to amenities_id_array
-																					: filters.amenities_id_array.filter((id) => id !== amenity.id); // Updated to amenities_id_array
-																				setFilters({ ...filters, amenities_id_array: updatedAmenities }); // Updated to amenities_id_array
+																					? [...(filters.amenities_id_array || []), amenity.id]
+																					: (filters.amenities_id_array || []).filter((id) => id !== amenity.id);
+																			
+																				setFilters({ ...filters, amenities_id_array: updatedAmenities });
 																			}}
+																			
 																		/>
 																		<label htmlFor={`amenity-${amenity.id}`} className="text-cb-amenities">
 																			{amenity.name}
