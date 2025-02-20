@@ -51,10 +51,10 @@ export default function Footer1() {
 								<div className="footer-cl-2">
 									<div className="fw-7 text-white">Categories</div>
 									<ul className="mt-10 navigation-menu-footer">
-										<li> <Link href="/pricing" className="caption-1 text-variant-2">Pricing Plans</Link> </li>
-										<li> <Link href="/our-service" className="caption-1 text-variant-2">Our Services</Link> </li>
-										<li> <Link href="/about-us" className="caption-1 text-variant-2">About Us</Link> </li>
-										<li> <Link href="/contact" className="caption-1 text-variant-2">Contact Us</Link> </li>
+										<li> <Link href="/" className="caption-1 text-variant-2">Pricing Plans</Link> </li>
+										<li> <Link href="/" className="caption-1 text-variant-2">Our Services</Link> </li>
+										<li> <Link href="/" className="caption-1 text-variant-2">About Us</Link> </li>
+										<li> <Link href="/" className="caption-1 text-variant-2">Contact Us</Link> </li>
 									</ul>
 								</div>
 							</div>
@@ -62,10 +62,10 @@ export default function Footer1() {
 								<div className="footer-cl-3">
 									<div className="fw-7 text-white">Our Company</div>
 									<ul className="mt-10 navigation-menu-footer">
-										<li> <Link href="/topmap-list" className="caption-1 text-variant-2">Property For Sale</Link> </li>
-										<li> <Link href="/topmap-grid" className="caption-1 text-variant-2">Property For Rent</Link> </li>
-										<li> <Link href="/topmap-grid" className="caption-1 text-variant-2">Property For Buy</Link> </li>
-										<li> <Link href="/topmap-grid" className="caption-1 text-variant-2">Our Agents</Link> </li>
+										<li> <Link href="/" className="caption-1 text-variant-2">Property For Sale</Link> </li>
+										<li> <Link href="/" className="caption-1 text-variant-2">Property For Rent</Link> </li>
+										<li> <Link href="/" className="caption-1 text-variant-2">Property For Buy</Link> </li>
+										<li> <Link href="/" className="caption-1 text-variant-2">Our Agents</Link> </li>
 									</ul>
 								</div>
 							</div>
@@ -90,9 +90,9 @@ export default function Footer1() {
 						<div className="content-footer-bottom">
 							<div className="copyright">©{new Date().getFullYear()} title: Immofind. All Rights Reserved.</div>
 							<ul className="menu-bottom">
-								<li><Link href="/our-service">Terms Of Services</Link> </li>
-								<li><Link href="/pricing">Privacy Policy</Link> </li>
-								<li><Link href="/contact">Cookie Policy</Link> </li>
+								{/* <li><Link href="/">Terms Of Services</Link> </li> */}
+								<li><Link href="/privacy-policy">Privacy Policy</Link> </li>
+								{/* <li><Link href="/">Cookie Policy</Link> </li> */}
 							</ul>
 						</div>
 					</div>
