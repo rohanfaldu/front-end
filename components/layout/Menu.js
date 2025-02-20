@@ -3,10 +3,12 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import { useTranslation } from "react-i18next";
 
 export default function Menu() {
 	const pathname = usePathname()
 	const [currentMenuItem, setCurrentMenuItem] = useState("")
+	const { t } = useTranslation();
 
 	useEffect(() => {
 		setCurrentMenuItem(pathname)
@@ -14,14 +16,37 @@ export default function Menu() {
 
 	const checkCurrentMenuItem = (path) => currentMenuItem === path ? "current" : ""
 	const checkParentActive = (paths) => paths.some(path => currentMenuItem.startsWith(path)) ? "current" : ""
-
+	const isActive = (path) => {
+        // If it's the root '/', ensure it's an exact match
+        if (path === '/') {
+            return pathname === '/' ? "nav-link-item active" : "nav-link-item";
+        }
+        // For other paths, check if pathname starts with the given path
+        return pathname.startsWith(path) ? "nav-link-item active" : "nav-link-item";
+    };
 	return (
 		<>
 			<ul className="navigation clearfix">
-				<li><Link href="/">Home</Link></li>
-				<li><Link href="/about-us">About Us</Link></li>
-				<li><Link href="/property-halfmap-list">Property</Link></li>
-				<li><Link href="/blog">Blog</Link></li>
+				<li className={isActive('/')}>
+					<Link href="/">{t("home")}</Link>
+				</li>
+				
+				{/* <li className={isActive('/property')}>
+					<Link href="/property">{t("property")}</Link>
+				</li> */}
+				<li className={isActive('/project')}>
+					<Link href="/project">{t("project")}</Link>
+				</li>
+				<li className={isActive('/developer')}>
+					<Link href="/developer">{t("developer")}</Link>
+				</li>
+				<li className={isActive('/agency')}>
+					<Link href="/agency">{t("agency")}</Link>
+				</li>
+				<li className={isActive('/about-us')}>
+					<Link href="/about-us">{t("aboutus")}</Link>
+				</li>
+				
 			</ul>
 			{ /* 
 			<ul className="navigation clearfix">

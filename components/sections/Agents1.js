@@ -1,15 +1,17 @@
-
+'use client'
 import Link from "next/link"
+import { useTranslation } from "react-i18next";
 
 export default function Agents1() {
+	const { t } = useTranslation();
 	return (
 		<>
 
 			<section className="flat-section flat-agents">
 				<div className="container">
 					<div className="box-title text-center wow fadeIn" data-wow-delay=".2s" data-wow-duration="2000ms">
-						<div className="text-subtitle text-primary">Our Teams</div>
-						<h4 className="mt-4">Meet Our Agents</h4>
+						<div className="text-subtitle text-primary">{t("ourteams")}</div>
+						<h4 className="mt-4">{t("meetouragents")}</h4>
 					</div>
 					<div className="row">
 						<div className="box col-lg-3 col-sm-6">
@@ -26,7 +28,7 @@ export default function Agents1() {
 								<Link href="#" className="content">
 									<div className="info">
 										<h6 className="link">Jack Halow</h6>
-										<p className="mt-4 text-variant-1">CEO &amp; Founder</p>
+										<p className="mt-4 text-variant-1">{t("ceofounder")}</p>
 									</div>
 									<span className="icon-phone" />
 								</Link>
@@ -46,7 +48,7 @@ export default function Agents1() {
 								<Link href="#" className="content">
 									<div className="info">
 										<h6 className="link">John Smith</h6>
-										<p className="mt-4 text-variant-1">Property Manager</p>
+										<p className="mt-4 text-variant-1">{t("propertymanager")}</p>
 									</div>
 									<span className="icon-phone" />
 								</Link>
@@ -66,7 +68,7 @@ export default function Agents1() {
 								<Link href="#" className="content">
 									<div className="info">
 										<h6 className="link">Chris Patt</h6>
-										<p className="mt-4 text-variant-1">Administrative Staff</p>
+										<p className="mt-4 text-variant-1">{t("administrativestaff")}</p>
 									</div>
 									<span className="icon-phone" />
 								</Link>
@@ -86,7 +88,7 @@ export default function Agents1() {
 								<Link href="#" className="content">
 									<div className="info">
 										<h6 className="link">Jack Halow</h6>
-										<p className="mt-4 text-variant-1">Real Estate Marketer</p>
+										<p className="mt-4 text-variant-1">{t("realestatemarketer")}</p>
 									</div>
 									<span className="icon-phone" />
 								</Link>

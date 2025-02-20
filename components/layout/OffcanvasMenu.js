@@ -113,12 +113,12 @@ export default function OffcanvasMenu({ isOffcanMenu, handleOffcanMenu, isLogin,
 							<div id="dropdown-menu-six" className={`collapse ${isAccordion === 6 ? "show" : ""}`}>
 								<ul className="sub-nav-menu">
 									<li><Link href="/dashboard" className="sub-nav-link">Dashboard</Link></li>
-									<li><Link href="/my-favorites" className="sub-nav-link">My Properties</Link></li>
+									{/* <li><Link href="/my-favorites" className="sub-nav-link">My Properties</Link></li>
 									<li><Link href="/my-invoices" className="sub-nav-link">My Invoices</Link></li>
 									<li><Link href="/my-favorites" className="sub-nav-link">My Favorites</Link></li>
 									<li><Link href="/reviews" className="sub-nav-link">Reviews</Link></li>
 									<li><Link href="/my-profile" className="sub-nav-link">My Profile</Link></li>
-									<li><Link href="/add-property" className="sub-nav-link">Add Property</Link></li>
+									<li><Link href="/add-property" className="sub-nav-link">Add Property</Link></li> */}
 								</ul>
 							</div>
 						</li>

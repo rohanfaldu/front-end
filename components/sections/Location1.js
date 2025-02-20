@@ -1,9 +1,12 @@
 'use client'
 import { Autoplay, Navigation, Pagination } from "swiper/modules"
 import { Swiper, SwiperSlide } from "swiper/react"
+import { useTranslation } from "react-i18next";
+
 
 const swiperOptions = {
 	modules: [Autoplay, Pagination, Navigation],
+	
 	autoplay: {
 		delay: 2000,
 		disableOnInteraction: false,
@@ -38,22 +41,27 @@ const swiperOptions = {
 			slidesPerView: 4,
 			spaceBetween: 30,
 		},
+
 	},
 }
 
 
 
+
+
 import Link from "next/link"
 
+
 export default function Location1() {
+	const { t } = useTranslation();
 	return (
 		<>
 
 			<section className="flat-section-v3 flat-location bg-surface">
 				<div className="container-full">
 					<div className="box-title text-center wow fadeInUpSmall" data-wow-delay=".2s" data-wow-duration="2000ms">
-						<div className="text-subtitle text-primary">Explore Cities</div>
-						<h4 className="mt-4">Our Location For You</h4>
+						<div className="text-subtitle text-primary">{t("explorecities")}</div>
+						<h4 className="mt-4">{t("ourlocationforyou")}</h4>
 					</div>
 					<div className="wow fadeInUpSmall" data-wow-delay=".4s" data-wow-duration="2000ms">
 						<div className="swiper tf-sw-location overlay">
@@ -64,8 +72,8 @@ export default function Location1() {
 											<img src="/images/location/location-3.jpg" alt="image-location" />
 										</div>
 										<div className="content">
-											<span className="sub-title">321 Property</span>
-											<h6 className="title">London, United Kingdom</h6>
+											<span className="sub-title">{t("321property")}</span>
+											<h6 className="title">{t("londonunitedkingdom")}</h6>
 										</div>
 									</Link>
 								</SwiperSlide>
@@ -75,8 +83,8 @@ export default function Location1() {
 											<img src="/images/location/location-4.jpg" alt="image-location" />
 										</div>
 										<div className="content">
-											<span className="sub-title">221 Property</span>
-											<h6 className="title">Cape Town, South Africa</h6>
+											<span className="sub-title">{t("221property")}</span>
+											<h6 className="title">{t("capetowmsouthafrica")}</h6>
 										</div>
 									</Link>
 								</SwiperSlide>
@@ -86,8 +94,8 @@ export default function Location1() {
 											<img src="/images/location/location-5.jpg" alt="image-location" />
 										</div>
 										<div className="content">
-											<span className="sub-title">128 Property</span>
-											<h6 className="title">Seoul, South Korea</h6>
+											<span className="sub-title">{t("128property")}</span>
+											<h6 className="title">{t("seoulsouthkorea")}</h6>
 										</div>
 									</Link>
 								</SwiperSlide>
@@ -97,8 +105,8 @@ export default function Location1() {
 											<img src="/images/location/location-3.jpg" alt="image-location" />
 										</div>
 										<div className="content">
-											<span className="sub-title">321 Property</span>
-											<h6 className="title">London, United Kingdom</h6>
+											<span className="sub-title">{t("321property1")}</span>
+											<h6 className="title">{t("londonunitedkingdom")}</h6>
 										</div>
 									</Link>
 								</SwiperSlide>
@@ -108,8 +116,8 @@ export default function Location1() {
 											<img src="/images/location/location-1.jpg" alt="image-location" />
 										</div>
 										<div className="content">
-											<span className="sub-title">231 Property</span>
-											<h6 className="title">Sydney, Australia</h6>
+											<span className="sub-title">{t("231property1")}</span>
+											<h6 className="title">{t("sydneyaustralia")}</h6>
 										</div>
 									</Link>
 								</SwiperSlide>
@@ -119,8 +127,8 @@ export default function Location1() {
 											<img src="/images/location/location-2.jpg" alt="image-location" />
 										</div>
 										<div className="content">
-											<span className="sub-title">234 Property</span>
-											<h6 className="title">New Jersey, New York</h6>
+											<span className="sub-title">{t("234property")}</span>
+											<h6 className="title">{t("newjerseynewyork")}</h6>
 										</div>
 									</Link>
 								</SwiperSlide>

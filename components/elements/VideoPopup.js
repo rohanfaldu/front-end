@@ -9,8 +9,28 @@ export default function VideoPopup({another}) {
 		<>
 			<a onClick={() => setOpen(true)} className="btn-video">
 				{!another ? <span className="icon icon-play2" /> : <span className="icon icon-play" />}
-				 </a>
-			<ModalVideo channel='youtube' autoplay isOpen={isOpen} videoId="vfhzo499OeA" onClose={() => setOpen(false)} />
+			</a>
+			{isOpen && (
+				<div className="modal-video-wrapper">
+					{videoType === 'mp4' ? (
+						<div className="modal-video">
+							<video controls autoPlay>
+								<source src="your-video-link.mp4" type="video/mp4" />
+								Your browser does not support the video tag.
+							</video>
+							<button className="close-button" onClick={() => setOpen(false)}>Close</button>
+						</div>
+					) : (
+						<ModalVideo
+							channel="youtube"
+							autoplay
+							isOpen={isOpen}
+							videoId="vfhzo499OeA"
+							onClose={() => setOpen(false)}
+						/>
+					)}
+				</div>
+			)}
 		</>
 	)
 }

@@ -1,18 +1,20 @@
-
+'use client'
 import Link from "next/link"
+import { useTranslation } from "react-i18next";
 
 export default function Property1() {
+	const { t } = useTranslation();
 	return (
 		<>
 
-			<section className="flat-section flat-property">
+			<section className="flat-property">
 				<div className="container">
 					<div className="box-title style-1 wow fadeInUpSmall" data-wow-delay=".2s" data-wow-duration="2000ms">
 						<div className="box-left">
-							<div className="text-subtitle text-primary">Top Properties</div>
-							<h4 className="mt-4">Best Property Value</h4>
+							<div className="text-subtitle text-primary">{t("topproperties")}</div>
+							<h4 className="mt-4">{t("bestpropertyvalue")}</h4>
 						</div>
-						<Link href="#" className="tf-btn primary size-1">View All</Link>
+						<Link href="#" className="tf-btn primary size-1">{t("viewall")}</Link>
 					</div>
 					<div className="wrap-property">
 						<div className="box-left  wow fadeInLeftSmall" data-wow-delay=".2s" data-wow-duration="2000ms">

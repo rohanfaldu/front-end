@@ -3,7 +3,7 @@ import Link from "next/link"
 import React, { useEffect, useState } from 'react';
 import Menu from "../Menu"
 import MobileMenu from "../MobileMenu"
-import { capitalizeFirstChar, getRandomInt } from "../../../components/common/functions"
+import { capitalizeFirstChar, getRandomInt } from "../../common/Functions.js"
 import { usePathname } from 'next/navigation'
 import { useRouter } from 'next/navigation';
 
@@ -14,11 +14,25 @@ export default function Header3({ scroll, isSidebar, handleSidebar, isMobileMenu
 	const [userImage, setUserImage] = useState('');
 	const router = useRouter();
 	const [userType, setUserType] = useState('')
+	const [loggedin, setLoggedin] = useState(false);
+	const [showType, setShowType] = useState('');
 	useEffect(() => {
+		setLoggedin(true);
 	  const userDetail = JSON.parse(localStorage.getItem('user'));
 	  setUserImage(userDetail.image)
-	  const capitalizedString = capitalizeFirstChar(userDetail.user_name);
+	  const capitalizedString = capitalizeFirstChar(userDetail.user_name?userDetail.user_name:"user");
 	  setUserName(capitalizedString)
+	  console.log(userDetail.user_name);
+
+	  const userString  = localStorage.getItem('user')
+	  if (userString) {
+		const user = JSON.parse(userString);
+		if(user.roles.name){
+			setShowType(user.roles.name)
+		}
+	  } else {
+		console.log("No user data found in localStorage.");
+	  }
 	}, []);
 	const pathname = usePathname();
 
@@ -33,6 +47,7 @@ export default function Header3({ scroll, isSidebar, handleSidebar, isMobileMenu
 		const loggedInStatus = JSON.parse(localStorage.getItem('user'));
 		setUserType(loggedInStatus.roles.name);
 	}, [])
+	console.log(userType);
 	return (
 		<>
 
@@ -44,7 +59,12 @@ export default function Header3({ scroll, isSidebar, handleSidebar, isMobileMenu
 							<div className="inner-container d-flex justify-content-between align-items-center">
 								{/* Logo Box */}
 								<div className="logo-box d-flex">
-									<div className="logo"><Link href="/"><img src="/images/logo/logo.svg" alt="logo" width={174} height={44} /></Link></div>
+									{showType == 'user' &&
+										<div className="logo"><Link href="/"><img src="/images/logo/logo.svg" alt="logo" width={174} height={44} /></Link></div>
+									}
+									{showType != 'user' &&
+										<div className="logo"><img src="/images/logo/logo.svg" alt="logo" width={174} height={44} /></div>
+									}
 									<div className="button-show-hide" onClick={handleSidebar}>
 										<span className="icon icon-categories" />
 									</div>
@@ -58,7 +78,7 @@ export default function Header3({ scroll, isSidebar, handleSidebar, isMobileMenu
 									</nav>
 									{/* Main Menu End*/}
 								</div>
-								<div className="header-account">
+								<div className={loggedin?"header-account loggedin":"header-account"}>
 									
 									<a onClick={handleToggle} className={`box-avatar dropdown-toggle ${isToggled ? "show" : ""}`}>
 										<div className="avatar avt-40 round">
@@ -71,18 +91,24 @@ export default function Header3({ scroll, isSidebar, handleSidebar, isMobileMenu
 									</a>
 									
 									<div className={`dropdown-menu  ${isToggled ? "show" : ""}`} >
-										<Link className="dropdown-item" href="/my-favorites">My Properties</Link>
-										<Link className="dropdown-item" href="/my-invoices">My Invoices</Link>
+										{/* {(userType !== 'user')?
+											<>
+												<Link className="dropdown-item" href="/my-favorites">My Properties</Link>
+												<Link className="dropdown-item" href="/add-property">Add Property</Link>
+											</>
+											:""
+										} */}
+										{/*<Link className="dropdown-item" href="/my-invoices">My Invoices</Link>
 										<Link className="dropdown-item" href="/my-favorites">My Favorites</Link>
 										<Link className="dropdown-item" href="/reviews">Reviews</Link>
 										<Link className="dropdown-item" href="/my-profile">My Profile</Link>
-										<Link className="dropdown-item" href="/add-property">Add Property</Link>
+										 */}
 										<Link className="dropdown-item" onClick={handleLogout}  href="/">Logout</Link>
 									</div>
 
-									<div className="flat-bt-top">
-										<Link className="tf-btn primary" href="/add-property">Submit Property</Link>
-									</div>
+									{/* <div className="flat-bt-top">
+										<Link className="tf-btn primary" href="#">Submit Property</Link>
+									</div> */}
 								</div>
 								<div className="mobile-nav-toggler mobile-button" onClick={handleMobileMenu}><span /></div>
 							</div>
@@ -95,11 +121,11 @@ export default function Header3({ scroll, isSidebar, handleSidebar, isMobileMenu
 				<div className="mobile-menu">
 					<div className="menu-backdrop" onClick={handleMobileMenu} />
 					<nav className="menu-box">
-						<div className="nav-logo"><Link href="/"><img src="/images/logo/logo.svg" alt="nav-logo" width={174} height={44} /></Link></div>
+						<div className="nav-logo"><img src="/images/logo/logo.svg" alt="nav-logo" width={174} height={44} /></div>
 						<div className="bottom-canvas">
 							<MobileMenu />
 							<div className="button-mobi-sell">
-								<Link className="tf-btn primary" href="/add-property">Submit Property</Link>
+								<Link className="tf-btn primary" href="#">Submit Property</Link>
 							</div>
 							<div className="mobi-icon-box">
 								<div className="box d-flex align-items-center">

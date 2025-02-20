@@ -1,12 +1,13 @@
-
+'use client'
 import Layout from "@/components/layout/Layout"
 import Link from "next/link"
+import { useTranslation } from "react-i18next";
 export default function Blog() {
-
+	const { t } = useTranslation();
 	return (
 		<>
 
-			<Layout headerStyle={1} footerStyle={1} breadcrumbTitle="Blog">
+			<Layout headerStyle={1} footerStyle={1} breadcrumbTitle={t("blog")}>
 				<section className="flat-section">
 					<div className="container">
 						<div className="row">
@@ -15,15 +16,15 @@ export default function Blog() {
 									<div className="flat-blog-item">
 										<div className="img-style">
 											<img src="/images/blog/blog-lg-1.jpg" alt="img-blog" />
-											<span className="date-post">January 28, 2024</span>
+											<span className="date-post">{t("date1")}</span>
 										</div>
 										<div className="content-box">
 											<div className="post-author">
 												<span className="text-black fw-7">Esther</span>
-												<span>Furniture</span>
+												<span>{t("furniture")}</span>
 											</div>
-											<h5 className="title">Building gains into housing stocks and how to trade the sector</h5>
-											<p className="description body-1">The average contract interest rate for 30-year fixed-rate mortgages with conforming loan balances...</p>
+											<h5 className="title">{t("title")}</h5>
+											<p className="description body-1">{t("decs")}</p>
 											<Link href="/blog-detail" className="btn-read-more">Read More</Link>
 										</div>
 									</div>
@@ -68,14 +69,14 @@ export default function Blog() {
 							<div className="col-lg-4">
 								<aside className="sidebar-blog fixed-sidebar">
 									<div className="widget-search">
-										<div className="h7 fw-7 text-black">Search</div>
+										<div className="h7 fw-7 text-black">{t("search")}</div>
 										<div className="search-box">
-											<input className="search-field" type="text" placeholder="Search" />
+											<input className="search-field" type="text" placeholder={t("search")}/>
 											<Link href="#" className="right-icon icon-search" />
 										</div>
 									</div>
 									<div className="widget-box bg-surface recent">
-										<div className="h7 fw-7 text-black">Recent Posts</div>
+										<div className="h7 fw-7 text-black">{t("recentposts")}</div>
 										<ul>
 											<li>
 												<Link href="/blog-detail" className="recent-post-item hover-img">
@@ -83,8 +84,8 @@ export default function Blog() {
 														<img src="/images/blog/post-recent-1.jpg" alt="post-recent" />
 													</div>
 													<div className="content">
-														<span className="subtitle">February 16, 2024</span>
-														<div className="title">Key Real Estate Trends to Watch in 2024</div>
+														<span className="subtitle">{t("date")}</span>
+														<div className="title">{t("post")}</div>
 													</div>
 												</Link>
 											</li>
@@ -94,8 +95,8 @@ export default function Blog() {
 														<img src="/images/blog/post-recent-2.jpg" alt="post-recent" />
 													</div>
 													<div className="content">
-														<span className="subtitle">February 16, 2024</span>
-														<div className="title">Expert Tips for Profitable Real Estate Investments.</div>
+														<span className="subtitle">{t("date")}</span>
+														<div className="title">{t("post1")}</div>
 													</div>
 												</Link>
 											</li>
@@ -105,38 +106,38 @@ export default function Blog() {
 														<img src="/images/blog/post-recent-3.jpg" alt="post-recent" />
 													</div>
 													<div className="content">
-														<span className="subtitle">February 16, 2024</span>
-														<div className="title">10 Steps to Prepare for a Successful Real Estate...</div>
+														<span className="subtitle">{t("date")}</span>
+														<div className="title">{t("post2")}</div>
 													</div>
 												</Link>
 											</li>
 										</ul>
 									</div>
 									<div className="widget-box bg-surface categories">
-										<div className="h7 fw-7 text-black">By Categories</div>
+										<div className="h7 fw-7 text-black">{t("bycategories")}</div>
 										<ul>
-											<li><Link href="#" className="categories-item"><span>Market Updates</span><span>(112)</span></Link></li>
-											<li><Link href="#" className="categories-item"><span>Buying Tips</span><span>(13)</span></Link></li>
-											<li><Link href="#" className="categories-item current"><span>Interior Inspiration</span><span>(42)</span></Link></li>
-											<li><Link href="#" className="categories-item"><span>Investment Insights</span><span>(32)</span></Link></li>
-											<li><Link href="#" className="categories-item"><span>Legal Guidance</span><span>(54)</span></Link></li>
-											<li><Link href="#" className="categories-item"><span>Home Construction</span><span>(93)</span></Link></li>
-											<li><Link href="#" className="categories-item"><span>Community Spotlight</span><span>(52)</span></Link></li>
-											<li><Link href="#" className="categories-item"><span>Trend Watch</span><span>(14)</span></Link></li>
+											<li><Link href="#" className="categories-item"><span>{t("marketupdates")}</span><span>(112)</span></Link></li>
+											<li><Link href="#" className="categories-item"><span>{t("buyingtips")}</span><span>(13)</span></Link></li>
+											<li><Link href="#" className="categories-item current"><span>{t("interiorinspiration")}</span><span>(42)</span></Link></li>
+											<li><Link href="#" className="categories-item"><span>{t("investmentinsights")}</span><span>(32)</span></Link></li>
+											<li><Link href="#" className="categories-item"><span>{t("legalguidance")}</span><span>(54)</span></Link></li>
+											<li><Link href="#" className="categories-item"><span>{t("homeconstruction")}</span><span>(93)</span></Link></li>
+											<li><Link href="#" className="categories-item"><span>{t("communityspotlight")}</span><span>(52)</span></Link></li>
+											<li><Link href="#" className="categories-item"><span>{t("trendwatch")}</span><span>(14)</span></Link></li>
 										</ul>
 									</div>
 									<div className="widget-box bg-surface tag">
-										<div className="h7 fw-7 text-black">Popular Tag</div>
+										<div className="h7 fw-7 text-black">{t("populartags")}</div>
 										<ul>
-											<li><Link href="#" className="tag-item">Property</Link></li>
-											<li><Link href="#" className="tag-item current">Realty</Link></li>
-											<li><Link href="#" className="tag-item">Finance</Link></li>
-											<li><Link href="#" className="tag-item">Design</Link></li>
-											<li><Link href="#" className="tag-item">Invest</Link></li>
-											<li><Link href="#" className="tag-item">Legal</Link></li>
-											<li><Link href="#" className="tag-item">Renovate</Link></li>
-											<li><Link href="#" className="tag-item">Neighborhood</Link></li>
-											<li><Link href="#" className="tag-item">Market</Link></li>
+											<li><Link href="#" className="tag-item">{t("property")}</Link></li>
+											<li><Link href="#" className="tag-item current">{t("realty")}</Link></li>
+											<li><Link href="#" className="tag-item">{t("finance")}</Link></li>
+											<li><Link href="#" className="tag-item">{t("design")}</Link></li>
+											<li><Link href="#" className="tag-item">{t("invest")}</Link></li>
+											<li><Link href="#" className="tag-item">{t("legal")}</Link></li>
+											<li><Link href="#" className="tag-item">{t("renovate")}</Link></li>
+											<li><Link href="#" className="tag-item">{t("neighborhood")}</Link></li>
+											<li><Link href="#" className="tag-item">{t("market")}</Link></li>
 										</ul>
 									</div>
 								</aside>

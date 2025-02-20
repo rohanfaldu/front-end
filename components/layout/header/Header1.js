@@ -4,16 +4,22 @@ import { useRouter } from 'next/navigation';
 import Menu from "../Menu";
 import MobileMenu from "../MobileMenu";
 import React, { useEffect, useState } from 'react';
-import { capitalizeFirstChar, getRandomInt } from "../../../components/common/functions";
+import { capitalizeFirstChar, getRandomInt } from "../../common/Functions.js";
+import LanguageSwitcher from "../langSwitcher";
+import { useTranslation } from "react-i18next";
 
 export default function Header1({ scroll, isMobileMenu, handleMobileMenu, isLogin, handleLogin, hcls, handleRegister }) {
 	const [userName, setUserName] = useState('');
 	const [userImage, setUserImage] = useState('');
 	const [userStatus, setUserStatus] = useState(false);
+	const [loggedin, setLoggedin] = useState(false);
+	const [lang, setLang] = useState('en');
 	const router = useRouter();
+	const { t } = useTranslation();
 	const handDashboard = () => {
 		router.push('/dashboard');
 	}
+
 	useEffect(() => {
 		if( localStorage.getItem('isLoggedIn') ){
 			const userDetail = JSON.parse(localStorage.getItem('user'));
@@ -21,12 +27,18 @@ export default function Header1({ scroll, isMobileMenu, handleMobileMenu, isLogi
 			const capitalizedString = capitalizeFirstChar(userDetail.user_name);
 			setUserName(capitalizedString)
 			setUserStatus(localStorage.getItem('isLoggedIn'));
+			
 		}
+		console.log(localStorage.getItem("lang"),"/////////////////////")
+			if(localStorage.getItem("lang") !== null && localStorage.getItem("lang") !== undefined){
+				setLang(localStorage.getItem("lang"))
+			}else{
+				setLang("fr")
+			}
 	}, []);
 
 	return (
 		<>
-
 			<header className={`main-header fixed-header ${hcls ? "header-style-2" : ""} ${scroll ? "fixed-header is-fixed" : ""}`}>
 				{/* Header Lower */}
 				<div className="header-lower header-dashboard">
@@ -54,7 +66,8 @@ export default function Header1({ scroll, isMobileMenu, handleMobileMenu, isLogi
 									</nav>
 									{/* Main Menu End*/}
 								</div>
-								<div className="header-account">
+								
+								<div className="header-account"> 
 									<div className="register">
 										{userStatus ? 
 												<>
@@ -68,16 +81,17 @@ export default function Header1({ scroll, isMobileMenu, handleMobileMenu, isLogi
 											: 
 												<>
 													<ul className="d-flex">
-														<li><a onClick={handleLogin}>Login</a></li>
+														<li><a onClick={handleLogin}>{t("login")}</a></li>
 														<li>/</li>
-														<li><a onClick={handleRegister}>Register</a></li>
+														<li><a onClick={handleRegister}>{t("register")}</a></li>
 													</ul>
 												</>
 											}
 									</div>
-									<div className="flat-bt-top">
+									<LanguageSwitcher language={lang} />
+									{/* <div className="flat-bt-top">
 										<Link className="tf-btn primary" href="/add-property">Submit Property</Link>
-									</div>
+									</div> */}
 								</div>
 								<div className="mobile-nav-toggler mobile-button" onClick={handleMobileMenu}><span /></div>
 							</div>
@@ -93,14 +107,31 @@ export default function Header1({ scroll, isMobileMenu, handleMobileMenu, isLogi
 						<div className="nav-logo"><Link href="/"><img src="/images/logo/logo.svg" alt="nav-logo" width={174} height={44} /></Link></div>
 						<div className="bottom-canvas">
 							<div className="login-box flex align-items-center">
-								<Link href="#modalLogin" data-bs-toggle="modal">Login</Link>
-								<span>/</span>
-								<Link href="#modalRegister" data-bs-toggle="modal">Register</Link>
+								<div className="login-registraion-sec">
+								{userStatus ? 
+												<>
+													<a className={`box-avatar `} onClick={handDashboard}>
+														<p className="name harmburger-name ">{userName??""}</p>
+													</a>
+												</> 
+											: 
+												<>
+													<ul className="d-flex">
+														<li><a onClick={handleLogin}>{t("login")}</a></li>
+														<li>/</li>
+														<li><a onClick={handleRegister}>{t("register")}</a></li>
+													</ul>
+												</>
+											}
+								</div>
+								<div className="lang-sec">
+									<LanguageSwitcher language={lang} />
+								</div>
 							</div>
 							<MobileMenu />
-							<div className="button-mobi-sell">
+							{/* <div className="button-mobi-sell">
 								<Link className="tf-btn primary" href="/add-property">Submit Property</Link>
-							</div>
+							</div> */}
 							<div className="mobi-icon-box">
 								<div className="box d-flex align-items-center">
 									<span className="icon icon-phone2" />
