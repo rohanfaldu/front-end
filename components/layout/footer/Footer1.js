@@ -1,6 +1,9 @@
 import Link from "next/link"
+import { useTranslation } from "react-i18next";
 
 export default function Footer1() {
+	const { t } = useTranslation();
+	
 	return (
 		<>
 
@@ -34,11 +37,11 @@ export default function Footer1() {
 									<ul className="mt-12">
 										<li className="mt-12 d-flex align-items-center gap-8">
 											<i className="icon icon-mapPinLine fs-20 text-variant-2" />
-											<p className="text-white">101 E 129th St, East Chicago, IN 46312, US</p>
+											<p className="text-white">{t("locationFooter")}</p>
 										</li>
 										<li className="mt-12 d-flex align-items-center gap-8">
 											<i className="icon icon-phone2 fs-20 text-variant-2" />
-											<Link href="/tel:1-333-345-6868" className="text-white caption-1">1-333-345-6868</Link>
+											<Link href="/tel:1-333-345-6868" className="text-white caption-1">{t("phone")}</Link>
 										</li>
 										<li className="mt-12 d-flex align-items-center gap-8">
 											<i className="icon icon-mail fs-20 text-variant-2" />
@@ -88,7 +91,7 @@ export default function Footer1() {
 				<div className="bottom-footer">
 					<div className="container">
 						<div className="content-footer-bottom">
-							<div className="copyright">©{new Date().getFullYear()} title: Immofind. All Rights Reserved.</div>
+							<div className="copyright">©{new Date().getFullYear()} Immofind. All Rights Reserved.</div>
 							<ul className="menu-bottom">
 								{/* <li><Link href="/">Terms Of Services</Link> </li> */}
 								<li><Link href="/privacy-policy">Privacy Policy</Link> </li>
