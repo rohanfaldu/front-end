@@ -21,7 +21,7 @@ export default function AgencyListing() {
 	const [initialMaxPrice, setInitialMaxPrice] = useState(0); // Store the maximum price initially
 	const [maxPriceSliderRange, setMaxPriceSliderRange] = useState(0); // Dynamic slider range
 	const [priceRange, setPriceRange] = useState([]); // Selected range
-	const [isTab, setIsTab] = useState(2)
+	const [isTab, setIsTab] = useState(2) 
 	const handleTab = (i) => {
 		setIsTab(i)
 	}
@@ -175,7 +175,7 @@ export default function AgencyListing() {
 											<div className="wd-filter-select">
 												<div className="inner-group inner-filter">
 												<div className="form-style">
-													<label className="title-select">{t("title")}</label>
+													<label className="title-select">{t("titleAgency")}</label>
 													<input
 														type="text"
 														className="form-control"

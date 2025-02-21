@@ -336,5 +336,9 @@
      "GoBacktoHome":"Go Back to Home",
      "findpdeveloper":"Find Developer",
      "findagency":"Find Agency",
-     "numberOfAminities": "Number of "
+     "numberOfAminities": "Number of ",
+     "titleProject":"Name of project",
+     "titleDeveloper":"Name of Developer",
+     "titleAgency":"Name of Agency",
+     "amenities":"Amenities"
 }

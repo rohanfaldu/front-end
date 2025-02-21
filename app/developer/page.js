@@ -206,7 +206,7 @@ const fetchCityOptions = debounce(async (value, page = 1) => {
 												<div className="inner-group inner-filter">
 
                           <div className="form-style">
-														<label className="title-select">{t("title")}</label>
+														<label className="title-select">{t("titleDeveloper")}</label>
 														<input
 															type="text"
 															className="form-control"
