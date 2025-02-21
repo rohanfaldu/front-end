@@ -243,8 +243,13 @@ export default function PropertyHalfmapList() {
 				console.log(params, '>>>>>>>>>>>>> Params')
 				console.log(params.minPrice,"/////////////")
 				console.log(params.maxPrice,"/////////////")
-				setPriceRange([params.minPrice, params.maxPrice]);
-				setSizeRange([params.minSize, params.maxSize]);
+				if(params.maxSize == "null" && params.maxPrice == "null"){
+					setPriceRange([0, 300000]);
+					setSizeRange([0, 2000]);
+				}else{
+					setPriceRange([params.minPrice, params.maxPrice]);
+					setSizeRange([params.minSize, params.maxSize]);
+				}
 				handleCitySelect(params.city, params.city_name);
 				handleDistrictSelect(params.district, params.district_name);
 				handleNeighbourhoodSelect(params.neighbourhood, params.neighbourhood_name);
@@ -291,18 +296,31 @@ export default function PropertyHalfmapList() {
 						console.log(developers,"////////////////////")
 						setCity(cities);
 						if (!initialMaxPrice) {
+							if(maxPriceSliderRange !== null){
 								setInitialMaxPrice(maxPriceSliderRange);
 								setMaxPriceSliderRange(maxPriceSliderRange);
 								if(params.minPrice == undefined && params.maxPrice == undefined){
 									setPriceRange([0, maxPriceSliderRange]);
 								}
+								}else{
+									setInitialMaxPrice(300000);
+									setMaxPriceSliderRange(300000);
+									setPriceRange([0, 300000]);
+								}
+								
 							}
 			
 							if (!initialMaxSize){
-								setInitialMaxSize(maxSizeSliderRange);
-								if(params.minSize == undefined && params.maxSize == undefined){
-									setSizeRange([0, maxSizeSliderRange])
+								if(maxSizeSliderRange !== null){
+									setInitialMaxSize(maxSizeSliderRange);
+									if(params.minSize == undefined && params.maxSize == undefined){
+										setSizeRange([0, maxSizeSliderRange])
+									}
+								}else{
+									setInitialMaxSize(2000);
+									setSizeRange([0, 2000]);
 								}
+								
 							}
 						setError(null);
 						setLoading(false);
@@ -1028,7 +1046,7 @@ export default function PropertyHalfmapList() {
 														<div className="group-checkbox">
 															<div className="group-amenities">
 															{amenities && amenities.length > 0 ? (
-																amenities.map((project) =>
+																[...amenities].reverse().map((project) =>
 																project.type === "number" ? (
 																	<fieldset key={project.id} className="box box-fieldset">
 																	<label className="title-select" htmlFor={project.id}>
