@@ -447,7 +447,7 @@ export default function PrivacyPolicy() {
                                 <h3>Contact Us</h3>
                                 <p>If you have any questions about this Privacy Policy, You can contact us:</p>
                                 <ul>
-                                    <li>By email: themesflat@gmail.com</li>
+                                    <li>By email: immofindmaroc@gmail.com</li>
 
                                 </ul>
 									</div>

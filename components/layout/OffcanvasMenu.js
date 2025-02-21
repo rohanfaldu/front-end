@@ -133,7 +133,7 @@ export default function OffcanvasMenu({ isOffcanMenu, handleOffcanMenu, isLogin,
 						</div>
 						<div className="box d-flex align-items-center">
 							<span className="icon icon-mail" />
-							<div>themesflat@gmail.com</div>
+							<div>immofindmaroc@gmail.com</div>
 						</div>
 					</div>
 				</div>

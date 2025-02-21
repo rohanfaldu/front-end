@@ -134,7 +134,7 @@ export default function Header3({ scroll, isSidebar, handleSidebar, isMobileMenu
 								</div>
 								<div className="box d-flex align-items-center">
 									<span className="icon icon-mail" />
-									<div>themesflat@gmail.com</div>
+									<div>immofindmaroc@gmail.com</div>
 								</div>
 							</div>
 						</div>

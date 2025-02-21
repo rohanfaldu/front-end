@@ -42,7 +42,7 @@ export default function Footer1() {
 										</li>
 										<li className="mt-12 d-flex align-items-center gap-8">
 											<i className="icon icon-mail fs-20 text-variant-2" />
-											<p className="text-white">themesflat@gmail.com</p>
+											<p className="text-white">immofindmaroc@gmail.com</p>
 										</li>
 									</ul>
 								</div>
