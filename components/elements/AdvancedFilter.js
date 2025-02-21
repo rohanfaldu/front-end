@@ -338,23 +338,42 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 			setDevelopers(developers);
 			setpropertyType(property_types);
 			console.log(property_types,"property_types")
-			if (initialMaxPrice !== maxPriceSliderRange) {
+			console.log(maxPriceSliderRange,"maxPriceSliderRange")
+			if ( maxPriceSliderRange !== null) {
 				setInitialMaxPrice(maxPriceSliderRange);
 				setPriceRange([0, maxPriceSliderRange]);
+				setFormData((prevFilters) => ({
+					...prevFilters,
+					minPrice: 0, // Set minPrice
+					maxPrice: maxPriceSliderRange, // Set maxPrice
+				}));
+			}else{
+				setInitialMaxPrice(300000);
+				setPriceRange([0, 300000]);
+				setFormData((prevFilters) => ({
+					...prevFilters,
+					minPrice: 0, // Set minPrice
+					maxPrice: 300000, // Set maxPrice
+				}));
 			}
-			setFormData((prevFilters) => ({
-				...prevFilters,
-				minPrice: 0, // Set minPrice
-				maxPrice: maxPriceSliderRange, // Set maxPrice
-			}));
-			setFormData((prevFilters) => ({
-				...prevFilters,
-				minSize: 0, // Set minPrice
-				maxSize: maxSizeSliderRange, // Set maxPrice
-			}));
-			if (initialMaxSize !== maxSizeSliderRange){
+			
+			
+			if ( maxSizeSliderRange !== null) {
 				setInitialMaxSize(maxSizeSliderRange);
 				setSizeRange([0, maxSizeSliderRange])
+				setFormData((prevFilters) => ({
+					...prevFilters,
+					minSize: 0, // Set minPrice
+					maxSize: maxSizeSliderRange, // Set maxPrice
+				}));
+			}else{
+				setInitialMaxSize(2000);
+				setSizeRange([0, 2000])
+				setFormData((prevFilters) => ({
+					...prevFilters,
+					minSize: 0, // Set minPrice
+					maxSize: 2000, // Set maxPrice
+				}));
 			}
 		}
 
