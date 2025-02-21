@@ -334,7 +334,7 @@ export default function ProjectHalfmapList() {
 											<div className="wd-filter-select">
 												<div className="inner-group inner-filter">
 													<div className="form-style">
-														<label className="title-select">{t("title")}</label>
+														<label className="title-select">{t("titleProject")}</label>
 														<input
 															type="text"
 															className="form-control"
@@ -378,7 +378,7 @@ export default function ProjectHalfmapList() {
 													</div>
 
 													<div className="form-style">
-														<label className="title-select">{t("distric")}</label>
+														<label className="title-select">{t("district")}</label>
 														<input
 															type="text"
 															className="form-control"

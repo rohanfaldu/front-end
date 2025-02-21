@@ -175,7 +175,7 @@ export default function AgencyListing() {
 											<div className="wd-filter-select">
 												<div className="inner-group inner-filter">
 												<div className="form-style">
-													<label className="title-select">{t("title")}</label>
+													<label className="title-select">{t("titleAgency")}</label>
 													<input
 														type="text"
 														className="form-control"
