@@ -38,17 +38,17 @@ export default function MobileMenu() {
 							<Link href="/">{t("home")}</Link>
 						</li>
 
-						<li className={isActive('/property')}>
+						{/* <li className={isActive('/property')}>
 							<Link href="/property">{t("property")}</Link>
-						</li>
+						</li> */}
 						<li className={isActive('/project')}>
 							<Link href="/project">{t("project")}</Link>
 						</li>
-						<li className={isActive('/agency')}>
-							<Link href="/agency">{t("agency")}</Link>
-						</li>
 						<li className={isActive('/developer')}>
 							<Link href="/developer">{t("developer")}</Link>
+						</li>
+						<li className={isActive('/agency')}>
+							<Link href="/agency">{t("agency")}</Link>
 						</li>
 						<li className={isActive('/about-us')}>
 							<Link href="/about-us">{t("aboutus")}</Link>
