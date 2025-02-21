@@ -384,7 +384,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 	  
 
 	const handleToggle = () => setToggled(!isToggled);
-
+	  console.log(amenities, "amenities");
 	return (
 		<>
 			<div className={`wd-find-select ${sidecls ? sidecls : ""}`}>
@@ -665,10 +665,10 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 				<div className="grid-1 group-box">
 
 					<div className="group-select grid-4">
-							{amenities && amenities.length > 0 ? (
-								amenities.map((project) =>
-								project.type === "number" ? (
-									<fieldset key={project.id} className="box box-fieldset">
+					{amenities && amenities.length > 0 ? (
+						[...amenities].reverse().map((project) =>
+							project.type === "number" ? (
+								<fieldset key={project.id} className="box box-fieldset">
 									<label className="title-select text-variant-1" htmlFor={project.id}>
 										{t("numberOfAminities")}{project.name}:
 									</label>
@@ -679,10 +679,11 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 										name={project.id}
 										onChange={(e) => handleNumberChange(project.id, e.target.value)}
 									/>
-									</fieldset>
-								) : null
-								)
-							) : null}
+								</fieldset>
+							) : null
+						)
+					) : null}
+
 
 						{/* <div className="form-style">
 							<label className="title-select">{t("direction")}</label>

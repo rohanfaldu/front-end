@@ -1070,7 +1070,7 @@ export default function PropertyHalfmapList() {
 
 													<div className="form-style wd-amenities" style={{ display: `${isToggled ? "block" : "none"}` }}>
 														<div className="group-checkbox">
-															<div className="text-1">Amenities:</div>
+															<div className="text-1">{t("amenities")}:</div>
 															<div className="group-amenities">
 																{amenities.map((amenity) => (
 																	amenity.type === "boolean" ? (
