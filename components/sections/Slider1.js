@@ -27,7 +27,7 @@ export default function Slider1({properties}) {
 						<div className="col-lg-12">
 							<div className="slider-content">
 								<div className="heading text-center">
-									<h1 className="text-white animationtext slide">
+									<h1 className="text-white animationtext slide" style={{maxHeight: "88px"}}>
 										{t("findYou")}
 										<span className="tf-text s1 cd-words-wrapper ms-3">
 											<TextTransition springConfig={presets.wobbly}>{TEXTS[index % TEXTS.length]}</TextTransition>
