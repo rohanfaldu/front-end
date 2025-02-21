@@ -332,5 +332,9 @@
     "GoBacktoHome": "Retourner à l’accueil",
     "findpdeveloper": "Trouver un promoteur",
     "findagency": "Trouver une agence",
-    "numberOfAminities": "Nombre de "
+    "numberOfAminities": "Nombre de ",
+    "titleProject":"Nom",
+    "titleDeveloper":"Nom",
+    "titleAgency":"Nom",
+    "amenities":"Caractéristiques"
 }
