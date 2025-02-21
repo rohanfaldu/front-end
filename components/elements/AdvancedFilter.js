@@ -685,7 +685,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 
 					<div className="group-select grid-4">
 							{amenities && amenities.length > 0 ? (
-								amenities.map((project) =>
+								[...amenities].reverse().map((project) =>
 								project.type === "number" ? (
 									<fieldset key={project.id} className="box box-fieldset">
 									<label className="title-select text-variant-1" htmlFor={project.id}>
