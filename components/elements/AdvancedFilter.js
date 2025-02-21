@@ -647,6 +647,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 								min={0}
 								max={initialMaxPrice}
 								value={priceRange}
+								step={100}
 								thumbClassName="example-thumb"
 								trackClassName="example-track"
 								onChange={handlePriceChange}
