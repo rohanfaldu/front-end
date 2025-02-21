@@ -21,7 +21,7 @@ export default function AgencyListing() {
 	const [initialMaxPrice, setInitialMaxPrice] = useState(0); // Store the maximum price initially
 	const [maxPriceSliderRange, setMaxPriceSliderRange] = useState(0); // Dynamic slider range
 	const [priceRange, setPriceRange] = useState([]); // Selected range
-	const [isTab, setIsTab] = useState(2)
+	const [isTab, setIsTab] = useState(2) 
 	const handleTab = (i) => {
 		setIsTab(i)
 	}
