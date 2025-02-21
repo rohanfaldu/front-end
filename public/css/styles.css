@@ -918,7 +918,7 @@ label {
 /* Main Menu */
 .main-header .main-menu {
   position: relative;
-  margin-left: 140px;
+  /* margin-left: 140px; */
   -webkit-transition: all 300ms ease;
   -ms-transition: all 300ms ease;
   -o-transition: all 300ms ease;
@@ -943,7 +943,7 @@ label {
   -webkit-transition: all 500ms ease;
   -ms-transition: all 500ms ease;
   -o-transition: all 500ms ease;
-  padding-right: 55px;
+  padding-right: 40px;
 }
 
 .main-header .sticky-header .nav-outer .options-box {
@@ -9564,7 +9564,7 @@ tr {
   }
 }
 
-@media only screen and (max-width: 1400px) {
+@media only screen and (max-width: 1200px) {
   .mobile-button {
     display: block !important;
   }
