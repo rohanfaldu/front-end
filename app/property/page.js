@@ -263,11 +263,11 @@ export default function PropertyHalfmapList() {
 						district_id: params.district,
 						neighborhoods_id: params.neighbourhood,
 						type_id: params.type_id,
-						minPrice: params.minPrice,
-						maxPrice: params.maxPrice,
+						...(params.minPrice > 0 && { minPrice: params.minPrice }),
+						...(params.maxPrice > 0 && { maxPrice: params.maxPrice }),
+						...(params.minSize > 0 && { minSize: params.minSize }),
+						...(params.maxSize > 0 && { maxSize: params.maxSize }),
 						amenities_id_array: params.amenities_id_array,
-						minSize: params.minSize,
-						maxSize: params.maxSize,
 						direction: params.direction,
 						developer_id: params.developer_id,
 						amenities_id_object_with_value: params.amenities_id_object_with_value,
@@ -1082,10 +1082,12 @@ export default function PropertyHalfmapList() {
 																			checked={filters?.amenities_id_array?.includes(amenity.id)} // Updated to amenities_id_array
 																			onChange={(e) => {
 																				const updatedAmenities = e.target.checked
-																					? [...filters.amenities_id_array, amenity.id] // Updated to amenities_id_array
-																					: filters.amenities_id_array.filter((id) => id !== amenity.id); // Updated to amenities_id_array
-																				setFilters({ ...filters, amenities_id_array: updatedAmenities }); // Updated to amenities_id_array
+																					? [...(filters.amenities_id_array || []), amenity.id]
+																					: (filters.amenities_id_array || []).filter((id) => id !== amenity.id);
+																			
+																				setFilters({ ...filters, amenities_id_array: updatedAmenities });
 																			}}
+																			
 																		/>
 																		<label htmlFor={`amenity-${amenity.id}`} className="text-cb-amenities">
 																			{amenity.name}

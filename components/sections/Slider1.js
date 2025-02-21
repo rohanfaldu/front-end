@@ -45,7 +45,7 @@ export default function Slider1({properties}) {
 										<div className="tab-pane fade active show" role="tabpanel">
 											<div className="form-sl">
 												<form method="post">
-													{properties && (
+													{properties !== undefined && (
 														<AdvancedFilter sidecls="shadow-st" propertiesData = {properties}/>)}
 													{/* <AdvancedFilter sidecls="shadow-st" propertiesData = {properties}/> */}
 												</form>

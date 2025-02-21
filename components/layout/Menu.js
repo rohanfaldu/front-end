@@ -44,7 +44,7 @@ export default function Menu() {
 					<Link href="/agency">{t("agency")}</Link>
 				</li>
 				<li className={isActive('/about-us')}>
-					<Link href="/about-us">{t("aboutus")}</Link>
+					<div style={{fontWeight:"bold"}}>{t("aboutus")}</div>
 				</li>
 				
 			</ul>
