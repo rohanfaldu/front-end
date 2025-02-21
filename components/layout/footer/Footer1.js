@@ -33,7 +33,7 @@ export default function Footer1() {
 						<div className="row">
 							<div className="col-lg-4 col-md-6">
 								<div className="footer-cl-1">
-									<p className="text-variant-2">Specializes in providing high-class tours for those in need. Contact Us</p>
+									<p className="text-variant-2">{t("footerMain")}</p>
 									<ul className="mt-12">
 										<li className="mt-12 d-flex align-items-center gap-8">
 											<i className="icon icon-mapPinLine fs-20 text-variant-2" />

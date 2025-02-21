@@ -9,7 +9,7 @@
     "agency":"Agency",
     "developer":"Developer",
     "findYou": "Find Your",
-    "bannerDescription":"We are a real estate agency that will help you find the best residence you dream of, let’s discuss for your dream house?",
+    "bannerDescription":"Find your ideal property in one click with IMMOFIND - Real estate reinvented",
     "forrent":"FOR RENT",
     "forsale":"FOR SALE",
     "findproperties":"Find Properties",
@@ -340,5 +340,6 @@
      "titleProject":"Name of project",
      "titleDeveloper":"Name of Developer",
      "titleAgency":"Name of Agency",
-     "amenities":"Amenities"
+     "amenities":"Amenities",
+     "footerMain": "Innovative real estate platform with smart matching technology. For more information, contact us"
 }

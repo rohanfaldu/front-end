@@ -8,7 +8,7 @@
     "blog": "Blogue",
     "agency":"Agence",
     "developer":"Promoteur",
-    "findYou": "Trouvez votre",
+    "findYou": "Find Your",
     "bannerDescription":"Trouvez votre bien idéal en un clic avec IMMOFIND – L’immobilier réinventé !",
     "forrent":"à louer",
     "forsale":"à vendre",
@@ -336,5 +336,6 @@
     "titleProject":"Nom",
     "titleDeveloper":"Nom",
     "titleAgency":"Nom",
-    "amenities":"Caractéristiques"
+    "amenities":"Caractéristiques",
+    "footerMain": "Plateforme immobilière innovante avec technologie de matching intelligent. Pour plus d’information, contactez nous"
 }
