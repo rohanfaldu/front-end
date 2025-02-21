@@ -704,7 +704,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 					</div>
 				</div>
 				<div className="group-checkbox">
-					<div className="text-1">Amenities:</div>
+					<div className="text-1">{t("amenities")}:</div>
 					{/* <div className="group-amenities mt-8 grid-6">
 						{[
 							{ id: "cb1", label: "Air Condition" },

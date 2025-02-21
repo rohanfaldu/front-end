@@ -28,8 +28,10 @@ export default function Home() {
 	const [transaction, setTransaction] = useState("");
 	const [loading, setLoading] = useState(true);
 	useEffect(() => {
-		fetchPropertys(pagination.currentPage);
+		setProperties();
 		setTransaction(localStorage.getItem("transaction"));
+		fetchPropertys(pagination.currentPage);
+
 	}, [pagination.currentPage, i18n.language]);
 
 	const fetchPropertys = async (page = 1) => {
