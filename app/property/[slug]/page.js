@@ -499,7 +499,14 @@ export default function PropertyDetailsV1({ params }) {
 							<div className="header-property-detail">
 								<div className="content-top d-flex justify-content-between align-items-center">
 									<div className="box-name">
-										<Link href="#" className="flag-tag primary">{properties.transaction}</Link>
+										{/* <Link href="#" className="flag-tag primary">{properties.transaction}</Link> */}
+
+											{properties.transaction_type == 'rental' && (
+                                                <Link href="#" className="flag-tag primary"> {t("rental")}</Link>
+                                            )}
+                                            {properties.transaction_type == 'sale' && (
+                                                <Link href="#" className="flag-tag primary"> {t("sale")}</Link>
+                                            )}
 										<h4 className="title link">{properties.title}</h4>
 									</div>
 									<div className="box-price d-flex align-items-center" style={{width: "20%", justifyContent: "space-between"}}>
