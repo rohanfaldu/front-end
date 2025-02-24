@@ -149,7 +149,7 @@ export default function PropertyBlog(propertyData, slide, calsulation) {
             <div className="tinder-container">
                 <div className={`homeya-box ${propertySlide}`} style={{marginBottom : "0px"}}>
                     <div className="archive-top">
-                        <Link className="images-group" href={`/property/${propertyData.data.slug}-${percentage}`}>
+                        <Link className="images-group" rel="noopener noreferrer" target="_blank" href={`/property/${propertyData.data.slug}-${percentage}`}>
                             <div className="images-style">
                                 <img style={{height:"500px"}} src={(propertyData.data.picture[0]) ? propertyData.data.picture[0] : "/images/banner/no-banner.png"} alt="Property" />
                             </div>
@@ -187,7 +187,7 @@ export default function PropertyBlog(propertyData, slide, calsulation) {
 
                                 <div className="middle">
                                     <div className="flag-tag style-2" style={{fontSize:"30px"}}>
-                                        <Link href={`/property/${propertyData.data.slug}-${percentage}`} className="link" style={{color:"#fff"}}>
+                                        <Link href={`/property/${propertyData.data.slug}-${percentage}`} rel="noopener noreferrer" target="_blank" className="link" style={{color:"#fff"}}>
                                             {propertyData.data.title}
                                         </Link>
                                     </div>
@@ -220,7 +220,7 @@ export default function PropertyBlog(propertyData, slide, calsulation) {
                                                 <img src={(propertyData.data.user_image) ? propertyData.data.user_image : "/images/avatar/user-image.png"} alt="Owner Avatar" />
                                             </div>
                                             <div style={{marginLeft:"5%", width:"200px"}}>
-                                                <Link href={`/${propertyData.data.user_role}/${propertyData.data.user_id}`} style={{color:"#fff"}}>
+                                                <Link rel="noopener noreferrer" target="_blank" href={`/${propertyData.data.user_role}/${propertyData.data.user_id}`} style={{color:"#fff"}}>
                                                     {propertyData.data.user_name}
                                                 </Link>
                                                 {/* <span style={{cursor:"pointer"}} href={`/${propertyData.data.user_role}/${propertyData.data.user_id}`}>{propertyData.data.user_name}</span> */}
