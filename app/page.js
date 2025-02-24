@@ -73,8 +73,8 @@ export default function Home() {
 						<Recommended1 />
 						<Property1 />
 						<Testimonial1 />
-						<LatestNew1 />
-						<Partner />
+						{/* <LatestNew1 /> */}
+						{/* <Partner /> */}
 					</>
 				)}
 			</Layout>

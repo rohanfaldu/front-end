@@ -2,6 +2,7 @@ import Link from "next/link";
 import React, { useState, useEffect } from 'react';
 import ModalLoginLike from "../common/ModelLoginLike";
 import PercentageHeart from "../elements/PercentageHeart";
+import { useTranslation } from "react-i18next";
 
 export default function PropertyBlog(propertyData, slide, calsulation) {
     const propertySlide = slide ? "style-2" : "";
@@ -11,6 +12,7 @@ export default function PropertyBlog(propertyData, slide, calsulation) {
     const [isLiked, setIsLiked] = useState(propertyData.data.like);
     const [percentage, setPercentage] = useState(propertyData.data.filter_result.total_percentage);
     const [isModelOpen, setIsModelOpen] = useState(false);
+    const { t, i18n } = useTranslation();
 
 
     useEffect(() => {
@@ -155,9 +157,17 @@ export default function PropertyBlog(propertyData, slide, calsulation) {
                                 {propertyData.data.transaction && (
                                     <>
                                         <ul className="d-flex gap-8">
-                                            <li className={`flag-tag style-1}`}>
-                                                {propertyData.data.transaction}
-                                            </li>
+                                            {propertyData.data.transaction_type == 'rental' && (
+                                                <li className={`flag-tag style-1}`}>
+                                                    {t("rental")}
+                                                </li>
+                                            )}
+                                            {propertyData.data.transaction_type == 'sale' && (
+                                                <li className={`flag-tag style-1}`}>
+                                                    {t("sale")}
+                                                </li>
+                                            )}
+                                            
                                         </ul>
                                         {/* <ul className="d-flex gap-4">
                                             <li className={`${isLiked ? "liked" : "w-40 box-icon"}`}

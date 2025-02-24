@@ -4,11 +4,29 @@ import { Swiper, SwiperSlide } from "swiper/react"
 import { getData, getDataWithOutTOken } from "../../../components/api/Helper";
 import ContactSeller from "@/components/sections/ContactSeller";
 import PercentageHeart from "@/components/elements/PercentageHeart";
+import ProjectMap from "@/components/elements/ProjectMap"
+import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
+import L from 'leaflet';
+import "leaflet/dist/leaflet.css";
 
 import Image from "next/image";
 const toCapitalCase = (str) => {
 	if (!str) return '';
 	return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+}
+
+const customMsrker = L.icon({
+	iconUrl: "/images/location/map-lo.png",
+	iconSize: [30, 30]
+});
+
+function UpdateMapView({ center, zoom }) {
+	const map = useMap();
+	useEffect(() => {
+		map.setView(center, zoom);
+	}, [center, zoom, map]);
+
+	return null;
 }
 const swiperOptions = (projectDetails) => ({
 	modules: [Autoplay, Pagination, Navigation],
@@ -103,6 +121,8 @@ import ModalLoginLike from "@/components/common/ModelLoginLike";
 import variablesList from "@/components/common/Variable";
 
 import Modal from "react-modal";
+
+
 export default function PropertyDetailsV1({ params }) {
 	const { slug } = params;
 	const [properties, setProperties] = useState(null);
@@ -139,7 +159,7 @@ export default function PropertyDetailsV1({ params }) {
 	console.log('Matching:', matching);
 	
 	
-
+	
 
 	useEffect(() => {
 		console.log("Fetching properties...");
@@ -625,7 +645,28 @@ export default function PropertyDetailsV1({ params }) {
 									)}
 									<div className="single-property-element single-property-map">
 										<div className="h7 title fw-7">{t("map")}</div>
-										<MapMarker latitude={properties.latitude} longitude={properties.longitude} zoom={18} />
+										{/* <MapMarker latitude={properties.latitude} longitude={properties.longitude} zoom={18} /> */}
+										{/* <ProjectMap topmap={false} singleMap={false} propertys={properties} slug="project"/> */}
+										
+
+										<MapContainer
+											style={{ height: `${false ? "460px" : "460px"}`, zIndex: 100 }}
+											center={[properties.latitude, properties.longitude]}
+											zoom={12}
+											maxZoom={18}
+											scrollWheelZoom={false}
+										>
+											<UpdateMapView center={[properties.latitude, properties.longitude]} zoom={18} />
+
+											<TileLayer url="https://{s}.tile.osm.org/{z}/{x}/{y}.png" />
+											<Marker
+												key={properties.id}
+												position={[properties.latitude, properties.longitude]}
+												icon={customMsrker}
+											>
+											</Marker>
+										</MapContainer>
+
 
 										<ul className="info-map">
 											<li>

@@ -26,11 +26,11 @@ export default function MapCluster({ topmap, propertys, slug, lat, lng }) {
 		<MapContainer
 			style={{ height: topmap ? "460px" : "100vh", zIndex: -1 }}
 			center={[lat, lng]} // Center dynamically
-			zoom={14} // Set zoom level to 14
+			zoom={12} // Set zoom level to 14
 			maxZoom={18}
 			scrollWheelZoom={false}
 		>
-			<UpdateMapView center={[lat, lng]} zoom={18} />
+			<UpdateMapView center={[lat, lng]} zoom={16} />
 
 			<TileLayer url="https://{s}.tile.osm.org/{z}/{x}/{y}.png" />
 

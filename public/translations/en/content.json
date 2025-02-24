@@ -2,12 +2,12 @@
     "login": "Login",
     "register": "Register",
     "home": "Home",
-    "project": "New Homes",
+    "project": "Immoneuf",
     "aboutus": "About Us",
     "property": "Property",
     "blog": "Blog",
-    "agency":"Agency",
-    "developer":"Developer",
+    "agency":"Agencies",
+    "developer":"Developers",
     "findYou": "Find Your",
     "bannerDescription":"Find your ideal property in one click with IMMOFIND - Real estate reinvented",
     "forrent":"FOR RENT",
@@ -341,5 +341,7 @@
      "titleDeveloper":"Name of Developer",
      "titleAgency":"Name of Agency",
      "amenities":"Amenities",
-     "footerMain": "Innovative real estate platform with smart matching technology. For more information, contact us"
+     "footerMain": "Innovative real estate platform with smart matching technology. For more information, contact us",
+     "rental": "FOR RENTAL",
+     "sale": "FOR SALE"
 }

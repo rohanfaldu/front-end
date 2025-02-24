@@ -1226,13 +1226,12 @@ export default function PropertyHalfmapList() {
 								
 								if (localStorage.getItem('token')) {
 									handleLikeClick();
-								} else {
 									handleLike(
 										filteredProperties[currentIndex]?.like,
 										filteredProperties[currentIndex]?.id,
 										filteredProperties[currentIndex]?.user_id
 									);
-								}
+								} 
 							}}
 							style={{ width: "60px", height: "60px", cursor: "pointer" }}
 						/>
