@@ -5,11 +5,27 @@ import { insertData } from "../../../components/api/Axios/Helper";
 import SidebarFilter from "@/components/elements/SidebarFilter";
 import ProjectBlog from "@/components/sections/ProjectBlog";
 import MapMarker from "@/components/elements/MapMarker";
+import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
+import L from 'leaflet';
+import "leaflet/dist/leaflet.css";
 const toCapitalCase = (str) => {
     if (!str) return '';
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 }
 
+const customMsrker = L.icon({
+    iconUrl: "/images/location/map-lo.png",
+    iconSize: [30, 30]
+});
+
+function UpdateMapView({ center, zoom }) {
+    const map = useMap();
+    useEffect(() => {
+        map.setView(center, zoom);
+    }, [center, zoom, map]);
+
+    return null;
+}
 const swiperOptions = (agencyDetails) => ({
     modules: [Autoplay, Pagination, Navigation],
     autoplay: agencyDetails?.picture.length > 1
@@ -167,7 +183,23 @@ export default function AgencyDetail({ params }) {
 
                                         <div className="single-property-element single-property-map">
                                             <div className="h7 title fw-7">{t("map")}</div>
-                                            <MapMarker latitude={developerDetails.latitude} longitude={developerDetails.longitude} zoom={18} />
+                                            {/* <MapMarker latitude={developerDetails.latitude} longitude={developerDetails.longitude} zoom={18} /> */}
+                                            <MapContainer
+                                                style={{ height: `${false ? "460px" : "460px"}`, zIndex: 100 }}
+                                                center={[developerDetails.latitude, developerDetails.longitude]}
+                                                zoom={12}
+                                                maxZoom={18}
+                                                scrollWheelZoom={false}
+                                            >
+                                                <UpdateMapView center={[developerDetails.latitude, developerDetails.longitude]} zoom={18} />
+                                                <TileLayer url="https://{s}.tile.osm.org/{z}/{x}/{y}.png" />
+                                                <Marker
+                                                    key={developerDetails.id}
+                                                    position={[developerDetails.latitude, developerDetails.longitude]}
+                                                    icon={customMsrker}
+                                                >
+                                                </Marker>
+                                            </MapContainer>
                                             <ul className="info-map">
                                                 <li>
                                                     <div className="fw-7">{t("address")}</div>

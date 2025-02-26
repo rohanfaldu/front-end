@@ -20,8 +20,8 @@ export default function ContactSeller(contactDetails) {
 				}
 				<div className="info" style={{overflow : "hidden"}}>
 					<div className="text-1 name">{contactDetails.data.user_name}</div>
-					<span className="text">{contactDetails.data.email_address}</span>
-					<span>{contactDetails.data.country_code} {contactDetails.data.phone_number}</span>
+					{/* <span className="text">{contactDetails.data.email_address}</span>
+					<span>{contactDetails.data.country_code} {contactDetails.data.phone_number}</span> */}
 					<Link href={`/${contactDetails.data.user_role}/${contactDetails.data.user_id}`} className="link">
 						<button className="form-wg tf-btn primary" name="button" type="button" style={{marginTop : "10px"}}>
 							<span style={{color : "#fff"}}>{t("contact")}</span>

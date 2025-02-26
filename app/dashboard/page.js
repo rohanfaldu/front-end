@@ -77,6 +77,19 @@ export default function Dashboard() {
 													</div>
 												</div>
 											</div>
+											<Link href={`/property-listing/like`} className="item">
+												<div className="counter-box" style={{cursor: 'pointer'}}>
+													<div className="box-icon w-68 round">
+														<span className="icon icon-bookmark" />
+													</div>
+													<div className="content-box">
+														<div className="title-count">Total Property Likes</div>
+														<div className="d-flex align-items-end">
+															<h6 className="number" data-speed={2000} data-to={dashboardData?.data?.property_like_count}><CountetNumber count={dashboardData?.data?.property_like_count} /></h6>
+														</div>
+													</div>
+												</div>
+											</Link>
 											{/* <div className="counter-box">
 												<div className="box-icon w-68 round">
 													<span className="icon icon-review" />
@@ -89,18 +102,17 @@ export default function Dashboard() {
 												</div>
 											</div> */}
 										</div>
-										<div className="wrapper-content row">
+										{/* <div className="wrapper-content row">
 											<div className="col-xl-12">
 												
 												<div className="widget-box-2 wd-chart">
 													<h6 className="title">User Engagement</h6>
 													<div className="chart-box">
-														{/* <DashboardChart /> */}
 														<DashboardLineChart />
 													</div>
 												</div>
 											</div>
-										</div>
+										</div> */}
 									</div>
 								</> 
 							: 

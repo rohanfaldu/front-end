@@ -2,9 +2,26 @@
 import { Autoplay, Navigation, Pagination } from "swiper/modules"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { getData } from "../../../components/api/Helper";
+import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
+import L from 'leaflet';
+import "leaflet/dist/leaflet.css";
 const toCapitalCase = (str) => {
 	if (!str) return '';
 	return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+}
+
+const customMsrker = L.icon({
+	iconUrl: "/images/location/map-lo.png",
+	iconSize: [30, 30]
+});
+
+function UpdateMapView({ center, zoom }) {
+	const map = useMap();
+	useEffect(() => {
+		map.setView(center, zoom);
+	}, [center, zoom, map]);
+
+	return null;
 }
 
 const swiperOptions = (projectDetails) => ({
@@ -526,7 +543,26 @@ export default function ProjectDetailsView({ params }) {
 									)}
 									<div className="single-property-element single-property-map">
 										<div className="h7 title fw-7">{t("map")}</div>
-										<MapMarker latitude={projectDetails?.latitude} longitude={projectDetails?.longitude} zoom={18} />
+										{/* <MapMarker latitude={projectDetails?.latitude} longitude={projectDetails?.longitude} zoom={18} /> */}
+
+										<MapContainer
+											style={{ height: `${false ? "460px" : "460px"}`, zIndex: 100 }}
+											center={[projectDetails.latitude, projectDetails.longitude]}
+											zoom={12}
+											maxZoom={18}
+											scrollWheelZoom={false}
+										>
+											<UpdateMapView center={[projectDetails.latitude, projectDetails.longitude]} zoom={18} />
+
+											<TileLayer url="https://{s}.tile.osm.org/{z}/{x}/{y}.png" />
+											<Marker
+												key={projectDetails.id}
+												position={[projectDetails.latitude, projectDetails.longitude]}
+												icon={customMsrker}
+											>
+											</Marker>
+										</MapContainer>
+
 
 										<ul className="info-map">
 											<li>

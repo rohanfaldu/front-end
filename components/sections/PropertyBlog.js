@@ -186,7 +186,7 @@ export default function PropertyBlog(propertyData, slide, calsulation) {
 
 
                                 <div className="middle">
-                                    <div className="flag-tag style-2" style={{fontSize:"30px"}}>
+                                    <div className="flag-tag style-2" style={{fontSize:"15px", textAlign:"left"}}>
                                         <Link href={`/property/${propertyData.data.slug}-${percentage}`} rel="noopener noreferrer" target="_blank" className="link" style={{color:"#fff"}}>
                                             {propertyData.data.title}
                                         </Link>
@@ -295,7 +295,7 @@ export default function PropertyBlog(propertyData, slide, calsulation) {
                             </div> */}
 
 
-                            <div className="bottom" style={{display:"flex", justifyContent:"space-between", width:"93%"}}>
+                            {/* <div className="bottom" style={{display:"flex", justifyContent:"space-between", width:"93%"}}>
                                 <div>
                                     <span className="flag-tag style-2">{propertyData.data?.type_details?.title ? propertyData.data?.type_details?.title : propertyData.data.type}</span>
                                 </div>
@@ -304,7 +304,7 @@ export default function PropertyBlog(propertyData, slide, calsulation) {
                                         <span className="flag-tag style-2" style={{fontSize:"25px"}}>&gt;&gt;&gt;</span>
                                     </Link>
                                 </div>
-                            </div>
+                            </div> */}
                         </Link>
 
 

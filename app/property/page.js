@@ -1153,7 +1153,7 @@ export default function PropertyHalfmapList() {
 						</div >
 					</div >
 					<div className="wrap-inner">
-						<div className="box-title-listing style-1">
+						<div className="box-title-listing style-1" style={{marginBottom: "0px"}}>
 							{/* <h5>{t("propertylisting")}</h5> */}
 							{/* <div className="box-filter-tab">
 								<ul className="nav-tab-filter" role="tablist">
