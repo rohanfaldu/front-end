@@ -315,7 +315,7 @@ export default function PropertyDetailsV1({ params }) {
 				'Content-Type': 'application/json',
 				'Authorization': `Bearer ${token}`
 			},
-			body: JSON.stringify({ rating, comment, propertyId: properties.id }),
+			body: JSON.stringify({ rating, comment, propertyId: properties.id, property_owner_id: properties.user_id }),
 		  });
 	
 		  const data = await response.json();

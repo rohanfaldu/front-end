@@ -11,13 +11,14 @@ import EditIcon from "@/public/images/favicon/edit.png";
 import DeleteIcon from "@/public/images/favicon/delete.png";
 //import variablesList from "@/components/common/Variable";
 import ViewIcon from "@/public/images/favicon/view.png";
+
 import ExcelJS from "exceljs";
 import { saveAs } from "file-saver";
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { useRef } from "react"; 
 
-export default function PropertyLikedListing({ params }) {
+export default function PropertyViewedListing({ params }) {
   const { id } = params;
   const [properties, setProperties] = useState([]); // Store properties for the current page
   const [loading, setLoading] = useState(true); // Manage loading state
@@ -28,7 +29,7 @@ export default function PropertyLikedListing({ params }) {
 
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-
+  
   const [pagination, setPagination] = useState({
       totalCount: 0,
       totalPages: 0,
@@ -39,7 +40,6 @@ export default function PropertyLikedListing({ params }) {
 
   const formattedStartDate = startDate ? `${startDate}T00:00:00.000Z` : null;
   const formattedEndDate = endDate ? `${endDate}T23:59:59.999Z` : null;
-
 
   const fetchProperties = async (page = 1, id) => {
     setLoading(true);
@@ -52,7 +52,7 @@ export default function PropertyLikedListing({ params }) {
         endDate: formattedEndDate,
       };
 
-      const response = await insertData("api/property/get-liked-property-user", requestData, true);
+      const response = await insertData("api/property/get-viewed-property-user", requestData, true);
       if (response.status) {
         const { list, totalCount, totalPages, currentPage } = response.data;
         console.log('response.data: ', response.data);
@@ -81,124 +81,127 @@ export default function PropertyLikedListing({ params }) {
     setPagination({ ...pagination, currentPage: page });
   };
 
-   const exportToExcel = async () => {
-      try {
-        console.log("Exporting to Excel...");
-    
-        if (!properties || properties.length === 0) {
+
+     const exportToExcel = async () => {
+        try {
+          console.log("Exporting to Excel...");
+      
+          if (!properties || properties.length === 0) {
+            alert("No data to export");
+            return;
+          }
+      
+          // Ensure properties data exists
+          console.log("Properties:", properties);
+      
+          // Create a new workbook instance
+          const workbook = new ExcelJS.Workbook();
+          const worksheet = workbook.addWorksheet("Property Comments");
+      
+          // Define columns
+          worksheet.columns = [
+            { header: "Name", key: "name", width: 20 },
+            { header: "Email", key: "email", width: 25 },
+            { header: "Mobile", key: "mobile", width: 15 },
+            { header: "Image", key: "image", width: 100 },
+            { header: "View_count", key: "view_count", width: 15 },
+          ];
+      
+          // Apply bold font to the header row
+          worksheet.getRow(1).font = { bold: true };
+      
+          // Add data to worksheet
+          properties.forEach((p) => {
+            worksheet.addRow({
+              name: p?.users?.full_name || "N/A",
+              email: p?.users?.email_address || "N/A",
+              mobile: p?.users?.mobile_number || "N/A",
+              image: p?.users?.image || "N/A",
+              view_count: p?.view_count || "N/A",
+            });
+          });
+      
+          // Apply border to all cells
+          worksheet.eachRow((row) => {
+            row.eachCell((cell) => {
+              cell.alignment = { horizontal: "center", vertical: "middle" };
+              cell.border = {
+                top: { style: "thin" },
+                left: { style: "thin" },
+                bottom: { style: "thin" },
+                right: { style: "thin" },
+              };
+            });
+          });
+      
+          // Write to buffer and save the file
+          const buffer = await workbook.xlsx.writeBuffer();
+          saveAs(new Blob([buffer]), "property_view_engagements.xlsx");
+      
+          console.log("Excel file exported successfully!");
+        } catch (error) {
+          console.error("Excel export error:", error);
+          alert("Error exporting to Excel: " + error.message);
+        }
+      };
+  
+  
+      const exportToPDF = () => {
+        if (properties.length === 0) {
           alert("No data to export");
           return;
         }
-    
-        // Ensure properties data exists
-        console.log("Properties:", properties);
-    
-        // Create a new workbook instance
-        const workbook = new ExcelJS.Workbook();
-        const worksheet = workbook.addWorksheet("Property Comments");
-    
-        // Define columns
-        worksheet.columns = [
-          { header: "Name", key: "name", width: 20 },
-          { header: "Email", key: "email", width: 25 },
-          { header: "Mobile", key: "mobile", width: 15 },
-          { header: "Date", key: "date", width: 50 },
-        ];
-    
-        // Apply bold font to the header row
-        worksheet.getRow(1).font = { bold: true };
-    
-        // Add data to worksheet
-        properties.forEach((p) => {
-          worksheet.addRow({
-            name: p?.users?.full_name || "N/A",
-            email: p?.users?.email_address || "N/A",
-            mobile: p?.users?.mobile_number || "N/A",
-            date: p?.created_at || "N/A",
-          });
+        
+        const doc = new jsPDF();
+        
+        // Table data
+        const tableBody = properties.map((property) => [
+          property?.users?.full_name || "N/A",
+          property?.users?.email_address || "N/A",
+          property?.users?.mobile_number || "N/A",
+          property?.users?.image || "N/A",
+          property?.view_count || "N/A",
+        ]);
+        
+        // Generate table first
+        autoTable(doc, {
+          head: [["Name", "Email", "Mobile", "Image", "View_count"]],
+          body: tableBody,
+          columnStyles: {
+            0: { cellWidth: 40 },
+            1: { cellWidth: 50 },
+            2: { cellWidth: 30 },
+            3: { cellWidth: 40 },
+            4: { cellWidth: 40 },
+          },
+          styles: { fontSize: 10, cellPadding: 5 },
+          didDrawCell: (data) => {
+            if (data.column.index === 3 && properties[data.row.index]?.users?.image) {
+              const imgUrl = properties[data.row.index].users.image;
+              const x = data.cell.x + 5;
+              const y = data.cell.y + 3;
+              const width = 20;
+              const height = 20;
+              doc.addImage(imgUrl, "JPEG", x, y, width, height);
+            }
+          },
+          // This callback runs after each page is added
+          // didDrawPage: (data) => {
+          //   // Add watermark to each page
+          //   const pageWidth = doc.internal.pageSize.getWidth();
+          //   const pageHeight = doc.internal.pageSize.getHeight();
+          //   doc.setTextColor(200, 200, 200); // Light gray
+          //   doc.setFontSize(50);
+          //   doc.text("Immofind", pageWidth / 2, pageHeight / 2, { 
+          //     align: "center", 
+          //     angle: 45, 
+          //     opacity: 0.2 
+          //   });
+          // }
         });
-    
-        // Apply border to all cells
-        worksheet.eachRow((row) => {
-          row.eachCell((cell) => {
-            cell.alignment = { horizontal: "center", vertical: "middle" };
-            cell.border = {
-              top: { style: "thin" },
-              left: { style: "thin" },
-              bottom: { style: "thin" },
-              right: { style: "thin" },
-            };
-          });
-        });
-    
-        // Write to buffer and save the file
-        const buffer = await workbook.xlsx.writeBuffer();
-        saveAs(new Blob([buffer]), "property_like_engagements.xlsx");
-    
-        console.log("Excel file exported successfully!");
-      } catch (error) {
-        console.error("Excel export error:", error);
-        alert("Error exporting to Excel: " + error.message);
-      }
-    };
-
-
-const exportToPDF = () => {
-  if (properties.length === 0) {
-    alert("No data to export");
-    return;
-  }
-
-  const doc = new jsPDF();
-
-  // Watermark
-  // const pageWidth = doc.internal.pageSize.getWidth();
-  // const pageHeight = doc.internal.pageSize.getHeight();
-
-  // doc.setTextColor(200, 200, 200); // Light gray
-  // doc.setFontSize(50);
-  // doc.text("Immofind", pageWidth / 2, pageHeight / 2, {
-  //   align: "center",
-  //   angle: 45,
-  //   opacity: 0.2, // Ensures it does not overpower text
-  // });
-
-  // Table data
-  const tableBody = properties.map((property) => [
-    property?.users?.full_name || "N/A",
-    property?.users?.email_address || "N/A",
-    property?.users?.mobile_number || "N/A",
-    property?.created_at ? new Date(property?.created_at).toLocaleDateString() : "N/A",
-  ]);
-
-  // Generate table
-  autoTable(doc, {
-    head: [["Name", "Email", "Mobile", "Date"]],
-    body: tableBody,
-    columnStyles: {
-      0: { cellWidth: 40 },
-      1: { cellWidth: 50 },
-      2: { cellWidth: 30 },
-      4: { cellWidth: 40 },
-    },
-    styles: { fontSize: 10, cellPadding: 5 },
-    didDrawCell: (data) => {
-      if (data.column.index === 3 && properties[data.row.index]?.users?.image) {
-        const imgUrl = properties[data.row.index].users.image;
-        const x = data.cell.x + 5;
-        const y = data.cell.y + 3;
-        const width = 20;
-        const height = 20;
-        doc.addImage(imgUrl, "JPEG", x, y, width, height);
-      }
-    },
-  });
-
-  doc.save("property_like_engagements.pdf");
-};
-
-
-
+        
+        doc.save("property_view_engagements.pdf");
+      };
 
   return (
     <>
@@ -211,7 +214,7 @@ const exportToPDF = () => {
             <div className="wrap-dashboard-content">
               <div className="widget-box-2 wd-listing">
                 <div class="top d-flex justify-content-between align-items-center">
-                  <h6 className="title">Selected Property Like Engagements</h6>
+                  <h6 className="title">Selected Property View Engagements</h6>
                   {/* <Link className="remove-file tf-btn primary" href="/create-property">Add Property</Link> */}
                   <div>
                     <button onClick={exportToExcel} className="tf-btn primary" style={{marginRight: "20px"}}>Export Excel</button>
@@ -260,8 +263,6 @@ const exportToPDF = () => {
                   </button>
                 </div>
               </div>
-
-
                 {properties?.length > 0 ? (
                   <>
                     <div className="wrap-table">
@@ -273,8 +274,8 @@ const exportToPDF = () => {
                               <th>Name</th>
                               <th>Email Address</th>
                               <th>Mobile Number</th>
+                              <th>View Engagements</th>
                               <th>Date Published</th>
-                              
                               {/* <th>Action</th> */}
                             </tr>
                           </thead>
@@ -296,6 +297,7 @@ const exportToPDF = () => {
                                   {property?.users?.email_address}
                                 </td>
                                 <td>{property?.users?.mobile_number}</td>
+                                <td>{property?.view_count}</td>
                                 <td>{new Date(property?.created_at).toLocaleDateString()}</td>
                                 {/* <td>
                                   <ul className="list-action">

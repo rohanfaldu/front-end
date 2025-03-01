@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import ModalLoginLike from "../common/ModelLoginLike";
 import { useTranslation } from "react-i18next";
 
-export default function PropertyData( propertyData, slide, calsulation) {
+export default function PropertyData( propertyData, slide, calculation ) {
         const propertySlide = slide ? "style-2" : "";
     console.log(propertyData, ">>>>>>>>>> property Data");
     const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -73,6 +73,39 @@ export default function PropertyData( propertyData, slide, calsulation) {
         }
     };
 
+    const handleView = async (id, propertyPublisherId) => {
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+            return;
+        }
+
+        try {
+            const response = await fetch(`${API_URL}/api/property/view`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    propertyId: id,  // The property ID you are liking
+                    propertyPublisherId: propertyPublisherId // The publisher ID
+                })
+            });
+        
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.error('Error:', errorData.message);
+                return;
+            }
+        
+            const data = await response.json();
+            console.log(data.message);
+        } catch (error) {
+            console.error('Error liking the property:', error);
+        }
+    };
+
     const [isLogin, setLogin] = useState(false)
     const [showLoginModal, setShowLoginModal] = useState(false)
 
@@ -90,8 +123,11 @@ export default function PropertyData( propertyData, slide, calsulation) {
     return (
         <>
             <div className={`homeya-box ${propertySlide}`}>
-                <div className="archive-top">
-                    <Link className="images-group" href={`/property/${propertyData.data.slug}`}>
+                <div className="archive-top" 
+                    onClick={() => {
+                        handleView(propertyData.data.id, propertyData.data.user_id);
+                    }}>
+                    <Link className="images-group" href={`/property/${propertyData.data.slug}`} >
                         <div className="images-style">
                             <img src={(propertyData.data.picture[0]) ? propertyData.data.picture[0] : "/images/banner/no-banner.png"} alt="Property" />
                         </div>

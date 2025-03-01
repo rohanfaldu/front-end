@@ -100,7 +100,7 @@ export default function PropertyListing() {
   };
 
   const handleView = (id) => {
-    const URL = `/liked-property-data/${id}`;
+    const URL = `/viewed-property-data/${id}`;
       window.open(URL, '_blank')
   };
 
@@ -124,7 +124,7 @@ export default function PropertyListing() {
             <div className="wrap-dashboard-content">
               <div className="widget-box-2 wd-listing">
                 <div class="top d-flex justify-content-between align-items-center">
-                  <h6 className="title">Select Property to analyze Like Engagements</h6>
+                  <h6 className="title">Select Property to analyze View Engagements</h6>
                   {/* <Link className="remove-file tf-btn primary" href="/create-property">Add Property</Link> */}
                 </div>
                 {properties.length > 0 ? (
@@ -138,7 +138,7 @@ export default function PropertyListing() {
                               <th>Title</th>
                               <th>Price / User Name</th>
                               {/* <th>Date Published</th> */}
-                              <th>Like</th> 
+                              <th>View</th> 
                               <th>Action</th>
                             </tr>
                           </thead>
@@ -162,7 +162,7 @@ export default function PropertyListing() {
                                   {property.user_name}
                                 </td>
                                 {/* <td>{new Date(property.created_at).toLocaleDateString()}</td> */}
-                                <td>{property.like_count}</td>
+                                <td>{property.view_count}</td>
                                 {/* <td>
                                   <div className="status-wrap">
                                     <Link href="#" className="btn-status" onClick={() => statusChange(property.id)}>
