@@ -125,6 +125,27 @@ export default function Sidebar() {
 							<img src={'/images/logo/thumbs-up-black.svg'} className="icon" style={{ height: "24px" }}/> Liked Properties
 						</Link>
 					</li>
+					{((userType == 'developer') || (userType == 'agency')) &&
+					<li className={`nav-menu-item ${pathname === '/visit-schedule' ? 'active' : ''}`}>
+						<Link className="nav-menu-link flex items-center gap-2" href="/visit-schedule">
+							<div className="box-icon w-6 h-6 flex items-center justify-center">
+							<span className="icon icon-clock-countdown" />
+							</div>
+							<span>Visit Schedule</span>
+						</Link>
+					</li>
+					}
+					{(userType == 'user') &&
+					<li className={`nav-menu-item ${pathname === '/visit-scheduler' ? 'active' : ''}`}>
+						<Link className="nav-menu-link flex items-center gap-2" href="/visit-scheduler">
+							<div className="box-icon w-6 h-6 flex items-center justify-center">
+							<span className="icon icon-clock-countdown" />
+							</div>
+							<span>Visit Scheduler</span>
+						</Link>
+					</li>
+					}
+
 					<li className={`nav-menu-item ${pathname === '/edit-profile' ? 'active' : ''}`}>
 						<Link className="nav-menu-link" href="/edit-profile">
 							<img src={'/images/logo/userl.png'} className="icon" style={{ height: "24px" }}/> Edit Profile

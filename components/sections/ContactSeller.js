@@ -50,6 +50,7 @@ export default function ContactSeller({ data }) {
 				propertyId: data.id,
 				dateAndTime: formattedDateTime,
 				visitType: isTab === 1 ? "Physical" : "Virtual",
+				property_publisher_id: data.user_id
 			};
 
 			const response = await insertData("api/visit/visit-schedule", requestData, true);
