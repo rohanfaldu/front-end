@@ -275,7 +275,7 @@ export default function PropertyViewedListing({ params }) {
                               <th>Email Address</th>
                               <th>Mobile Number</th>
                               <th>View Engagements</th>
-                              <th>Date Published</th>
+                              <th>Date</th>
                               {/* <th>Action</th> */}
                             </tr>
                           </thead>
