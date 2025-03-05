@@ -57,13 +57,14 @@ export default function Dashboard() {
 												<div className="box-icon w-68 round">
 													<span className="icon icon-clock-countdown" />
 												</div>
-												
+												<Link href={`/project-listing`} className="item">
 													<div className="content-box">
 														<div className="title-count">Total Projecs</div>
 														<div className="d-flex align-items-end">
 															<h6 className="number" data-speed={2000} data-to={dashboardData?.data?.project_count}><CountetNumber count={dashboardData?.data?.project_count} /></h6>
 														</div>
 													</div>
+												</Link>
 											</div>
 											: ''}
 											<Link href={`/property-listing`} className="item">
