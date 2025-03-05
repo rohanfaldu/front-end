@@ -19,6 +19,41 @@ export default function PropertyBlog(propertyData, slide, calsulation) {
         setPercentage(propertyData.data.filter_result.total_percentage)
     }, [propertyData]);
 
+
+    const handleView = async (id, propertyPublisherId) => {
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+            return;
+        }
+
+        try {
+            const response = await fetch(`${API_URL}/api/property/view`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    propertyId: id,  // The property ID you are liking
+                    propertyPublisherId: propertyPublisherId // The publisher ID
+                })
+            });
+        
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.error('Error:', errorData.message);
+                return;
+            }
+        
+            const data = await response.json();
+            console.log(data.message);
+        } catch (error) {
+            console.error('Error liking the property:', error);
+        }
+    };
+
+
     const handleLike = async (isLiked, id, propertyPublisherId) => {
         const token = localStorage.getItem('token');
 
@@ -148,7 +183,10 @@ export default function PropertyBlog(propertyData, slide, calsulation) {
         <>
             <div className="tinder-container">
                 <div className={`homeya-box ${propertySlide}`} style={{marginBottom : "0px"}}>
-                    <div className="archive-top">
+                    <div className="archive-top"
+                    onClick={() => {
+                        handleView(propertyData.data.id, propertyData.data.user_id);
+                    }}>
                         <Link className="images-group" rel="noopener noreferrer" target="_blank" href={`/property/${propertyData.data.slug}-${percentage}`}>
                             <div className="images-style">
                                 <img style={{height:"500px"}} src={(propertyData.data.picture[0]) ? propertyData.data.picture[0] : "/images/banner/no-banner.png"} alt="Property" />
