@@ -170,7 +170,7 @@ export default function MyProperty() {
     
         // Write to buffer and save the file
         const buffer = await workbook.xlsx.writeBuffer();
-        saveAs(new Blob([buffer]), "property_visit_accepted.xlsx");
+        saveAs(new Blob([buffer]), "property_visit_rejected.xlsx");
     
         console.log("Excel file exported successfully!");
       } catch (error) {
@@ -233,7 +233,7 @@ export default function MyProperty() {
         },
       });
   
-      doc.save("property_visit_accepted.pdf");
+      doc.save("property_visit_rejected.pdf");
       };
   
 
@@ -248,23 +248,23 @@ export default function MyProperty() {
             <div className="wrap-dashboard-content">
 
               <div className="widget-box-2 wd-listing">
-             
-                <div class="top d-flex justify-content-between align-items-center">
-                  <h6 className="title">Property Pending visit Scheduled Listing</h6>
-                  {/* <Link className="remove-file tf-btn primary" href="/create-agency">Add Agnecy</Link> */}
-                  <div style={{display: "flex", alignItems: "center"}}>
-                    {/* <div>
-                      <Link className="remove-file tf-btn primary" href="/create-agency" style={{marginRight: "20px"}}>Add Agency</Link>
-                    </div> */}
-                    <div>
-                      {/* <button onClick={exportToExcel} className="tf-btn primary" style={{marginRight: "20px"}}>Export Excel</button>
-                      <button onClick={exportToPDF} className="tf-btn secondary" style={{marginRight: "20px"}}>Export PDF</button> */}
+              <div class="top d-flex align-items-center" style={{marginBottom: "20px"}}>
                       <Link href="/visit-schedule">
-                        <button className="tf-btn primary" style={{marginRight: "20px"}}>Scheduled Visits</button>
+                        <button className="tf-btn secondary" style={{ marginRight: "20px" }}>Scheduled Visits</button>
                       </Link>
                       <Link href="/creator-pending-visit">
-                        <button className="tf-btn secondary">Pending Visits</button>
+                        <button className="tf-btn secondary" style={{ marginRight: "20px" }}>Pending Visits</button>
                       </Link>
+                      <div>
+                        <button className="tf-btn primary">Rejected Visits</button>
+                      </div>
+                </div>
+                <div class="top d-flex justify-content-between align-items-center">
+                  <h6 className="title">Property Pending visit Scheduled Listing</h6>
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <div>
+                      <button onClick={exportToExcel} className="tf-btn primary" style={{ marginRight: "20px" }}>Export Excel</button>
+                      <button onClick={exportToPDF} className="tf-btn secondary" style={{ marginRight: "20px" }}>Export PDF</button>
                     </div>
                   </div>
                 </div>

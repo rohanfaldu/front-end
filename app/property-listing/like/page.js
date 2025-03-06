@@ -11,7 +11,24 @@ import EditIcon from "@/public/images/favicon/edit.png";
 import DeleteIcon from "@/public/images/favicon/delete.png";
 //import variablesList from "@/components/common/Variable";
 import ViewIcon from "@/public/images/favicon/view.png";
+import ExcelJS from "exceljs";
+import { saveAs } from "file-saver";
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
+import { useRef } from "react";
+import variablesList from "@/components/common/Variable";
+import { LocalizationProvider, DateTimePicker } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
 
+import { TextField } from "@mui/material";
+
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+import { useTranslation } from "react-i18next";
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 export default function PropertyListing() {
   const [properties, setProperties] = useState([]); // Store properties for the current page
   const [loading, setLoading] = useState(true); // Manage loading state
@@ -35,6 +52,7 @@ export default function PropertyListing() {
         lang: "en",
         searchTerm: term,
         status,
+        flag: 'like'
       };
 
       const response = await insertData("api/property/agent-developer", requestData, true);
@@ -113,6 +131,105 @@ export default function PropertyListing() {
     setIsModalOpen(false);
   };
 
+
+   const exportToExcel = async () => {
+      try {
+        console.log("Exporting to Excel...");
+  
+        if (!properties || properties.length === 0) {
+          alert("No data to export");
+          return;
+        }
+  
+        // Ensure properties data exists
+        console.log("Properties:", properties);
+  
+        // Create a new workbook instance
+        const workbook = new ExcelJS.Workbook();
+        const worksheet = workbook.addWorksheet("Property Comments");
+  
+        // Define columns
+        worksheet.columns = [
+          { header: "Property Title", key: "property_title", width: 50 },
+          { header: "Property Price", key: "property_price", width: 40 },
+          { header: "Property Like", key: "property_like", width: 40 },
+        ];
+  
+        // Apply bold font to the header row
+        worksheet.getRow(1).font = { bold: true };
+  
+        // Add data to worksheet
+        properties.forEach((p) => {
+          worksheet.addRow({
+            property_title: p?.title || "N/A",
+            property_price: p?.price || "N/A",
+            property_like: p?.like_count || "N/A",
+          });
+        });
+  
+        // Apply border to all cells
+        worksheet.eachRow((row) => {
+          row.eachCell((cell) => {
+            cell.alignment = { horizontal: "center", vertical: "middle" };
+            cell.border = {
+              top: { style: "thin" },
+              left: { style: "thin" },
+              bottom: { style: "thin" },
+              right: { style: "thin" },
+            };
+          });
+        });
+  
+        // Write to buffer and save the file
+        const buffer = await workbook.xlsx.writeBuffer();
+        saveAs(new Blob([buffer]), "property_like_engagements.xlsx");
+  
+        console.log("Excel file exported successfully!");
+      } catch (error) {
+        console.error("Excel export error:", error);
+        alert("Error exporting to Excel: " + error.message);
+      }
+    };
+
+ const exportToPDF = () => {
+    if (properties.length === 0) {
+      alert("No data to export");
+      return;
+    }
+
+    const doc = new jsPDF();
+
+    // Table data
+    const tableBody = properties.map((property) => [
+      property?.title || "N/A",
+      property?.price || "N/A",
+      property?.like_count || "N/A",
+    ]);
+
+    // Generate table
+    autoTable(doc, {
+      head: [["Property Title", "Property Price", "Property Like",]],
+      body: tableBody,
+      columnStyles: {
+        0: { cellWidth: 50 },
+        1: { cellWidth: 40 },
+        2: { cellWidth: 40 },
+      },
+      styles: { fontSize: 10, cellPadding: 5 },
+      didDrawCell: (data) => {
+        if (data.column.index === 3 && properties[data.row.index]?.users?.image) {
+          const imgUrl = properties[data.row.index].users.image;
+          const x = data.cell.x + 5;
+          const y = data.cell.y + 3;
+          const width = 20;
+          const height = 20;
+          doc.addImage(imgUrl, "JPEG", x, y, width, height);
+        }
+      },
+    });
+
+    doc.save("property_like_engagements.pdf");
+  };
   return (
     <>
       {loading ? (
@@ -126,6 +243,12 @@ export default function PropertyListing() {
                 <div class="top d-flex justify-content-between align-items-center">
                   <h6 className="title">Select Property to analyze Like Engagements</h6>
                   {/* <Link className="remove-file tf-btn primary" href="/create-property">Add Property</Link> */}
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <div>
+                      <button onClick={exportToExcel} className="tf-btn primary" style={{ marginRight: "20px" }}>Export Excel</button>
+                      <button onClick={exportToPDF} className="tf-btn secondary" style={{ marginRight: "20px" }}>Export PDF</button>
+                    </div>
+                  </div>
                 </div>
                 {properties.length > 0 ? (
                   <>

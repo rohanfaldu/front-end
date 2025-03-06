@@ -278,6 +278,17 @@ export default function MyProperty() {
 
               <div className="widget-box-2 wd-listing">
 
+                <div class="top d-flex align-items-center" style={{marginBottom: "20px"}}>
+                      <div>
+                        <button className="tf-btn primary" style={{ marginRight: "20px" }}>Scheduled Visits</button>
+                      </div>
+                      <Link href="/creator-pending-visit">
+                        <button className="tf-btn secondary" style={{ marginRight: "20px" }}>Pending Visits</button>
+                      </Link>
+                      <Link href="/creator-rejected-visit">
+                        <button className="tf-btn secondary">Rejected Visits</button>
+                      </Link>
+                </div>
                 <div class="top d-flex justify-content-between align-items-center">
                   <h6 className="title">Property visit Scheduled Listing</h6>
                   {/* <Link className="remove-file tf-btn primary" href="/create-agency">Add Agnecy</Link> */}
@@ -288,12 +299,7 @@ export default function MyProperty() {
                     <div>
                       <button onClick={exportToExcel} className="tf-btn primary" style={{ marginRight: "20px" }}>Export Excel</button>
                       <button onClick={exportToPDF} className="tf-btn secondary" style={{ marginRight: "20px" }}>Export PDF</button>
-                      <Link href="/creator-pending-visit">
-                        <button className="tf-btn primary" style={{ marginRight: "20px" }}>Pending Visits</button>
-                      </Link>
-                      <Link href="/creator-rejected-visit">
-                        <button className="tf-btn secondary">Rejected Visits</button>
-                      </Link>
+                      
                     </div>
                   </div>
                 </div>
