@@ -79,106 +79,106 @@ export default function Chat() {
 
     return (
         <>
-        <ChatAdmin>
-            <div className="container">
-                <div className="row">
-                <section className="discussions">
-            {discussions.map((user) => (
-                <div
-                    key={user.id}
-                    className={`discussion ${activeUser === user.id ? "message-active" : ""}`}
-                    onClick={() => setActiveUser(user.id)}
-                >
-                    <div
-                        className="photo"
-                        style={{ backgroundImage: `url('${user.image}')` }}
-                    >
-                        <div className="online"></div>
-                    </div>
-                    <div className="desc-contact">
-                        <p className="name">{user.name}</p>
-                        <p className="message">{user.message}</p>
-                    </div>
-                    <div className="timer">{user.time}</div>
-                </div>
-            ))}
-        </section>
-                <section className="chat">
-                    <div className="header-chat">
-                    <i className="icon fa fa-user-o" aria-hidden="true"></i>
-                    <p className="name">Megan Leib</p>
-                    <i className="icon clickable fa fa-ellipsis-h right" aria-hidden="true"></i>
-                    </div>
-                    <div className="messages-chat">
-                    <div className="message">
-                        <div className="photo"
-                        style={{
-                            backgroundImage:
-                                "url('https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80')",
-                        }}>
-                        <div className="online"></div>
-                        </div>
-                        <p className="text"> Hi, how are you ? </p>
-                    </div>
-                    <div className="message text-only">
-                        <p className="text"> What are you doing tonight ? Want to go take a drink ?</p>
-                    </div>
-                    <p className="time"> 14h58</p>
-                    <div className="message text-only">
-                        <div className="response">
-                        <p className="text"> Hey Megan ! It's been a while 😃</p>
-                        </div>
-                    </div>
-                    <div className="message text-only">
-                        <div className="response">
-                        <p className="text"> When can we meet ?</p>
-                        </div>
-                    </div>
-                    <p className="response-time time"> 15h04</p>
-                    <div className="message">
-                        <div className="photo"
-                        style={{
-                            backgroundImage:
-                                "url('https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80')",
-                        }}>
-                        <div className="online"></div>
-                        </div>
-                        <p className="text"> 9 pm at the bar if possible 😳</p>
-                    </div>
-                    <p className="time"> 15h09</p>
-                    </div>
-                    <div className="footer-chat" style={{ position: "relative" }}>
-                        {/* Smiley Icon */}
-                        <i
-                            className="icon fa fa-smile-o clickable"
-                            style={{ fontSize: "25pt", cursor: "pointer" }}
-                            onClick={() => setShowPicker(prev => !prev)} // Toggle emoji picker
-                            aria-hidden="true"
-                        ></i>
-
-                        {/* Emoji Picker (Only shown when `showPicker` is true) */}
-                        {showPicker && (
-                            <div style={{ position: "absolute", bottom: "50px", left: "10px", zIndex: 1000 }}>
-                            <EmojiPicker onEmojiClick={handleEmojiClick} />
+            <ChatAdmin>
+                <div className="containerr">
+                    <div className="row">
+                    <section className="discussions" style={{position: "relative"}}>
+                        {discussions.map((user) => (
+                            <div
+                                key={user.id}
+                                className={`discussion ${activeUser === user.id ? "message-active" : ""}`}
+                                onClick={() => setActiveUser(user.id)}
+                            >
+                                <div
+                                    className="photo"
+                                    style={{ backgroundImage: `url('${user.image}')` }}
+                                >
+                                    <div className="online"></div>
+                                </div>
+                                <div className="desc-contact">
+                                    <p className="name">{user.name}</p>
+                                    <p className="message">{user.message}</p>
+                                </div>
+                                <div className="timer">{user.time}</div>
                             </div>
-                        )}
-
-                        {/* Message Input */}
-                        <input
-                            type="text"
-                            className="write-message"
-                            placeholder="Type your message here"
-                            value={message}
-                            onChange={(e) => setMessage(e.target.value)}
-                            style={{ width: "85%" }}
-                        />
-
-                        {/* Send Icon */}
-                        <i className="icon send fa fa-paper-plane-o clickable" aria-hidden="true"></i>
+                        ))}
+                    </section>
+                    <section className="chat">
+                        <div className="header-chat">
+                        <i className="icon fa fa-user-o" aria-hidden="true"></i>
+                        <p className="name">Megan Leib</p>
+                        <i className="icon clickable fa fa-ellipsis-h right" aria-hidden="true"></i>
                         </div>
-                </section>
+                        <div className="messages-chat">
+                        <div className="message">
+                            <div className="photo"
+                            style={{
+                                backgroundImage:
+                                    "url('https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80')",
+                            }}>
+                            <div className="online"></div>
+                            </div>
+                            <p className="text"> Hi, how are you ? </p>
+                        </div>
+                        <div className="message text-only">
+                            <p className="text"> What are you doing tonight ? Want to go take a drink ?</p>
+                        </div>
+                        <p className="time"> 14h58</p>
+                        <div className="message text-only">
+                            <div className="response">
+                            <p className="text"> Hey Megan ! It's been a while 😃</p>
+                            </div>
+                        </div>
+                        <div className="message text-only">
+                            <div className="response">
+                            <p className="text"> When can we meet ?</p>
+                            </div>
+                        </div>
+                        <p className="response-time time"> 15h04</p>
+                        <div className="message">
+                            <div className="photo"
+                            style={{
+                                backgroundImage:
+                                    "url('https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80')",
+                            }}>
+                            <div className="online"></div>
+                            </div>
+                            <p className="text"> 9 pm at the bar if possible 😳</p>
+                        </div>
+                        <p className="time"> 15h09</p>
+                        </div>
+                        <div className="footer-chat" style={{ position: "relative" }}>
+                            {/* Smiley Icon */}
+                            <i
+                                className="icon fa fa-smile-o clickable"
+                                style={{ fontSize: "25pt", cursor: "pointer" }}
+                                onClick={() => setShowPicker(prev => !prev)} // Toggle emoji picker
+                                aria-hidden="true"
+                            ></i>
+
+                            {/* Emoji Picker (Only shown when `showPicker` is true) */}
+                            {showPicker && (
+                                <div style={{ position: "absolute", bottom: "50px", left: "10px", zIndex: 1000 }}>
+                                <EmojiPicker onEmojiClick={handleEmojiClick} />
+                                </div>
+                            )}
+
+                            {/* Message Input */}
+                            <input
+                                type="text"
+                                className="write-message"
+                                placeholder="Type your message here"
+                                value={message}
+                                onChange={(e) => setMessage(e.target.value)}
+                                style={{ width: "85%" }}
+                            />
+
+                            {/* Send Icon */}
+                            <i className="icon send fa fa-paper-plane-o clickable" aria-hidden="true"></i>
+                            </div>
+                    </section>
+                    </div>
                 </div>
-            </div>
             </ChatAdmin>
         </>
     );
