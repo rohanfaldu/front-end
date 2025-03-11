@@ -9,16 +9,16 @@ export default function MessageChart() {
   // Static Data for Pie Chart
   const pieData = {
     weekly: [
-      { id: 0, value: 87, label: "Incoming messages", color: "#FFAB00" },
-      { id: 1, value: 57, label: "responses sent", color: "#EE6C6C" },
+      { id: 0, value: 87, label: "Incoming messages", color: "#00ABC4" },
+      { id: 1, value: 57, label: "responses sent", color: "#2EC400" },
     ],
     monthly: [
-      { id: 0, value: 167, label: "Incoming messages", color: "#FFAB00" },
-      { id: 1, value: 107, label: "responses sent", color: "#EE6C6C" },
+      { id: 0, value: 167, label: "Incoming messages", color: "#00ABC4" },
+      { id: 1, value: 107, label: "responses sent", color: "#2EC400" },
     ],
     yearly: [
-      { id: 0, value: 254, label: "Incoming messages", color: "#FFAB00" },
-      { id: 1, value: 217, label: "responses sent", color: "#EE6C6C" },
+      { id: 0, value: 254, label: "Incoming messages", color: "#00ABC4" },
+      { id: 1, value: 217, label: "responses sent", color: "#2EC400" },
     ],
   };
 

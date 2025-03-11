@@ -18,6 +18,7 @@ import LikeChart from "@/components/elements/DashboardLineChart"
 import LeadChart from "@/components/elements/LeadChart"
 import CallChart from "@/components/elements/CallChart"
 import MessageChart from "@/components/elements/MessageChart"
+import ContactChart from "@/components/elements/ContactChat"
 export default function Dashboard() {
 	const [startDate, setStartDate] = useState(new Date())
 	const [endDate, setEndDate] = useState(new Date())
@@ -196,6 +197,18 @@ export default function Dashboard() {
 													
 													<div className="chart-box">
 														<MessageChart />
+													</div>
+												</div>
+											</div>
+										</div>
+										<div className="wrapper-content row" style={{marginTop: '20px'}}>
+											<div className="col-xl-12">
+												
+												<div className="widget-box-2 wd-chart">
+													<h6 className="title">Property Contacts Engagement</h6>
+													
+													<div className="chart-box">
+														<ContactChart />
 													</div>
 												</div>
 											</div>

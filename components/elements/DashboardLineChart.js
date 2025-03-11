@@ -116,7 +116,7 @@ export default function LikeChart() {
 
       <BarChart
         height={300}
-        series={[{ data: uData, label: "Likes", id: "uvId", color: "#FFAB00" }]}
+        series={[{ data: uData, label: "Likes", id: "uvId", color: "#00ABC4" }]}
         xAxis={[{ data: xLabels, scaleType: "band", tickLabelStyle: { angle: 45, textAnchor: "start" } }]}
       />
     </div>

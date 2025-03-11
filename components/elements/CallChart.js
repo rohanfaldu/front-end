@@ -9,15 +9,15 @@ export default function CallChart() {
   // Static Data for Pie Chart
   const pieData = {
     weekly: [
-      { id: 0, value: 77, label: "Call made", color: "#EA4080" },
+      { id: 0, value: 77, label: "Call made", color: "#00ABC4" },
       { id: 1, value: 27, label: "Successful call", color: "#2EC400" },
     ],
     monthly: [
-      { id: 0, value: 127, label: "Call made", color: "#EA4080" },
+      { id: 0, value: 127, label: "Call made", color: "#00ABC4" },
       { id: 1, value: 50, label: "Successful call", color: "#2EC400" },
     ],
     yearly: [
-      { id: 0, value: 157, label: "Call made", color: "#EA4080" },
+      { id: 0, value: 157, label: "Call made", color: "#00ABC4" },
       { id: 1, value: 77, label: "Successful call", color: "#2EC400" },
     ],
   };

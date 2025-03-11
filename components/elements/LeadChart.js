@@ -9,15 +9,15 @@ export default function LeadChart() {
   // Static Data for Pie Chart
   const pieData = {
     weekly: [
-      { id: 0, value: 40, label: "Lead to Visit", color: "#FF4906" },
+      { id: 0, value: 40, label: "Lead to Visit", color: "#2EC400" },
       { id: 1, value: 60, label: "Direct Visit", color: "#00ABC4" },
     ],
     monthly: [
-      { id: 0, value: 30, label: "Lead to Visit", color: "#FF4906" },
+      { id: 0, value: 30, label: "Lead to Visit", color: "#2EC400" },
       { id: 1, value: 70, label: "Direct Visit", color: "#00ABC4" },
     ],
     yearly: [
-      { id: 0, value: 25, label: "Lead to Visit", color: "#FF4906" },
+      { id: 0, value: 25, label: "Lead to Visit", color: "#2EC400" },
       { id: 1, value: 75, label: "Direct Visit", color: "#00ABC4" },
     ],
   };
