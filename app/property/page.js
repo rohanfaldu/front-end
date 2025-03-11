@@ -1214,8 +1214,8 @@ export default function PropertyHalfmapList() {
                                 transform: "rotate(180deg)",
                                 cursor: "pointer",
                                 marginLeft: "10px",
-                                width: "60px",
-                                height: "60px",
+                                width: "100px",
+                                height: "100px",
                             }}
                         />
 						<img 
@@ -1233,7 +1233,7 @@ export default function PropertyHalfmapList() {
 									);
 								} 
 							}}
-							style={{ width: "60px", height: "60px", cursor: "pointer" }}
+							style={{ width: "100px", height: "100px", cursor: "pointer" }}
 						/>
 
                     </div>
