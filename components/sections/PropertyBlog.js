@@ -393,7 +393,7 @@ export default function PropertyBlog(propertyData, slide, calsulation) {
                 <style jsx>{`
                 .tinder-container {
                     position: relative;
-                    // width: 65%;
+                    width: 100%;
                     // max-width: 600px;
                     margin: 0 auto;
                 }
