@@ -6,6 +6,8 @@ import Head from "next/head";
 import ChatAdmin from '@/components/layout/chatMain';
 import "font-awesome/css/font-awesome.min.css";
 import EmojiPicker from "emoji-picker-react";
+import { getFirestore, collection, getDocs, doc } from "firebase/firestore";
+import { db } from '@/components/layout/firebaseConfig';
 <Head>
     {/* <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" /> */}
     {/* <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat" /> */}
@@ -15,9 +17,9 @@ import EmojiPicker from "emoji-picker-react";
 
 export default function Chat() {
 
-    const [showPicker, setShowPicker] = useState(false);
+  const [showPicker, setShowPicker] = useState(false);
   const [message, setMessage] = useState("");
-
+  const [chats, setChats] = useState([]); // Store fetched messages
   // Handle emoji selection
   const handleEmojiClick = (emojiObject) => {
     setMessage(prev => prev + emojiObject.emoji);
@@ -76,6 +78,60 @@ export default function Chat() {
             image: "http://thomasdaubenton.xyz/portfolio/images/photo.jpg",
         },
     ];
+
+
+    useEffect(() => {
+        async function fetchAllChats() {
+            try {
+              // 🔹 Fetch all Developer/Agency documents inside "chat"
+              const chatCollectionRef = collection(db, "chat");
+              const developersSnapshot = await getDocs(chatCollectionRef);
+          
+              if (developersSnapshot.empty) {
+                console.warn("No developers/agencies found.");
+                return;
+              }
+          
+              for (const developerDoc of developersSnapshot.docs) {
+                const developerId = developerDoc.id;
+                console.log(`Developer/Agency ID: ${developerId}`);
+          
+                // 🔹 Fetch all propertyId_userId documents inside "chats"
+                const propertiesCollectionRef = collection(db, `chat/${developerId}/chat`);
+                const propertySnapshot = await getDocs(propertiesCollectionRef);
+          
+                if (propertySnapshot.empty) {
+                  console.warn(`No properties found for Developer/Agency ID: ${developerId}`);
+                  continue;
+                }
+          
+                for (const propertyDoc of propertySnapshot.docs) {
+                  const propertyId = propertyDoc.id;
+                  console.log(`  Property/User ID: ${propertyId}`);
+          
+                  // 🔹 Fetch all chat messages inside each property
+                  const chatCollectionRef = collection(db, `chat/${developerId}/chat/${propertyId}/chat`);
+                  const chatSnapshot = await getDocs(chatCollectionRef);
+          
+                  if (chatSnapshot.empty) {
+                    console.warn(`No chats found for Property/User ID: ${propertyId}`);
+                    continue;
+                  }
+          
+                  for (const chatDoc of chatSnapshot.docs) {
+                    console.log(`    Chat ID: ${chatDoc.id}`);
+                    console.log(`      Chat Details:`, chatDoc.data());
+                  }
+                }
+              }
+            } catch (error) {
+              console.error("Error fetching chat data:", error);
+            }
+          }
+
+        fetchAllChats();
+    }, []);
+
 
     return (
         <>

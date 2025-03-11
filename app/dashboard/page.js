@@ -15,6 +15,9 @@ import SimpleBarChart from "@/components/elements/DashboardLineChart"
 import CommentChart from "@/components/elements/CommentChart"
 import ViewChart from "@/components/elements/ViewChart"
 import LikeChart from "@/components/elements/DashboardLineChart"
+import LeadChart from "@/components/elements/LeadChart"
+import CallChart from "@/components/elements/CallChart"
+import MessageChart from "@/components/elements/MessageChart"
 export default function Dashboard() {
 	const [startDate, setStartDate] = useState(new Date())
 	const [endDate, setEndDate] = useState(new Date())
@@ -141,6 +144,18 @@ export default function Dashboard() {
 											<div className="col-xl-12">
 												
 												<div className="widget-box-2 wd-chart">
+													<h6 className="title">Lead to Visit Conversion Rate</h6>
+													
+													<div className="chart-box">
+														<LeadChart />
+													</div>
+												</div>
+											</div>
+										</div>
+										<div className="wrapper-content row" style={{marginTop: '20px'}}>
+											<div className="col-xl-12">
+												
+												<div className="widget-box-2 wd-chart">
 													<h6 className="title">Property Comments Engagement</h6>
 													
 													<div className="chart-box">
@@ -153,10 +168,34 @@ export default function Dashboard() {
 											<div className="col-xl-12">
 												
 												<div className="widget-box-2 wd-chart">
+													<h6 className="title">Call Conversion Rate</h6>
+													
+													<div className="chart-box">
+														<CallChart />
+													</div>
+												</div>
+											</div>
+										</div>
+										<div className="wrapper-content row" style={{marginTop: '20px'}}>
+											<div className="col-xl-12">
+												
+												<div className="widget-box-2 wd-chart">
 													<h6 className="title">Property Views Engagement</h6>
 													
 													<div className="chart-box">
 														<ViewChart />
+													</div>
+												</div>
+											</div>
+										</div>
+										<div className="wrapper-content row" style={{marginTop: '20px'}}>
+											<div className="col-xl-12">
+												
+												<div className="widget-box-2 wd-chart">
+													<h6 className="title">Message Conversion Rate</h6>
+													
+													<div className="chart-box">
+														<MessageChart />
 													</div>
 												</div>
 											</div>

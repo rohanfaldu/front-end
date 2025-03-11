@@ -1,21 +1,19 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import { getFirestore, collection, getDocs } from "firebase/firestore";
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyBLj9rUsIC-uynmgIZ5Fcwi4vO-0o0GVjA",
-  authDomain: "immofind-9ddd5.firebaseapp.com",
-  projectId: "immofind-9ddd5",
-  storageBucket: "immofind-9ddd5.firebasestorage.app",
-  messagingSenderId: "636260931742",
-  appId: "1:636260931742:web:8395f66533fbcb661cc38f",
-  measurementId: "G-R83KK0JHZM"
+  apiKey: "AIzaSyBlJbuAZmOO3QZH1VAEQl7ADInuHHplq4k",
+  authDomain: "immofind-46ef8.firebaseapp.com",
+  databaseURL: "https://immofind-46ef8-default-rtdb.firebaseio.com",
+  projectId: "immofind-46ef8",
+  storageBucket: "immofind-46ef8.firebasestorage.app",
+  messagingSenderId: "111253434393",
+  appId: "1:111253434393:web:3cae6ce408d2cc237a3a88",
+  measurementId: "G-8D6RVRDZCG"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+const db = getFirestore(app); // Initialize Firestore
+
+export { db };
