@@ -22,6 +22,7 @@ export default function CallChart() {
     ],
   };
 
+  const valueFormatter = (value) => `${value}%`;
   return (
     <div style={{ width: "100%" }}>
       <div style={{ marginBottom: "10px", display: "flex", justifyContent: "end" }}>
@@ -33,19 +34,17 @@ export default function CallChart() {
       </div>
 
       <PieChart
-        series={[{
-          data: pieData[duration],
-          innerRadius: 90,
-          outerRadius: 150,
-          paddingAngle: 5,
-          cornerRadius: 5,
-          startAngle: -135,
-          endAngle: 225,
-          cx: 550,
-          cy: 150,
-        }]}
-        width={1000}
-        height={400}
+         width={1000}
+         height={400}
+        series={[
+          {
+            data: pieData[duration],
+            innerRadius: 90,
+            arcLabel: (params) => valueFormatter(params.value), // Show percentage on slices
+            arcLabelMinAngle: 20, // Only show labels if slice is large enough
+          },
+        ]}
+        skipAnimation={false} // Keep animations enabled
       />
     </div>
   );
