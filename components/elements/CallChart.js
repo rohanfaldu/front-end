@@ -51,11 +51,11 @@ export default function CallChart() {
          <div style={{ flex: 0.5, textAlign: "left", marginLeft: "20px" }}>
           <div style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}>
             <span style={{ width: "20px", height: "20px", backgroundColor: "#00ABC4", display: "inline-block", marginRight: "10px" }}></span>
-            <span>Responses Sent</span>
+            <span> successful calls</span>
           </div>
           <div style={{ display: "flex", alignItems: "center" }}>
             <span style={{ width: "20px", height: "20px", backgroundColor: "#E0E0E0", display: "inline-block", marginRight: "10px" }}></span>
-            <span>Incoming Messages</span>
+            <span>calls made</span>
           </div>
         </div>
         </div>
