@@ -189,7 +189,7 @@ export default function PropertyBlog(propertyData, slide, calsulation) {
                     }}>
                         <Link className="images-group" rel="noopener noreferrer" target="_blank" href={`/property/${propertyData.data.slug}-${percentage}`}>
                             <div className="images-style">
-                                <img style={{height:"500px"}} src={(propertyData.data.picture[0]) ? propertyData.data.picture[0] : "/images/banner/no-banner.png"} alt="Property" />
+                                <img style={{height: "calc(100vh - 240px)"}} src={(propertyData.data.picture[0]) ? propertyData.data.picture[0] : "/images/banner/no-banner.png"} alt="Property" />
                             </div>
                             <div className="top">
                                 {propertyData.data.transaction && (

@@ -1153,25 +1153,6 @@ export default function PropertyHalfmapList() {
 						</div >
 					</div >
 					<div className="wrap-inner">
-						<div className="box-title-listing style-1" style={{marginBottom: "0px"}}>
-							{/* <h5>{t("propertylisting")}</h5> */}
-							{/* <div className="box-filter-tab">
-								<ul className="nav-tab-filter" role="tablist">
-									<li className="nav-tab-item" onClick={() => handleTab(1)}>
-										<a className={isTab == 1 ? "nav-link-item active" : "nav-link-item"} data-bs-toggle="tab"><i className="icon icon-grid" /></a>
-									</li>
-									<li className="nav-tab-item" onClick={() => handleTab(2)}>
-										<a className={isTab == 2 ? "nav-link-item active" : "nav-link-item"} data-bs-toggle="tab"><i className="icon icon-list" /></a>
-									</li>
-								</ul>
-								<select className="nice-select">
-
-									<option data-value="default" className="option selected">{t("sortbydefualt")}</option>
-									<option data-value="new" className="option">{t("newest")}</option>
-									<option data-value="old" className="option">{t("oldest")}</option>
-								</select>
-							</div> */}
-						</div>
 						<div className="tab-content" style={{ position: "relative", height: "0px" }}>
 						{loading ? (
 							<Preloader />
@@ -1189,86 +1170,72 @@ export default function PropertyHalfmapList() {
 								</div>
 							) : (
 								<>
-        {filteredProperties.length > 0 && !showNoMore && (
-            <>
-                <div>
-                    <div
-                        className="tinder-card"
-                        style={{
-                            width: "100%",
-                            top: 0,
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            zIndex: 1000,
-                        }}
-                    >
-                        <PropertyBlog data={filteredProperties[currentIndex]} slide={false} calculation={calculationStatus} />
-                    </div>
-                    <div className="button-container" style={{ textAlign: "center", paddingBottom: "10px", display: "flex", justifyContent: "center" }}>
-                        <img
-                            src="/images/logo/like.svg"
-                            alt="dislike"
-                            onClick={handleDislike}
-                            style={{
-                                transform: "rotate(180deg)",
-                                cursor: "pointer",
-                                marginLeft: "10px",
-                                width: "100px",
-                                height: "100px",
-                            }}
-                        />
-						<img 
-							src="/images/logo/like.svg" 
-							alt="like"
-							onClick={() => {
-								console.log("Button clicked", filteredProperties[currentIndex]?.id, lastPropertyId);
-								
-								if (localStorage.getItem('token')) {
-									handleLikeClick();
-									handleLike(
-										filteredProperties[currentIndex]?.like,
-										filteredProperties[currentIndex]?.id,
-										filteredProperties[currentIndex]?.user_id
-									);
-								} 
-							}}
-							style={{ width: "100px", height: "100px", cursor: "pointer" }}
-						/>
+									{filteredProperties.length > 0 && !showNoMore && (
+										<>
+											<div style={{height: "calc(100vh - 240px)"}}>
+												<div
+													className="tinder-card"
+													style={{
+														width: "100%",
+														top: 0,
+														display: "flex",
+														justifyContent: "center",
+														alignItems: "center",
+														zIndex: 1000,
+													}}
+												>
+													<PropertyBlog data={filteredProperties[currentIndex]} slide={false} calculation={calculationStatus} />
+												</div>
+												<div className="button-container" style={{ textAlign: "center", paddingBottom: "10px", display: "flex", justifyContent: "center" }}>
+													<img
+														src="/images/logo/like.svg"
+														alt="dislike"
+														onClick={handleDislike}
+														style={{
+															transform: "rotate(180deg)",
+															cursor: "pointer",
+															marginLeft: "10px",
+															width: "100px",
+															height: "100px",
+														}}
+													/>
+													<img 
+														src="/images/logo/like.svg" 
+														alt="like"
+														onClick={() => {
+															console.log("Button clicked", filteredProperties[currentIndex]?.id, lastPropertyId);
+															
+															if (localStorage.getItem('token')) {
+																handleLikeClick();
+																handleLike(
+																	filteredProperties[currentIndex]?.like,
+																	filteredProperties[currentIndex]?.id,
+																	filteredProperties[currentIndex]?.user_id
+																);
+															} 
+														}}
+														style={{ width: "100px", height: "100px", cursor: "pointer" }}
+													/>
 
-                    </div>
-                </div>
-                <div className="wrap-map">
-                    <PropertyMap
-                        topmap={false}
-                        singleMap={false}
-                        propertys={filteredProperties[currentIndex]}
-                        slug="property"
-                        lat={filteredProperties[currentIndex].latitude}
-                        lng={filteredProperties[currentIndex].longitude}
-                    />
-                </div>
-            </>
-        )}
-    </>
+												</div>
+											</div>
+											<div className="wrap-map">
+												<PropertyMap
+													topmap={false}
+													singleMap={false}
+													propertys={filteredProperties[currentIndex]}
+													slug="property"
+													lat={filteredProperties[currentIndex].latitude}
+													lng={filteredProperties[currentIndex].longitude}
+												/>
+											</div>
+										</>
+									)}
+								</>
 							)}
 							</div>
 						)}
 						</div>
-
-						{/* <ul className="wd-navigation">
-							{Array.from({ length: pagination.totalPages }, (_, index) => (
-								<li key={index}>
-									<Link
-										href="#"
-										className={`nav-item ${pagination.currentPage === index + 1 ? 'active' : ''}`}
-										onClick={() => handlePageChange(index + 1)}
-									>
-										{index + 1}
-									</Link>
-								</li>
-							))}
-						</ul> */}
 					</div >
 					
 				</section >
