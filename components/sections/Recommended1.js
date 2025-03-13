@@ -4,7 +4,7 @@ import axios from 'axios';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import Preloader from "../elements/Preloader";
-import { getData } from "../api/Helper";
+import { getData, insertData } from "../api/Helper";
 import { useTranslation } from "react-i18next";
 import PropertyBlog from "../sections/PropertyBlog";
 import PropertyData from "../sections/PropertyData";
@@ -37,6 +37,15 @@ export default function Recommended1() {
 			}
 		};
 
+		const userActivity = async () => {
+			try {
+				await insertData('api/property/user-activity',{}, true);
+			} catch (err) {
+				setError(err.response?.data?.message || 'An error occurred'); // Handle error
+			}
+		};
+
+		userActivity();
 		fetchData(); // Fetch data on component mount
 	}, [i18n.language]); // Empty dependency array ensures this runs only once on mount
 
