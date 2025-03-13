@@ -45,7 +45,9 @@ export default function Recommended1() {
 			}
 		};
 
-		userActivity();
+		// userActivity();
+		localStorage.getItem('token') ? userActivity() : null;
+
 		fetchData(); // Fetch data on component mount
 	}, [i18n.language]); // Empty dependency array ensures this runs only once on mount
 
