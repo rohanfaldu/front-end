@@ -1,27 +1,62 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import { BarChart } from "@mui/x-charts/BarChart";
 
 export default function CommentChart() {
   const [duration, setDuration] = useState("weekly");
+  const [uData, setUData] = useState([]);
+  const [xLabels, setXLabels] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  // Static Data
-  const staticData = {
-    weekly: {
-      uData: [10, 15, 8, 20, 25, 18, 30],
-      xLabels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-    },
-    monthly: {
-      uData: [100, 120, 150, 130, 170, 190, 200, 180, 160, 140],
-      xLabels: ["Week 1", "Week 2", "Week 3", "Week 4", "Week 5", "Week 6", "Week 7", "Week 8", "Week 9", "Week 10"],
-    },
-    yearly: {
-      uData: [500, 600, 750, 820, 910, 1020, 980, 1150, 1200, 1350, 1400, 1500],
-      xLabels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-    },
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
+  const TOKEN = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+
+  const fetchUData = async (daysBefore) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await axios.post(
+        `${API_URL}/api/dashboard/get-comments`,
+        { day_before: daysBefore },
+        {
+          headers: {
+            Authorization: `Bearer ${TOKEN}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const userLikedData = response.data.data || [];
+      if (userLikedData.length === 0) {
+        setError("No data available for the selected period.");
+        setUData([]);
+        setXLabels([]);
+      } else {
+        setUData(userLikedData.map((item) => item.count));
+        setXLabels(userLikedData.map((item) => item.date));
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setError("Failed to load data. Please try again.");
+      setUData([]);
+      setXLabels([]);
+    }
+    setLoading(false);
   };
 
-  const { uData, xLabels } = staticData[duration];
+  useEffect(() => {
+    let daysBefore = 7;
+    if (duration === "monthly") daysBefore = 30;
+    if (duration === "yearly") daysBefore = 365;
+
+    if (TOKEN && API_URL) {
+      fetchUData(daysBefore);
+    } else {
+      setError("Missing API credentials.");
+    }
+  }, [duration]);
 
   return (
     <div style={{ width: "100%" }}>
@@ -33,11 +68,19 @@ export default function CommentChart() {
         </select>
       </div>
 
-      <BarChart
-        height={300}
-        series={[{ data: uData, label: "Comments", id: "uvId", color: "#00ABC4" }]}
-        xAxis={[{ data: xLabels, scaleType: "band", tickLabelStyle: { angle: 45, textAnchor: "start" } }]}
-      />
+      {loading ? (
+        <p>Loading data...</p>
+      ) : error ? (
+        <p style={{ color: "red" }}>{error}</p>
+      ) : (
+        <BarChart
+          height={300}
+          series={[{ data: uData, label: "Likes", id: "uvId", color: "#00ABC4" }]}
+          xAxis={[{ data: xLabels, scaleType: "band", tickLabelStyle: { angle: 45, textAnchor: "start" } }]}
+        />
+      )}
     </div>
   );
 }
+
+
