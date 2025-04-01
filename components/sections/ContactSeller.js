@@ -11,7 +11,8 @@ import { TextField, Button } from "@mui/material";
 
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
-
+import { getDoc, doc, setDoc, collection,  } from "firebase/firestore";
+import { db } from '@/components/layout/firebaseConfig';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
@@ -66,6 +67,77 @@ export default function ContactSeller({ data }) {
 		}
 	};
 
+
+	const checkAndCreateChatDocument = async () => {
+		try {
+		  const documentId = `${data.user_id}_${data.id}_${localStorage.getItem("user_id")}`;
+		  const docRef = doc(db, "chat_new", documentId);
+		  const docSnap = await getDoc(docRef);
+		  if (!docSnap.exists()) {
+			if(data.user_role === 'developer'){
+				await setDoc(docRef, {
+					agency_id: "",
+					agency_name: "",
+					agency_image: "",
+					developer_id: data.user_id || "",
+					developer_name: data.user_name || "",
+					developer_image: data.user_image || "",
+					propertyPrice: data.price || 0,
+					property_id: data.id,
+					property_name: data.title || "",
+					property_image: data.picture[0] || "",
+					user_id: localStorage.getItem("user_id"),
+					user_name: localStorage.getItem("user_name") || "",
+					user_image: localStorage.getItem("user_image") || ""
+				  });
+			}else if(data.user_role === 'agency'){
+				await setDoc(docRef, {
+					agency_id: data.user_id || "",
+					agency_name: data.user_name || "",
+					agency_image: data.user_image || "",
+					developer_id: "",
+					developer_name: "",
+					developer_image: "",
+					propertyPrice: data.price || 0,
+					property_id: data.id,
+					property_name: data.title || "",
+					property_image: data.picture[0] || "",
+					user_id: localStorage.getItem("user_id"),
+					user_name: localStorage.getItem("user_name") || "",
+					user_image: localStorage.getItem("user_image") || ""
+				  });
+			}
+			
+			console.log("New chat document created with ID:", documentId);
+			const chatCollectionRef = collection(docRef, "chat");
+			const blankDocRef = doc(chatCollectionRef); // Firestore will generate a random ID
+			await setDoc(blankDocRef, {}); // Creates an empty document
+			window.location.href = "/user-chat";
+			return documentId;
+		  } else {
+			console.log("Chat document already exists with ID:", documentId);
+			window.location.href = "/user-chat";
+			return documentId;
+		  }
+		} catch (error) {
+		  console.error("Error checking/creating chat document:", error);
+		  throw error;
+		}
+	};
+
+	// Function to handle the click event
+	const handleContactClick = () => {
+		checkAndCreateChatDocument()
+			.then(documentId => {
+				console.log("Chat document ID:", documentId);
+				// You can add navigation to chat page here if needed
+				// Example: router.push(`/chat/${documentId}`);
+			})
+			.catch(error => {
+				console.error("Error in handleContactClick:", error);
+			});
+	};
+
 	return (
 		<>
 			<div className="widget-box single-property-contact bg-surface">
@@ -80,11 +152,16 @@ export default function ContactSeller({ data }) {
 						<div className="text-1 name">{data?.user_name}</div>
 						<div style={{ display: "flex", justifyContent: "space-between" }}>
 							<div>
-								<Link href={`/${data?.user_role}/${data?.user_id}`} className="link">
-									<button className="form-wg tf-btn primary" type="button" style={{ marginTop: "10px" }}>
+								<div className="link">
+									<button 
+										className="form-wg tf-btn primary" 
+										type="button" 
+										style={{ marginTop: "10px" }} 
+										onClick={handleContactClick}
+									>
 										<span style={{ color: "#fff" }}>{t("contact")}</span>
 									</button>
-								</Link>
+								</div>
 							</div>
 							<div>
 								<button 
@@ -152,16 +229,10 @@ export default function ContactSeller({ data }) {
 				{error && <div style={{ color: "red", marginTop: "10px" }}>{error}</div>}
 			</div>
 		</section>
-				  
-                  
                 </>
-                
               </div>
               </div>
             )}
-
-			
-
 		</>
 	);
 }

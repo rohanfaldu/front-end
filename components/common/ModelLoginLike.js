@@ -54,6 +54,11 @@ export default function ModalLoginLike({ isLogin, handleLogin, isRegister, handl
 					});
 					if(response.data.status === true) {
 						localStorage.setItem('token', response.data.data.token);
+						localStorage.setItem('user_id', response.data.data.userProfile.id);
+						localStorage.setItem('user_image', response.data.data.userProfile.image);
+						localStorage.setItem('user_name', response.data.data.userProfile.full_name);
+
+						localStorage.setItem('role', response.data.data.userProfile.roles.name);
 						localStorage.setItem('user', JSON.stringify(response.data.data.userProfile));
 						const expirationTime = Date.now() + 3600000; // 1 hour from now
 						localStorage.setItem('tokenExpiration', expirationTime);
@@ -69,6 +74,11 @@ export default function ModalLoginLike({ isLogin, handleLogin, isRegister, handl
 					setErrorMessage('User already exists with another social app.');
 				}else{
 					localStorage.setItem('token', getUserInfo.data.token);
+					localStorage.setItem('user_id', getUserInfo.data.userProfile.id);
+					localStorage.setItem('user_image', getUserInfo.data.userProfile.image);
+					localStorage.setItem('user_name', getUserInfo.data.userProfile.full_name);
+
+					localStorage.setItem('role', getUserInfo.data.userProfile.roles.name);
 					localStorage.setItem('user', JSON.stringify(getUserInfo.data.userProfile));
 					const expirationTime = Date.now() + 3600000; // 1 hour from now
 					localStorage.setItem('tokenExpiration', expirationTime);
@@ -110,6 +120,11 @@ export default function ModalLoginLike({ isLogin, handleLogin, isRegister, handl
 				console.log(response,"ffffff")
 				if(response.data.status === true) {
 					localStorage.setItem('token', response.data.data.token);
+					localStorage.setItem('user_id', response.data.data.userProfile.id);
+					localStorage.setItem('user_image', response.data.data.userProfile.image);
+					localStorage.setItem('user_name', response.data.data.userProfile.full_name);
+
+					localStorage.setItem('role', response.data.data.userProfile.roles.name);
 					localStorage.setItem('user', JSON.stringify(response.data.data.userProfile));
 					const expirationTime = Date.now() + 3600000; // 1 hour from now
 					localStorage.setItem('tokenExpiration', expirationTime);
@@ -127,6 +142,11 @@ export default function ModalLoginLike({ isLogin, handleLogin, isRegister, handl
 				console.log(3)
 				console.log(getUserInfo.data)
 				localStorage.setItem('token', getUserInfo.data.token);
+				localStorage.setItem('user_id', getUserInfo.data.userProfile.id);
+				localStorage.setItem('user_image', getUserInfo.data.userProfile.image);
+				localStorage.setItem('user_name', getUserInfo.data.userProfile.full_name);
+
+				localStorage.setItem('role', getUserInfo.data.userProfile.roles.name);
 				localStorage.setItem('user', JSON.stringify(getUserInfo.data.userProfile));
 				const expirationTime = Date.now() + 3600000; // 1 hour from now
 				localStorage.setItem('tokenExpiration', expirationTime);
@@ -188,6 +208,11 @@ export default function ModalLoginLike({ isLogin, handleLogin, isRegister, handl
 
 				if(response.data.status === true) {
 					localStorage.setItem('token', response.data.data.token);
+					localStorage.setItem('user_id', response.data.data.userProfile.id);
+					localStorage.setItem('user_image', response.data.data.userProfile.image);
+					localStorage.setItem('user_name', response.data.data.userProfile.full_name);
+
+					localStorage.setItem('role', response.data.data.userProfile.roles.name);
 					localStorage.setItem('user', JSON.stringify(response.data.data.userProfile));
 
 					// Set the token to expire in 1 hour (3600 seconds)

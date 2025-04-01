@@ -274,7 +274,6 @@ export default function PropertyViewedListing({ params }) {
                               <th>Name</th>
                               <th>Email Address</th>
                               <th>Mobile Number</th>
-                              <th>View Engagements</th>
                               <th>Date</th>
                               {/* <th>Action</th> */}
                             </tr>
@@ -297,7 +296,6 @@ export default function PropertyViewedListing({ params }) {
                                   {property?.users?.email_address}
                                 </td>
                                 <td>{property?.users?.mobile_number}</td>
-                                <td>{property?.view_count}</td>
                                 <td>{new Date(property?.created_at).toLocaleDateString()}</td>
                                 {/* <td>
                                   <ul className="list-action">

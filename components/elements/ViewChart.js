@@ -75,7 +75,7 @@ export default function ViewChart() {
       ) : (
         <BarChart
           height={300}
-          series={[{ data: uData, label: "Likes", id: "uvId", color: "#00ABC4" }]}
+          series={[{ data: uData, label: "Views", id: "uvId", color: "#00ABC4" }]}
           xAxis={[{ data: xLabels, scaleType: "band", tickLabelStyle: { angle: 45, textAnchor: "start" } }]}
         />
       )}

@@ -657,7 +657,7 @@ export default function PropertyDetailsV1({ params }) {
 										
 
 										<MapContainer
-											style={{ height: `${false ? "460px" : "460px"}`, zIndex: 100 }}
+											style={{ height: `${false ? "460px" : "460px"}`, zIndex: 0 }}
 											center={[properties.latitude, properties.longitude]}
 											zoom={12}
 											maxZoom={18}

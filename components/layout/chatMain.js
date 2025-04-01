@@ -63,7 +63,10 @@ export default function ChatAdmin({ headerStyle, footerStyle, fixedfooter, child
                                 </div>
                                 {children}
                             </div>
-                            < Footer2 fixedfooter={fixedfooter}/>
+                            {/* < Footer2 fixedfooter={fixedfooter}/> */}
+                            <div className={`footer-dashboard ${fixedfooter ? "footer-dashboard-2" : ""}`}>
+                                <p className="text-variant-2"></p>
+                            </div>
                         </div>
                         <div className="overlay-dashboard" onClick={handleSidebar} />
                     </div>

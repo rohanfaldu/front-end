@@ -192,7 +192,7 @@ const fetchCityOptions = debounce(async (value, page = 1) => {
   return (
     <>
 
-      <Layout headerStyle={1}>
+      <Layout headerStyle={1} footerStyle={1}>
         <section className="wrapper-layout-3">
           <div className="wrap-sidebar">
             <div className="flat-tab flat-tab-form widget-filter-search">
