@@ -7845,7 +7845,7 @@ label {
 
 .wrapper-layout-3 .wrap-sidebar {
   height: calc(95vh - 80px);
-  width: 23.3%;
+  width: 300px;
   padding-bottom: 80px;
   overflow-x: hidden;
   overflow-y: auto;
@@ -7866,7 +7866,7 @@ label {
 
 .wrapper-layout-3 .wrap-inner {
   padding: 30px;
-  width: 47.3%;
+  width: calc(100% - 300px);
   padding-bottom: 0;
   height: calc(100vh - 80px);
   overflow-x: hidden;
@@ -7950,8 +7950,8 @@ label {
 }
 
 .wrapper-layout-3 .wrap-map {
-  height: calc(100vh - 80px);
-  width: 29.4%;
+  height: 100%;
+  width: 100%;
   right: 0;
   bottom: 0;
 }
@@ -13041,4 +13041,19 @@ footer {
 .footer {
   z-index: -1;
   position: relative;
+}
+
+.property-sec-list{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 10px;
+}
+.property-filter{
+  padding: 30px;
+  height: 500px;
+  overflow-x: hidden;
+}
+
+.property-form{
+  height: 100%;
 }
