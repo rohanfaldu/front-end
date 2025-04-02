@@ -247,7 +247,9 @@ const fetchCityOptions = debounce(async (value, page = 1) => {
 															)
 														)}
 													</div>
-													<div className="form-btn-fixed d-flex" style={{width:"19.3%"}}>
+													
+												</div>
+                        <div className="form-btn-fixed d-flex">
 													<button
 														type="submit"
 														className="tf-btn primary"
@@ -256,7 +258,6 @@ const fetchCityOptions = debounce(async (value, page = 1) => {
 														{t("finddeveloper")}
 													</button>
 													</div>
-												</div>
 											</div>
 										</form>
 									</div>

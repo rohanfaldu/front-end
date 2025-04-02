@@ -713,7 +713,7 @@ export default function PropertyHalfmapList() {
 	return (
 		<>
 
-			<Layout headerStyle={1}>
+			<Layout headerStyle={1} footerStyle={1}>
 				<section className="wrapper-layout-3">
 					<div className="wrap-sidebar">
 						<div className="flat-tab flat-tab-form widget-filter-search">
@@ -1124,7 +1124,9 @@ export default function PropertyHalfmapList() {
 															<span className="text-advanced">{t("hideadvance")}</span>
 														</a>
 													</div>
-													<div className="form-btn-fixed d-flex">
+													
+												</div>
+												<div className="form-btn-fixed d-flex">
 													<button
 														type="submit"
 														className="tf-btn primary"
@@ -1144,7 +1146,6 @@ export default function PropertyHalfmapList() {
 														{t("savesearches")}
 													</button>
 													</div>
-												</div>
 											</div>
 										</form>
 									</div>

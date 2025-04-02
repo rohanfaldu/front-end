@@ -161,7 +161,7 @@ export default function AgencyListing() {
 	return (
 		<>
 
-			<Layout headerStyle={1}>
+			<Layout headerStyle={1} footerStyle={1}>
 				<section className="wrapper-layout-3">
 					<div className="wrap-sidebar">
 						<div className="flat-tab flat-tab-form widget-filter-search">
@@ -215,7 +215,12 @@ export default function AgencyListing() {
 															)
 														)}
 													</div>
-													<div className="form-btn-fixed d-flex" style={{width:"19.3%"}}>
+													
+													{/* <div className="form-btn-fixed">
+														<button className="tf-btn primary" href="#">{t("findagency")}</button>
+													</div> */}
+												</div>
+												<div className="form-btn-fixed d-flex" >
 													<button
 														type="submit"
 														className="tf-btn primary"
@@ -223,10 +228,6 @@ export default function AgencyListing() {
 													>
 														{t("finddeveloper")}
 													</button>
-													</div>
-													{/* <div className="form-btn-fixed">
-														<button className="tf-btn primary" href="#">{t("findagency")}</button>
-													</div> */}
 												</div>
 											</div>
 										</form>

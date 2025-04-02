@@ -14,7 +14,7 @@ export default function MapClusterProject({ topmap, propertys, slug }) {
 	return (
 		<>
 			<MapContainer
-				style={{ height: `${topmap ? "460px" : "100vh"}`, zIndex: -1 }}
+				style={{ height: `${topmap ? "460px" : "100%"}`, zIndex: -1 }}
 				center={[32.1854916, -7.3880943]}
 				zoom={6}
 				maxZoom={18}

@@ -612,9 +612,9 @@ export default function ProjectHalfmapList() {
 															<span className="text-advanced">{t("hideadvance")}</span>
 														</a>
 													</div>
-													<div className="form-btn-fixed">
-														<button type="submit" className="tf-btn primary" href="#">{t("findprojects")}</button>
-													</div>
+												</div>
+												<div className="form-btn-fixed">
+													<button type="submit" className="tf-btn primary" href="#">{t("findprojects")}</button>
 												</div>
 											</div>
 										</form>
