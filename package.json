@@ -79,6 +79,7 @@
                 "yup": "^1.4.0"
         },
         "devDependencies": {
+                "@next/bundle-analyzer": "^15.2.4",
                 "encoding": "^0.1.13",
                 "sharp": "^0.33.5",
                 "supports-color": "^10.0.0"
