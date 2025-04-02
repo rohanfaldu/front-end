@@ -5,3 +5,4 @@ const variablesList = {
 }
 
 export default variablesList;
+export const defaultLatlong = { lat: 33.5724032, lng: -7.6693941 }; 
