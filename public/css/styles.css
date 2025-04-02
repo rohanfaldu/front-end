@@ -7842,11 +7842,14 @@ label {
   display: flex;
   height: 100%;
 }
+.wrapper-layout-3.project-sec .wrap-sidebar {
+  height: calc(95vh - 135px);
+}
 
 .wrapper-layout-3 .wrap-sidebar {
-  height: calc(95vh - 80px);
+  height: 100%;
   width: 300px;
-  padding-bottom: 80px;
+  padding-bottom: 0px;
   overflow-x: hidden;
   overflow-y: auto;
   background-color: #f7f7f7;
@@ -7868,7 +7871,7 @@ label {
   padding: 30px;
   width: calc(100% - 300px);
   padding-bottom: 0;
-  height: calc(100vh - 80px);
+  height: auto;
   overflow-x: hidden;
   overflow-y: auto;
 }
@@ -8007,6 +8010,7 @@ label {
   display: flex;
   align-items: center;
   gap: 8px;
+  padding-top: 10px;
 }
 
 .wd-navigation .nav-item {
@@ -13057,3 +13061,27 @@ footer {
 .property-form{
   height: 100%;
 }
+
+.project-sec .wrap-inner .tab-content .project-listing{
+  overflow-x: hidden;
+  overflow-y: scroll;
+  padding-right: 0px;
+  height: calc(100vh - 275px);
+}
+.project-sec .wrap-inner, .project-sec .wrap-sidebar{
+  padding-bottom: 0px;
+}
+
+.project-sec .form-btn-fixed{
+  justify-content: center;
+  display: flex;
+  background-color: #f7f7f7;
+  padding-bottom: 10px;
+}
+.project-listing-pagination{
+  width: 750px;
+}
+.project-sec .wrap-inner{ padding: 0px; }
+.project-listing-pagination{ padding: 30px; }
+
+.leaflet-container.leaflet-touch-drag.leaflet-touch-zoom{height: 100% !important;}

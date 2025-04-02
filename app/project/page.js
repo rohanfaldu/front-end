@@ -321,16 +321,16 @@ export default function ProjectHalfmapList() {
 		<>
 
 			<Layout headerStyle={1} footerStyle={1}>
-				<section className="wrapper-layout-3">
-					<div className="wrap-sidebar">
-						<div className="flat-tab flat-tab-form widget-filter-search">
-							<div className="h7 title fw-7">{t("search")}</div>
+				<section className="wrapper-layout-3 project-sec">
+					<form method="post" onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
+						<div className="wrap-sidebar">
+							<div className="flat-tab flat-tab-form widget-filter-search">
+								<div className="h7 title fw-7">{t("search")}</div>
 
-							<div className="tab-content">
-								<div className="tab-pane fade active show" role="tabpanel">
-									<div className="form-sl">
-										{/* <form method="post" onSubmit={(e) => { e.preventDefault(); applyFilters(); }}> */}
-										<form method="post" onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
+								<div className="tab-content">
+									<div className="tab-pane fade active show" role="tabpanel">
+										<div className="form-sl">
+											{/* <form method="post" onSubmit={(e) => { e.preventDefault(); applyFilters(); }}> */}
 											<div className="wd-filter-select">
 												<div className="inner-group inner-filter">
 													<div className="form-style">
@@ -613,142 +613,137 @@ export default function ProjectHalfmapList() {
 														</a>
 													</div>
 												</div>
-												<div className="form-btn-fixed">
-													<button type="submit" className="tf-btn primary" href="#">{t("findprojects")}</button>
-												</div>
-											</div>
-										</form>
-									</div>
-								</div>
-							</div >
-						</div >
-					</div >
-
-
-
-
-
-
-
-
-
-
-
-
-					<div className="wrap-inner">
-						<div className="box-title-listing style-1">
-							<h5>{t("projectlisting")}</h5>
-						</div>
-
-						<div className="tab-content">
-
-							{loading ? (
-								<Preloader />
-							) : error ? (
-								<p>{error}</p>
-							) : projects.length === 0 ? (
-								<div style={{ textAlign: "center"}}>
-									<img src="/images/not-found/item-not-found.png" alt="No projects found" style={{ height: "300px"}}/>
-								</div>
-							) : (
-								<div className="row">
-									{projects.map((project) => (
-										<div className="col-md-6" key={project.id}>
-											<div className="homeya-box">
-												<div className="archive-top">
-													<Link
-														href={`/project/${project.slug}`}
-														className="images-group"
-													>
-
-														<div className="images-style">
-															<img
-																src={project.picture[0] || "/images/banner/no-banner.png"}
-																alt={project.name}
-															/>
-														</div>
-														<div className="top">
-															<ul className="d-flex gap-8">
-																{project.isFeatured && (
-																	<li className="flag-tag success">Featured</li>
-																)}
-																{/* <li className="flag-tag style-1">{project.status || 'For Sale'}</li> */}
-															</ul>
-															{/* <ul className="d-flex gap-4">
-																<li className="box-icon w-32">
-																	<span className="icon icon-arrLeftRight" />
-																</li>
-																<li className="box-icon w-32">
-																	<span className="icon icon-heart" />
-																</li>
-																<li className="box-icon w-32">
-																	<span className="icon icon-eye" />
-																</li>
-															</ul> */}
-														</div>
-														<div className="bottom">
-															<span className="flag-tag style-2">
-																{/* {project.meta_details?.propertyType || 'Studio'} */}
-															</span>
-														</div>
-													</Link>
-													<div className="content">
-														<div className="h7 text-capitalize fw-7">
-															<Link
-																href={`/project/${project.slug}`}// Pass ID as query param
-																className="link"
-															>
-																{project.title}
-															</Link>
-														</div>
-														<div className="desc">
-															<i className="fs-16 icon icon-mapPin" />
-															<p>
-																{[ project?.district, project?.city, project?.state]
-																	.filter(Boolean)
-																	.join(', ')} </p> {/* Join remaining values with comma */}
-
-														</div>
-													</div>
-												</div>
-												<div className="archive-bottom d-flex justify-content-between align-items-center">
-													<div className="d-flex gap-8 align-items-center">
-														<div className="avatar avt-40 round">
-															<img
-																src={project.user_image || '/images/avatar/user-image.png'}
-																alt={project.agent?.name || 'Agent'}
-															/>
-														</div>
-														<span>{project.user_name || 'Unknown Agent'}</span>
-													</div>
-													<div className="d-flex align-items-center">
-														<h6>{t('from')} {project.price || '0.00'} {project.currency || 'USD'} </h6>
-													</div>
-												</div>
 											</div>
 										</div>
-									))}
-								</div>
-							)}
-
+									</div>
+								</div >
+							</div >
+						</div >
+						<div className="form-btn-fixed">
+							<button type="submit" className="tf-btn primary" href="#">{t("findprojects")}</button>
 						</div>
-						<ul className="wd-navigation">
-							{Array.from({ length: pagination.totalPages }, (_, index) => (
-								<li key={index}>
-									<Link
-										href="#"
-										className={`nav-item ${pagination.currentPage === index + 1 ? 'active' : ''}`}
-										onClick={() => handlePageChange(index + 1)}
-									>
-										{index + 1}
-									</Link>
-								</li>
-							))}
-						</ul>
+					</form>											
+					<div className="wrap-inner">
+						
+														
+							<div className="tab-content">
+								<div class="property-sec-list">
+								<div class="project-listing-pagination">	
+									<div className="box-title-listing style-1">
+										<h5>{t("projectlisting")}</h5>
+									</div>	
+									<div class="project-listing">			
+									{loading ? (
+										<Preloader />
+									) : error ? (
+										<p>{error}</p>
+									) : projects.length === 0 ? (
+										<div style={{ textAlign: "center"}}>
+											<img src="/images/not-found/item-not-found.png" alt="No projects found" style={{ height: "300px"}}/>
+										</div>
+									) : (
+										<div className="row">
+											{projects.map((project) => (
+												<div className="col-md-6" key={project.id}>
+													<div className="homeya-box">
+														<div className="archive-top">
+															<Link
+																href={`/project/${project.slug}`}
+																className="images-group"
+															>
+
+																<div className="images-style">
+																	<img
+																		src={project.picture[0] || "/images/banner/no-banner.png"}
+																		alt={project.name}
+																	/>
+																</div>
+																<div className="top">
+																	<ul className="d-flex gap-8">
+																		{project.isFeatured && (
+																			<li className="flag-tag success">Featured</li>
+																		)}
+																		{/* <li className="flag-tag style-1">{project.status || 'For Sale'}</li> */}
+																	</ul>
+																	{/* <ul className="d-flex gap-4">
+																		<li className="box-icon w-32">
+																			<span className="icon icon-arrLeftRight" />
+																		</li>
+																		<li className="box-icon w-32">
+																			<span className="icon icon-heart" />
+																		</li>
+																		<li className="box-icon w-32">
+																			<span className="icon icon-eye" />
+																		</li>
+																	</ul> */}
+																</div>
+																<div className="bottom">
+																	<span className="flag-tag style-2">
+																		{/* {project.meta_details?.propertyType || 'Studio'} */}
+																	</span>
+																</div>
+															</Link>
+															<div className="content">
+																<div className="h7 text-capitalize fw-7">
+																	<Link
+																		href={`/project/${project.slug}`}// Pass ID as query param
+																		className="link"
+																	>
+																		{project.title}
+																	</Link>
+																</div>
+																<div className="desc">
+																	<i className="fs-16 icon icon-mapPin" />
+																	<p>
+																		{[ project?.district, project?.city, project?.state]
+																			.filter(Boolean)
+																			.join(', ')} </p> {/* Join remaining values with comma */}
+
+																</div>
+															</div>
+														</div>
+														<div className="archive-bottom d-flex justify-content-between align-items-center">
+															<div className="d-flex gap-8 align-items-center">
+																<div className="avatar avt-40 round">
+																	<img
+																		src={project.user_image || '/images/avatar/user-image.png'}
+																		alt={project.agent?.name || 'Agent'}
+																	/>
+																</div>
+																<span>{project.user_name || 'Unknown Agent'}</span>
+															</div>
+															<div className="d-flex align-items-center">
+																<h6>{t('from')} {project.price || '0.00'} {project.currency || 'USD'} </h6>
+															</div>
+														</div>
+													</div>
+												</div>
+											))}
+										</div>
+									)}
+									</div>
+									<ul className="wd-navigation">
+										{Array.from({ length: pagination.totalPages }, (_, index) => (
+											<li key={index}>
+												<Link
+													href="#"
+													className={`nav-item ${pagination.currentPage === index + 1 ? 'active' : ''}`}
+													onClick={() => handlePageChange(index + 1)}
+												>
+													{index + 1}
+												</Link>
+											</li>
+										))}
+									</ul>
+								</div>
+								<div className="wrap-map">
+									<ProjectMap topmap={false} singleMap={false} propertys={projects} slug="project"/>
+								</div>
+								</div>
+							</div>
+							
+						
 					</div >
-					<div className="wrap-map">
-						<ProjectMap topmap={false} singleMap={false} propertys={projects} slug="project"/>
-					</div>
 				</section >
 
 			</Layout >
