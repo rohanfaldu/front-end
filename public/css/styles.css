@@ -11856,6 +11856,28 @@ tr {
     top: 44px;
     right: 0px;
   }
+  .property-sec .wrap-inner{
+    overflow-x: hidden !important;
+    overflow-y: hidden !important;
+  }
+  .project-sec .wrap-inner .tab-content .project-listing {
+    overflow-x: hidden;
+    overflow-y: hidden;
+    height: 100%;
+  }
+  .project-sec .wrapper-layout-3 .wrap-inner{
+    overflow-x: hidden;
+    overflow-y: hidden;
+    height: 100%;
+  }
+  .property-sec-list{
+    display: grid !important;
+    grid-template-columns: none !important;
+    gap: unset !important;
+  }
+  .project-sec .form-sec{
+    width: 100% !important;
+  }
 }
 
 @media only screen and (min-width: 1024px) {
