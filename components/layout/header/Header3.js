@@ -16,6 +16,7 @@ export default function Header3({ scroll, isSidebar, handleSidebar, isMobileMenu
 	const [userType, setUserType] = useState('')
 	const [loggedin, setLoggedin] = useState(false);
 	const [showType, setShowType] = useState('');
+	const [isLoading, setIsLoading] = useState(true);
 	useEffect(() => {
 		setLoggedin(true);
 	  const userDetail = JSON.parse(localStorage.getItem('user'));

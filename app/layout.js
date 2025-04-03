@@ -1,29 +1,19 @@
 
 "use client";
 
-// Move CSS imports to a separate component
-import dynamicImport from 'next/dynamic'
-
-// Dynamically import styles
-const StyleProvider = dynamicImport(() => import('../components/providers/StyleProvider'), {
-    ssr: true
-})
-
 import { DM_Sans, Josefin_Sans } from 'next/font/google'
-import Head from "next/head";
 import { useTranslation } from 'react-i18next';
 import "./i18n";
 
-// Optimize font loading
 const dm = DM_Sans({
-    weight: ['400', '500', '700'], // Remove unnecessary weights
+    weight: ['400', '500', '700'],
     subsets: ['latin'],
     variable: "--dm",
     display: 'swap',
 })
 
 const josefin = Josefin_Sans({
-    weight: ['400', '500', '700'], // Remove unnecessary weights
+    weight: ['400', '500', '700'],
     subsets: ['latin'],
     variable: "--josefin",
     display: 'swap',
@@ -36,22 +26,26 @@ export default function RootLayout({ children }) {
     const { i18n } = useTranslation();
     
     return (
-        <>
-            <Head>
+        <html lang={i18n.language || "fr"}>
+            <head>
                 <title>Immofind Real Estate Matching</title>
                 <meta name="description" content="Find your dream property with Immofind" />
                 <meta charSet="UTF-8" />
                 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
                 <link rel="icon" href="/images/logo/favicon.svg" />
-            </Head>
-            <html lang={i18n.language || "fr"}>
-                <StyleProvider />
-                <body className="body">{children}</body>
-            </html>
-        </>
+                <link rel="stylesheet" href="/css/bootstrap.min.css" />
+                <link rel="stylesheet" href="/fonts/font-icons.css" />
+                <link rel="stylesheet" href="/fonts/fonts.css" />
+                <link rel="stylesheet" href="/css/swiper-bundle.min.css" />
+                <link rel="stylesheet" href="/css/animate.css" />
+                <link rel="stylesheet" href="/css/styles.css" />
+            </head>
+            <body className={`body ${dm.variable} ${josefin.variable}`}>
+                {children}
+            </body>
+        </html>
     );
 }
-
 
 export function reportWebVitals(metric) {
     if (metric.label === 'web-vital') {
