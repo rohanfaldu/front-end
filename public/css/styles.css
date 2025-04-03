@@ -7847,7 +7847,7 @@ label {
 }
 
 .wrapper-layout-3 .wrap-sidebar {
-  height: 100%;
+  /* height: 100%; */
   width: 300px;
   padding-bottom: 0px;
   overflow-x: hidden;
@@ -7889,9 +7889,10 @@ label {
   padding: 30px;
   width: 100%;
   padding-bottom: 0;
-  height: calc(100vh - 80px);
-  overflow-x: hidden;
+  height: 100%;
+  /* overflow-x: hidden;
   overflow-y: auto;
+  scrollbar-width: none; */
 }
 
 .wrap-inner-2 .col-md-6 {
@@ -7932,6 +7933,7 @@ label {
     height: calc(100vh - 80px);
     overflow-x: hidden;
     overflow-y: auto;
+    scrollbar-width: none;
   }
 
   .wrapper-layout-7 .wrap-inner-2 {
@@ -12516,7 +12518,7 @@ tr {
 }
 
 footer {
-  margin-top: 2%;
+  margin-top: 0%;
   /* Ensure the footer is pushed to the bottom */
 }
 
@@ -13047,11 +13049,6 @@ footer {
   position: relative;
 }
 
-.property-sec-list{
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 10px;
-}
 .property-filter{
   padding: 30px;
   height: 500px;
@@ -13067,6 +13064,7 @@ footer {
   overflow-y: scroll;
   padding-right: 0px;
   height: calc(100vh - 275px);
+  scrollbar-width: none;
 }
 .project-sec .wrap-inner, .project-sec .wrap-sidebar{
   padding-bottom: 0px;
@@ -13078,10 +13076,33 @@ footer {
   background-color: #f7f7f7;
   padding-bottom: 10px;
 }
-.project-listing-pagination{
-  width: 750px;
-}
+
 .project-sec .wrap-inner{ padding: 0px; }
 .project-listing-pagination{ padding: 30px; }
 
 .leaflet-container.leaflet-touch-drag.leaflet-touch-zoom{height: 100% !important;}
+.project-sec .form-sec{
+  background: #f7f7f7;
+  display: inline-grid;
+}
+
+.property-sec-list {
+  display: grid;
+  grid-template-columns: 70% 30%;
+  gap: 10px;
+}
+.property-sec .form-btn-fixed{
+  justify-content: center;
+  display: flex;
+  background-color: #f7f7f7;
+  padding: 10px;
+}
+.developer .form-btn-fixed, .agency .form-btn-fixed{ margin-top: 10px;}
+.developer .wrap-inner-55 .tab-content, .agency .wrap-inner-55 .tab-content{
+  overflow-x: hidden;
+  height: 400px;
+  scrollbar-width: none;
+}
+.developer .wrap-inner-55, .agency .wrap-inner-55{
+  padding-bottom: 30px;
+}

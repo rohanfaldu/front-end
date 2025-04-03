@@ -193,7 +193,7 @@ const fetchCityOptions = debounce(async (value, page = 1) => {
     <>
 
       <Layout headerStyle={1} footerStyle={1}>
-        <section className="wrapper-layout-3">
+        <section className="wrapper-layout-3 developer">
           <div className="wrap-sidebar">
             <div className="flat-tab flat-tab-form widget-filter-search">
               <div className="h7 title fw-7">{t("search")}</div>
@@ -253,7 +253,6 @@ const fetchCityOptions = debounce(async (value, page = 1) => {
 													<button
 														type="submit"
 														className="tf-btn primary"
-														style={{ marginRight: "10px" }}
 													>
 														{t("finddeveloper")}
 													</button>

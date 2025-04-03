@@ -322,7 +322,7 @@ export default function ProjectHalfmapList() {
 
 			<Layout headerStyle={1} footerStyle={1}>
 				<section className="wrapper-layout-3 project-sec">
-					<form method="post" onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
+					<form method="post" className="form-sec" onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
 						<div className="wrap-sidebar">
 							<div className="flat-tab flat-tab-form widget-filter-search">
 								<div className="h7 title fw-7">{t("search")}</div>

@@ -714,7 +714,7 @@ export default function PropertyHalfmapList() {
 		<>
 
 			<Layout headerStyle={1} footerStyle={1}>
-				<section className="wrapper-layout-3">
+				<section className="wrapper-layout-3 property-sec">
 					<div className="wrap-sidebar property-inner-sec">
 						<form method="post" className="property-form" onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
 							<div className="flat-tab flat-tab-form widget-filter-search property-filter">

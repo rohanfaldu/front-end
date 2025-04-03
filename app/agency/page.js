@@ -162,7 +162,7 @@ export default function AgencyListing() {
 		<>
 
 			<Layout headerStyle={1} footerStyle={1}>
-				<section className="wrapper-layout-3">
+				<section className="wrapper-layout-3 agency">
 					<div className="wrap-sidebar">
 						<div className="flat-tab flat-tab-form widget-filter-search">
 							<div className="h7 title fw-7">{t("search")}</div>
@@ -224,9 +224,8 @@ export default function AgencyListing() {
 													<button
 														type="submit"
 														className="tf-btn primary"
-														style={{ marginRight: "10px" }}
 													>
-														{t("finddeveloper")}
+														{t("findagency")}
 													</button>
 												</div>
 											</div>
