@@ -7930,7 +7930,7 @@ label {
     padding: 30px;
     width: 100%;
     padding-bottom: 0;
-    height: calc(100vh - 80px);
+    height: 100%;
     overflow-x: hidden;
     overflow-y: auto;
     scrollbar-width: none;
