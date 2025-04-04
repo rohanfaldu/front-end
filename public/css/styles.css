@@ -8667,7 +8667,9 @@ label {
 .flat-latest-property .box-title {
   margin-bottom: 30px;
 }
-
+.flat-latest-property{
+  margin-bottom: 30px;
+}
 .wrapper-sidebar-right {
   padding-left: 30px;
 }
@@ -10575,6 +10577,10 @@ tr {
   .overlay .swiper-slide:not(.swiper-slide-prev, .swiper-slide-active, .swiper-slide-next)::after {
     content: none;
   }
+  .wrapper-layout-3 .wrap-sidebar, .wrapper-layout-3 .wrap-inner {
+    width: 100% !important;
+    height: 100% !important;
+  }
 }
 
 @media only screen and (max-width: 1440px) {
@@ -10886,8 +10892,10 @@ tr {
   }
 
   .main-header {
-    height: 60px;
-    top: 20px
+    height: 80px !important;
+    padding-top: 20px !important;
+    padding-bottom: 20px !important;
+    padding-left: 10px !important;
   }
 
 }
@@ -11758,7 +11766,12 @@ tr {
   .header-style-3 .header-account {
     display: flex;
   }
+  .single-property-map .leaflet-container.leaflet-touch-drag.leaflet-touch-zoom.property-map {
+      height: 300px !important;
+      z-index: 0;
+  }
 }
+
 
 .leaflet-popup-content {
   width: auto !important;
@@ -11849,6 +11862,7 @@ tr {
     padding-top: 55px;
     right: 50px;
   }
+
 }
 
 @media only screen and (max-width: 767px) {
@@ -11878,12 +11892,40 @@ tr {
   .project-sec .form-sec{
     width: 100% !important;
   }
+  .project-sec .wrap-inner .tab-content .project-listing{
+    overflow-x: hidden !important;
+    overflow-y: hidden !important;
+    height: 100% !important;
+  }
+  .project-sec .wrap-inner{
+    height: 100%;
+  }
+  .wrapper-layout-3 .wrap-inner {
+    position: relative;
+    height: 1000px;
+    width: 100%;
+    margin-top: 30px;
+  }
+  .wrapper-layout-3 .wrap-map{
+    height: 500px;
+  }
 }
 
-@media only screen and (min-width: 1024px) {
+@media only screen and (max-width: 1025px) {
   .show-password {
     padding-top: 50px;
     right: 80px;
+  }
+  .property-sec-list {
+    display: grid;
+    grid-template-columns: 70% 30%;
+    gap: 10px;
+  }
+  .wrapper-layout-3.project-sec .form-sec{
+    width: 100%;
+  }
+  .wrapper-layout-3.project-sec .wrap-sidebar{
+    height: 100%;
   }
 }
 
@@ -12330,9 +12372,13 @@ tr {
   display: none;
 }
 
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 769px) {
   .widget-box-2 .grid-4 {
     grid-template-columns: 1fr;
+  }
+  .property-information{
+    margin-left: 0px;
+    margin-right: 0px;
   }
 }
 
@@ -13108,11 +13154,6 @@ footer {
   display: inline-grid;
 }
 
-.property-sec-list {
-  display: grid;
-  grid-template-columns: 70% 30%;
-  gap: 10px;
-}
 .property-sec .form-btn-fixed{
   justify-content: center;
   display: flex;
@@ -13127,4 +13168,30 @@ footer {
 }
 .developer .wrap-inner-55, .agency .wrap-inner-55{
   padding-bottom: 30px;
+}
+.property-contact-sec{
+  justify-content: start;
+  display: flex;
+  gap: 10px;
+}
+
+@media (min-width: 1441px) {
+  /* Your styles for screens larger than 1440px */
+  .flat-property-detail {
+    margin-top: 5%;
+  }
+}
+@media (min-width: 1024px) and (max-width: 1440px) {
+  .property-information{
+    margin-left: 15px;
+    margin-right: 15px;
+  }
+}
+
+@media (min-width: 426px) {
+  /* Your styles for screens larger than 1440px */
+  .single-property-map .leaflet-container.leaflet-touch-drag.leaflet-touch-zoom.property-map{
+    height: 460px !important;
+    z-index: 0;
+  }
 }

@@ -1,7 +1,7 @@
 'use client'
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { LocalizationProvider, DateTimePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
@@ -24,7 +24,13 @@ export default function ContactSeller({ data }) {
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(null);
 	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [islogin, setIsLogin] = useState(false);
 
+	useEffect(() => {{
+		const isLoggedIn = (localStorage.getItem('isLoggedIn'))? true : false;
+		setIsLogin(isLoggedIn);
+	}});
+	console.log(islogin,' >>>>>>>>>> islogin')
 	const openModal = () => {
 		console.log("Opening Modal"); // Debugging
 		setIsModalOpen(true);
@@ -71,6 +77,7 @@ export default function ContactSeller({ data }) {
 	const checkAndCreateChatDocument = async () => {
 		try {
 		  const documentId = `${data.user_id}_${data.id}_${localStorage.getItem("user_id")}`;
+		
 		  const docRef = doc(db, "chat_new", documentId);
 		  const docSnap = await getDoc(docRef);
 		  if (!docSnap.exists()) {
@@ -150,7 +157,8 @@ export default function ContactSeller({ data }) {
 					) : null}
 					<div className="info" style={{ overflow: "hidden", width: "100%" }}>
 						<div className="text-1 name">{data?.user_name}</div>
-						<div style={{ display: "flex", justifyContent: "space-between" }}>
+						<div className="property-contact-sec" >
+							{islogin?(
 							<div>
 								<div className="link">
 									<button 
@@ -163,6 +171,7 @@ export default function ContactSeller({ data }) {
 									</button>
 								</div>
 							</div>
+							):null}
 							<div>
 								<button 
 									className="form-wg tf-btn primary" 

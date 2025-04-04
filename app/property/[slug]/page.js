@@ -560,7 +560,7 @@ export default function PropertyDetailsV1({ params }) {
 									</ul>
 								</div>
 							</div>
-							<div className="row">
+							<div className="row property-information">
 								<div className="col-lg-8">
 									<div className="single-property-element single-property-desc">
 										<div className="h7 title fw-7">Description</div>
@@ -657,11 +657,11 @@ export default function PropertyDetailsV1({ params }) {
 										
 
 										<MapContainer
-											style={{ height: `${false ? "460px" : "460px"}`, zIndex: 0 }}
 											center={[properties.latitude, properties.longitude]}
 											zoom={12}
 											maxZoom={18}
 											scrollWheelZoom={false}
+											className="property-map"
 										>
 											<UpdateMapView center={[properties.latitude, properties.longitude]} zoom={18} />
 
@@ -807,12 +807,14 @@ export default function PropertyDetailsV1({ params }) {
 														</Link>
 
 														<div className="info">
-															<div className="text-1 name"><Link
-																href={`/project/${properties.project_details.slug}`}
-																className="link"
-															>
+															<div className="text-1 name">
+																<Link
+																	href={`/project/${properties.project_details.slug}`}
+																	className="link"
+																>
 																{properties.project_details.title}
-															</Link></div>
+															</Link>
+															</div>
 														</div>
 													</div>
 												</div>
