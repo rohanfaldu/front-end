@@ -13221,6 +13221,9 @@ footer {
   .property-sec.wrapper-layout-3 .wrap-inner{
     padding: 0px;
   }
+  .property-sec .tab-content{
+    height: auto !important;
+  }
 }
 @media (min-width: 1024px) and (max-width: 1440px) {
   .property-information{
