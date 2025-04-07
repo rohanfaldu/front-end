@@ -13116,7 +13116,7 @@ footer {
 
 .property-filter{
   padding: 30px;
-  height: 500px;
+  height: auto;
   overflow-x: hidden;
 }
 
