@@ -546,11 +546,11 @@ export default function ProjectDetailsView({ params }) {
 										{/* <MapMarker latitude={projectDetails?.latitude} longitude={projectDetails?.longitude} zoom={18} /> */}
 
 										<MapContainer
-											style={{ height: `${false ? "460px" : "460px"}`, zIndex: 100 }}
 											center={[projectDetails.latitude, projectDetails.longitude]}
 											zoom={12}
 											maxZoom={18}
 											scrollWheelZoom={false}
+											className="property-map"
 										>
 											<UpdateMapView center={[projectDetails.latitude, projectDetails.longitude]} zoom={18} />
 
