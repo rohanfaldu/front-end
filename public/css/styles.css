@@ -13191,9 +13191,11 @@ footer {
   }
   .wrapper-layout-3 .wrap-map{
       width: 30%;
+      position: relative;
+      height: auto !important;
   }
   .wrapper-layout-3 .wrap-map .leaflet-container {
-      position: static !important;
+      position: relative !important;
   }
   .wrapper-layout-3 .wrap-map .leaflet-container .leaflet-pane {
       transform: none !important;
