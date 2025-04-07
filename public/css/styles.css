@@ -13181,6 +13181,25 @@ footer {
     margin-top: 5%;
   }
 }
+
+@media (min-width: 1024px) {
+  .property-sec-list{
+    display: flex;
+  }
+  .project-listing-pagination{
+      width: 70%;
+  }
+  .wrapper-layout-3 .wrap-map{
+      width: 30%;
+  }
+  .wrapper-layout-3 .wrap-map .leaflet-container {
+      position: static !important;
+  }
+  .wrapper-layout-3 .wrap-map .leaflet-container .leaflet-pane {
+      transform: none !important;
+      position: static !important;
+  }
+}
 @media (min-width: 1024px) and (max-width: 1440px) {
   .property-information{
     margin-left: 15px;
