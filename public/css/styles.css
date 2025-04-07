@@ -11875,9 +11875,9 @@ tr {
     overflow-y: hidden !important;
   }
   .project-sec .wrap-inner .tab-content .project-listing {
-    overflow-x: hidden;
-    overflow-y: hidden;
-    height: 100%;
+    overflow-x: hidden !important;
+    overflow-y: hidden !important;
+    height: auto !important
   }
   .project-sec .wrapper-layout-3 .wrap-inner{
     overflow-x: hidden;
@@ -11892,11 +11892,8 @@ tr {
   .project-sec .form-sec{
     width: 100% !important;
   }
-  .project-sec .wrap-inner .tab-content .project-listing{
-    overflow-x: hidden !important;
-    overflow-y: hidden !important;
-    height: 100% !important;
-  }
+
+  
   .project-sec .wrap-inner{
     height: 100%;
   }
@@ -11906,9 +11903,9 @@ tr {
     width: 100%;
     margin-top: 30px;
   }
-  .wrapper-layout-3 .wrap-map{
+  /* .wrapper-layout-3 .wrap-map{
     height: 500px;
-  }
+  } */
 }
 
 @media only screen and (max-width: 1025px) {
@@ -13183,23 +13180,46 @@ footer {
 }
 
 @media (min-width: 1024px) {
-  .property-sec-list{
+  .project-sec .property-sec-list{
     display: flex;
   }
-  .project-listing-pagination{
+  .project-sec .project-listing-pagination{
       width: 70%;
   }
-  .wrapper-layout-3 .wrap-map{
+  .project-sec.wrapper-layout-3 .wrap-map{
       width: 30%;
       position: relative;
       height: auto !important;
   }
-  .wrapper-layout-3 .wrap-map .leaflet-container {
+  .project-sec.wrapper-layout-3 .wrap-map .leaflet-container {
       position: relative !important;
   }
-  .wrapper-layout-3 .wrap-map .leaflet-container .leaflet-pane {
+  .project-sec.wrapper-layout-3 .wrap-map .leaflet-container .leaflet-pane {
       transform: none !important;
       position: static !important;
+  }
+
+  .property-sec .property-sec-list{
+    display: flex;
+  }
+  .property-sec .property-blog-sec{
+    padding: 30px;
+      width: 70%;
+  }
+  .property-sec.wrapper-layout-3 .wrap-map{
+      width: 30%;
+      position: relative;
+      height: auto !important;
+  }
+  .property-sec.wrapper-layout-3 .wrap-map .leaflet-container {
+      position: relative !important;
+  }
+  .property-sec.wrapper-layout-3 .wrap-map .leaflet-container .leaflet-pane {
+      transform: none !important;
+      position: static !important;
+  }
+  .property-sec.wrapper-layout-3 .wrap-inner{
+    padding: 0px;
   }
 }
 @media (min-width: 1024px) and (max-width: 1440px) {

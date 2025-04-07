@@ -1198,7 +1198,7 @@ export default function PropertyHalfmapList() {
 								<>
 									{filteredProperties.length > 0 && !showNoMore && (
 										<>
-											<div style={{height: "100%"}}>
+											<div className="property-blog-sec" style={{height: "100%"}}>
 												<div
 													className="tinder-card"
 													style={{
