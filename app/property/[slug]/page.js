@@ -77,7 +77,7 @@ const swiperOptions = (projectDetails) => ({
 
 const swiperOptions2 = (projectDetails) => ({
 	spaceBetween: 10,
-    slidesPerView: 1,
+	slidesPerView: 1,
 	loop: projectDetails?.picture.length > 1,
 	modules: [Autoplay, Pagination, Navigation],
 	autoplay: projectDetails?.picture.length > 1
@@ -87,14 +87,14 @@ const swiperOptions2 = (projectDetails) => ({
 		}
 		: false,
 	speed: 2000,
-    navigation: projectDetails?.picture.length > 1
+	navigation: projectDetails?.picture.length > 1
 		? { // Enable navigation buttons only for multiple images
 			clickable: true,
 			nextEl: ".nav-prev-location",
 			prevEl: ".nav-next-location",
 		}
 		: false, // Hide navigation buttons for single image
-    pagination: projectDetails?.picture.length > 1
+	pagination: projectDetails?.picture.length > 1
 		? { // Enable pagination only for multiple images
 			el: ".swiper-pagination1",
 			clickable: true,
@@ -146,94 +146,94 @@ export default function PropertyDetailsV1({ params }) {
 	const [rating, setRating] = useState(5);
 	const [comment, setComment] = useState("");
 	const [getComment, setGetComment] = useState([]);
-
+	const router = useRouter();
 
 	const [pagination, setPagination] = useState({
 		totalCount: 0,
 		totalPages: 1,
 		currentPage: variablesList.currentPage,
 		itemsPerPage: variablesList.itemsPerPage,
-	}); 
+	});
 	// Now you have `slugPart` and `matching` variables
 	console.log('Slug:', slugPart);
 	console.log('Matching:', matching);
-	
-	
-	
+
+
+
 
 	useEffect(() => {
 		console.log("Fetching properties...");
-	  
+
 		const fetchData = async () => {
-		  try {
-			const lang = i18n.language;
-			const propertyObj = { page: 1, limit: 1000, lang: lang };
-			const response = await getData("api/property/", propertyObj);
-	  
-			if (!response || !response.data) {
-			  throw new Error("Invalid response from API");
-			}
-	  
-			const propertyList = response.data.list;
-			const result = propertyList.find((item) => item.slug === slugPart);
-	  
-			if (result) {
-			  setProperties(result);
-			  setIsLiked(result.like);
-	  
-			  const filteredDetails = result.meta_details.filter(
-				(propertyDetail) => propertyDetail.key !== "bathrooms" && propertyDetail.key !== "rooms"
-			  );
-	  
-			  const metaNumberFieldDetails = [];
-			  const metaCheckboxFieldDetails = [];
-	  
-			  result.meta_details.forEach((propertyDetail) => {
-				if (propertyDetail.type === "number") {
-				  metaNumberFieldDetails.push(propertyDetail);
+			try {
+				const lang = i18n.language;
+				const propertyObj = { page: 1, limit: 1000, lang: lang };
+				const response = await getData("api/property/", propertyObj);
+
+				if (!response || !response.data) {
+					throw new Error("Invalid response from API");
+				}
+
+				const propertyList = response.data.list;
+				const result = propertyList.find((item) => item.slug === slugPart);
+
+				if (result) {
+					setProperties(result);
+					setIsLiked(result.like);
+
+					const filteredDetails = result.meta_details.filter(
+						(propertyDetail) => propertyDetail.key !== "bathrooms" && propertyDetail.key !== "rooms"
+					);
+
+					const metaNumberFieldDetails = [];
+					const metaCheckboxFieldDetails = [];
+
+					result.meta_details.forEach((propertyDetail) => {
+						if (propertyDetail.type === "number") {
+							metaNumberFieldDetails.push(propertyDetail);
+						} else {
+							metaCheckboxFieldDetails.push(propertyDetail);
+						}
+					});
+
+					const chunkArray = (array, size) => {
+						const result = [];
+						for (let i = 0; i < array.length; i += size) {
+							result.push(array.slice(i, i + size));
+						}
+						return result;
+					};
+
+					const metadetail = chunkArray(metaCheckboxFieldDetails, Math.ceil(metaCheckboxFieldDetails.length / 3));
+
+					setMetaDetails(metadetail);
+					setMetaNumberList(metaNumberFieldDetails);
+					setLoading(false);
+					setError(null);
 				} else {
-				  metaCheckboxFieldDetails.push(propertyDetail);
+					console.warn("Property not found!");
 				}
-			  });
-	  
-			  const chunkArray = (array, size) => {
-				const result = [];
-				for (let i = 0; i < array.length; i += size) {
-				  result.push(array.slice(i, i + size));
-				}
-				return result;
-			  };
-	  
-			  const metadetail = chunkArray(metaCheckboxFieldDetails, Math.ceil(metaCheckboxFieldDetails.length / 3));
-	  
-			  setMetaDetails(metadetail);
-			  setMetaNumberList(metaNumberFieldDetails);
-			  setLoading(false);
-			  setError(null);
-			} else {
-			  console.warn("Property not found!");
+			} catch (err) {
+				setError(err.message || "An error occurred");
+				setLoading(false);
 			}
-		  } catch (err) {
-			setError(err.message || "An error occurred");
-			setLoading(false);
-		  }
 		};
-	  
+
 		fetchData();
-	  }, [i18n.language]);
-	  
-	  const getPropertyComment = async () => {
+	}, [i18n.language]);
+
+	const getPropertyComment = async () => {
 		if (!properties?.id) return; // Avoid unnecessary API calls
 		console.log("Fetching property comments...");
 		const token = localStorage.getItem("token");
-	
+
 		try {
 			const requestData = {
 				page: pagination.currentPage,
 				limit: pagination.itemsPerPage,
 				propertyId: properties.id,
 			};
-	
+
 			const response = await fetch(`${API_URL}/api/property/getbycommentid`, {
 				method: "POST",
 				headers: {
@@ -242,18 +242,18 @@ export default function PropertyDetailsV1({ params }) {
 				},
 				body: JSON.stringify(requestData),
 			});
-	
+
 			if (!response.ok) {
 				throw new Error(`HTTP error! Status: ${response.status}`);
 			}
-	
+
 			const data = await response.json();
-	
+
 			if (data.data.list) {
-				setGetComment((prevComments) => 
+				setGetComment((prevComments) =>
 					pagination.currentPage === 1 ? data.data.list : [...prevComments, ...data.data.list]
 				);
-	
+
 				setPagination((prevPagination) => ({
 					...prevPagination,
 					totalCount: data.data.totalCount,
@@ -264,21 +264,21 @@ export default function PropertyDetailsV1({ params }) {
 			console.error("Error fetching comments:", error);
 		}
 	};
-	
+
 	// Call getPropertyComment in useEffect
 	useEffect(() => {
 		getPropertyComment();
 	}, [properties, pagination.currentPage]);
 
-    const loadMoreComments = () => {
-        if (pagination.currentPage < pagination.totalPages) {
-            setPagination((prev) => ({
-                ...prev,
-                currentPage: prev.currentPage + 1,
-            }));
-        }
-    };
-	  
+	const loadMoreComments = () => {
+		if (pagination.currentPage < pagination.totalPages) {
+			setPagination((prev) => ({
+				...prev,
+				currentPage: prev.currentPage + 1,
+			}));
+		}
+	};
+
 
 	if (loading) {
 		return (
@@ -297,95 +297,88 @@ export default function PropertyDetailsV1({ params }) {
 		const videoId = urlParams.get('v');
 		setVideoUrl('https://www.youtube.com/embed/' + videoId);
 	}
-	console.log('video');
-	console.log(properties);
-
-
-	
-	  
-
 
 	const handleComment = async () => {
-        const token = localStorage.getItem('token');
+		const token = localStorage.getItem('token');
 
 		try {
-		  const response = await fetch(`${API_URL}/api/property/comment`, {
-			method: "POST",
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': `Bearer ${token}`
-			},
-			body: JSON.stringify({ rating, comment, propertyId: properties.id, property_owner_id: properties.user_id }),
-		  });
-	
-		  const data = await response.json();
-		  console.log("API Response:", data);
-	
-		  if (response.ok) {
-			setComment("");
-			getPropertyComment();
+			const response = await fetch(`${API_URL}/api/property/comment`, {
+				method: "POST",
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': `Bearer ${token}`
+				},
+				body: JSON.stringify({ rating, comment, propertyId: properties.id, property_owner_id: properties.user_id }),
+			});
 
-		  }
+			const data = await response.json();
+			console.log("API Response:", data);
+
+			if (response.ok) {
+				setComment("");
+				getPropertyComment();
+
+			}
 		} catch (error) {
-		  console.error("Error submitting review:", error);
+			console.error("Error submitting review:", error);
 		}
-	  };
+	};
 
 
 	const handleLike = async (isLiked, id, propertyPublisherId) => {
-        const token = localStorage.getItem('token');
+		const token = localStorage.getItem('token');
 
-        if (!token) {
-            setIsModelOpen(true);
-            return;
-        }
+		if (!token) {
+			setIsModelOpen(true);
+			return;
+		}
 
-        try {
-            if(!isLiked){
-                const response = await fetch(`${API_URL}/api/property/like`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify({
-                        propertyId: id,  // The property ID you are liking
-                        propertyPublisherId: propertyPublisherId // The publisher ID
-                    })
-                });
-            
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    console.error('Error:', errorData.message);
-                    return;
-                }
-            
-                const data = await response.json();
-                console.log(data.message);
-                setIsLiked(!isLiked);
-            }else{
-                const response = await fetch(`${API_URL}/api/property/${id}/like`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                });
-    
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    console.error('Error:', errorData.message);
-                    return;
-                }
-    
-                const data = await response.json();
-                console.log(data.message);
-                setIsLiked(!isLiked);
-            }
-        } catch (error) {
-            console.error('Error liking the property:', error);
-        }
-    };
+		try {
+			if (!isLiked) {
+				const response = await fetch(`${API_URL}/api/property/like`, {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': `Bearer ${token}`
+					},
+					body: JSON.stringify({
+						propertyId: id,  // The property ID you are liking
+						propertyPublisherId: propertyPublisherId // The publisher ID
+					})
+				});
+
+				if (!response.ok) {
+					const errorData = await response.json();
+					console.error('Error:', errorData.message);
+					return;
+				}
+
+				const data = await response.json();
+				console.log(data.message);
+				setIsLiked(!isLiked);
+			} else {
+				const response = await fetch(`${API_URL}/api/property/${id}/like`, {
+					method: 'DELETE',
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': `Bearer ${token}`
+					},
+				});
+
+				if (!response.ok) {
+					const errorData = await response.json();
+					console.error('Error:', errorData.message);
+					return;
+				}
+
+				const data = await response.json();
+				console.log(data.message);
+				setIsLiked(!isLiked);
+			}
+		} catch (error) {
+			console.error('Error liking the property:', error);
+		}
+	};
 
 
 
@@ -403,97 +396,106 @@ export default function PropertyDetailsV1({ params }) {
 	};
 
 
-	
+
 	const handleLogin = () => {
-		console.log(isLogin,"///////////////////////////")
+		console.log(isLogin, "///////////////////////////")
 		setLogin(!isLogin)
 		!isLogin ? document.body.classList.add("modal-open") : document.body.classList.remove("modal-open")
 	}
 
 	const closeModal = () => {
-        setIsModelOpen(false);
-        setShowLoginModal(true);
-    };
+		setIsModelOpen(false);
+		setShowLoginModal(true);
+	};
 
 	return (
 		<>
 
 			<Layout headerStyle={isOpen ? 0 : 1} footerStyle={1}>
 				<div className={isOpen ? "custom-overlay" : ""}>
-				<section className="flat-location flat-slider-detail-v1">
-    <div className="swiper tf-sw-location">
-        {/* Main Image Slider */}
-        <Swiper {...swiperOptions(properties)} className="swiper-wrapper">
-            {(properties?.picture.length > 0 ? properties.picture : ["/images/banner/no-banner.png"]).map((item, index) => (
-                <SwiperSlide key={index}>
-                    <div
-                        onClick={() => openPopup(index)} // Pass the clicked image index
-                        className={`box-imgage-detail d-block property-image ${properties?.picture.length === 1 ? "full-screen" : ""}`}
-                    >
-                        <img src={item} alt="img-property" />
-                    </div>
-                </SwiperSlide>
-            ))}
-        </Swiper>
-
-        {/* Modal for Enlarged Image Slider */}
-        {isOpen && (
-            <div className="modal-overlay-custom" onClick={closePopup}>
-			<div
-				className="modal-content-custom"
-				onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
-			>
-				{properties?.picture.length > 1 && (
-					<>
-						<button
-							className="nav-arrow prev-arrow"
-							onClick={() => modalSwiperRef.current?.slidePrev()}
-						>
-							&#8249;
-						</button>
-						<button
-							className="nav-arrow next-arrow"
-							onClick={() => modalSwiperRef.current?.slideNext()}
-						>
-							&#8250;
-						</button>
-					</>
-				)}
-				<Swiper
-					{...swiperOptions2(properties)}
-					initialSlide={currentImageIndex}
-					className="swiper-wrapper"
-					onSwiper={(swiper) => (modalSwiperRef.current = swiper)} // Reference the modal swiper
-				>
-					{properties.picture.map((item, index) => (
-						<SwiperSlide key={index}>
-							<div className="box-imgage-detail">
-								<img src={item} alt={`property-large-${index}`} />
+					<section className="flat-location flat-slider-detail-v1">
+						<div className="swiper tf-sw-location">
+							<div className="link back-btn">
+								<button
+									className="form-wg tf-btn primary"
+									type="button"
+									style={{ marginTop: "10px" }}
+									onClick={() => router.push("/property")}
+								>
+									<span style={{ color: "#fff" }}>{t("back")}</span>
+								</button>
 							</div>
-						</SwiperSlide>
-					))}
-				</Swiper>
-				{/* <button onClick={closePopup} className="close-button">
-					X
-				</button> */}
-			</div>
-		</div>
-        )}
+							{/* Main Image Slider */}
+							<Swiper {...swiperOptions(properties)} className="swiper-wrapper">
+								{(properties?.picture.length > 0 ? properties.picture : ["/images/banner/no-banner.png"]).map((item, index) => (
+									<SwiperSlide key={index}>
+										<div
+											onClick={() => openPopup(index)} // Pass the clicked image index
+											className={`box-imgage-detail d-block property-image ${properties?.picture.length === 1 ? "full-screen" : ""}`}
+										>
+											<img src={item} alt="img-property" />
+										</div>
+									</SwiperSlide>
+								))}
+							</Swiper>
 
-        {/* Navigation for Main Slider */}
-        {properties?.picture.length > 2 && (
-            <div className="box-navigation">
-                <div className="navigation swiper-nav-next nav-next-location">
-                    <span className="icon icon-arr-l" />
-                </div>
-                <div className="navigation swiper-nav-prev nav-prev-location">
-                    <span className="icon icon-arr-r" />
-                </div>
-            </div>
-        )}
-    </div>
-</section>
+							{/* Modal for Enlarged Image Slider */}
+							{isOpen && (
+								<div className="modal-overlay-custom" onClick={closePopup}>
+									<div
+										className="modal-content-custom"
+										onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
+									>
+										{properties?.picture.length > 1 && (
+											<>
+												<button
+													className="nav-arrow prev-arrow"
+													onClick={() => modalSwiperRef.current?.slidePrev()}
+												>
+													&#8249;
+												</button>
+												<button
+													className="nav-arrow next-arrow"
+													onClick={() => modalSwiperRef.current?.slideNext()}
+												>
+													&#8250;
+												</button>
+											</>
+										)}
+										<Swiper
+											{...swiperOptions2(properties)}
+											initialSlide={currentImageIndex}
+											className="swiper-wrapper"
+											onSwiper={(swiper) => (modalSwiperRef.current = swiper)} // Reference the modal swiper
+										>
+											{properties.picture.map((item, index) => (
+												<SwiperSlide key={index}>
+													<div className="box-imgage-detail">
+														<img src={item} alt={`property-large-${index}`} />
+													</div>
+												</SwiperSlide>
+											))}
+										</Swiper>
+										{/* <button onClick={closePopup} className="close-button">
+										X
+									</button> */}
+									</div>
+								</div>
+							)}
 
+							{/* Navigation for Main Slider */}
+							{properties?.picture.length > 2 && (
+								<div className="box-navigation">
+									<div className="navigation swiper-nav-next nav-next-location">
+										<span className="icon icon-arr-l" />
+									</div>
+									<div className="navigation swiper-nav-prev nav-prev-location">
+										<span className="icon icon-arr-r" />
+									</div>
+								</div>
+							)}
+						</div>
+					</section>
 					<section className="flat-section pt-0 flat-property-detail">
 						<div className="container">
 							<div className="header-property-detail">
@@ -501,17 +503,15 @@ export default function PropertyDetailsV1({ params }) {
 									<div className="box-name">
 										{/* <Link href="#" className="flag-tag primary">{properties.transaction}</Link> */}
 
-											{properties.transaction_type == 'rental' && (
-                                                <Link href="#" className="flag-tag primary"> {t("rental")}</Link>
-                                            )}
-                                            {properties.transaction_type == 'sale' && (
-                                                <Link href="#" className="flag-tag primary"> {t("sale")}</Link>
-                                            )}
+										{properties.transaction_type == 'rental' && (
+											<Link href="#" className="flag-tag primary"> {t("rental")}</Link>
+										)}
+										{properties.transaction_type == 'sale' && (
+											<Link href="#" className="flag-tag primary"> {t("sale")}</Link>
+										)}
 										<h4 className="title link">{properties.title}</h4>
 									</div>
-									<div className="box-price d-flex align-items-center" style={{width: "20%", justifyContent: "space-between"}}>
-										
-				
+									<div className="box-price d-flex align-items-center" style={{ width: "20%", justifyContent: "space-between" }}>
 										<div>
 											{(matching !== undefined) ? (
 												<PercentageHeart percentage={matching} />
@@ -536,7 +536,7 @@ export default function PropertyDetailsV1({ params }) {
 										<div className="label">LOCATION:</div>
 										<p className="meta-item"><span className="icon icon-mapPin" /> 8 Broadway, Brooklyn, New York</p>
 									</div> */}
-									<ul className="icon-box" style={{alignItems: "center"}}>
+									<ul className="icon-box" style={{ alignItems: "center" }}>
 										{/* <li><Link href="#" className="item"><span className="icon icon-arrLeftRight" /> </Link></li>
 										<li><Link href="#" className="item"><span className="icon icon-share" /></Link></li>
 										<li><Link href="#" className="item"><span className="icon icon-heart" /></Link></li> */}
@@ -550,12 +550,12 @@ export default function PropertyDetailsV1({ params }) {
                                                 style={{ height: "24px" }}
                                             />
                                         </li> */}
-						
+
 										{/* <li>
 											<span style={{fontSize: "25px"}}>Matching-{matching} %</span>
 										</li> */}
 										<li className={`${isLiked ? "liked" : "w-40 box-icon"}`} onClick={() => handleLike(isLiked, properties.id, properties.user_id)}>
-											<span className="icon icon-heart" style={{fontSize: "30px"}} />
+											<span className="icon icon-heart" style={{ fontSize: "30px" }} />
 										</li>
 									</ul>
 								</div>
@@ -654,7 +654,7 @@ export default function PropertyDetailsV1({ params }) {
 										<div className="h7 title fw-7">{t("map")}</div>
 										{/* <MapMarker latitude={properties.latitude} longitude={properties.longitude} zoom={18} /> */}
 										{/* <ProjectMap topmap={false} singleMap={false} propertys={properties} slug="project"/> */}
-										
+
 
 										<MapContainer
 											center={[properties.latitude, properties.longitude]}
@@ -695,36 +695,36 @@ export default function PropertyDetailsV1({ params }) {
 										</div>
 
 										<div className="wrap-review">
-										<ul className="box-review">
-											{getComment.map((comment) => (
-												<li key={comment.id} className="list-review-item">
-													<div className="avatar avt-60 round">
-														<img src={comment.users.image} alt="avatar" />
-													</div>
-													<div className="content" style={{width : "100%"}}>
-														<div className="name h7 fw-7 text-black">
-															{comment.users.full_name}
+											<ul className="box-review">
+												{getComment.map((comment) => (
+													<li key={comment.id} className="list-review-item">
+														<div className="avatar avt-60 round">
+															<img src={comment.users.image} alt="avatar" />
 														</div>
-														<span className="mt-4 d-inline-block date body-3 text-variant-2">
-															{new Date(comment.created_at).toLocaleDateString()}
-														</span>
-														<ul className="mt-8 list-star">
-															{Array.from({ length: comment.rating }).map((_, index) => (
-																<li key={index} className="icon-star" />
-															))}
-														</ul>
-														<p className="mt-12 body-2 text-black">{comment.comment}</p>
-														
+														<div className="content" style={{ width: "100%" }}>
+															<div className="name h7 fw-7 text-black">
+																{comment.users.full_name}
+															</div>
+															<span className="mt-4 d-inline-block date body-3 text-variant-2">
+																{new Date(comment.created_at).toLocaleDateString()}
+															</span>
+															<ul className="mt-8 list-star">
+																{Array.from({ length: comment.rating }).map((_, index) => (
+																	<li key={index} className="icon-star" />
+																))}
+															</ul>
+															<p className="mt-12 body-2 text-black">{comment.comment}</p>
+
+														</div>
+													</li>
+												))}
+												{pagination.currentPage < pagination.totalPages && (
+													<div onClick={loadMoreComments} className="view-question" style={{ cursor: 'pointer' }}>
+														See more answered questions ({pagination.totalCount - getComment.length})
 													</div>
-												</li>
-											))}
-											{pagination.currentPage < pagination.totalPages && (
-												<div onClick={loadMoreComments} className="view-question" style={{cursor: 'pointer'}}>
-													See more answered questions ({pagination.totalCount - getComment.length})
-												</div>
-											)}
-										</ul>
-								
+												)}
+											</ul>
+
 										</div>
 										<div className="wrap-form-comment">
 											<div className="h7">{t("leaveareply")}</div>
@@ -744,19 +744,19 @@ export default function PropertyDetailsV1({ params }) {
 
 														<fieldset className="form-wg">
 															<div>
-																<div style={{display: "flex", justifyContent: "space-between"}}>
+																<div style={{ display: "flex", justifyContent: "space-between" }}>
 																	<div>
 																		<label className="sub-ip">{t("review")}</label>
 																	</div>
 																	<div>
 																		{[1, 2, 3, 4, 5].map((star) => (
-																		<img
-																			key={star}
-																			src={star <= rating ? "/images/logo/star-solid.svg" : "/images/logo/star-blank.svg"}
-																			alt="star"
-																			style={{ width: "25px", cursor: "pointer" }}
-																			onClick={() => setRating(star)}
-																		/>
+																			<img
+																				key={star}
+																				src={star <= rating ? "/images/logo/star-solid.svg" : "/images/logo/star-blank.svg"}
+																				alt="star"
+																				style={{ width: "25px", cursor: "pointer" }}
+																				onClick={() => setRating(star)}
+																			/>
 																		))}
 																	</div>
 																</div>
@@ -773,11 +773,11 @@ export default function PropertyDetailsV1({ params }) {
 																	/>
 																</div>
 															</div>
-															<button className="form-wg tf-btn primary" name="button" type="button"  disabled={comment.trim() === ""}  onClick={handleComment}>
+															<button className="form-wg tf-btn primary" name="button" type="button" disabled={comment.trim() === ""} onClick={handleComment}>
 																<span>{t("postcomment")}</span>
 															</button>
 														</fieldset>
-														
+
 													</form>
 												</div>
 											</div>
@@ -812,8 +812,8 @@ export default function PropertyDetailsV1({ params }) {
 																	href={`/project/${properties.project_details.slug}`}
 																	className="link"
 																>
-																{properties.project_details.title}
-															</Link>
+																	{properties.project_details.title}
+																</Link>
 															</div>
 														</div>
 													</div>
@@ -856,8 +856,13 @@ export default function PropertyDetailsV1({ params }) {
 				<div className="modal" style={{ display: 'block', position: 'fixed', zIndex: 1000, top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
 					<div className="modal-content" style={{ position: 'relative', margin: 'auto', padding: '20px', background: '#fff', borderRadius: '8px', maxWidth: '400px', top: '50%', transform: 'translateY(-50%)' }}>
 						<>
+							<img
+								src="/images/logo/logo.svg" // Replace with your actual image path
+								alt="Logo"
+								style={{ width: '150px', marginBottom: '15px' }}
+							/><br></br>
 							<h4>Login Alert</h4>
-							<p>Please login first!!!</p>
+							<p>You need to be logged in to access this feature.!!!</p>
 							<div style={{ textAlign: 'end' }}>
 								<button className="tf-btn primary" onClick={() => {
 									closeModal();

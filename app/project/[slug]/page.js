@@ -936,7 +936,6 @@ export default function ProjectDetailsView({ params }) {
 										</div>
 									</div>
 								</div>
-								
 								<div className="col-lg-4">
 									<div className="widget-sidebar fixed-sidebar wrapper-sidebar-right">
 										<div className="widget-box single-property-contact bg-surface">
