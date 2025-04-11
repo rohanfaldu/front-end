@@ -422,7 +422,7 @@ export default function PropertyDetailsV1({ params }) {
 									style={{ marginTop: "10px" }}
 									onClick={() => router.push("/property")}
 								>
-									<span style={{ color: "#fff" }}>{t("back")}</span>
+									<span style={{ color: "#fff" }}>&lt;</span>
 								</button>
 							</div>
 							{/* Main Image Slider */}

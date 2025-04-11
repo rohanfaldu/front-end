@@ -245,7 +245,7 @@ export default function ProjectDetailsView({ params }) {
 									style={{ marginTop: "10px" }}
 									onClick={() => router.push("/project")}
 								>
-									<span style={{ color: "#fff" }}>{t("back")}</span>
+									<span style={{ color: "#fff" }}>&lt;</span>
 								</button>
 							</div>
 							<Swiper {...swiperOptions(projectDetails)} className="swiper-wrapper">

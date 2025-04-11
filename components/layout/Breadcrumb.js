@@ -32,7 +32,7 @@ export default function Breadcrumb({ breadcrumbTitle }) {
 						style={{marginLeft: "50px"  }}
 						onClick={() => (isAgency)? router.push("/agency") : router.push("/developer") }
 					>
-						<span style={{ color: "#fff" }}>{t("back")}</span>
+						<span style={{ color: "#fff" }}>&lt;</span>
 					</button>
 				</div>
 				<div className="container">

@@ -185,11 +185,11 @@ export default function AgencyDetail({ params }) {
                                             <div className="h7 title fw-7">{t("map")}</div>
                                             {/* <MapMarker latitude={developerDetails.latitude} longitude={developerDetails.longitude} zoom={18} /> */}
                                             <MapContainer
-                                                style={{ height: `${false ? "460px" : "460px"}`, zIndex: 100 }}
                                                 center={[developerDetails.latitude, developerDetails.longitude]}
                                                 zoom={12}
                                                 maxZoom={18}
                                                 scrollWheelZoom={false}
+                                                className="property-map"
                                             >
                                                 <UpdateMapView center={[developerDetails.latitude, developerDetails.longitude]} zoom={18} />
                                                 <TileLayer url="https://{s}.tile.osm.org/{z}/{x}/{y}.png" />
@@ -200,6 +200,7 @@ export default function AgencyDetail({ params }) {
                                                 >
                                                 </Marker>
                                             </MapContainer>
+                                                
                                             <ul className="info-map">
                                                 <li>
                                                     <div className="fw-7">{t("address")}</div>

@@ -67,7 +67,7 @@ export default function ContactSeller({ data }) {
 				setError(null);
 			}
 		} catch (err) {
-			setError(err.response?.data?.message || "An error occurred");
+			setError(err.response?.data?.message || "Please log in after creating the visit.");
 		} finally {
 			setLoading(false);
 		}
