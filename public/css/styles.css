@@ -13478,3 +13478,10 @@ footer {
 .property-inner-sec {
   width: 33%;
 }
+.modal-content-alert{
+  align-items: center;
+  text-align: center;
+}
+.project-sec .property-full-width-inner-sec{
+  width: 100%;
+}

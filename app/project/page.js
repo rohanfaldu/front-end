@@ -34,7 +34,7 @@ export default function ProjectHalfmapList() {
 	const [searchTermDistrict, setSearchTermDistrict] = useState('');
 	const [searchTermNeighbourhood, setSearchTermNeighbourhood] = useState('');
 	const [searchNeighbourhood, setSearchNeighbourhood] = useState('');
-
+	const [isSwitch, setIsSwitch] = useState(false);
 
 	const [searchCity, setSearchCity] = useState('');
 	const [cityOptions, setCityOptions] = useState([]);
@@ -316,6 +316,10 @@ export default function ProjectHalfmapList() {
 		}));
 	};
 
+	const handleSwitchChange = (e) => {
+		setIsSwitch(e.target.checked);
+	}
+	console.log(isSwitch, ">>> isSwitch");
 
 	return (
 		<>
@@ -628,9 +632,19 @@ export default function ProjectHalfmapList() {
 														
 							<div className="tab-content">
 								<div class="property-sec-list">
-								<div class="project-listing-pagination">	
+								<div class={(isSwitch) ? "project-listing-pagination property-full-width-inner-sec" : "project-listing-pagination"}>	
 									<div className="box-title-listing style-1">
 										<h5>{t("projectlisting")}</h5>
+										<div className="flex items-center cursor-pointer select-none">
+											<label className="switch">
+												<input
+													type="checkbox"
+													checked={isSwitch}
+													onChange={handleSwitchChange}
+												/>
+												<span className="slider"></span>
+											</label>
+										</div>
 									</div>	
 									<div class="project-listing">			
 									{loading ? (
@@ -644,7 +658,7 @@ export default function ProjectHalfmapList() {
 									) : (
 										<div className="row">
 											{projects.map((project) => (
-												<div className="col-md-6" key={project.id}>
+												<div className={(isSwitch) ? "col-md-6 property-inner-sec" : "col-md-6"} key={project.id}>
 													<div className="homeya-box">
 														<div className="archive-top">
 															<Link
@@ -736,7 +750,7 @@ export default function ProjectHalfmapList() {
 										))}
 									</ul>
 								</div>
-								<div className="wrap-map">
+								<div className={(isSwitch) ? "wrap-map map-section-hide" : "wrap-map"}>
 									<ProjectMap topmap={false} singleMap={false} propertys={projects} slug="project"/>
 								</div>
 								</div>

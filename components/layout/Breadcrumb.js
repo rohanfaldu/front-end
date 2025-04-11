@@ -2,6 +2,7 @@
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { useTranslation } from "react-i18next";
+import { useRouter } from 'next/navigation';
 
 export default function Breadcrumb({ breadcrumbTitle }) {
 	const pathname = usePathname(); // Use usePathname from next/navigation
@@ -10,7 +11,7 @@ export default function Breadcrumb({ breadcrumbTitle }) {
 	const isDeveloper = pathname.includes("/developer");
 	const pathSegments = pathname.split('/').filter(segment => segment);  // Split URL path
 	const { t, i18n } = useTranslation();
-
+	const router = useRouter();
 	// const breadcrumbLinks = pathSegments.map((segment, index) => {
 	// 	const linkPath = '/' + pathSegments.slice(0, index + 1).join('/');
 	// 	return { label: segment.charAt(0).toUpperCase() + segment.slice(1), link: linkPath };

@@ -1418,11 +1418,11 @@ export default function PropertyHalfmapList() {
 
 			{isModelOpen && (
 				<div className="modal" style={{ display: 'block', position: 'fixed', zIndex: 1000, top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
-					<div className="modal-content" style={{ position: 'relative', margin: 'auto', padding: '20px', background: '#fff', borderRadius: '8px', maxWidth: '400px', top: '50%', transform: 'translateY(-50%)' }}>
+					<div className="modal-content-alert" style={{ position: 'relative', margin: 'auto', padding: '20px', background: '#fff', borderRadius: '8px', maxWidth: '400px', top: '50%', transform: 'translateY(-50%)' }}>
 						<>
 							<h4>Login Alert</h4>
 							<p>Please login first!!!</p>
-							<div style={{ textAlign: 'end' }}>
+							<div style={{ textAlign: 'center' }}>
 								<button className="tf-btn primary" onClick={() => {
 									closeModal();
 									setLogin(true)
