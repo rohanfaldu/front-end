@@ -684,25 +684,45 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 				</div>
 				<div className="grid-1 group-box">
 
-					<div className="group-select grid-4">
+					<div className="group-select grid-3">
 					{amenities && amenities.length > 0 ? (
-						[...amenities].reverse().map((project) =>
-							project.type === "number" ? (
-								<fieldset key={project.id} className="box box-fieldset">
-									<label className="title-select text-variant-1" htmlFor={project.id}>
-										{t("numberOfAminities")}{project.name}:
-									</label>
-									<input
-										type="number"
-										className="nice-select"
-										value={formData.amenities_id_object_with_value?.[project.id] || ""}
-										name={project.id}
-										onChange={(e) => handleNumberChange(project.id, e.target.value)}
-									/>
-								</fieldset>
-							) : null
-						)
-					) : null}
+							[...amenities].reverse().map((project) => {
+								if (project.type === "number") {
+									console.log(project);
+									const selectedValue = formData.amenities_id_object_with_value?.[project.id] || "";
+
+									return (
+										<fieldset key={project.id} className="box box-fieldset aminities-radio-sec advance-filter-radio">
+											<label className="title-select text-variant-1" htmlFor={project.id}>
+												{t("numberOfAminities")} {project.name}:
+											</label>
+
+											<div className="radio-group">
+												{[
+													{ label: "1", value: "1" },
+													{ label: "2", value: "2" },
+													{ label: "3", value: "3" },
+													{ label: "3+", value: "4" }
+												].map((option) => (
+													<label key={option.value} className="radio-label" style={{ marginRight: '10px' }}>
+														<input
+															type="radio"
+															className="nice-radio"
+															value={option.value}
+															checked={selectedValue === option.value}
+															name={project.id}
+															onChange={() => handleNumberChange(project.id, option.value)}
+														/>
+														<span className="radio-text">{option.label}</span>
+													</label>
+												))}
+											</div>
+										</fieldset>
+									);
+								}
+								return null;
+							})
+						) : null}
 
 
 						{/* <div className="form-style">

@@ -13316,7 +13316,7 @@ footer {
 }
 
 .modal-content {
-  align-items: center;
+  /* align-items: center; */
   justify-content: center;
 }
 
@@ -13433,4 +13433,11 @@ footer {
 
 .map-section-hide{
   display: none;
+}
+.box-amenities-property{
+  width: 100%;
+  padding: 0px;
+}
+.advance-filter-radio .title-select{
+  margin-right: 10px;
 }

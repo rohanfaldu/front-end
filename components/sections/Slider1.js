@@ -4,7 +4,7 @@ import TextTransition, { presets } from 'react-text-transition'
 import AdvancedFilter from "../elements/AdvancedFilter"
 import TabNav from "../elements/TabNav";
 import { useTranslation } from "react-i18next";
-const TEXTS = ['Dream Home', 'Perfect Home', 'Real Estate']
+const TEXTS = ['Dream Home', 'Perfect Home', 'Perfect Match']
 export default function Slider1({properties}) {
 	const [index, setIndex] = useState(1);
 	const { t } = useTranslation();
