@@ -13367,9 +13367,45 @@ footer {
   gap: 8px;
   flex-wrap: wrap;
 }
-.property-listing .images-style .swiper-button-prev:after, .property-listing .images-style .swiper-rtl .swiper-button-next:after, .swiper-button-next:after, .swiper-rtl .swiper-button-prev:after{
+.property-sec-list .swiper-button-prev, .swiper-rtl .swiper-button-next, .property-sec-list .images-style .swiper-button-prev:after, .property-sec-list .images-style .swiper-rtl .swiper-button-next:after, .swiper-button-next:after, .swiper-rtl .swiper-button-prev:after{
   color: #11a9bf;
 }
+
+.swiper-button-next,
+.swiper-button-prev {
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  background-color: white;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  content: "";
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: solid #00a8c1; /* teal color */
+  border-width: 0 5px 5px 0;
+  padding: 3px;
+}
+
+.swiper-button-next::after {
+  transform: rotate(-45deg);
+}
+
+.swiper-button-prev::after {
+  transform: rotate(135deg);
+}
+
 .meta-list {
   display: flex;
   align-items: center;
@@ -13398,37 +13434,35 @@ footer {
 
 /* Slider background */
 .slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #11a9bf; /* Light blue */
-  transition: 0.4s;
-  border-radius: 34px;
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  background-color: #1caabe;
+  border-radius: 9999px;
+  position: relative;
+  transition: background-color 0.3s;
 }
 
-/* Circle inside the switch */
 .slider::before {
-  position: absolute;
   content: "";
-  height: 22px;
-  width: 22px;
-  left: 3px;
+  position: absolute;
   top: 3px;
-  background-color: #fff; /* Blue knob */
-  transition: 0.4s;
+  left: 3px;
+  width: 22px;
+  height: 22px;
+  background-color: #fff;
   border-radius: 50%;
+  transition: transform 0.3s;
+}
+
+/* When checked, move dot */
+.switch input:checked + .slider::before {
+  transform: translateX(22px);
 }
 
 /* When checked */
 .switch input:checked + .slider {
   background-color: #1caabe;
-}
-
-.switch input:checked + .slider::before {
-  transform: translateX(22px);
 }
 
 .map-section-hide{
@@ -13440,4 +13474,7 @@ footer {
 }
 .advance-filter-radio .title-select{
   margin-right: 10px;
+}
+.property-inner-sec {
+  width: 33%;
 }

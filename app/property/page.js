@@ -15,6 +15,9 @@ import debounce from "lodash.debounce";
 import PropertyBlog from "@/components/sections/PropertyBlog"
 import TinderCard from "react-tinder-card";
 import ModalLoginLike from "@/components/common/ModelLoginLike"
+import ProjectMap from "@/components/elements/ProjectMap"
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation } from 'swiper/modules';
 
 export default function PropertyHalfmapList() {
 	const [isToggled, setToggled] = useState(false)
@@ -24,6 +27,7 @@ export default function PropertyHalfmapList() {
 	const [districtOptions, setDistrictOptions] = useState([]);
 	const [neighbourhoodOptions, setNeighbourhoodOptions] = useState([]);
 	const [checkURL, setCheckURL] = useState(false);
+	const [isSwitch, setIsSwitch] = useState(false);
 
 
 	const [initialMaxPrice, setInitialMaxPrice] = useState(0); // Store the maximum price initially
@@ -336,19 +340,6 @@ export default function PropertyHalfmapList() {
 
 
 	}, [params, pagination.currentPage, i18n.language, transaction]);
-
-
-
-
-	//   useEffect(() => {
-	// 	if(!checkURL){
-	// 		fetchPropertys(pagination.currentPage);
-	// 	}
-	// }, [pagination.currentPage, i18n.language, transaction]);
-
-
-
-
 
 	console.log(priceRange, ' >>>>>>>>>>>> Price')
 
@@ -706,10 +697,10 @@ export default function PropertyHalfmapList() {
 		await insertData("api/property-save-searches/save", requestData, true);
 	};
 
-
-
-
-
+	const handleSwitchChange = (e) => {
+		setIsSwitch(e.target.checked);
+	}
+	console.log(isSwitch, ">>> isSwitch");
 	return (
 		<>
 
@@ -728,7 +719,6 @@ export default function PropertyHalfmapList() {
 								<div className="tab-content">
 									<div className="tab-pane fade active show" role="tabpanel">
 										<div className="form-sl">
-
 											<div className="wd-filter-select">
 												<div className="inner-group inner-filter">
 													{/* <div className="form-style">
@@ -1039,11 +1029,6 @@ export default function PropertyHalfmapList() {
 														</a>
 													</div>
 
-
-
-
-
-
 													<div
 														className="form-style wd-amenities box-amenities-property"
 														style={{ display: `${isToggled ? "block" : "none"}` }}
@@ -1058,33 +1043,33 @@ export default function PropertyHalfmapList() {
 
 																			return (
 																				<>
-																				<div className="title-select text-variant-1" htmlFor={project.id}>
+																					<div className="title-select text-variant-1" htmlFor={project.id}>
 																						{t("numberOfAminities")} {project.name}:
 																					</div>
-																				<fieldset key={project.id} className="box box-fieldse aminities-radio-sec">
-																					
+																					<fieldset key={project.id} className="box box-fieldse aminities-radio-sec">
 
-																					<div className="radio-group">
-																						{[
-																							{ label: "1", value: "1" },
-																							{ label: "2", value: "2" },
-																							{ label: "3", value: "3" },
-																							{ label: "3+", value: "4" }
-																						].map((option) => (
-																							<label key={option.value} className="radio-label" style={{ marginRight: '10px' }}>
-																								<input
-																									type="radio"
-																									className="nice-radio"
-																									value={option.value}
-																									checked={selectedValue === option.value}
-																									name={project.id}
-																									onChange={() => handleNumberChange(project.id, option.value)}
-																								/>
-																								<span className="radio-text">{option.label}</span>
-																							</label>
-																						))}
-																					</div>
-																				</fieldset>
+
+																						<div className="radio-group">
+																							{[
+																								{ label: "1", value: "1" },
+																								{ label: "2", value: "2" },
+																								{ label: "3", value: "3" },
+																								{ label: "3+", value: "4" }
+																							].map((option) => (
+																								<label key={option.value} className="radio-label" style={{ marginRight: '10px' }}>
+																									<input
+																										type="radio"
+																										className="nice-radio"
+																										value={option.value}
+																										checked={selectedValue === option.value}
+																										name={project.id}
+																										onChange={() => handleNumberChange(project.id, option.value)}
+																									/>
+																									<span className="radio-text">{option.label}</span>
+																								</label>
+																							))}
+																						</div>
+																					</fieldset>
 																				</>
 																			);
 																		}
@@ -1201,8 +1186,9 @@ export default function PropertyHalfmapList() {
 							</div>
 						</form>
 					</div >
+
 					<div className="wrap-inner">
-						<div className="tab-content" style={{ position: "relative", height: "0px" }}>
+						{/* <div className="tab-content" style={{ position: "relative", height: "0px" }}>
 							{loading ? (
 								<Preloader />
 							) : error ? (
@@ -1284,9 +1270,148 @@ export default function PropertyHalfmapList() {
 									)}
 								</div>
 							)}
-						</div>
-					</div >
+						</div> */}
+						<div className="tab-content">
+							<div className="property-sec-list">
+								<div className="project-listing-pagination">
+									<div className="box-title-listing style-1">
+										<h5>{t("propertylisting")}</h5>
+										<div className="flex items-center cursor-pointer select-none">
+											<label className="switch">
+												<input
+													type="checkbox"
+													checked={isSwitch}
+													onChange={handleSwitchChange}
+												/>
+												<span className="slider"></span>
+											</label>
+										</div>
+									</div>
+									<div className="project-listing">
+										{loading ? (
+											<Preloader />
+										) : error ? (
+											<p>{error}</p>
+										) : propertys.length === 0 ? (
+											<p>Not Found</p>
+										) : (
 
+											<div className="row">
+												{propertys.map((property) => (
+													<div className={(isSwitch) ? "col-md-6 property-inner-sec" : "col-md-6"} key={property.id}>
+														<div className="homeya-box">
+															<div className="archive-top">
+																<Link
+																	href={`/property/${property.slug}`}
+																	className="images-group"
+																>
+
+																	<div className="images-style">
+																		<Swiper
+																			modules={[Navigation]}
+																			slidesPerView={1}
+																			loop={property.picture.length > 1}
+																			navigation={property.picture.length > 1}
+																			className="property-slider"
+																		>
+																			{(property.picture.length > 0 ? property.picture : ["/images/banner/no-banner.png"]).map(
+																				(item, index) => (
+																					<SwiperSlide key={index}>
+																						<img src={item} alt="img-property" style={{ width: "100%", borderRadius: "8px" }} />
+																					</SwiperSlide>
+																				)
+																			)}
+																		</Swiper>
+																	</div>
+																	<div className="top">
+																		<ul className="d-flex gap-8">
+																			<li className="flag-tag style-1">{property.transaction}</li>
+																		</ul>
+																		{/* <ul className="d-flex gap-4">
+																<li className="box-icon w-32">
+																	<span className="icon icon-arrLeftRight" />
+																</li>
+																<li className="box-icon w-32">
+																	<span className="icon icon-heart" />
+																</li>
+																<li className="box-icon w-32">
+																	<span className="icon icon-eye" />
+																</li>
+															</ul> */}
+																	</div>
+																	<div className="bottom">
+																		<span className="flag-tag style-2">{property.type_details.title}</span>
+																	</div>
+																</Link>
+																<div className="content">
+																	<div className="h7 text-capitalize fw-7">
+																		<Link href={`/property/${property.slug}`} className="link">
+																			{property.title}
+																		</Link>
+																	</div>
+																	<div className="desc">
+																		<i className="fs-16 icon icon-mapPin" />
+																		<p>{[property?.district, property?.city, property?.state]
+																			.filter(Boolean)
+																			.join(', ')} </p>
+
+																	</div>
+																	<ul className="meta-list">
+																		<li className="item">
+																			<i className="icon icon-bed" />
+																			<span>{property.bedRooms === "0" ? '-' : `${property.bedRooms}`}</span>
+																		</li>
+																		<li className="item">
+																			<i className="icon icon-bathtub" />
+																			<span>{property.bathRooms === "0" ? '-' : `${property.bathRooms}`}</span>
+																		</li>
+																		<li className="item">
+																			<i className="icon icon-ruler" />
+																			<span>{property.size === null ? '-' : `${property.size}`}</span>
+																		</li>
+																	</ul>
+																</div>
+															</div>
+															<div className="archive-bottom d-flex justify-content-between align-items-center">
+																<div className="d-flex gap-8 align-items-center">
+																	<div className="avatar avt-40 round">
+																		<img src={property.user_image || '/images/avatar/user-image.png'} alt="user" />
+																	</div>
+																	<span>{property.user_name}</span>
+																</div>
+																<div className="d-flex align-items-center">
+																	<h6>{property.price} {property.currency}</h6>
+																	<span className="text-variant-1"></span>
+																</div>
+															</div>
+														</div>
+													</div>
+												))}
+											</div>
+
+										)}
+									</div>
+									<ul className="wd-navigation">
+										{Array.from({ length: pagination.totalPages }, (_, index) => (
+											<li key={index}>
+												<Link
+													href="#"
+													className={`nav-item ${pagination.currentPage === index + 1 ? 'active' : ''}`}
+													onClick={() => handlePageChange(index + 1)}
+												>
+													{index + 1}
+												</Link>
+											</li>
+										))}
+									</ul>
+								</div>
+								<div className={(isSwitch) ? "wrap-map map-section-hide" : "wrap-map"}>
+									<ProjectMap topmap={false} singleMap={false} propertys={propertys} slug="property" />
+								</div>
+							</div>
+						</div>
+
+					</div >
 				</section >
 
 			</Layout >
