@@ -15,6 +15,7 @@ export default function Recommended1() {
 	const [properties, setProperties] = useState(null); // To store fetched data
 	const [loading, setLoading] = useState(true); // To manage loading state
 	const [error, setError] = useState(null); // To manage error state
+	const [isLogin, setIsLogin] = useState(false); // To manage error state
 	const { t, i18n } = useTranslation();
 	useEffect(() => {
 		const fetchData = async () => {
@@ -28,6 +29,8 @@ export default function Recommended1() {
 				const response = await getData('api/property/', propertyObj);
 				console.log('response');
 				console.log(response);
+				const userLogin = (localStorage.getItem('isLoggedIn') )? true: false;
+				setIsLogin(userLogin);
 				setProperties(response.data.list); // Save data to state
 				setLoading(false); // Stop loading
 				setError(null);
@@ -94,52 +97,55 @@ export default function Recommended1() {
 				<Preloader />
 				:
 				<>
-					<section className="flat-section flat-recommended">
-						<div className="container">
-							<div className="text-center wow fadeInUpSmall" data-wow-delay=".2s" data-wow-duration="2000ms">
-								<div className="text-subtitle text-primary">{t("featuredproperties")}</div>
-								<h4 className="mt-4">{t("recommendedforyou")}</h4>
-							</div>
-							<div className="flat-tab-recommended wow fadeInUpSmall" data-wow-delay=".2s" data-wow-duration="2000ms">
-								<ul className="nav-tab-recommended justify-content-center" role="tablist">
-									<li className="nav-tab-item" onClick={() => handleTab(0, 0)}>
-										<a className={isTab == 0 ? "nav-link-item active" : "nav-link-item"} data-bs-toggle="tab">{t("viewall")}</a>
-									</li>
-									{propertyType?.map((typeList, index) => (
-										<li className="nav-tab-item" onClick={() => handleTab(index + 1, typeList.id)}>
-											<a className={isTab == (index + 1) ? "nav-link-item active" : "nav-link-item"} data-bs-toggle="tab">{typeList.title}</a>
-										</li>
-									))}
-								</ul>
-								<div className="tab-content">
-									<div
-									>
-										<div className="row">
-											{properties?.filter(property => property.status)?.length ? (
-												properties.filter(property => property.status).map((property) => (
-													<div key={property.id} className="col-xl-4 col-lg-6 col-md-6">
-														<PropertyData data={property} slide={false} />
-													</div>
-												))
-											) : (
-												<div style={{ textAlign: "center" }}>
-													<img 
-														src="/images/not-found/item-not-found.png" 
-														alt="No projects found" 
-														style={{ height: "300px" }} 
-													/>
-												</div>
-											)}
-										</div>
-
-									</div>
+					{isLogin?
+						<section className="flat-section flat-recommended">
+							<div className="container">
+								<div className="text-center wow fadeInUpSmall" data-wow-delay=".2s" data-wow-duration="2000ms">
+									<div className="text-subtitle text-primary">{t("featuredproperties")}</div>
+									<h4 className="mt-4">{t("recommendedforyou")}</h4>
 								</div>
-								{/* <div className="text-center">
-									<Link href="/property" className="tf-btn primary size-1">{t("viewallproperties")}</Link>
-								</div> */}
+								<div className="flat-tab-recommended wow fadeInUpSmall" data-wow-delay=".2s" data-wow-duration="2000ms">
+									<ul className="nav-tab-recommended justify-content-center" role="tablist">
+										<li className="nav-tab-item" onClick={() => handleTab(0, 0)}>
+											<a className={isTab == 0 ? "nav-link-item active" : "nav-link-item"} data-bs-toggle="tab">{t("viewall")}</a>
+										</li>
+										{propertyType?.map((typeList, index) => (
+											<li className="nav-tab-item" onClick={() => handleTab(index + 1, typeList.id)}>
+												<a className={isTab == (index + 1) ? "nav-link-item active" : "nav-link-item"} data-bs-toggle="tab">{typeList.title}</a>
+											</li>
+										))}
+									</ul>
+									<div className="tab-content">
+										<div
+										>
+											<div className="row">
+												{properties?.filter(property => property.status)?.length ? (
+													properties.filter(property => property.status).map((property) => (
+														<div key={property.id} className="col-xl-4 col-lg-6 col-md-6">
+															<PropertyData data={property} slide={false} />
+														</div>
+													))
+												) : (
+													<div style={{ textAlign: "center" }}>
+														<img 
+															src="/images/not-found/item-not-found.png" 
+															alt="No projects found" 
+															style={{ height: "300px" }} 
+														/>
+													</div>
+												)}
+											</div>
+
+										</div>
+									</div>
+									{/* <div className="text-center">
+										<Link href="/property" className="tf-btn primary size-1">{t("viewallproperties")}</Link>
+									</div> */}
+								</div>
 							</div>
-						</div>
-					</section>
+						</section>
+					:null 
+					}
 				</>
 			}
 		</>

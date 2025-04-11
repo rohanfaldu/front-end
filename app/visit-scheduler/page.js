@@ -147,8 +147,8 @@ export default function MyProperty() {
                 day: '2-digit', 
                 hour: '2-digit', 
                 minute: '2-digit', 
-                second: '2-digit', 
-                hour12: true 
+                second: '2-digit',
+                hour12: false
             }) 
             : "N/A",
             visit_type: p?.visit_type || "N/A"
@@ -202,8 +202,8 @@ export default function MyProperty() {
                 day: '2-digit', 
                 hour: '2-digit', 
                 minute: '2-digit', 
-                second: '2-digit', 
-                hour12: true 
+                second: '2-digit',
+                hour12: false
             }) 
             : "N/A",
         property?.visit_type || "N/A",

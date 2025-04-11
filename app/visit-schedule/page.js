@@ -177,7 +177,7 @@ export default function MyProperty() {
               hour: '2-digit',
               minute: '2-digit',
               second: '2-digit',
-              hour12: true
+              hour12: false
             })
             : "N/A",
           visit_type: p?.visit_type || "N/A"
@@ -232,7 +232,7 @@ export default function MyProperty() {
           hour: '2-digit',
           minute: '2-digit',
           second: '2-digit',
-          hour12: true
+          hour12: false
         })
         : "N/A",
       property?.visit_type || "N/A",
@@ -376,7 +376,7 @@ export default function MyProperty() {
                                   hour: '2-digit',
                                   minute: '2-digit',
                                   second: '2-digit',
-                                  hour12: true
+                                  hour12: false
                                 })}</td>
                                 <td>{user.visit_type}</td>
                                 <td onClick={() => openModal(user.id)}>
