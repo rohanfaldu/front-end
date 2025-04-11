@@ -11779,6 +11779,16 @@ tr {
     height: 300px !important;
     z-index: 0;
   }
+  .wrapper-layout-3 .homeya-box {
+    max-width: 380px;
+  }
+  .project-listing-pagination{
+    margin: 0px;
+    padding: 10px !important;
+  }
+  .items-center .switch{
+    display: none;
+  }
 }
 
 
@@ -13274,6 +13284,7 @@ footer {
   .property-sec .tab-content {
     height: auto !important;
   }
+
 }
 
 @media (min-width: 1024px) and (max-width: 1440px) {
@@ -13533,4 +13544,12 @@ footer {
   background-color: #024267;
   color: #fff;
   border-color: #024267;
+}
+.hide-main-section {
+  width: 100% !important;
+  display: grid;
+  grid-template-columns: none;
+}
+.hide-main-section .project-listing-pagination{
+  width: 100% !important;
 }

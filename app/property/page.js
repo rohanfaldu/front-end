@@ -1272,7 +1272,7 @@ export default function PropertyHalfmapList() {
 							)}
 						</div> */}
 						<div className="tab-content">
-							<div className="property-sec-list">
+							<div className={(isSwitch) ? "property-sec-list hide-main-section" : "property-sec-list"}>
 								<div className="project-listing-pagination">
 									<div className="box-title-listing style-1">
 										<h5>{t("propertylisting")}</h5>
