@@ -185,7 +185,7 @@ export default function ProjectDetailsView({ params }) {
 			setLoading(false); // Stop loading
 		}
 	};
-
+	const router = useRouter();
 	// Fetch data on component mount
 	useEffect(() => {
 		fetchProjectsDetails();
@@ -238,6 +238,16 @@ export default function ProjectDetailsView({ params }) {
 				<div className={isOpen ? "custom-overlay" : ""}>
 					<section className="flat-location flat-slider-detail-v1">
 						<div className="swiper tf-sw-location">
+							<div className="link back-btn">
+								<button
+									className="form-wg tf-btn primary"
+									type="button"
+									style={{ marginTop: "10px" }}
+									onClick={() => router.push("/project")}
+								>
+									<span style={{ color: "#fff" }}>{t("back")}</span>
+								</button>
+							</div>
 							<Swiper {...swiperOptions(projectDetails)} className="swiper-wrapper">
 								{(projectDetails?.picture.length > 0 ? projectDetails.picture : ["/images/banner/no-banner.png"]).map((item, index) => (
 									<SwiperSlide key={index}>

@@ -343,5 +343,6 @@
      "amenities":"Amenities",
      "footerMain": "Innovative real estate platform with smart matching technology. For more information, contact us",
      "rental": "FOR RENTAL",
-     "sale": "FOR SALE"
+     "sale": "FOR SALE",
+     "back": "Back" 
 }

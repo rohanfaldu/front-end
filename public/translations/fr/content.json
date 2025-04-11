@@ -339,5 +339,6 @@
     "amenities":"Caractéristiques",
     "footerMain": "Plateforme immobilière innovante avec technologie de matching intelligent. Pour plus d’information, contactez nous",
     "rental": "Pour louer",
-    "sale": "Pour vendre"
+    "sale": "Pour vendre",
+    "back": "Dos" 
 }

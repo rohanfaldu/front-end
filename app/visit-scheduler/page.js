@@ -343,7 +343,7 @@ export default function MyProperty() {
                                         hour: '2-digit', 
                                         minute: '2-digit', 
                                         second: '2-digit', 
-                                        hour12: true 
+                                        hour12: false 
                                         })}</td>
                                   <td>{user.visit_type}</td>
                                   <td style={{paddingLeft:"20px"}}>

@@ -1,6 +1,7 @@
 'use client';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
+import { useTranslation } from "react-i18next";
 
 export default function Breadcrumb({ breadcrumbTitle }) {
 	const pathname = usePathname(); // Use usePathname from next/navigation
@@ -8,6 +9,7 @@ export default function Breadcrumb({ breadcrumbTitle }) {
 	const isAgency = pathname.includes("/agency");
 	const isDeveloper = pathname.includes("/developer");
 	const pathSegments = pathname.split('/').filter(segment => segment);  // Split URL path
+	const { t, i18n } = useTranslation();
 
 	// const breadcrumbLinks = pathSegments.map((segment, index) => {
 	// 	const linkPath = '/' + pathSegments.slice(0, index + 1).join('/');
@@ -21,8 +23,17 @@ export default function Breadcrumb({ breadcrumbTitle }) {
 		});
 	return (
 		<>
-
 			<section className="flat-title-page style-2 cover-set-image" style={{backgroundImage: `url(${breadcrumbTitle?.cover})`}}>
+				<div className="link back-btn">
+					<button
+						className="form-wg tf-btn primary"
+						type="button"
+						style={{marginLeft: "50px"  }}
+						onClick={() => (isAgency)? router.push("/agency") : router.push("/developer") }
+					>
+						<span style={{ color: "#fff" }}>{t("back")}</span>
+					</button>
+				</div>
 				<div className="container">
 					<ul className="breadcrumb">
 						{/* <li><Link href="/">Home</Link></li>

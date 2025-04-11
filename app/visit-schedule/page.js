@@ -460,6 +460,7 @@ export default function MyProperty() {
                           <DateTimePicker
                             label="Select Date & Time"
                             value={selectedDateTime}
+                            ampm={false}
                             onChange={(newValue) => setSelectedDateTime(newValue)}
                             renderInput={(params) => <TextField {...params} fullWidth />}
                           />
@@ -469,7 +470,7 @@ export default function MyProperty() {
                       {/* Display Selected Date & Time */}
                       {selectedDateTime && (
                         <div style={{ marginTop: "10px", fontWeight: "bold" }}>
-                          Selected Date & Time: {dayjs(selectedDateTime).format("YYYY-MM-DD HH:mm:ss.SSS")}
+                          Selected Date & Time: {dayjs(selectedDateTime).format("YYYY-MM-DD HH:mm")}
                         </div>
                       )}
 
