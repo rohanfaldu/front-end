@@ -11946,6 +11946,12 @@ tr {
     gap: 10px;
   }
 
+  .property-sec-list {
+    display: grid;
+    grid-template-columns: 70% 30%;
+    gap: 10px;
+  }
+
   .wrapper-layout-3.project-sec .form-sec {
     width: 100%;
   }

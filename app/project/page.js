@@ -631,8 +631,8 @@ export default function ProjectHalfmapList() {
 						
 														
 							<div className="tab-content">
-								<div class="property-sec-list">
-								<div class={(isSwitch) ? "project-listing-pagination property-full-width-inner-sec" : "project-listing-pagination"}>	
+								<div class={(isSwitch) ? "property-sec-list hide-main-section" : "property-sec-list"}>
+								<div class="project-listing-pagination">	
 									<div className="box-title-listing style-1">
 										<h5>{t("projectlisting")}</h5>
 										<div className="flex items-center cursor-pointer select-none">
