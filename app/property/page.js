@@ -18,6 +18,7 @@ import ModalLoginLike from "@/components/common/ModelLoginLike"
 import ProjectMap from "@/components/elements/ProjectMap"
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
+import PercentageHeart from "@/components/elements/PercentageHeart";
 
 export default function PropertyHalfmapList() {
 	const [isToggled, setToggled] = useState(false)
@@ -34,7 +35,7 @@ export default function PropertyHalfmapList() {
 	const [initialMaxSize, setInitialMaxSize] = useState(0);
 	const [maxPriceSliderRange, setMaxPriceSliderRange] = useState(0); // Dynamic slider range
 	const [calculationStatus, setCalculationStatus] = useState(false);
-
+	const [isLiked, setIsLiked] = useState(false);
 	const [priceRange, setPriceRange] = useState([]); // Selected range
 	const [sizeRange, setSizeRange] = useState([]); // Selected range
 	const [isTab, setIsTab] = useState(2)
@@ -139,7 +140,7 @@ export default function PropertyHalfmapList() {
 
 				const data = await response.json();
 				console.log(data.message);
-				// setIsLiked(!isLiked);
+				 setIsLiked(!isLiked);
 			} else {
 				const response = await fetch(`${API_URL}/api/property/${id}/like`, {
 					method: 'DELETE',
@@ -157,7 +158,7 @@ export default function PropertyHalfmapList() {
 
 				const data = await response.json();
 				console.log(data.message);
-				// setIsLiked(!isLiked);
+				 setIsLiked(!isLiked);
 			}
 		} catch (error) {
 			console.error('Error liking the property:', error);
@@ -1301,8 +1302,7 @@ export default function PropertyHalfmapList() {
 													<div className={(isSwitch) ? "col-md-6 property-inner-sec" : "col-md-6"} key={property.id}>
 														<div className="homeya-box">
 															<div className="archive-top">
-																<Link
-																	href={`/property/${property.slug}`}
+																<div
 																	className="images-group"
 																>
 
@@ -1339,10 +1339,17 @@ export default function PropertyHalfmapList() {
 																</li>
 															</ul> */}
 																	</div>
+																	<div className="left-side">
+																		<ul className="d-flex gap-8">
+																			<li className={`${isLiked ? "liked" : "w-40 box-icon"}`} onClick={() => handleLike(isLiked, property.id, property.user_id)}>
+																				<span className="icon icon-heart" style={{ fontSize: "30px" }} />
+																			</li>
+																		</ul>
+																	</div>
 																	<div className="bottom">
 																		<span className="flag-tag style-2">{property.type_details.title}</span>
 																	</div>
-																</Link>
+																</div>
 																<div className="content">
 																	<div className="h7 text-capitalize fw-7">
 																		<Link href={`/property/${property.slug}`} className="link">
@@ -1368,6 +1375,9 @@ export default function PropertyHalfmapList() {
 																		<li className="item">
 																			<i className="icon icon-ruler" />
 																			<span>{property.size === null ? '-' : `${property.size}`}</span>
+																		</li>
+																		<li class="filteration">
+																			<PercentageHeart percentage={property.filter_result.total_percentage} />
 																		</li>
 																	</ul>
 																</div>
