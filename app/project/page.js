@@ -14,6 +14,8 @@ import Preloader from "@/components/elements/Preloader";
 import variablesList from "@/components/common/Variable";
 import ProjectMap from "@/components/elements/ProjectMap"
 import debounce from "lodash.debounce";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation } from 'swiper/modules';
 
 export default function ProjectHalfmapList() {
 	const [isToggled, setToggled] = useState(false)
@@ -118,44 +120,44 @@ export default function ProjectHalfmapList() {
 
 
 	const handleSubmit = async (page = pagination.currentPage) => {
-			console.log("Filters:", filters);
-			setLoading(true);
-	
-			const lang = i18n.language;
-			const requestData = {
-				page,
-				lang,
-				limit: pagination.itemsPerPage,
-				title: filters.title,
-				city_id: filters.city,
-				district_id: filters.district,
-				neighborhoods_id: filters.neighbourhood,
-				minPrice: filters.minPrice,
-				maxPrice: filters.maxPrice,
-				amenities_id_array: filters.amenities_id_array,
-				amenities_id_object_with_value: filters.amenities_id_object_with_value,
-			};
-			const response = await getData("api/projects", requestData, true);
-			if (response.status) {
-				const { projects, totalCount, totalPages, currentPage, project_meta_details, maxPriceSliderRange, cities } = response.data;
-				setProjects(projects);
-				setPagination({
-					...pagination,
-					totalCount,
-					totalPages,
-					currentPage,
-				});
-				setAmenities(project_meta_details || []);
-				setCities(cities);
-				if (!initialMaxPrice) { // Only set once
-					setInitialMaxPrice(maxPriceSliderRange || 0); // Store the maximum price initially
-					setMaxPriceSliderRange(maxPriceSliderRange || 0); // Set slider max value
-					setPriceRange([0, maxPriceSliderRange || 0]);    // Default slider range
-				}
-				setError(null);
-				setLoading(false);
+		console.log("Filters:", filters);
+		setLoading(true);
+
+		const lang = i18n.language;
+		const requestData = {
+			page,
+			lang,
+			limit: pagination.itemsPerPage,
+			title: filters.title,
+			city_id: filters.city,
+			district_id: filters.district,
+			neighborhoods_id: filters.neighbourhood,
+			minPrice: filters.minPrice,
+			maxPrice: filters.maxPrice,
+			amenities_id_array: filters.amenities_id_array,
+			amenities_id_object_with_value: filters.amenities_id_object_with_value,
+		};
+		const response = await getData("api/projects", requestData, true);
+		if (response.status) {
+			const { projects, totalCount, totalPages, currentPage, project_meta_details, maxPriceSliderRange, cities } = response.data;
+			setProjects(projects);
+			setPagination({
+				...pagination,
+				totalCount,
+				totalPages,
+				currentPage,
+			});
+			setAmenities(project_meta_details || []);
+			setCities(cities);
+			if (!initialMaxPrice) { // Only set once
+				setInitialMaxPrice(maxPriceSliderRange || 0); // Store the maximum price initially
+				setMaxPriceSliderRange(maxPriceSliderRange || 0); // Set slider max value
+				setPriceRange([0, maxPriceSliderRange || 0]);    // Default slider range
 			}
-		  };
+			setError(null);
+			setLoading(false);
+		}
+	};
 
 	// Handle Filter Changes
 	const handleFilterChange = async (e) => {
@@ -167,20 +169,20 @@ export default function ProjectHalfmapList() {
 			...(name === "city" && { district_id: "", neighbourhood_id: "" }),
 			...(name === "district" && { neighbourhood_id: "" }),
 		}));
-	
+
 		if (name === "city") {
 			setShowDistrict(false);
 			setShowNeighbourhood(false);
-	
+
 			if (value) {
 				setCityId(value);
 				setShowDistrict(true);
 			}
 		}
-	
+
 		if (name === "district") {
 			setShowNeighbourhood(false);
-	
+
 			if (value) {
 				setDistrictId(value);
 				setShowNeighbourhood(true);
@@ -210,8 +212,8 @@ export default function ProjectHalfmapList() {
 
 	const fetchCityOptions = debounce(async (value, page = 1) => {
 		if (value.trim() === "") {
-		  setCityOptions([]);
-		  return;
+			setCityOptions([]);
+			return;
 		}
 		try {
 			const lang = i18n.language;
@@ -221,17 +223,17 @@ export default function ProjectHalfmapList() {
 				limit: pagination.itemsPerPage,
 				city_name: value
 			};
-		  const response = await getData("api/city", requestData, true);
-		  setCityOptions(response.data.cities);
+			const response = await getData("api/city", requestData, true);
+			setCityOptions(response.data.cities);
 		} catch (error) {
-		  console.error("Error fetching cities:", error);
+			console.error("Error fetching cities:", error);
 		}
-	  }, 300);
+	}, 300);
 
-	  const fetchDistrictOptions = debounce(async (value) => {
+	const fetchDistrictOptions = debounce(async (value) => {
 		if (value.trim() === "") {
 			setDistrictOptions([]);
-		  return;
+			return;
 		}
 		try {
 			const lang = i18n.language;
@@ -240,18 +242,18 @@ export default function ProjectHalfmapList() {
 				city_id: cityId,
 				district_name: value
 			};
-		  const response = await getData("api/district/getbycity", requestData, true);
-		  setDistrictOptions(response.data);
+			const response = await getData("api/district/getbycity", requestData, true);
+			setDistrictOptions(response.data);
 		} catch (error) {
-		  console.error("Error fetching cities:", error);
+			console.error("Error fetching cities:", error);
 		}
-	  }, 300);
-	
-	
-	  const fetchNeighbourhoodOptions = debounce(async (value) => {
+	}, 300);
+
+
+	const fetchNeighbourhoodOptions = debounce(async (value) => {
 		if (value.trim() === "") {
 			setNeighbourhoodOptions([]);
-		  return;
+			return;
 		}
 		try {
 			const lang = i18n.language;
@@ -260,46 +262,46 @@ export default function ProjectHalfmapList() {
 				district_id: districtId,
 				neighbourhood_name: value
 			};
-		  const response = await getData("api/neighborhood/id", requestData, true);
-		  setNeighbourhoodOptions(response.data);
+			const response = await getData("api/neighborhood/id", requestData, true);
+			setNeighbourhoodOptions(response.data);
 		} catch (error) {
-		  console.error("Error fetching cities:", error);
+			console.error("Error fetching cities:", error);
 		}
-	  }, 300);
+	}, 300);
 
 
-	  useEffect(() => {
+	useEffect(() => {
 		fetchCityOptions(searchTerm);
 		fetchDistrictOptions(searchTermDistrict)
 		fetchNeighbourhoodOptions(searchTermNeighbourhood)
-	  }, [searchTerm, searchTermDistrict, searchTermNeighbourhood]);
+	}, [searchTerm, searchTermDistrict, searchTermNeighbourhood]);
 
 
 	const handleInputChange = (e) => {
 		setSearchTerm(e.target.value);
 		setSearchCity(e.target.value)
-	  };
-	  const handleInputChangeDistrict = (e) => {
+	};
+	const handleInputChangeDistrict = (e) => {
 		setSearchTermDistrict(e.target.value);
-		setSearchDistrict(e.target.value)	
-	  }
+		setSearchDistrict(e.target.value)
+	}
 
-	  const handleInputChangeNeighbourhood = (e) => {
+	const handleInputChangeNeighbourhood = (e) => {
 		setSearchTermNeighbourhood(e.target.value);
-		setSearchNeighbourhood(e.target.value)	
-	  }
+		setSearchNeighbourhood(e.target.value)
+	}
 
 	const handleCitySelect = (cityId, cityName, latitude, longitude) => {
-	   console.log(latitude, longitude);
-	   setSearchCity(cityName); // Set the selected city name in the input
-	   handleFilterChange({ target: { name: 'city', value: cityId } }); // Call filter change with selected city ID
+		console.log(latitude, longitude);
+		setSearchCity(cityName); // Set the selected city name in the input
+		handleFilterChange({ target: { name: 'city', value: cityId } }); // Call filter change with selected city ID
 	};
 
 	const handleDistrictSelect = (districtId, districtName, latitude, longitude) => {
 		setSearchDistrict(districtName); // Set the selected city name in the input
 		handleFilterChange({ target: { name: 'district', value: districtId } }); // Call filter change with selected city ID
 	};
-	
+
 	const handleNeighbourhoodSelect = (neighbourhoodId, neighbourhoodName, latitude, longitude) => {
 		setSearchNeighbourhood(neighbourhoodName); // Set the selected city name in the input
 		handleFilterChange({ target: { name: 'neighbourhood', value: neighbourhoodId } }); // Call filter change with selected city ID
@@ -363,7 +365,7 @@ export default function ProjectHalfmapList() {
 														/>
 														{searchTerm.length > 0 && (
 															cityOptions.length > 0 && (
-																<ul className="city-dropdown form-style" style={{ marginTop: "0px"}}>
+																<ul className="city-dropdown form-style" style={{ marginTop: "0px" }}>
 																	{cityOptions.map((city) => (
 																		<li
 																			key={city.id}
@@ -391,7 +393,7 @@ export default function ProjectHalfmapList() {
 															value={searchDistrict}
 															onChange={handleInputChangeDistrict}
 															placeholder={t("searchDistrict")}
-															disabled ={!showDistrict}
+															disabled={!showDistrict}
 														/>
 
 
@@ -430,7 +432,7 @@ export default function ProjectHalfmapList() {
 															value={searchNeighbourhood}
 															onChange={handleInputChangeNeighbourhood}
 															placeholder={t("searchNeighbourhood")}
-															disabled ={!showNeighbourhood}
+															disabled={!showNeighbourhood}
 														/>
 
 														{searchTermNeighbourhood.length > 0 && neighbourhoodOptions.length === 0 ? (
@@ -547,30 +549,30 @@ export default function ProjectHalfmapList() {
 
 
 
-<div
-													className="form-style wd-amenities"
-													style={{ display: `${isToggled ? "block" : "none"}` }}
+													<div
+														className="form-style wd-amenities"
+														style={{ display: `${isToggled ? "block" : "none"}` }}
 													>
 														<div className="group-checkbox">
 															<div className="group-amenities">
-															{amenities && amenities.length > 0 ? (
-																amenities.map((project) =>
-																project.type === "number" ? (
-																	<fieldset key={project.id} className="box box-fieldset">
-																	<label className="title-select" htmlFor={project.id}>
-																		{project.name}:
-																	</label>
-																	<input
-																		type="number"
-																		className="form-control"
-																		value={filters.amenities_id_object_with_value?.[project.id] || ""}
-																		name={project.id}
-																		onChange={(e) => handleNumberChange(project.id, e.target.value)}
-																	/>
-																	</fieldset>
-																) : null
-																)
-															) : null}
+																{amenities && amenities.length > 0 ? (
+																	amenities.map((project) =>
+																		project.type === "number" ? (
+																			<fieldset key={project.id} className="box box-fieldset">
+																				<label className="title-select" htmlFor={project.id}>
+																					{project.name}:
+																				</label>
+																				<input
+																					type="number"
+																					className="form-control"
+																					value={filters.amenities_id_object_with_value?.[project.id] || ""}
+																					name={project.id}
+																					onChange={(e) => handleNumberChange(project.id, e.target.value)}
+																				/>
+																			</fieldset>
+																		) : null
+																	)
+																) : null}
 															</div>
 														</div>
 													</div>
@@ -584,23 +586,23 @@ export default function ProjectHalfmapList() {
 															<div className="group-amenities">
 																{amenities.map((amenity) => (
 																	amenity.type === "boolean" ? (
-																	<fieldset className="amenities-item" key={amenity.id}>
-																		<input
-																			type="checkbox"
-																			className="tf-checkbox style-1"
-																			id={`amenity-${amenity.id}`}
-																			checked={filters?.amenities_id_array?.includes(amenity.id)} // Updated to amenities_id_array
-																			onChange={(e) => {
-																				const updatedAmenities = e.target.checked
-																					? [...filters.amenities_id_array, amenity.id] // Updated to amenities_id_array
-																					: filters.amenities_id_array.filter((id) => id !== amenity.id); // Updated to amenities_id_array
-																				setFilters({ ...filters, amenities_id_array: updatedAmenities }); // Updated to amenities_id_array
-																			}}
-																		/>
-																		<label htmlFor={`amenity-${amenity.id}`} className="text-cb-amenities">
-																			{amenity.name}
-																		</label>
-																	</fieldset>
+																		<fieldset className="amenities-item" key={amenity.id}>
+																			<input
+																				type="checkbox"
+																				className="tf-checkbox style-1"
+																				id={`amenity-${amenity.id}`}
+																				checked={filters?.amenities_id_array?.includes(amenity.id)} // Updated to amenities_id_array
+																				onChange={(e) => {
+																					const updatedAmenities = e.target.checked
+																						? [...filters.amenities_id_array, amenity.id] // Updated to amenities_id_array
+																						: filters.amenities_id_array.filter((id) => id !== amenity.id); // Updated to amenities_id_array
+																					setFilters({ ...filters, amenities_id_array: updatedAmenities }); // Updated to amenities_id_array
+																				}}
+																			/>
+																			<label htmlFor={`amenity-${amenity.id}`} className="text-cb-amenities">
+																				{amenity.name}
+																			</label>
+																		</fieldset>
 																	) : null
 																))}
 															</div>
@@ -626,13 +628,13 @@ export default function ProjectHalfmapList() {
 						<div className="form-btn-fixed">
 							<button type="submit" className="tf-btn primary" href="#">{t("findprojects")}</button>
 						</div>
-					</form>											
+					</form>
 					<div className="wrap-inner">
-						
-														
-							<div className="tab-content">
-								<div class={(isSwitch) ? "property-sec-list hide-main-section" : "property-sec-list"}>
-								<div class="project-listing-pagination">	
+
+
+						<div className="tab-content">
+							<div class={(isSwitch) ? "property-sec-list hide-main-section" : "property-sec-list"}>
+								<div class="project-listing-pagination">
 									<div className="box-title-listing style-1">
 										<h5>{t("projectlisting")}</h5>
 										<div className="flex items-center cursor-pointer select-none">
@@ -645,41 +647,52 @@ export default function ProjectHalfmapList() {
 												<span className="slider"></span>
 											</label>
 										</div>
-									</div>	
-									<div class="project-listing">			
-									{loading ? (
-										<Preloader />
-									) : error ? (
-										<p>{error}</p>
-									) : projects.length === 0 ? (
-										<div style={{ textAlign: "center"}}>
-											<img src="/images/not-found/item-not-found.png" alt="No projects found" style={{ height: "300px"}}/>
-										</div>
-									) : (
-										<div className="row">
-											{projects.map((project) => (
-												<div className={(isSwitch) ? "col-md-6 property-inner-sec" : "col-md-6"} key={project.id}>
-													<div className="homeya-box">
-														<div className="archive-top">
-															<Link
-																href={`/project/${project.slug}`}
-																className="images-group"
-															>
+									</div>
+									<div class="project-listing">
+										{loading ? (
+											<Preloader />
+										) : error ? (
+											<p>{error}</p>
+										) : projects.length === 0 ? (
+											<div style={{ textAlign: "center" }}>
+												<img src="/images/not-found/item-not-found.png" alt="No projects found" style={{ height: "300px" }} />
+											</div>
+										) : (
+											<div className="row">
+												{projects.map((project) => (
+													<div className={(isSwitch) ? "col-md-6 property-inner-sec" : "col-md-6"} key={project.id}>
+														<div className="homeya-box">
+															<div className="archive-top">
+																<Link
+																	href={`/project/${project.slug}`}
+																	className="images-group"
+																>
 
-																<div className="images-style">
-																	<img
-																		src={project.picture[0] || "/images/banner/no-banner.png"}
-																		alt={project.name}
-																	/>
-																</div>
-																<div className="top">
-																	<ul className="d-flex gap-8">
-																		{project.isFeatured && (
-																			<li className="flag-tag success">Featured</li>
-																		)}
-																		{/* <li className="flag-tag style-1">{project.status || 'For Sale'}</li> */}
-																	</ul>
-																	{/* <ul className="d-flex gap-4">
+																	<div className="images-style">
+																		<Swiper
+																			modules={[Navigation]}
+																			slidesPerView={1}
+																			loop={project.picture.length > 1}
+																			navigation={project.picture.length > 1}
+																			className="property-slider"
+																		>
+																			{(project.picture.length > 0 ? project.picture : ["/images/banner/no-banner.png"]).map(
+																				(item, index) => (
+																					<SwiperSlide key={index}>
+																						<img src={item} alt="img-property" style={{ width: "100%", borderRadius: "8px" }} />
+																					</SwiperSlide>
+																				)
+																			)}
+																		</Swiper>
+																	</div>
+																	<div className="top">
+																		<ul className="d-flex gap-8">
+																			{project.isFeatured && (
+																				<li className="flag-tag success">Featured</li>
+																			)}
+																			{/* <li className="flag-tag style-1">{project.status || 'For Sale'}</li> */}
+																		</ul>
+																		{/* <ul className="d-flex gap-4">
 																		<li className="box-icon w-32">
 																			<span className="icon icon-arrLeftRight" />
 																		</li>
@@ -690,51 +703,51 @@ export default function ProjectHalfmapList() {
 																			<span className="icon icon-eye" />
 																		</li>
 																	</ul> */}
-																</div>
-																<div className="bottom">
-																	<span className="flag-tag style-2">
-																		{/* {project.meta_details?.propertyType || 'Studio'} */}
-																	</span>
-																</div>
-															</Link>
-															<div className="content">
-																<div className="h7 text-capitalize fw-7">
-																	<Link
-																		href={`/project/${project.slug}`}// Pass ID as query param
-																		className="link"
-																	>
-																		{project.title}
-																	</Link>
-																</div>
-																<div className="desc">
-																	<i className="fs-16 icon icon-mapPin" />
-																	<p>
-																		{[ project?.district, project?.city, project?.state]
-																			.filter(Boolean)
-																			.join(', ')} </p> {/* Join remaining values with comma */}
+																	</div>
+																	<div className="bottom">
+																		<span className="flag-tag style-2">
+																			{/* {project.meta_details?.propertyType || 'Studio'} */}
+																		</span>
+																	</div>
+																</Link>
+																<div className="content">
+																	<div className="h7 text-capitalize fw-7">
+																		<Link
+																			href={`/project/${project.slug}`}// Pass ID as query param
+																			className="link"
+																		>
+																			{project.title}
+																		</Link>
+																	</div>
+																	<div className="desc">
+																		<i className="fs-16 icon icon-mapPin" />
+																		<p>
+																			{[project?.district, project?.city, project?.state]
+																				.filter(Boolean)
+																				.join(', ')} </p> {/* Join remaining values with comma */}
 
+																	</div>
 																</div>
 															</div>
-														</div>
-														<div className="archive-bottom d-flex justify-content-between align-items-center">
-															<div className="d-flex gap-8 align-items-center">
-																<div className="avatar avt-40 round">
-																	<img
-																		src={project.user_image || '/images/avatar/user-image.png'}
-																		alt={project.agent?.name || 'Agent'}
-																	/>
+															<div className="archive-bottom d-flex justify-content-between align-items-center">
+																<div className="d-flex gap-8 align-items-center">
+																	<div className="avatar avt-40 round">
+																		<img
+																			src={project.user_image || '/images/avatar/user-image.png'}
+																			alt={project.agent?.name || 'Agent'}
+																		/>
+																	</div>
+																	<span>{project.user_name || 'Unknown Agent'}</span>
 																</div>
-																<span>{project.user_name || 'Unknown Agent'}</span>
-															</div>
-															<div className="d-flex align-items-center">
-																<h6>{t('from')} {project.price || '0.00'} {project.currency || 'USD'} </h6>
+																<div className="d-flex align-items-center">
+																	<h6>{t('from')} {project.price || '0.00'} {project.currency || 'USD'} </h6>
+																</div>
 															</div>
 														</div>
 													</div>
-												</div>
-											))}
-										</div>
-									)}
+												))}
+											</div>
+										)}
 									</div>
 									<ul className="wd-navigation">
 										{Array.from({ length: pagination.totalPages }, (_, index) => (
@@ -751,12 +764,12 @@ export default function ProjectHalfmapList() {
 									</ul>
 								</div>
 								<div className={(isSwitch) ? "wrap-map map-section-hide" : "wrap-map"}>
-									<ProjectMap topmap={false} singleMap={false} propertys={projects} slug="project"/>
-								</div>
+									<ProjectMap topmap={false} singleMap={false} propertys={projects} slug="project" />
 								</div>
 							</div>
-							
-						
+						</div>
+
+
 					</div >
 				</section >
 
