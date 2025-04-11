@@ -11789,6 +11789,10 @@ tr {
   .items-center .switch{
     display: none;
   }
+  .flat-slider-detail-v1 .back-btn {
+      top: 20px !important;
+      left: 15px !important;
+  }
 }
 
 
@@ -13558,4 +13562,34 @@ footer {
 }
 .hide-main-section .project-listing-pagination{
   width: 100% !important;
+}
+.aminity-filter-sec{
+  display: flex;
+}
+.box-fieldset {
+  position: relative;
+  width: 100%; /* Or any width you want */
+}
+
+.box-fieldset input[type="password"] {
+  width: 100%;
+  padding-right: 2.5rem;
+  box-sizing: border-box;
+}
+
+.show-password {
+  position: absolute;
+  right: 20px;
+  top: 65%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.show-password img {
+  width: 20px;
+  height: 20px;
+}
+
+label span {
+  color: red;
 }

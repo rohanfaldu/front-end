@@ -963,7 +963,7 @@ export default function ProjectDetailsView({ params }) {
 
 												<div className="info">
 													<Link href={`/developer/${projectDetails?.developer_slug}`} className="images-group"><div className="text-1 name">{projectDetails?.user_name}</div></Link>
-													<span>{projectDetails?.user_email_address}</span>
+													<br/><span>{projectDetails?.user_email_address}</span>
 												</div>
 											</div>
 											{/* <form action="#" className="contact-form">
@@ -1260,7 +1260,7 @@ export default function ProjectDetailsView({ params }) {
 														</div> */}
 													</Link>
 													<div className="content">
-														<div className="h7 text-capitalize fw-7"><Link href="#" className="link"> {property?.title}</Link></div>
+														<div className="h7 text-capitalize fw-7"><Link href={`/property/${property.slug}`}  className="link"> {property?.title}</Link></div>
 														<div className="desc"><i className="fs-16 icon icon-mapPin" /><p>
 															{[property?.neighborhood, property?.district, property?.city, property?.state]
 																.filter(Boolean) // Remove empty or falsy values

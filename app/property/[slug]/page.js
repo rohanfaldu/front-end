@@ -820,7 +820,7 @@ export default function PropertyDetailsV1({ params }) {
 												</div>
 											</div>
 											: <></>}
-										<ContactSeller data={properties}></ContactSeller>
+										<ContactSeller data={properties} ></ContactSeller>
 
 										<div className="widget-box single-property-whychoose bg-surface">
 											<div className="h7 title fw-7">{t("whychooseus")}</div>

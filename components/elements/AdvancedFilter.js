@@ -683,8 +683,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 					</div>
 				</div>
 				<div className="grid-1 group-box">
-
-					<div className="group-select grid-3">
+					<div className="group-select aminity-filter-sec">
 					{amenities && amenities.length > 0 ? (
 							[...amenities].reverse().map((project) => {
 								if (project.type === "number") {
@@ -692,10 +691,13 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 									const selectedValue = formData.amenities_id_object_with_value?.[project.id] || "";
 
 									return (
-										<fieldset key={project.id} className="box box-fieldset aminities-radio-sec advance-filter-radio">
-											<label className="title-select text-variant-1" htmlFor={project.id}>
+										<>
+										<div className="radio-btn-filter-sec">
+											<div className="title-select text-variant-1" htmlFor={project.id}>
 												{t("numberOfAminities")} {project.name}:
-											</label>
+											</div>
+										<fieldset key={project.id} className="box box-fieldset aminities-radio-sec advance-filter-radio">
+										
 
 											<div className="radio-group">
 												{[
@@ -718,6 +720,8 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 												))}
 											</div>
 										</fieldset>
+										</div>
+										</>
 									);
 								}
 								return null;
