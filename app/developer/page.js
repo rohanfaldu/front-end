@@ -285,7 +285,7 @@ const fetchCityOptions = debounce(async (value, page = 1) => {
                       <div className="homeya-box">
                         <div className="archive-top">
                           <Link
-                            href={`/developer/${developerUserData.user_id}`}
+                            href={`/developer/${developerUserData.slug}`}
                             className="images-group"
                           >
 
@@ -305,7 +305,7 @@ const fetchCityOptions = debounce(async (value, page = 1) => {
                           <div className="content">
                             <div className="h7 text-capitalize fw-7">
                               <Link
-                                href={`/developer/${developerUserData.user_id}`}// Pass ID as query param
+                                href={`/developer/${developerUserData.slug}`}// Pass ID as query param
                                 className="link"
                               >
                                 {developerUserData.user_name}

@@ -941,17 +941,19 @@ export default function ProjectDetailsView({ params }) {
 										<div className="widget-box single-property-contact bg-surface">
 											<div className="h7 title fw-7">{t("contactSeller")}</div>
 											<div className="box-avatar">
-												{projectDetails?.user_image ? (
-													<div className="avatar avt-100 round">
-														<img src={projectDetails?.user_image || "/images/avtar/user-image.png"} alt="avatar" />
-													</div>
-												) :
-													null
-												}
+												<Link href={`/developer/${projectDetails?.developer_slug}`} className="images-group">
+													{projectDetails?.user_image ? (
+														<div className="avatar avt-100 round">
+															<img src={projectDetails?.user_image || "/images/avtar/user-image.png"} alt="avatar" />
+														</div>
+													) :
+														null
+													}
+												</Link>
 
 												<div className="info">
-													<div className="text-1 name">{projectDetails?.user_name}</div>
-													<span>{projectDetails?.email_address}</span>
+													<Link href={`/developer/${projectDetails?.developer_slug}`} className="images-group"><div className="text-1 name">{projectDetails?.user_name}</div></Link>
+													<span>{projectDetails?.user_email_address}</span>
 												</div>
 											</div>
 											{/* <form action="#" className="contact-form">

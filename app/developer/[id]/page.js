@@ -125,7 +125,7 @@ export default function AgencyDetail({ params }) {
         setLoading(true); // Start loading
         try {
             const requestData = {
-                developer_id: id
+                developer_slug: id
             };
             console.log(234)
             // API call

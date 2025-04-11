@@ -5,7 +5,8 @@ import Link from 'next/link';
 export default function Breadcrumb({ breadcrumbTitle }) {
 	const pathname = usePathname(); // Use usePathname from next/navigation
 	console.log(pathname, 'pathname');
-
+	const isAgency = pathname.includes("/agency");
+	const isDeveloper = pathname.includes("/developer");
 	const pathSegments = pathname.split('/').filter(segment => segment);  // Split URL path
 
 	// const breadcrumbLinks = pathSegments.map((segment, index) => {
@@ -39,20 +40,29 @@ export default function Breadcrumb({ breadcrumbTitle }) {
 					</ul>
 					<h2 className="text-center">{breadcrumbTitle?.full_name}</h2>
 					<ul className="breadcrumb">
+					{isAgency ? (
+							<span>Agency</span>
+						) : isDeveloper ? (
+						<span>Developer</span>
+						) : (
+							<>
+								{breadcrumbLinks.map((breadcrumb, index) => (
+									<li key={index}>
+										{index < breadcrumbLinks.length - 1 ? (
+											<>
+												<Link href={breadcrumb.link}>{breadcrumb.label}</Link>
+												{' / '}
+											</>
+										) : (
+											<span>{breadcrumb.label}</span>
+										)}
+									</li>
+								))}
+							</>
+						)
+					}
 
-
-						{breadcrumbLinks.map((breadcrumb, index) => (
-							<li key={index}>
-								{index < breadcrumbLinks.length - 1 ? (
-									<>
-										<Link href={breadcrumb.link}>{breadcrumb.label}</Link>
-										{' / '}
-									</>
-								) : (
-									<span>{breadcrumb.label}</span>
-								)}
-							</li>
-						))}
+						
 					</ul>
 				</div>
 			</section>
