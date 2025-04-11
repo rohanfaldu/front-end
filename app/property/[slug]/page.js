@@ -863,7 +863,7 @@ export default function PropertyDetailsV1({ params }) {
 							/><br></br>
 							<h4>Login Alert</h4>
 							<p>You need to be logged in to access this feature.!!!</p>
-							<div style={{ textAlign: 'end' }}>
+							<div style={{ textAlign: 'center' }}>
 								<button className="tf-btn primary" onClick={() => {
 									closeModal();
 									setLogin(true)

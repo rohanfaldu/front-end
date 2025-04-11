@@ -1056,7 +1056,7 @@ export default function PropertyHalfmapList() {
 																								{ label: "3", value: "3" },
 																								{ label: "3+", value: "4" }
 																							].map((option) => (
-																								<label key={option.value} className="radio-label" style={{ marginRight: '10px' }}>
+																								<label key={option.value} className="radio-label custom-radio" style={{ marginRight: '10px' }}>
 																									<input
 																										type="radio"
 																										className="nice-radio"
@@ -1065,7 +1065,7 @@ export default function PropertyHalfmapList() {
 																										name={project.id}
 																										onChange={() => handleNumberChange(project.id, option.value)}
 																									/>
-																									<span className="radio-text">{option.label}</span>
+																									<span className="">{option.label}</span>
 																								</label>
 																							))}
 																						</div>

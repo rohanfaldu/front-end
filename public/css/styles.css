@@ -13224,11 +13224,11 @@ footer {
     display: flex;
   }
 
-  .project-sec .project-listing-pagination {
+  .project-sec .project-listing-pagination, .property-sec .project-listing-pagination{
     width: 70%;
   }
 
-  .project-sec.wrapper-layout-3 .wrap-map {
+  .project-sec.wrapper-layout-3 .wrap-map,  .property-inner-sec .wrap-map {
     width: 30%;
     position: relative;
     height: auto !important;
@@ -13253,7 +13253,7 @@ footer {
   }
 
   .property-sec.wrapper-layout-3 .wrap-map {
-    width: 140%;
+    width: 30%;
     position: relative;
     height: auto !important;
   }
@@ -13481,7 +13481,56 @@ footer {
 .modal-content-alert{
   align-items: center;
   text-align: center;
+  padding: 50px !important;
+  height: 300px;
+}
+.modal-content-alert p{
+  padding: 20px;
 }
 .project-sec .property-full-width-inner-sec{
   width: 100%;
+}
+.property-form .property-filter{
+  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 800px;
+}
+.custom-radio {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+}
+
+.custom-radio input[type="radio"] {
+  display: none;
+}
+
+.custom-radio span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #f0f0f0;
+  color: #333;
+  font-weight: 500;
+  font-size: 16px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.2s ease-in-out;
+}
+
+.custom-radio input[type="radio"]:checked + span {
+  background-color: #024267;
+  color: #fff;
+  border-color: #024267;
+}
+.custom-radio span:hover {
+  background-color: #024267;
+  color: #fff;
+  border-color: #024267;
 }
