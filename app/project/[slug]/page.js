@@ -243,7 +243,7 @@ export default function ProjectDetailsView({ params }) {
 									className="form-wg tf-btn primary"
 									type="button"
 									style={{ marginTop: "10px" }}
-									onClick={() => router.push("/project")}
+									onClick={() => router.back()}
 								>
 									<span style={{ color: "#fff" }}>&lt;</span>
 								</button>

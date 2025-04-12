@@ -30,7 +30,7 @@ export default function Breadcrumb({ breadcrumbTitle }) {
 						className="form-wg tf-btn primary"
 						type="button"
 						style={{marginLeft: "50px"  }}
-						onClick={() => (isAgency)? router.push("/agency") : router.push("/developer") }
+						onClick={() => router.back() }
 					>
 						<span style={{ color: "#fff" }}>&lt;</span>
 					</button>

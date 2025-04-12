@@ -221,8 +221,8 @@ export default function PropertyData( propertyData, slide, calculation ) {
                 <div className="modal" style={{ display: 'block', position: 'fixed', zIndex: 1000, top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
                     <div className="modal-content" style={{ position: 'relative', margin: 'auto', padding: '20px', background: '#fff', borderRadius: '8px', maxWidth: '400px', top: '50%', transform: 'translateY(-50%)' }}>
                         <>
-                            <h4>Login Alert</h4>
-                            <p>Please login first!!!</p>
+                            <h4>{t('loginAlert')}</h4>
+                            <p>{t('loginText')}</p>
                             <div style={{ textAlign: 'end' }}>
                                 <button className="tf-btn primary" onClick={() => {
                                     closeModal();

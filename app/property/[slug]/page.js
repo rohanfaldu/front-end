@@ -420,7 +420,7 @@ export default function PropertyDetailsV1({ params }) {
 									className="form-wg tf-btn primary"
 									type="button"
 									style={{ marginTop: "10px" }}
-									onClick={() => router.push("/property")}
+									onClick={() => router.back()}
 								>
 									<span style={{ color: "#fff" }}>&lt;</span>
 								</button>
@@ -854,16 +854,16 @@ export default function PropertyDetailsV1({ params }) {
 
 			{isModelOpen && (
 				<div className="modal" style={{ display: 'block', position: 'fixed', zIndex: 1000, top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
-					<div className="modal-content-alert" style={{ position: 'relative', margin: 'auto', padding: '20px', background: '#fff', borderRadius: '8px', maxWidth: '400px', top: '50%', transform: 'translateY(-50%)' }}>
+					<div className="modal-content-alert login-alert-sec" >
 						<>
 							<img
 								src="/images/logo/logo.svg" // Replace with your actual image path
 								alt="Logo"
 								style={{ width: '150px', marginBottom: '15px' }}
 							/><br></br>
-							<h4>Login Alert</h4>
-							<p>You need to be logged in to access this feature.!!!</p>
-							<div style={{ textAlign: 'center' }}>
+							<h4>{t('loginAlert')}</h4>
+							<p>{t('loginText')}</p>
+							<div className="modal-buttons">
 								<button className="tf-btn primary" onClick={() => {
 									closeModal();
 									setLogin(true)

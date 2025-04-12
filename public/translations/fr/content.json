@@ -340,5 +340,7 @@
     "footerMain": "Plateforme immobilière innovante avec technologie de matching intelligent. Pour plus d’information, contactez nous",
     "rental": "Pour louer",
     "sale": "Pour vendre",
-    "back": "Dos" 
+    "back": "Dos",
+    "loginText": "Veuillez vous connecter à votre compte",
+    "loginAlert":"Alerte de connexion" 
 }
