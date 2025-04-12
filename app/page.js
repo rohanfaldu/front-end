@@ -15,6 +15,7 @@ import variablesList from "@/components/common/Variable"
 import { useEffect, useState } from "react"
 import { getData } from "@/components/api/Helper"
 import { useTranslation } from "react-i18next";
+import LogoSlider from "@/components/sections/LogoSlider"
 
 export default function Home() {
 	const [pagination, setPagination] = useState({
@@ -72,9 +73,10 @@ export default function Home() {
 						<Slider1 properties={properties}/>
 						<Recommended1 />
 						<Property1 />
+						<LogoSlider />
 						<Testimonial1 />
 						{/* <LatestNew1 /> */}
-						{/* <Partner /> */}
+
 					</>
 				)}
 			</Layout>

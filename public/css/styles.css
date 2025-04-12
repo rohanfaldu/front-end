@@ -13593,3 +13593,25 @@ footer {
 label span {
   color: red;
 }
+.logo-sec .w-auto {
+  width: 150px !important;
+  height: 150px;
+}
+.logo-sec {
+  padding: 100px 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo-sec .swiper {
+  max-width: 1000px;
+  width: 100%;
+}
+
+.logo-sec .swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
