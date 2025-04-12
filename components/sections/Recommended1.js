@@ -98,7 +98,7 @@ export default function Recommended1() {
 				:
 				<>
 					{isLogin?
-						<section className="flat-section flat-recommended">
+						<section className="flat-section flat-recommended home-properties">
 							<div className="container">
 								<div className="text-center wow fadeInUpSmall" data-wow-delay=".2s" data-wow-duration="2000ms">
 									<div className="text-subtitle text-primary">{t("featuredproperties")}</div>
