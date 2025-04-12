@@ -343,5 +343,6 @@
     "back": "Dos",
     "loginText": "Veuillez vous connecter à votre compte",
     "loginAlert":"Alerte de connexion",
-    "switchMapText": "Carte" 
+    "switchMapText": "Carte",
+    "agencyDeveloperSlider": "En partenariat avec les leaders de l'industrie" 
 }

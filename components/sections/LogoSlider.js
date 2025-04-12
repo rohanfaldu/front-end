@@ -5,6 +5,7 @@ import { getDataWithOutTOken } from "@/components/api/Helper";
 import React, { useEffect, useState } from 'react';
 import Preloader from "@/components/elements/Preloader";
 import Link from "next/link"
+import { useTranslation } from "react-i18next";
 
 const swiperOptions = {
 	modules: [Autoplay, Pagination, Navigation],
@@ -41,6 +42,7 @@ const swiperOptions = {
 export default function LogoSlider() {
     const [developerData, setDeveloperData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const { t, i18n } = useTranslation();
     useEffect(() => {
         const fetchData = async () => {
           const requestData = {
@@ -86,19 +88,24 @@ export default function LogoSlider() {
             {isLoading?(
                 <Preloader />
             ):(
-                <section className="logo-sec">
-                    <Swiper {...swiperOptions}>
-                        {developerData.map((data, index) => (
-                        
-                            <SwiperSlide key={index}>
-                                <Link href={data.page_link}>
-                                <img src={data.image} alt="logo"  className="w-auto object-contain mx-auto" width={100} height={100}/>
-                                </Link>
-                            </SwiperSlide>
+                <section className="logo-sec-list">
+                  <div className="logo-sec-text">
+                    <h4 class="mt-4 mb-[10px]">{t('agencyDeveloperSlider')}</h4>
+                    </div>
+                    <div className="logo-sec">
+                      <Swiper {...swiperOptions}>
+                          {developerData.map((data, index) => (
+                          
+                              <SwiperSlide key={index}>
+                                  <Link href={data.page_link}>
+                                  <img src={data.image} alt="logo"  className="w-auto object-contain mx-auto" width={100} height={100}/>
+                                  </Link>
+                              </SwiperSlide>
 
-                        ))}
+                          ))}
 
-                    </Swiper>
+                      </Swiper>
+                    </div>
                 </section>
             )}
 		</>

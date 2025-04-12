@@ -13597,8 +13597,18 @@ label span {
   width: 150px !important;
   height: 150px;
 }
+.logo-sec-list{
+  padding: 100px 0px;
+}
+.logo-sec-text{
+  align-items: center;
+    display: flex;
+    position: relative;
+    padding-bottom: 30px;
+    justify-content: center;
+}
 .logo-sec {
-  padding: 100px 0;
+  padding-top: 30px 0px;
   width: 100%;
   display: flex;
   justify-content: center;
