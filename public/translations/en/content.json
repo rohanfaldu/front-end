@@ -346,5 +346,6 @@
      "sale": "FOR SALE",
      "back": "Back",
      "loginText": "Please Log to your account",
-     "loginAlert":"Login Alert" 
+     "loginAlert":"Login Alert", 
+     "switchMapText": "Map"
 }

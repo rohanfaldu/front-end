@@ -342,5 +342,6 @@
     "sale": "Pour vendre",
     "back": "Dos",
     "loginText": "Veuillez vous connecter à votre compte",
-    "loginAlert":"Alerte de connexion" 
+    "loginAlert":"Alerte de connexion",
+    "switchMapText": "Carte" 
 }

@@ -13640,3 +13640,9 @@ label span {
   padding: 35px !important;
   transform: translateY(-50%);
 }
+.select-none{
+  display: flex;
+}
+.switch-text{
+  padding-right: 10px;
+}

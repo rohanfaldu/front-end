@@ -638,6 +638,7 @@ export default function ProjectHalfmapList() {
 									<div className="box-title-listing style-1">
 										<h5>{t("projectlisting")}</h5>
 										<div className="flex items-center cursor-pointer select-none">
+											<span className="switch-text">{t('switchMapText')}</span>
 											<label className="switch">
 												<input
 													type="checkbox"
