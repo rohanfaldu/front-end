@@ -1278,7 +1278,9 @@ export default function PropertyHalfmapList() {
 									<div className="box-title-listing style-1">
 										<h5>{t("propertylisting")}</h5>
 										<div className="flex items-center cursor-pointer select-none">
-											<span className="switch-text">{t('switchMapText')}</span>
+											{/* <span className="switch-text">{t('switchMapText')}</span> */}
+											{/* <Image src="/images/logo/location-solid.svg" alt="switch"></Image> */}
+											<img src="/images/logo/map-icon.png" alt="logo-footer" width={30} height={20} style={{marginRight:"10px"}}></img>
 											<label className="switch">
 												<input
 													type="checkbox"
@@ -1318,7 +1320,9 @@ export default function PropertyHalfmapList() {
 																			{(property.picture.length > 0 ? property.picture : ["/images/banner/no-banner.png"]).map(
 																				(item, index) => (
 																					<SwiperSlide key={index}>
-																						<img src={item} alt="img-property" style={{ width: "100%", borderRadius: "8px" }} />
+																						<Link href={`/property/${property.slug}`} className="link">
+																							<img src={item} alt="img-property" style={{ width: "100%", borderRadius: "8px" }} />
+																						</Link>
 																					</SwiperSlide>
 																				)
 																			)}
@@ -1342,7 +1346,7 @@ export default function PropertyHalfmapList() {
 																	</div>
 																	<div className="left-side">
 																		<ul className="d-flex gap-8">
-																			<li className={`${isLiked ? "liked" : "w-40 box-icon"}`} onClick={() => handleLike(isLiked, property.id, property.user_id)}>
+																			<li className={`${property.like ? "liked" : "w-40 box-icon"}`} onClick={() => handleLike(isLiked, property.id, property.user_id)}>
 																				<span className="icon icon-heart" style={{ fontSize: "30px" }} />
 																			</li>
 																		</ul>
@@ -1351,11 +1355,12 @@ export default function PropertyHalfmapList() {
 																		<span className="flag-tag style-2">{property.type_details.title}</span>
 																	</div>
 																</div>
+																<Link href={`/property/${property.slug}`} className="link">
 																<div className="content">
 																	<div className="h7 text-capitalize fw-7">
-																		<Link href={`/property/${property.slug}`} className="link">
+																		{/* <Link href={`/property/${property.slug}`} className="link"> */}
 																			{property.title}
-																		</Link>
+																		{/* </Link> */}
 																	</div>
 																	<div className="desc">
 																		<i className="fs-16 icon icon-mapPin" />
@@ -1382,19 +1387,22 @@ export default function PropertyHalfmapList() {
 																		</li>
 																	</ul>
 																</div>
+																</Link>
 															</div>
-															<div className="archive-bottom d-flex justify-content-between align-items-center">
-																<div className="d-flex gap-8 align-items-center">
-																	<div className="avatar avt-40 round">
-																		<img src={property.user_image || '/images/avatar/user-image.png'} alt="user" />
+															<Link href={`/property/${property.slug}`} className="link">
+																<div className="archive-bottom d-flex justify-content-between align-items-center">
+																	<div className="d-flex gap-8 align-items-center">
+																		<div className="avatar avt-40 round">
+																			<img src={property.user_image || '/images/avatar/user-image.png'} alt="user" />
+																		</div>
+																		<span>{property.user_name}</span>
 																	</div>
-																	<span>{property.user_name}</span>
+																	<div className="d-flex align-items-center">
+																		<h6>{property.price} {property.currency}</h6>
+																		<span className="text-variant-1"></span>
+																	</div>
 																</div>
-																<div className="d-flex align-items-center">
-																	<h6>{property.price} {property.currency}</h6>
-																	<span className="text-variant-1"></span>
-																</div>
-															</div>
+															</Link>
 														</div>
 													</div>
 												))}

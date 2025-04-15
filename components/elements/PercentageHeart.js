@@ -16,7 +16,7 @@ const PercentageHeart = ({ percentage }) => {
         </svg>
       
         {/* Foreground Heart (Colored) */}
-        <div className="fill-mask" style={{ height: `${percentage}%` }}>
+        <div className="fill-mask" style={{ height: `-webkit-fill-available` }}>
           <svg className="heart-svg foreground" viewBox="0 0 24 24">
             <path
               d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5
@@ -35,8 +35,8 @@ const PercentageHeart = ({ percentage }) => {
         <style jsx>{`
           .heart-container {
             position: relative;
-            width: 50px;
-            height: 50px;
+            width: 70px;
+            height: 70px;
           }
           .heart-svg {
             position: absolute;

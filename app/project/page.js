@@ -145,7 +145,7 @@ export default function ProjectHalfmapList() {
 				...pagination,
 				totalCount,
 				totalPages,
-				currentPage,
+				currentPage: projects.length === 0 ? 1 : currentPage,
 			});
 			setAmenities(project_meta_details || []);
 			setCities(cities);

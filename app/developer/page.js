@@ -146,7 +146,7 @@ const fetchCityOptions = debounce(async (value, page = 1) => {
           ...pagination,
           totalCount,
           totalPages,
-          currentPage,
+          currentPage: list.length === 0 ? 1 : currentPage,
         });
         setAmenities(project_meta_details || []);
         setCities(cities);
