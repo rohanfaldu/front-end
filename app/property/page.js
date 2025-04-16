@@ -111,49 +111,49 @@ export default function PropertyHalfmapList() {
 
 	const handleLike = async (isLiked, id, propertyPublisherId) => {
 		const token = localStorage.getItem('token');
-	  
+
 		if (!token) {
-		  setIsModelOpen(true);
-		  return;
+			setIsModelOpen(true);
+			return;
 		}
-	  
+
 		try {
-		  if (!isLiked) {
-			const response = await fetch(`${API_URL}/api/property/like`, {
-			  method: 'POST',
-			  headers: {
-				'Content-Type': 'application/json',
-				'Authorization': `Bearer ${token}`
-			  },
-			  body: JSON.stringify({ propertyId: id, propertyPublisherId })
-			});
-	  
-			if (!response.ok) return;
-	  
-			setPropertys(prev =>
-			  prev.map(p => p.id === id ? { ...p, like: true } : p)
-			);
-		  } else {
-			const response = await fetch(`${API_URL}/api/property/${id}/like`, {
-			  method: 'DELETE',
-			  headers: {
-				'Content-Type': 'application/json',
-				'Authorization': `Bearer ${token}`
-			  },
-			});
-	  
-			if (!response.ok) return;
-	  
-			setPropertys(prev =>
-			  prev.map(p => p.id === id ? { ...p, like: false } : p)
-			);
-		  }
-		  console.log(propertys,' >>>>>>>>>>>>  Propertys Like Data')
+			if (!isLiked) {
+				const response = await fetch(`${API_URL}/api/property/like`, {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': `Bearer ${token}`
+					},
+					body: JSON.stringify({ propertyId: id, propertyPublisherId })
+				});
+
+				if (!response.ok) return;
+
+				setPropertys(prev =>
+					prev.map(p => p.id === id ? { ...p, like: true } : p)
+				);
+			} else {
+				const response = await fetch(`${API_URL}/api/property/${id}/like`, {
+					method: 'DELETE',
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': `Bearer ${token}`
+					},
+				});
+
+				if (!response.ok) return;
+
+				setPropertys(prev =>
+					prev.map(p => p.id === id ? { ...p, like: false } : p)
+				);
+			}
+			console.log(propertys, ' >>>>>>>>>>>>  Propertys Like Data')
 		} catch (error) {
-		  console.error('Like error:', error);
+			console.error('Like error:', error);
 		}
-	  };
-	  
+	};
+
 	const [isLogin, setLogin] = useState(false)
 	const [showLoginModal, setShowLoginModal] = useState(false)
 	const handleLogin = () => {
@@ -1269,7 +1269,7 @@ export default function PropertyHalfmapList() {
 										<div className="flex items-center cursor-pointer select-none">
 											{/* <span className="switch-text">{t('switchMapText')}</span> */}
 											{/* <Image src="/images/logo/location-solid.svg" alt="switch"></Image> */}
-											<img src="/images/logo/map-icon.png" alt="logo-footer" width={30} height={20} style={{marginRight:"10px"}}></img>
+											<img src="/images/logo/map-icon.png" alt="logo-footer" width={30} height={20} style={{ marginRight: "10px" }}></img>
 											<label className="switch">
 												<input
 													type="checkbox"
@@ -1310,7 +1310,7 @@ export default function PropertyHalfmapList() {
 																				(item, index) => (
 																					<SwiperSlide key={index}>
 																						<Link href={`/property/${property.slug}`} className="link">
-																							<img src={item} alt="img-property" style={{ width: "100%", borderRadius: "8px" }} />
+																							<img src={item} alt="img-property" style={{ width: "100%", borderRadius: "8px", minHeight: "300px", maxHeight:" 300px" }} />
 																						</Link>
 																					</SwiperSlide>
 																				)
@@ -1318,8 +1318,8 @@ export default function PropertyHalfmapList() {
 																		</Swiper>
 																	</div>
 																	<div className="top">
-																		<ul className="d-flex gap-8">
-																			<li className="flag-tag style-1">{property.transaction}</li>
+																	<ul className="d-flex gap-8">
+																			<li className="flag-tag style-1">{t(property.transaction)}</li>
 																		</ul>
 																		{/* <ul className="d-flex gap-4">
 																<li className="box-icon w-32">
@@ -1345,37 +1345,37 @@ export default function PropertyHalfmapList() {
 																	</div>
 																</div>
 																<Link href={`/property/${property.slug}`} className="link">
-																<div className="content">
-																	<div className="h7 text-capitalize fw-7">
-																		{/* <Link href={`/property/${property.slug}`} className="link"> */}
+																	<div className="content">
+																		<div className="h7 text-capitalize fw-7">
+																			{/* <Link href={`/property/${property.slug}`} className="link"> */}
 																			{property.title}
-																		{/* </Link> */}
-																	</div>
-																	<div className="desc">
-																		<i className="fs-16 icon icon-mapPin" />
-																		<p>{[property?.district, property?.city, property?.state]
-																			.filter(Boolean)
-																			.join(', ')} </p>
+																			{/* </Link> */}
+																		</div>
+																		<div className="desc">
+																			<i className="fs-16 icon icon-mapPin" />
+																			<p>{[property?.district, property?.city, property?.state]
+																				.filter(Boolean)
+																				.join(', ')} </p>
 
+																		</div>
+																		<ul className="meta-list">
+																			<li className="item">
+																				<i className="icon icon-bed" />
+																				<span>{property.bedRooms === "0" ? '-' : `${property.bedRooms}`}</span>
+																			</li>
+																			<li className="item">
+																				<i className="icon icon-bathtub" />
+																				<span>{property.bathRooms === "0" ? '-' : `${property.bathRooms}`}</span>
+																			</li>
+																			<li className="item">
+																				<i className="icon icon-ruler" />
+																				<span>{property.size === null ? '-' : `${property.size}`}</span>
+																			</li>
+																			<li class="filteration">
+																				<PercentageHeart percentage={property.filter_result.total_percentage} />
+																			</li>
+																		</ul>
 																	</div>
-																	<ul className="meta-list">
-																		<li className="item">
-																			<i className="icon icon-bed" />
-																			<span>{property.bedRooms === "0" ? '-' : `${property.bedRooms}`}</span>
-																		</li>
-																		<li className="item">
-																			<i className="icon icon-bathtub" />
-																			<span>{property.bathRooms === "0" ? '-' : `${property.bathRooms}`}</span>
-																		</li>
-																		<li className="item">
-																			<i className="icon icon-ruler" />
-																			<span>{property.size === null ? '-' : `${property.size}`}</span>
-																		</li>
-																		<li class="filteration">
-																			<PercentageHeart percentage={property.filter_result.total_percentage} />
-																		</li>
-																	</ul>
-																</div>
 																</Link>
 															</div>
 															<Link href={`/property/${property.slug}`} className="link">

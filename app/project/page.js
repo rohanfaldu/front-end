@@ -638,7 +638,8 @@ export default function ProjectHalfmapList() {
 									<div className="box-title-listing style-1">
 										<h5>{t("projectlisting")}</h5>
 										<div className="flex items-center cursor-pointer select-none">
-											<span className="switch-text">{t('switchMapText')}</span>
+											{/* <span className="switch-text">{t('switchMapText')}</span> */}
+											<img src="/images/logo/map-icon.png" alt="logo-footer" width={30} height={20} style={{ marginRight: "10px" }}></img>
 											<label className="switch">
 												<input
 													type="checkbox"
@@ -680,7 +681,7 @@ export default function ProjectHalfmapList() {
 																			{(project.picture.length > 0 ? project.picture : ["/images/banner/no-banner.png"]).map(
 																				(item, index) => (
 																					<SwiperSlide key={index}>
-																						<img src={item} alt="img-property" style={{ width: "100%", borderRadius: "8px" }} />
+																						<img src={item} alt="img-property" style={{ width: "100%", borderRadius: "8px", minHeight: "300px", maxHeight:" 300px" }} />
 																					</SwiperSlide>
 																				)
 																			)}

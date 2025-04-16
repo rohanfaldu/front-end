@@ -1269,7 +1269,7 @@ export default function ProjectDetailsView({ params }) {
 														</div> */}
 													</Link>
 													<div className="content">
-														<div className="h7 text-capitalize fw-7"><Link href={`/property/${property.slug}`} className="link"> {property?.title}</Link></div>
+														<div className="h7 text-capitalize fw-7"><Link href={`/property/${property.slug}`} className="link"> {t(property?.title)}</Link></div>
 														<div className="desc"><i className="fs-16 icon icon-mapPin" /><p>
 															{[property?.neighborhood, property?.district, property?.city, property?.state]
 																.filter(Boolean) // Remove empty or falsy values
