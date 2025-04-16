@@ -630,6 +630,23 @@ export default function PropertyDetailsV1({ params }) {
 										</>
 									) : (<></>)
 									}
+									{metadetail?.vr_link && ( // Render only if vr_link is available
+										<div className="single-property-element single-property-feature">
+											<div className="h7 title fw-7">Other Information</div>
+											<div className="wrap-feature">
+												<div className="box-feature">
+													<button
+														className="form-wg tf-btn primary"
+														name="button"
+														type="button"
+														onClick={() => window.open(metadetail.vr_link, "_blank", "noopener,noreferrer")}
+													>
+														<span>{t("VR Link")}</span>
+													</button>
+												</div>
+											</div>
+										</div>
+									)}
 									{metadetail.length > 0 && (
 										<div className="single-property-element single-property-feature">
 											<div className="h7 title fw-7">{t("amenitiesandfeatures")}</div>

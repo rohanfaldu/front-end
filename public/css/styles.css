@@ -5721,9 +5721,9 @@ label {
   -o-transition: all 0.3s ease;
   transition: all 0.3s ease;
   width: 100%;
-  height: 250px;
+  /* height: 250px; */
   max-height: 350px;
-  min-height: 300px;
+  /* min-height: 300px; */
 }
 
 .middle {
@@ -13658,4 +13658,8 @@ label span {
 }
 .home-properties{
   padding: 100px 0px 0px 0px !important;
+}
+
+.link.back-btn.chat-back{
+    margin: 10px !important;
 }

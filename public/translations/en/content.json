@@ -348,5 +348,8 @@
      "loginText": "Please Log to your account",
      "loginAlert":"Login Alert", 
      "switchMapText": "Map",
-     "agencyDeveloperSlider": "In Partnership with"
+     "agencyDeveloperSlider": "In Partnership with",
+     "otherInformation": "Other Information",
+     "vrLink": "VR Link",
+     "luxuriousStudioSale": "Luxury Studio of 47 m² for sale, Glorious Nouaceur"
 }

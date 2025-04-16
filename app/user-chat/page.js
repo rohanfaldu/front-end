@@ -9,10 +9,10 @@ import EmojiPicker from "emoji-picker-react";
 import { getFirestore, collection, getDocs, doc, query, where, addDoc, serverTimestamp, onSnapshot, orderBy, limit } from "firebase/firestore";
 import { db } from '@/components/layout/firebaseConfig';
 import Preloader from '@/components/elements/Preloader';
+import { useRouter } from 'next/navigation';
 
 
 export default function Chat() {
-
   const [showPicker, setShowPicker] = useState(false);
   const [message, setMessage] = useState("");
   const [chats, setChats] = useState([]);
@@ -26,8 +26,7 @@ export default function Chat() {
     setMessage(prev => prev + emojiObject.emoji);
     setShowPicker(false);
   };
-
-
+  const router = useRouter();
   const [activeUser, setActiveUser] = useState(null);
   const [chatWithName, setChatWithName] = useState("");
 
@@ -214,7 +213,7 @@ export default function Chat() {
         console.error("Error fetching chat data:", error);
       }
     }
-  
+    
     fetchChatData();
     
     // Clean up any listeners when component unmounts
@@ -239,6 +238,16 @@ export default function Chat() {
         }
         {!loading &&
           <div className="containerr">
+            <div className="link back-btn chat-back">
+								<button
+									className="form-wg tf-btn primary"
+									type="button"
+									style={{ margin: "10px" }}
+									onClick={() => router.back()}
+								>
+									<span style={{ color: "#fff" }}>&lt;</span>
+								</button>
+							</div>
             <div className="row">
               <section className="discussions" style={{position: "relative"}}>
                 {allRecord.map((user) => (

@@ -106,7 +106,7 @@ const swiperOptions2 = {
 
 const swiperOptions3 = (projectDetails) => ({
 	spaceBetween: 10,
-    slidesPerView: 1,
+	slidesPerView: 1,
 	loop: projectDetails?.picture?.length > 1,
 	modules: [Autoplay, Pagination, Navigation],
 	autoplay: projectDetails?.picture?.length > 1
@@ -116,14 +116,14 @@ const swiperOptions3 = (projectDetails) => ({
 		}
 		: false,
 	speed: 2000,
-    navigation: projectDetails?.picture?.length > 1
+	navigation: projectDetails?.picture?.length > 1
 		? { // Enable navigation buttons only for multiple images
 			clickable: true,
 			nextEl: ".nav-prev-location",
 			prevEl: ".nav-next-location",
 		}
 		: false, // Hide navigation buttons for single image
-    pagination: projectDetails?.picture?.length > 1
+	pagination: projectDetails?.picture?.length > 1
 		? { // Enable pagination only for multiple images
 			el: ".swiper-pagination1",
 			clickable: true,
@@ -158,7 +158,7 @@ export default function ProjectDetailsView({ params }) {
 	const [properties, setProperties] = useState([]);
 	const [currentImageIndex, setCurrentImageIndex] = useState(0);
 	const modalSwiperRef = useRef(null);
-	
+
 	const [currentImage, setCurrentImage] = useState(null); // Current image in the modal
 	const fetchProjectsDetails = async () => {
 		setLoading(true); // Start loading
@@ -253,7 +253,7 @@ export default function ProjectDetailsView({ params }) {
 									<SwiperSlide key={index}>
 										<div
 											onClick={() => openPopup(index)} // Pass the clicked image index
-                        					className={`box-imgage-detail d-block property-image ${projectDetails?.picture.length === 1 ? "full-screen" : ""}`}
+											className={`box-imgage-detail d-block property-image ${projectDetails?.picture.length === 1 ? "full-screen" : ""}`}
 										>
 											<img src={item} alt="img-property" />
 										</div>
@@ -267,35 +267,35 @@ export default function ProjectDetailsView({ params }) {
 										onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
 									>
 										{projectDetails?.picture.length > 1 && (
-															<>
-																<button
-																	className="nav-arrow prev-arrow"
-																	onClick={() => modalSwiperRef.current?.slidePrev()}
-																>
-																	&#8249;
-																</button>
-																<button
-																	className="nav-arrow next-arrow"
-																	onClick={() => modalSwiperRef.current?.slideNext()}
-																>
-																	&#8250;
-																</button>
-															</>
-														)}
-														<Swiper
-															{...swiperOptions3(properties)}
-															initialSlide={currentImageIndex}
-															className="swiper-wrapper"
-															onSwiper={(swiper) => (modalSwiperRef.current = swiper)} // Reference the modal swiper
-														>
-															{projectDetails.picture.map((item, index) => (
-																<SwiperSlide key={index}>
-																	<div className="box-imgage-detail">
-																		<img src={item} alt={`property-large-${index}`} />
-																	</div>
-																</SwiperSlide>
-															))}
-														</Swiper>
+											<>
+												<button
+													className="nav-arrow prev-arrow"
+													onClick={() => modalSwiperRef.current?.slidePrev()}
+												>
+													&#8249;
+												</button>
+												<button
+													className="nav-arrow next-arrow"
+													onClick={() => modalSwiperRef.current?.slideNext()}
+												>
+													&#8250;
+												</button>
+											</>
+										)}
+										<Swiper
+											{...swiperOptions3(properties)}
+											initialSlide={currentImageIndex}
+											className="swiper-wrapper"
+											onSwiper={(swiper) => (modalSwiperRef.current = swiper)} // Reference the modal swiper
+										>
+											{projectDetails.picture.map((item, index) => (
+												<SwiperSlide key={index}>
+													<div className="box-imgage-detail">
+														<img src={item} alt={`property-large-${index}`} />
+													</div>
+												</SwiperSlide>
+											))}
+										</Swiper>
 									</div>
 								</div>
 							)}
@@ -538,15 +538,24 @@ export default function ProjectDetailsView({ params }) {
 									)}
 									{projectDetails?.vr_link && ( // Render only if vr_link is available
 										<div className="single-property-element single-property-feature">
-											<div className="h7 title fw-7">Other Information</div>
+											<div className="h7 title fw-7">{t("otherInformation")}</div>
 											<div className="wrap-feature">
 												<div className="box-feature">
-													<div style={{ display: "flex", alignItems: "center", gap: "10px" }}> {/* Flexbox for row alignment */}
+													{/* <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>   
 														<div style={{ fontWeight: 'bold' }}>VR Link : </div>
 														<a href={projectDetails.vr_link} target="_blank" rel="noopener noreferrer">
 															{projectDetails.vr_link}
 														</a>
-													</div>
+													</div> */}
+													<button
+														className="form-wg tf-btn primary"
+														name="button"
+														type="button"
+														onClick={() => window.open(projectDetails.vr_link, "_blank", "noopener,noreferrer")}
+													>
+														<span>{t("vrLink")}</span>
+													</button>
+
 												</div>
 											</div>
 										</div>
@@ -577,13 +586,13 @@ export default function ProjectDetailsView({ params }) {
 										<ul className="info-map">
 											<li>
 												<div className="fw-7">{t("address")}</div>
-												<span className="mt-4 text-variant-1">{projectDetails?.address}</span><br/>
+												<span className="mt-4 text-variant-1">{projectDetails?.address}</span><br />
 												<span className="mt-4 text-variant-1 67886">
 													{[projectDetails?.neighborhood, projectDetails?.district, projectDetails?.city, projectDetails?.state]
 														.filter(Boolean)
 														.join(', ')}
 												</span>
-												
+
 
 											</li>
 										</ul>
@@ -963,7 +972,7 @@ export default function ProjectDetailsView({ params }) {
 
 												<div className="info">
 													<Link href={`/developer/${projectDetails?.developer_slug}`} className="images-group"><div className="text-1 name">{projectDetails?.user_name}</div></Link>
-													<br/><span>{projectDetails?.user_email_address}</span>
+													<br /><span>{projectDetails?.user_email_address}</span>
 												</div>
 											</div>
 											{/* <form action="#" className="contact-form">
@@ -1260,7 +1269,7 @@ export default function ProjectDetailsView({ params }) {
 														</div> */}
 													</Link>
 													<div className="content">
-														<div className="h7 text-capitalize fw-7"><Link href={`/property/${property.slug}`}  className="link"> {property?.title}</Link></div>
+														<div className="h7 text-capitalize fw-7"><Link href={`/property/${property.slug}`} className="link"> {property?.title}</Link></div>
 														<div className="desc"><i className="fs-16 icon icon-mapPin" /><p>
 															{[property?.neighborhood, property?.district, property?.city, property?.state]
 																.filter(Boolean) // Remove empty or falsy values

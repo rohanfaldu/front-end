@@ -110,61 +110,50 @@ export default function PropertyHalfmapList() {
 	const isInitialRender = useRef(true);
 
 	const handleLike = async (isLiked, id, propertyPublisherId) => {
-		console.log("right")
 		const token = localStorage.getItem('token');
-
+	  
 		if (!token) {
-			setIsModelOpen(true);
-			return;
+		  setIsModelOpen(true);
+		  return;
 		}
-
+	  
 		try {
-			if (!isLiked) {
-				const response = await fetch(`${API_URL}/api/property/like`, {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-						'Authorization': `Bearer ${token}`
-					},
-					body: JSON.stringify({
-						propertyId: id,  // The property ID you are liking
-						propertyPublisherId: propertyPublisherId // The publisher ID
-					})
-				});
-
-				if (!response.ok) {
-					const errorData = await response.json();
-					console.error('Error:', errorData.message);
-					return;
-				}
-
-				const data = await response.json();
-				console.log(data.message);
-				 setIsLiked(!isLiked);
-			} else {
-				const response = await fetch(`${API_URL}/api/property/${id}/like`, {
-					method: 'DELETE',
-					headers: {
-						'Content-Type': 'application/json',
-						'Authorization': `Bearer ${token}`
-					},
-				});
-
-				if (!response.ok) {
-					const errorData = await response.json();
-					console.error('Error:', errorData.message);
-					return;
-				}
-
-				const data = await response.json();
-				console.log(data.message);
-				 setIsLiked(!isLiked);
-			}
+		  if (!isLiked) {
+			const response = await fetch(`${API_URL}/api/property/like`, {
+			  method: 'POST',
+			  headers: {
+				'Content-Type': 'application/json',
+				'Authorization': `Bearer ${token}`
+			  },
+			  body: JSON.stringify({ propertyId: id, propertyPublisherId })
+			});
+	  
+			if (!response.ok) return;
+	  
+			setPropertys(prev =>
+			  prev.map(p => p.id === id ? { ...p, like: true } : p)
+			);
+		  } else {
+			const response = await fetch(`${API_URL}/api/property/${id}/like`, {
+			  method: 'DELETE',
+			  headers: {
+				'Content-Type': 'application/json',
+				'Authorization': `Bearer ${token}`
+			  },
+			});
+	  
+			if (!response.ok) return;
+	  
+			setPropertys(prev =>
+			  prev.map(p => p.id === id ? { ...p, like: false } : p)
+			);
+		  }
+		  console.log(propertys,' >>>>>>>>>>>>  Propertys Like Data')
 		} catch (error) {
-			console.error('Error liking the property:', error);
+		  console.error('Like error:', error);
 		}
-	};
-
+	  };
+	  
 	const [isLogin, setLogin] = useState(false)
 	const [showLoginModal, setShowLoginModal] = useState(false)
 	const handleLogin = () => {
@@ -1346,7 +1335,7 @@ export default function PropertyHalfmapList() {
 																	</div>
 																	<div className="left-side">
 																		<ul className="d-flex gap-8">
-																			<li className={`${property.like ? "liked" : "w-40 box-icon"}`} onClick={() => handleLike(isLiked, property.id, property.user_id)}>
+																			<li className={`${property.like ? "liked" : "w-40 box-icon"}`} onClick={() => handleLike(property.like, property.id, property.user_id)}>
 																				<span className="icon icon-heart" style={{ fontSize: "30px" }} />
 																			</li>
 																		</ul>

@@ -344,5 +344,8 @@
     "loginText": "Veuillez vous connecter à votre compte",
     "loginAlert":"Alerte de connexion",
     "switchMapText": "Carte",
-    "agencyDeveloperSlider": "En partenariat avec les leaders de l'industrie" 
+    "agencyDeveloperSlider": "En partenariat avec",
+    "otherInformation": "Autres informations",
+    "vrLink": "Lien VR",
+    "luxuriousStudioSale": "Studio de luxe de 47 m² à vendre, Glorieux Nouaceur"
 }
