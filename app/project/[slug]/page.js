@@ -1237,6 +1237,7 @@ export default function ProjectDetailsView({ params }) {
 									<h4 className="mt-4">{t("themostrecentestate")}</h4>
 								</div>
 							)}
+							{ console.log(properties,' >>>>>>>>> properties') }
 							<div className="swiper tf-latest-property" data-preview-lg={3} data-preview-md={2} data-preview-sm={2} data-space={30} data-loop="true">
 								<Swiper {...swiperOptions2} className="swiper-wrapper">
 									{properties.map((property) => (
@@ -1269,7 +1270,14 @@ export default function ProjectDetailsView({ params }) {
 														</div> */}
 													</Link>
 													<div className="content">
-														<div className="h7 text-capitalize fw-7"><Link href={`/property/${property.slug}`} className="link"> {t(property?.title)}</Link></div>
+														<div className="h7 text-capitalize fw-7">
+															<Link href={`/property/${property.slug}`} className="link">
+															{i18n.language === 'en'
+																? property?.title_en // Show English title if lang = 'en'
+																: property?.title_fr // Show French title if lang = 'fr'
+															}
+															</Link>
+															</div>
 														<div className="desc"><i className="fs-16 icon icon-mapPin" /><p>
 															{[property?.neighborhood, property?.district, property?.city, property?.state]
 																.filter(Boolean) // Remove empty or falsy values
