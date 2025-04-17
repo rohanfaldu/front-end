@@ -13260,7 +13260,7 @@ footer {
 
   .project-sec.wrapper-layout-3 .wrap-map .leaflet-container .leaflet-pane {
     transform: none !important;
-    position: static !important;
+    /* position: static !important; */
   }
 
   .property-sec .property-sec-list {

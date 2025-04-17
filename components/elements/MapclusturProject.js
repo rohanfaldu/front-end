@@ -6,6 +6,7 @@ import "leaflet/dist/leaflet.css";
 import { useMemo } from "react";
 
 export default function MapClusterProject({ topmap, propertys, slug }) {
+  console.log(propertys, '>>>>> propertys Map')
   const customMarker = useMemo(() => L.icon({
     iconUrl: "/images/location/map-lo.png",
     iconSize: [30, 30],
