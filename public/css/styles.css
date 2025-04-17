@@ -13471,11 +13471,14 @@ footer {
   left: 3px;
   width: 22px;
   height: 22px;
-  background-color: #fff;
+  background-color: #024267;
   border-radius: 50%;
   transition: transform 0.3s;
 }
 
+.hide-main-section .slider::before {
+  background-color: #fff;
+}
 /* When checked, move dot */
 .switch input:checked + .slider::before {
   transform: translateX(22px);
@@ -13673,4 +13676,7 @@ label span {
   z-index: 0;
   pointer-events: auto;
   touch-action: auto;
+}
+.homeya-box .archive-top .content{
+  display: inline-block;
 }

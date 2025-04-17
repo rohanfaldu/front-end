@@ -7,7 +7,7 @@ import { capitalizeFirstChar, getRandomInt } from "../../common/Functions.js"
 import { usePathname } from 'next/navigation'
 import { useRouter } from 'next/navigation';
 
-export default function Header3({ scroll, isSidebar, handleSidebar, isMobileMenu, handleMobileMenu }) {
+export default function Header3({ scroll, isSidebar, handleSidebar, isMobileMenu,  handleMobileMenu }) {
 	const [isToggled, setToggled] = useState(false)
 	const handleToggle = () => setToggled(!isToggled)
 	const [userName, setUserName] = useState('');
@@ -64,7 +64,7 @@ export default function Header3({ scroll, isSidebar, handleSidebar, isMobileMenu
 										<div className="logo"><Link href="/"><img src="/images/logo/logo.svg" alt="logo" width={174} height={44} /></Link></div>
 									}
 									{showType != 'user' &&
-										<div className="logo"><img src="/images/logo/logo.svg" alt="logo" width={174} height={44} /></div>
+										<div className="logo"><Link href="/"><img src="/images/logo/logo.svg" alt="logo" width={174} height={44} /></Link></div>
 									}
 									<div className="button-show-hide" onClick={handleSidebar}>
 										<span className="icon icon-categories" />

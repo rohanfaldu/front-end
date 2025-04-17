@@ -341,7 +341,7 @@
     "rental": "Pour louer",
     "sale": "Pour vendre",
     "back": "Dos",
-    "loginText": "Veuillez vous connecter à votre compte",
+    "loginText": "Connectez-vous à votre compte pour continuer.",
     "loginAlert":"Alerte de connexion",
     "switchMapText": "Carte",
     "agencyDeveloperSlider": "En partenariat avec",
