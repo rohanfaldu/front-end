@@ -416,7 +416,7 @@ a {
   -o-transition: all 0.3s ease;
   transition: all 0.3s ease;
   cursor: pointer;
-  display: inline-block;
+  /* display: inline-block; */
   color: #161e2d;
 }
 
@@ -13662,5 +13662,8 @@ label span {
 
 .link.back-btn.chat-back{
     margin: 10px !important;
+}
+.sidebar-menu-dashboard .box-menu-dashboard .nav-menu-link .icon {
+  color: #161e2d;
 }
 

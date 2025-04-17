@@ -294,7 +294,7 @@ export default function PropertyHalfmapList() {
 							setInitialMaxPrice(maxPriceSliderRange);
 							setMaxPriceSliderRange(maxPriceSliderRange);
 							if (params.minPrice == undefined && params.maxPrice == undefined) {
-								setPriceRange([0, maxPriceSliderRange]);
+								setPriceRange([1000, maxPriceSliderRange]);
 							}
 						} else {
 							setInitialMaxPrice(300000);
@@ -501,7 +501,7 @@ export default function PropertyHalfmapList() {
 				if (initialMaxPrice !== maxPriceSliderRange) {
 					setInitialMaxPrice(maxPriceSliderRange);
 					setMaxPriceSliderRange(maxPriceSliderRange);
-					setPriceRange([0, maxPriceSliderRange]);
+					setPriceRange([1000, maxPriceSliderRange]);
 				}
 
 				if (initialMaxSize !== maxSizeSliderRange) {
@@ -651,7 +651,7 @@ export default function PropertyHalfmapList() {
 			if (!initialMaxPrice) {
 				setInitialMaxPrice(maxPriceSliderRange);
 				setMaxPriceSliderRange(maxPriceSliderRange);
-				setPriceRange([0, maxPriceSliderRange]);
+				setPriceRange([1000, maxPriceSliderRange]);
 			}
 
 			if (!initialMaxSize) {
@@ -971,7 +971,7 @@ export default function PropertyHalfmapList() {
 															<ReactSlider
 																ariaLabelledby="slider-label"
 																className="horizontal-slider st2"
-																min={0}
+																min={1000}
 																max={initialMaxPrice}
 																value={priceRange}
 																step={100}
@@ -982,7 +982,7 @@ export default function PropertyHalfmapList() {
 
 															<div className="group-range-title mt-2">
 																<label className="d-flex justify-content-between mb-0">
-																	<span>{priceRange[0]}DH</span>
+																	<span>1000DH</span>
 																	<span>{priceRange[1]}DH</span>
 																</label>
 															</div>

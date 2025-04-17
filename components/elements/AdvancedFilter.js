@@ -206,7 +206,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 					console.log(property_types,"property_types")
 					if (initialMaxPrice !== maxPriceSliderRange) {
 						setInitialMaxPrice(maxPriceSliderRange);
-						setPriceRange([0, maxPriceSliderRange]);
+						setPriceRange([1000, maxPriceSliderRange]);
 					}
 	
 					if (initialMaxSize !== maxSizeSliderRange){
@@ -341,15 +341,15 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 			console.log(maxPriceSliderRange,"maxPriceSliderRange")
 			if ( maxPriceSliderRange !== null) {
 				setInitialMaxPrice(maxPriceSliderRange);
-				setPriceRange([0, maxPriceSliderRange]);
+				setPriceRange([1000, maxPriceSliderRange]);
 				setFormData((prevFilters) => ({
 					...prevFilters,
-					minPrice: 0, // Set minPrice
+					minPrice: 1000, // Set minPrice
 					maxPrice: maxPriceSliderRange, // Set maxPrice
 				}));
 			}else{
 				setInitialMaxPrice(300000);
-				setPriceRange([0, 300000]);
+				setPriceRange([1000, 300000]);
 				setFormData((prevFilters) => ({
 					...prevFilters,
 					minPrice: 0, // Set minPrice
@@ -641,10 +641,11 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 					<div className="widget-price">
 					<label className="title-select" style={{marginBottom:"0px"}}>{t("price")}</label>
 						<div className="group-form">
+							{ console.log(priceRange, ' >>>>>> priceRange')}
 							<ReactSlider
 								ariaLabelledby="slider-label"
 								className="horizontal-slider st2"
-								min={0}
+								min={1000}
 								max={initialMaxPrice}
 								value={priceRange}
 								step={100}
@@ -654,7 +655,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 							/>
 							<div className="group-range-title mt-2">
 								<label className="d-flex justify-content-between mb-0">
-									<span>{priceRange[0]}DH</span>
+									<span>1000DH</span>
 									<span>{priceRange[1]}DH</span>
 								</label>
 							</div>
