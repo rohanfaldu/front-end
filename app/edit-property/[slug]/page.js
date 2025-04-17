@@ -86,7 +86,7 @@ export default function EditProperty({ params }) {
                     property_slug: slug,
                 };
                 const getpropertyInfo = await insertData('api/property/getbyIds', requestData, true);
-                console.log('',getpropertyInfo);
+                console.log('', getpropertyInfo);
 
                 if (getpropertyInfo.data) {
                     setPropertyDetail(getpropertyInfo.data);
@@ -98,7 +98,7 @@ export default function EditProperty({ params }) {
                         zoom: 14
                     });
 
-                    
+
                     const cityObj = { state_id: getpropertyInfo.data.state, lang: "en" };
                     const getCityInfo = await insertData('api/city/getbystate', cityObj, true);
                     if (getCityInfo.status) {
@@ -587,6 +587,7 @@ export default function EditProperty({ params }) {
                                 picture_img: propertyDetail?.picture || [],
                                 video: propertyDetail?.video || null,
                                 video_link: propertyDetail?.video || null,
+                                vr_link: propertyDetail?.vr_link || null,
                                 currency_id: propertyDetail?.currency || "",
                                 state_id: propertyDetail?.state || "",
                                 city_id: propertyDetail?.city || "",
@@ -882,22 +883,35 @@ export default function EditProperty({ params }) {
                                                     </div>
                                                 </fieldset>
                                             </div>
-                                            
+
                                             <div className="box grid-1 box gap-50">
                                                 <fieldset className="box-fieldset">
                                                     <label htmlFor="video_link">YouTube Link:</label>
                                                     {/* YouTube Link Input Field */}
                                                     <div>
-                                                    <Field
-                                                        type="text"
-                                                        name="video_link"
-                                                        className="form-control"
-                                                        placeholder="https://www.youtube.com/watch?v=QgAQcrvHsHQ"
-                                                    />
+                                                        <Field
+                                                            type="text"
+                                                            name="video_link"
+                                                            className="form-control"
+                                                            placeholder="https://www.youtube.com/watch?v=QgAQcrvHsHQ"
+                                                        />
                                                     </div>
                                                 </fieldset>
                                             </div>
-
+                                            <div className="box grid-1 box gap-50">
+                                                <fieldset className="box-fieldset">
+                                                    <label htmlFor="vr_link">VR Link:</label>
+                                                    {/* YouTube Link Input Field */}
+                                                    <div>
+                                                        <Field
+                                                            type="text"
+                                                            name="vr_link"
+                                                            className="form-control"
+                                                            placeholder="https://www.google.com"
+                                                        />
+                                                    </div>
+                                                </fieldset>
+                                            </div>
 
                                             <div className="widget-box-2">
                                                 <h6 className="title">Location</h6>
@@ -1061,8 +1075,8 @@ export default function EditProperty({ params }) {
                                     )}
                                     {sucessMessage && (
                                         <SuccessPopup
-                                        message={sucessMessage}
-                                        onClose={() => setSucessMessage(false)}
+                                            message={sucessMessage}
+                                            onClose={() => setSucessMessage(false)}
                                         />
                                     )}
                                 </Form>

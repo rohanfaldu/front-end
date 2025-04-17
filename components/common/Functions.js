@@ -34,4 +34,13 @@ export  function validateYouTubeURL(inputURL) {
         console.log(2);
       return false;
     }
-  };
+};
+export function checkURL(url) {
+  const pattern = /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,6}(:[0-9]+)?(\/[^\s]*)?$/;
+  if(pattern.test(url)) {
+    return true;
+  } else {
+      console.log(2);
+    return false;
+  }
+}

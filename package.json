@@ -61,6 +61,7 @@
                 "react-google-login": "^5.2.2",
                 "react-i18next": "^15.1.1",
                 "react-leaflet": "^4.2.1",
+                "react-leaflet-cluster": "^2.1.0",
                 "react-modal": "^3.16.3",
                 "react-modal-video": "^2.0.1",
                 "react-nice-select": "^1.0.6",

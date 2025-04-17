@@ -8,7 +8,7 @@ import { use, useState, useEffect } from "react"
 import { useRouter } from 'next/navigation';
 import { insertData, insertImageData } from "../../components/api/Axios/Helper";
 import { insertMultipleUploadImage } from "../../components/common/ImageUpload";
-import { capitalizeFirstChar, validateYouTubeURL } from "../../components/common/Functions";
+import { capitalizeFirstChar, validateYouTubeURL, checkURL } from "../../components/common/Functions";
 import Preloader from "@/components/elements/Preloader";
 import SuccessPopup from "../../components/success-popup/SuccessPopup";
 import  "../../components/error-popup/ErrorPopup.css";
@@ -183,6 +183,12 @@ export default function CreateProperty() {
             setShowErrorPopup(true);
             return;
         }
+
+        if (!checkURL(values.vr_link)) {
+            setErrors({ serverError: "Please Enter valid URL" });
+            setShowErrorPopup(true);
+            return;
+        }
         
         const selectedAmenities = projectOfBooleanListing
         .filter((project) => checkedItems[project.key])
@@ -226,7 +232,7 @@ export default function CreateProperty() {
         console.log("Video URL:", videoUrl);
 
             videoUrl = videoUrl || (values.video_link ? values.video_link : null);
-
+        
             /********* create user ***********/
             const propertyData = {
                 title_en: values.title_en,
@@ -308,7 +314,7 @@ export default function CreateProperty() {
                     description_en: "",
                     description_fr: "",
                     price: "",
-//                    vr_link: "",
+                    vr_link: "",
                     picture_img: [], // Set this to an empty array for multiple files
                     video: null, // Use `null` for file inputs
                     video_link: "", // Add this for YouTube video link
@@ -519,8 +525,6 @@ export default function CreateProperty() {
                                         </div>
                                     </fieldset>
                                 </div>
-                                
-
                                 <div className="box grid-1 box gap-50">
                                     <fieldset className="box-fieldset">
                                         <label htmlFor="video_link">YouTube Link:</label>
@@ -531,6 +535,20 @@ export default function CreateProperty() {
                                             name="video_link"
                                             className="form-control"
                                             placeholder="https://www.youtube.com/watch?v=QgAQcrvHsHQ"
+                                        />
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div className="box grid-1 box gap-50">
+                                    <fieldset className="box-fieldset">
+                                        <label htmlFor="vr_link">VR Link:</label>
+                                        {/* YouTube Link Input Field */}
+                                        <div>
+                                        <Field
+                                            type="text"
+                                            name="vr_link"
+                                            className="form-control"
+                                            placeholder="https://www.google.com"
                                         />
                                         </div>
                                     </fieldset>
