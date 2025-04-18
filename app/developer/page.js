@@ -57,7 +57,7 @@ export default function developerListing() {
 
 
   const handleInputChange = (e) => {
-    console.log(e,"lllllllllllll")
+    // console.log(e,"lllllllllllll")
 		setSearchTerm(e.target.value);
 		setSearchCity(e.target.value)
     if (e.target.name === "city" && e.target.value.trim() === "") {
@@ -100,7 +100,7 @@ const fetchCityOptions = debounce(async (value, page = 1) => {
       };
 
       const response = await getData("api/developer", requestData, true);
-      console.log(response);
+      // console.log(response);
       if (response.status) {
         const { list, totalCount, totalPages, currentPage, project_meta_details, maxPriceSliderRange, cities } = response.data;
         setDeveloperList(list);
@@ -136,9 +136,9 @@ const fetchCityOptions = debounce(async (value, page = 1) => {
         city_id: filters.city,
         user_name: filters.title,
       };
-      console.log(requestData,"requestData")
+      // console.log(requestData,"requestData")
       const response = await getData("api/developer", requestData, true);
-      console.log(response);
+      // console.log(response);
       if (response.status) {
         const { list, totalCount, totalPages, currentPage, project_meta_details, maxPriceSliderRange, cities } = response.data;
         setDeveloperList(list);

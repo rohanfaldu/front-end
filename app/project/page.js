@@ -120,7 +120,7 @@ export default function ProjectHalfmapList() {
 
 
 	const handleSubmit = async (page = pagination.currentPage) => {
-		console.log("Filters:", filters);
+		// console.log("Filters:", filters);
 		setLoading(true);
 
 		const lang = i18n.language;
@@ -292,7 +292,7 @@ export default function ProjectHalfmapList() {
 	}
 
 	const handleCitySelect = (cityId, cityName, latitude, longitude) => {
-		console.log(latitude, longitude);
+		// console.log(latitude, longitude);
 		setSearchCity(cityName); // Set the selected city name in the input
 		handleFilterChange({ target: { name: 'city', value: cityId } }); // Call filter change with selected city ID
 	};
@@ -321,7 +321,7 @@ export default function ProjectHalfmapList() {
 	const handleSwitchChange = (e) => {
 		setIsSwitch(e.target.checked);
 	}
-	console.log(isSwitch, ">>> isSwitch");
+	// console.log(isSwitch, ">>> isSwitch");
 
 	return (
 		<>

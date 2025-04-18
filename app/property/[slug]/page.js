@@ -155,14 +155,14 @@ export default function PropertyDetailsV1({ params }) {
 		itemsPerPage: variablesList.itemsPerPage,
 	});
 	// Now you have `slugPart` and `matching` variables
-	console.log('Slug:', slugPart);
-	console.log('Matching:', matching);
+	// console.log('Slug:', slugPart);
+	// console.log('Matching:', matching);
 
 
 
 
 	useEffect(() => {
-		console.log("Fetching properties...");
+		// console.log("Fetching properties...");
 
 		const fetchData = async () => {
 			try {
@@ -224,7 +224,7 @@ export default function PropertyDetailsV1({ params }) {
 
 	const getPropertyComment = async () => {
 		if (!properties?.id) return; // Avoid unnecessary API calls
-		console.log("Fetching property comments...");
+		// console.log("Fetching property comments...");
 		const token = localStorage.getItem("token");
 
 		try {
@@ -287,7 +287,7 @@ export default function PropertyDetailsV1({ params }) {
 			</>
 		)
 	} else {
-		console.log(properties);
+		// console.log(properties);
 	}
 	const handleAccordion = (key) => {
 		setIsAccordion(prevState => prevState === key ? null : key)
@@ -312,7 +312,7 @@ export default function PropertyDetailsV1({ params }) {
 			});
 
 			const data = await response.json();
-			console.log("API Response:", data);
+			// console.log("API Response:", data);
 
 			if (response.ok) {
 				setComment("");
@@ -354,7 +354,7 @@ export default function PropertyDetailsV1({ params }) {
 				}
 
 				const data = await response.json();
-				console.log(data.message);
+				// console.log(data.message);
 				setIsLiked(!isLiked);
 			} else {
 				const response = await fetch(`${API_URL}/api/property/${id}/like`, {
@@ -372,7 +372,7 @@ export default function PropertyDetailsV1({ params }) {
 				}
 
 				const data = await response.json();
-				console.log(data.message);
+				// console.log(data.message);
 				setIsLiked(!isLiked);
 			}
 		} catch (error) {
@@ -383,8 +383,8 @@ export default function PropertyDetailsV1({ params }) {
 
 
 	const openPopup = (image) => {
-		console.log('image');
-		console.log(image);
+		// console.log('image');
+		// console.log(image);
 		setCurrentImage(image);
 		setCurrentImageIndex(image);
 		setIsOpen(true);
@@ -398,7 +398,7 @@ export default function PropertyDetailsV1({ params }) {
 
 
 	const handleLogin = () => {
-		console.log(isLogin, "///////////////////////////")
+		// console.log(isLogin, "///////////////////////////")
 		setLogin(!isLogin)
 		!isLogin ? document.body.classList.add("modal-open") : document.body.classList.remove("modal-open")
 	}
@@ -422,7 +422,7 @@ export default function PropertyDetailsV1({ params }) {
 									style={{ marginTop: "10px" }}
 									onClick={() => router.back()}
 								>
-									<span style={{ color: "#fff" }}>&lt;</span>
+									<span style={{ color: "#fff" }}>&lt; {t('back')}</span>
 								</button>
 							</div>
 							{/* Main Image Slider */}
@@ -806,7 +806,7 @@ export default function PropertyDetailsV1({ params }) {
 									<div className="widget-sidebar fixed-sidebar wrapper-sidebar-right">
 										{(properties.project_details !== null) ?
 											<div className="widget-box single-property-contact bg-surface">
-												<div className="h7 title fw-7">{t("Project Details")}</div>
+												<div className="h7 title fw-7">{t("projectDetails")}</div>
 												<div className="box-avatar">
 													<div className="box-avatar">
 														<Link

@@ -135,7 +135,7 @@ export default function PropertyListing() {
 
   const exportToExcel = async () => {
           try {
-            console.log("Exporting to Excel...");
+            // console.log("Exporting to Excel...");
       
             if (!properties || properties.length === 0) {
               alert("No data to export");
@@ -143,7 +143,7 @@ export default function PropertyListing() {
             }
       
             // Ensure properties data exists
-            console.log("Properties:", properties);
+            // console.log("Properties:", properties);
       
             // Create a new workbook instance
             const workbook = new ExcelJS.Workbook();
@@ -185,7 +185,7 @@ export default function PropertyListing() {
             const buffer = await workbook.xlsx.writeBuffer();
             saveAs(new Blob([buffer]), "property_view_engagements.xlsx");
       
-            console.log("Excel file exported successfully!");
+            // console.log("Excel file exported successfully!");
           } catch (error) {
             console.error("Excel export error:", error);
             alert("Error exporting to Excel: " + error.message);

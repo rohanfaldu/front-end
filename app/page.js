@@ -36,7 +36,7 @@ export default function Home() {
 	}, [pagination.currentPage, i18n.language]);
 
 	const fetchPropertys = async (page = 1) => {
-		console.log("hit fetchPropertys");
+		// console.log("hit fetchPropertys");
 			try {
 				const lang = i18n.language;
 				const requestData = {
@@ -46,9 +46,9 @@ export default function Home() {
 					transaction: transaction
 				};
 				
-				console.log(requestData,";;;;;;;;;;;;;;;;;;;;")
+				// console.log(requestData,";;;;;;;;;;;;;;;;;;;;")
 				const response = await getData("api/property", requestData, true);
-				console.log('responsedddddddddd: ', response);
+				// console.log('responsedddddddddd: ', response);
 				if (response.status) {
 					setProperties(response.data);
 					setPagination({

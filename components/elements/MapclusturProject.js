@@ -6,7 +6,7 @@ import "leaflet/dist/leaflet.css";
 import { useMemo } from "react";
 
 export default function MapClusterProject({ topmap, propertys, slug }) {
-  console.log(propertys, '>>>>> propertys Map')
+  // console.log(propertys, '>>>>> propertys Map')
   const customMarker = useMemo(() => L.icon({
     iconUrl: "/images/location/map-lo.png",
     iconSize: [30, 30],
@@ -83,6 +83,10 @@ export default function MapClusterProject({ topmap, propertys, slug }) {
       scrollWheelZoom={true}
       dragging={true}
       doubleClickZoom={true}
+      whenCreated={(map) => {
+        map.dragging.enable();
+        map.scrollWheelZoom.enable(); // bonus: make scroll zoom smooth
+      }}
     >
       <TileLayer url="https://{s}.tile.osm.org/{z}/{x}/{y}.png" />
       

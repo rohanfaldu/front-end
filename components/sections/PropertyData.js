@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 
 export default function PropertyData( propertyData, slide, calculation ) {
         const propertySlide = slide ? "style-2" : "";
-    console.log(propertyData, ">>>>>>>>>> property Data");
+    // console.log(propertyData, ">>>>>>>>>> property Data");
     const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
     const [isLiked, setIsLiked] = useState(propertyData.data.like);
@@ -47,7 +47,7 @@ export default function PropertyData( propertyData, slide, calculation ) {
                 }
             
                 const data = await response.json();
-                console.log(data.message);
+                // console.log(data.message);
                 setIsLiked(!isLiked);
             }else{
                 const response = await fetch(`${API_URL}/api/property/${id}/like`, {
@@ -65,7 +65,7 @@ export default function PropertyData( propertyData, slide, calculation ) {
                 }
     
                 const data = await response.json();
-                console.log(data.message);
+                // console.log(data.message);
                 setIsLiked(!isLiked);
             }
         } catch (error) {
@@ -100,7 +100,7 @@ export default function PropertyData( propertyData, slide, calculation ) {
             }
         
             const data = await response.json();
-            console.log(data.message);
+            // console.log(data.message);
         } catch (error) {
             console.error('Error liking the property:', error);
         }
@@ -110,7 +110,7 @@ export default function PropertyData( propertyData, slide, calculation ) {
     const [showLoginModal, setShowLoginModal] = useState(false)
 
     const handleLogin = () => {
-        console.log(isLogin,"///////////////////////////")
+        // console.log(isLogin,"///////////////////////////")
 		setLogin(!isLogin)
 		!isLogin ? document.body.classList.add("modal-open") : document.body.classList.remove("modal-open")
 	}
@@ -138,14 +138,14 @@ export default function PropertyData( propertyData, slide, calculation ) {
                                         {/* <li className={`flag-tag style-1}`}>
                                             {propertyData.data.transaction}
                                         </li> */}
-
+                                        {/* {  console.log(propertyData.data.transaction_type,' - ',propertyData.data.slug, ' >>> Transaction type') } */}
                                         {propertyData.data.transaction_type == 'rental' && (
-                                                <li className={`flag-tag style-1}`}>
+                                                <li className={`flag-tag style-1`}>
                                                     {t("rental")}
                                                 </li>
                                             )}
                                             {propertyData.data.transaction_type == 'sale' && (
-                                                <li className={`flag-tag style-1}`}>
+                                                <li className={`flag-tag style-1`}>
                                                     {t("sale")}
                                                 </li>
                                             )}

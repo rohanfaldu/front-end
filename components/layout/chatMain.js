@@ -41,7 +41,7 @@ export default function ChatAdmin({ headerStyle, footerStyle, fixedfooter, child
             }
         })
     }, [])
-    // console.log(islogin)
+    // // console.log(islogin)
     // if(islogin){
     // 	router.push('/');
     // 	return true;

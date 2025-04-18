@@ -14,7 +14,7 @@ export default function Slider1({properties}) {
 		const intervalId = setInterval(
 			() => setIndex((index) => index + 1),
 			3000, // every 3 seconds
-			console.log(properties,"aaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+			// console.log(properties,"aaaaaaaaaaaaaaaaaaaaaaaaaaaa")
 		)
 		return () => clearTimeout(intervalId)
 	}, [])

@@ -54,7 +54,7 @@ export default function AgencyListing() {
 	});
 
 	const handleInputChange = (e) => {
-		console.log(e,"lllllllllllll")
+		// console.log(e,"lllllllllllll")
 			setSearchTerm(e.target.value);
 			setSearchCity(e.target.value)
 		if (e.target.name === "city" && e.target.value.trim() === "") {
@@ -95,9 +95,9 @@ export default function AgencyListing() {
 				city_id: filters.city,
 				user_name: filters.title,
 			};
-			console.log(requestData);
+			// console.log(requestData);
 			const response = await getData("api/agencies", requestData, true);
-			console.log(response);
+			// console.log(response);
 			if (response.status) {
 				const { list, totalCount, totalPages, currentPage, project_meta_details, maxPriceSliderRange, cities } = response.data;
 				setAgencyList(list);
@@ -157,7 +157,7 @@ export default function AgencyListing() {
 			maxPrice: newRange[1], // Set maxPrice
 		}));
 	};
-	console.log('>>>>>>>>agencyList', agencyList);
+	// console.log('>>>>>>>>agencyList', agencyList);
 	return (
 		<>
 

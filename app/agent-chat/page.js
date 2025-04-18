@@ -51,7 +51,7 @@ export default function Chat() {
         // Format and update messages
         const formattedMessages = formatMessages(chatMessages);
         setChatmessages(formattedMessages);
-        console.log("Real-time chat messages updated:", chatMessages);
+        // console.log("Real-time chat messages updated:", chatMessages);
       }, (error) => {
         console.error("Error in real-time listener:", error);
       });
@@ -215,7 +215,7 @@ export default function Chat() {
           
           if (!messageSnapshot.empty) {
             const latestMessage = messageSnapshot.docs[0].data();
-            console.log(`Latest message for chat ${chat.id}:`, latestMessage);
+            // console.log(`Latest message for chat ${chat.id}:`, latestMessage);
             // Update the lastMessage field with the actual last message
             return {
               ...chat,
@@ -244,7 +244,7 @@ export default function Chat() {
   
         setPropertyCollection(chatData);
         setLoading(false);
-        console.log("Fetched chat data with last messages:", chatData);
+        // console.log("Fetched chat data with last messages:", chatData);
       } catch (error) {
         console.error("Error fetching chat data:", error);
       }

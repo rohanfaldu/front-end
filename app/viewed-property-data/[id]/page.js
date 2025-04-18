@@ -55,7 +55,7 @@ export default function PropertyViewedListing({ params }) {
       const response = await insertData("api/property/get-viewed-property-user", requestData, true);
       if (response.status) {
         const { list, totalCount, totalPages, currentPage } = response.data;
-        console.log('response.data: ', response.data);
+        // console.log('response.data: ', response.data);
         setProperties(list);
         setPagination({
           ...pagination,
@@ -84,7 +84,7 @@ export default function PropertyViewedListing({ params }) {
 
      const exportToExcel = async () => {
         try {
-          console.log("Exporting to Excel...");
+          // console.log("Exporting to Excel...");
       
           if (!properties || properties.length === 0) {
             alert("No data to export");
@@ -92,7 +92,7 @@ export default function PropertyViewedListing({ params }) {
           }
       
           // Ensure properties data exists
-          console.log("Properties:", properties);
+          // console.log("Properties:", properties);
       
           // Create a new workbook instance
           const workbook = new ExcelJS.Workbook();
@@ -138,7 +138,7 @@ export default function PropertyViewedListing({ params }) {
           const buffer = await workbook.xlsx.writeBuffer();
           saveAs(new Blob([buffer]), "property_view_engagements.xlsx");
       
-          console.log("Excel file exported successfully!");
+          // console.log("Excel file exported successfully!");
         } catch (error) {
           console.error("Excel export error:", error);
           alert("Error exporting to Excel: " + error.message);

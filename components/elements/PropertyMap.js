@@ -5,7 +5,7 @@ const MapCluster = dynamic(() => import('./MapCluster'), {
 })
 
 export default function PropertyMap({ topmap, singleMap, propertys, slug, lat, lng }) {
-	console.log(lat,lng,"33333333333333333333")
+	// console.log(lat,lng,"33333333333333333333")
 	return (
 		<>{
 			!singleMap ?

@@ -6,7 +6,7 @@ export async function insertUploadImage(name, images) {
     formDataData.append('image', images); 
     //formDataData.append(images);
     const response = await insertImageData(formDataData);
-    console.log(response.status);
+    // console.log(response.status);
     if(response.status === true) {
         const fileUrls = response.data.files.map(file => file.url);
         if(fileUrls.length > 0) {
@@ -22,12 +22,12 @@ export async function insertUploadImage(name, images) {
 export async function insertMultipleUploadImage(name, images) {
     const formDataData = new FormData();
     images.forEach((image) => {
-        console.log(image);
+        // console.log(image);
         formDataData.append(name, image); // Use the same key for all images
     });
     //formDataData.append(images);
     const response = await insertImageData(formDataData);
-    console.log(response.status);
+    // console.log(response.status);
     if(response.status === true) {
         return response.data;
     }else {

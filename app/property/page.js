@@ -148,7 +148,7 @@ export default function PropertyHalfmapList() {
 					prev.map(p => p.id === id ? { ...p, like: false } : p)
 				);
 			}
-			console.log(propertys, ' >>>>>>>>>>>>  Propertys Like Data')
+			// console.log(propertys, ' >>>>>>>>>>>>  Propertys Like Data')
 		} catch (error) {
 			console.error('Like error:', error);
 		}
@@ -157,7 +157,7 @@ export default function PropertyHalfmapList() {
 	const [isLogin, setLogin] = useState(false)
 	const [showLoginModal, setShowLoginModal] = useState(false)
 	const handleLogin = () => {
-		console.log(isLogin, "///////////////////////////")
+		// console.log(isLogin, "///////////////////////////")
 		setLogin(!isLogin)
 		!isLogin ? document.body.classList.add("modal-open") : document.body.classList.remove("modal-open")
 	}
@@ -203,7 +203,7 @@ export default function PropertyHalfmapList() {
 		setTransaction(localStorage.getItem("transaction"));
 		const url = window.location.href;
 		const urlParams = new URLSearchParams(new URL(url).search);
-		console.log('urlParams: ', urlParams);
+		// console.log('urlParams: ', urlParams);
 		if (urlParams.size !== 0) {
 			setCheckURL(true);
 			const params = {
@@ -228,15 +228,15 @@ export default function PropertyHalfmapList() {
 				direction: urlParams.get("direction") || null,
 			};
 
-			console.log("Extracted Parameters:", params);
+			// console.log("Extracted Parameters:", params);
 			// setParams(params)
 
 			setFilters(() => ({
 				...params,
 			}));
-			console.log(params, '>>>>>>>>>>>>> Params')
-			console.log(params.minPrice, "/////////////")
-			console.log(params.maxPrice, "/////////////")
+			// console.log(params, '>>>>>>>>>>>>> Params')
+			// console.log(params.minPrice, "/////////////")
+			// console.log(params.maxPrice, "/////////////")
 			if (params.maxSize == "null" && params.maxPrice == "null") {
 				setPriceRange([0, 300000]);
 				setSizeRange([0, 2000]);
@@ -250,7 +250,7 @@ export default function PropertyHalfmapList() {
 
 
 			const getFilterData = async (page = 1,) => {
-				console.log("Filters:", filters);
+				// console.log("Filters:", filters);
 				const lang = i18n.language;
 				const requestData = {
 					page,
@@ -273,7 +273,7 @@ export default function PropertyHalfmapList() {
 
 					transaction: transaction
 				};
-				console.log(transaction, ".....................")
+				// console.log(transaction, ".....................")
 				const response = await getData("api/property", requestData, true);
 				if (response.status) {
 					const { list, totalCount, totalPages, currentPage, property_meta_details, maxPriceSliderRange, property_types, cities, maxSizeSliderRange, developers } = response.data;
@@ -287,7 +287,7 @@ export default function PropertyHalfmapList() {
 					setAmenities(property_meta_details);
 					setpropertyType(property_types);
 					setDevelopers(developers);
-					console.log(developers, "////////////////////")
+					// console.log(developers, "////////////////////")
 					setCity(cities);
 					if (!initialMaxPrice) {
 						if (maxPriceSliderRange !== null) {
@@ -331,7 +331,7 @@ export default function PropertyHalfmapList() {
 
 	}, [params, pagination.currentPage, i18n.language, transaction]);
 
-	console.log(priceRange, ' >>>>>>>>>>>> Price')
+	// console.log(priceRange, ' >>>>>>>>>>>> Price')
 
 	const fetchCityOptions = debounce(async (value, page = 1) => {
 		if (value.trim() === "") {
@@ -429,7 +429,7 @@ export default function PropertyHalfmapList() {
 	}
 
 	const handleCitySelect = (cityId, cityName, latitude, longitude) => {
-		console.log(latitude, longitude);
+		// console.log(latitude, longitude);
 		setAddressLatLong([latitude, longitude]);
 		setSearchCity(cityName); // Set the selected city name in the input
 		handleFilterChange({ target: { name: 'city', value: cityId } }); // Call filter change with selected city ID
@@ -584,7 +584,7 @@ export default function PropertyHalfmapList() {
 	};
 
 	const handlePriceChange = (newRange) => {
-		console.log(newRange, ";;;;;;;;;;;;;;;;;;;")
+		// console.log(newRange, ";;;;;;;;;;;;;;;;;;;")
 		setPriceRange(newRange); // Update the range state
 		setFilters((prevFilters) => ({
 			...prevFilters,
@@ -605,9 +605,9 @@ export default function PropertyHalfmapList() {
 	const filteredProperties = propertys.filter(property => property.status).reverse(); // Reverse before mapping
 	const lastPropertyId = filteredProperties.length > 0 ? filteredProperties[0].id : null; // First item is now the last one
 	const handleSubmit = async (page = pagination.currentPage) => {
-		console.log(addressLatLong, "/////////////////")
+		// console.log(addressLatLong, "/////////////////")
 		setCalculationStatus(true)
-		console.log("Filters:", filters);
+		// console.log("Filters:", filters);
 		setLoading(true);
 
 		const lang = i18n.language;
@@ -690,7 +690,7 @@ export default function PropertyHalfmapList() {
 	const handleSwitchChange = (e) => {
 		setIsSwitch(e.target.checked);
 	}
-	console.log(isSwitch, ">>> isSwitch");
+	// console.log(isSwitch, ">>> isSwitch");
 	return (
 		<>
 
@@ -1028,7 +1028,7 @@ export default function PropertyHalfmapList() {
 																{amenities && amenities.length > 0 ? (
 																	[...amenities].reverse().map((project) => {
 																		if (project.type === "number") {
-																			console.log(project);
+																			// console.log(project);
 																			const selectedValue = filters.amenities_id_object_with_value?.[project.id] || "";
 
 																			return (
@@ -1228,7 +1228,7 @@ export default function PropertyHalfmapList() {
 																src="/images/logo/like.svg"
 																alt="like"
 																onClick={() => {
-																	console.log("Button clicked", filteredProperties[currentIndex]?.id, lastPropertyId);
+																	// console.log("Button clicked", filteredProperties[currentIndex]?.id, lastPropertyId);
 
 																	if (localStorage.getItem('token')) {
 																		handleLikeClick();

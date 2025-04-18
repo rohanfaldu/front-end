@@ -169,7 +169,7 @@ export default function ProjectDetailsView({ params }) {
 
 			// API call
 			const response = await getData("api/projects/getbyid", requestData, true);
-			console.log('API Response:', response);
+			// console.log('API Response:', response);
 
 			if (response.status) {
 				setProjectDetails(response.data);
@@ -194,8 +194,8 @@ export default function ProjectDetailsView({ params }) {
 	// Translation hook
 	const { t, i18n } = useTranslation();
 
-	console.log('Project Details:', projectDetails);
-	console.log('>>>>>>properties', properties);
+	// console.log('Project Details:', projectDetails);
+	// console.log('>>>>>>properties', properties);
 
 	if (loading) {
 		return (
@@ -204,24 +204,24 @@ export default function ProjectDetailsView({ params }) {
 			</>
 		)
 	} else {
-		console.log(projectDetails);
+		// console.log(projectDetails);
 	}
 	const handleAccordion = (key) => {
 		setIsAccordion(prevState => prevState === key ? null : key)
 	}
-	console.log(projectDetails.video);
+	// console.log(projectDetails.video);
 
 	if ((projectDetails.video !== null) && (!projectDetails.video.endsWith(".mp4")) && (videoUrl === "")) {
 		const urlParams = new URLSearchParams(new URL(projectDetails.video).search);
 		const videoId = urlParams.get('v');
 		setVideoUrl('https://www.youtube.com/embed/' + videoId);
 	}
-	console.log('video');
-	console.log(videoUrl);
+	// console.log('video');
+	// console.log(videoUrl);
 
 	const openPopup = (image) => {
-		console.log('image');
-		console.log(image);
+		// console.log('image');
+		// console.log(image);
 		setCurrentImage(image);
 		setCurrentImageIndex(image);
 		setIsOpen(true);
@@ -245,7 +245,7 @@ export default function ProjectDetailsView({ params }) {
 									style={{ marginTop: "10px" }}
 									onClick={() => router.back()}
 								>
-									<span style={{ color: "#fff" }}>&lt;</span>
+									<span style={{ color: "#fff" }}>&lt; {t('back')}</span>
 								</button>
 							</div>
 							<Swiper {...swiperOptions(projectDetails)} className="swiper-wrapper">
@@ -1237,7 +1237,7 @@ export default function ProjectDetailsView({ params }) {
 									<h4 className="mt-4">{t("themostrecentestate")}</h4>
 								</div>
 							)}
-							{ console.log(properties,' >>>>>>>>> properties') }
+							{/* { console.log(properties,' >>>>>>>>> properties') } */}
 							<div className="swiper tf-latest-property" data-preview-lg={3} data-preview-md={2} data-preview-sm={2} data-space={30} data-loop="true">
 								<Swiper {...swiperOptions2} className="swiper-wrapper">
 									{properties.map((property) => (

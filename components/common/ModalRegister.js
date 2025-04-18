@@ -31,7 +31,7 @@ export default function ModalRegister({ isRegister, handleRegister, handleLogin 
 		agreeToTerms: Yup.bool().oneOf([true], 'You must accept the terms and conditions'),
     });
 	const handleSubmit = async (values, {resetForm}) => {
-		console.log(values);
+		// console.log(values);
 		const userData = {
 			full_name: values.user_name??null, 
 			user_name: values.user_name??null, 

@@ -17,7 +17,7 @@ export default function Sidebar() {
 		setUserType(loggedInStatus.roles.name);
 		setCurrentMenuItem(pathname)
 	}, [pathname])
-	console.log(pathname);
+	// console.log(pathname);
 	
 	const checkCurrentMenuItem = (path) => currentMenuItem === path ? "current" : ""
 	const checkParentActive = (paths) => paths.some(path => currentMenuItem.startsWith(path)) ? "current" : ""

@@ -127,7 +127,7 @@ export default function AgencyDetail({ params }) {
             const requestData = {
                 developer_slug: id
             };
-            console.log(234)
+            // console.log(234)
             // API call
             const response = await insertData(`api/developer/getbyid`, requestData, false);
             
@@ -152,7 +152,7 @@ export default function AgencyDetail({ params }) {
 
     // Translation hook
     const { t, i18n } = useTranslation();
-    console.log(developerDetails,'>>>>>>>>>>>>>>>> Developer Details');
+    // console.log(developerDetails,'>>>>>>>>>>>>>>>> Developer Details');
     return (
         <>
             {loading ?

@@ -342,7 +342,7 @@
      "titleAgency":"Name of Agency",
      "amenities":"Amenities",
      "footerMain": "Innovative real estate platform with smart matching technology. For more information, contact us",
-     "rental": "FOR RENTAL",
+     "rental": "FOR RENT",
      "sale": "FOR SALE",
      "back": "Back",
      "loginText": "Log in to your account to continue.",
@@ -353,5 +353,6 @@
      "vrLink": "VR Link",
      "luxuriousStudioSale": "Luxury Studio of 47 m² for sale, Glorious Nouaceur",
      "FOR sale": "For Sale",
-     "FOR rental": "For Rent"
+     "FOR rental": "For Rent",
+     "projectDetails": "Project Details"
 }

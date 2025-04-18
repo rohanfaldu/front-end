@@ -11,7 +11,7 @@ const GooglePlacesAutocomplete = () => {
         if (autocompleteRef.current) {
             const place = autocompleteRef.current.getPlace();
             setAddress(place.formatted_address || "");
-            console.log("Selected Place:", place); // Full place object
+            // console.log("Selected Place:", place); // Full place object
         }
     };
 

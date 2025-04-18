@@ -10,7 +10,7 @@ import { getFirestore, collection, getDocs, doc, query, where, addDoc, serverTim
 import { db } from '@/components/layout/firebaseConfig';
 import Preloader from '@/components/elements/Preloader';
 import { useRouter } from 'next/navigation';
-
+import { useTranslation } from "react-i18next";
 
 export default function Chat() {
   const [showPicker, setShowPicker] = useState(false);
@@ -29,19 +29,20 @@ export default function Chat() {
   const router = useRouter();
   const [activeUser, setActiveUser] = useState(null);
   const [chatWithName, setChatWithName] = useState("");
+  const { t, i18n } = useTranslation();
 
 
   const handleSendMessage = async () => {
     if (!message.trim() || !activeUser) return;
-    
+
     setIsLoading(true);
-    
+
     try {
       const userId = localStorage.getItem("user_id");
       // Find the receiver ID from the active chat record
       const activeChat = allRecord.find(chat => chat.id === activeUser);
       const receiverId = activeChat?.developer_id || activeChat?.agency_id;
-      
+
       // Create a new message object
       const newMessage = {
         chat: message.trim(),
@@ -49,16 +50,16 @@ export default function Chat() {
         from: userId,
         to: receiverId
       };
-      
+
       // Add the message to the Firestore collection
       const chatCollectionRef = collection(db, "chat_new", activeUser, "chat");
       await addDoc(chatCollectionRef, newMessage);
-      
+
       // Clear the input field
       setMessage("");
-      
+
       // We don't need to fetch messages here anymore since we have a real-time listener
-      
+
     } catch (error) {
       console.error("Error sending message:", error);
     } finally {
@@ -77,42 +78,42 @@ export default function Chat() {
     setActiveUser(id);
     setChatWithName(name);
     setAgentImage(image);
-    console.log("SelectedImage:", image);
+    // console.log("SelectedImage:", image);
     // Set up real-time listener for the selected chat
     setupChatListener(id);
   };
-  
+
   // This function sets up a real-time listener for chat messages
   const setupChatListener = (chatId) => {
     if (!chatId) return;
-    
+
     try {
       const chatCollectionRef = collection(db, "chat_new", chatId, "chat");
       // Create a query that orders messages by datetime
       const q = query(chatCollectionRef, orderBy("datetime"));
-      
+
       // Set up the real-time listener
       const unsubscribe = onSnapshot(q, (snapshot) => {
         const chatMessages = snapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data()
         }));
-        
+
         // Format and update messages
         const formattedMessages = formatMessages(chatMessages);
         setChatmessages(formattedMessages);
-        console.log("Real-time chat messages updated:", chatMessages);
+        // console.log("Real-time chat messages updated:", chatMessages);
       }, (error) => {
         console.error("Error in real-time listener:", error);
       });
-      
+
       // Clean up the listener when component unmounts or chat changes
       return () => unsubscribe();
     } catch (error) {
       console.error("Error setting up chat listener:", error);
     }
   };
-    
+
   const formatMessages = (chatmessages) => {
     let groupedMessages = [];
     let lastTimestamp = null;
@@ -142,34 +143,34 @@ export default function Chat() {
 
     return groupedMessages;
   };
-        
+
   useEffect(() => {
     async function fetchChatData() {
       try {
         const storedDeveloperId_or_AgencyId = localStorage.getItem("user_id");
         const userRole = localStorage.getItem("role");
-  
+
         if (!storedDeveloperId_or_AgencyId) {
           console.warn("No Developer/Agency ID found.");
           return;
         }
-  
-        if(userRole === "user") {
+
+        if (userRole === "user") {
           const chatCollectionRef = collection(db, "chat_new");
           const q = query(chatCollectionRef, where("user_id", "==", storedDeveloperId_or_AgencyId));
           const querySnapshot = await getDocs(q);
-  
+
           if (querySnapshot.empty) {
             console.warn(`No chats found for Developer ID: ${storedDeveloperId_or_AgencyId}`);
             return;
           }
-          
+
           // Get basic chat info
           const chatRecords = querySnapshot.docs.map((doc) => ({
             id: doc.id,
             ...doc.data(),
           }));
-          
+
           // Fetch the latest message for each chat
           const recordsWithLastMessages = await Promise.all(chatRecords.map(async (chat) => {
             // Reference the messages subcollection for this chat
@@ -177,7 +178,7 @@ export default function Chat() {
             // Query to get the latest message (ordered by datetime)
             const messagesQuery = query(messagesRef, orderBy("datetime", "desc"), limit(1));
             const messageSnapshot = await getDocs(messagesQuery);
-            
+
             if (!messageSnapshot.empty) {
               const latestMessage = messageSnapshot.docs[0].data();
               // Update the lastMessage field with the actual last message
@@ -189,21 +190,21 @@ export default function Chat() {
                 }
               };
             }
-            
+
             return chat; // Return original chat if no messages found
           }));
-  
+
           setAllRecord(recordsWithLastMessages);
-          
+
           // If there are chats, automatically select the first one
           if (recordsWithLastMessages.length > 0) {
             getMessageWithAgent(
-              recordsWithLastMessages[0].id, 
-              recordsWithLastMessages[0].agency_name !== '' 
-                ? recordsWithLastMessages[0].agency_name 
+              recordsWithLastMessages[0].id,
+              recordsWithLastMessages[0].agency_name !== ''
+                ? recordsWithLastMessages[0].agency_name
                 : recordsWithLastMessages[0].developer_name,
-              recordsWithLastMessages[0].agency_image !== '' 
-                ? recordsWithLastMessages[0].agency_image 
+              recordsWithLastMessages[0].agency_image !== ''
+                ? recordsWithLastMessages[0].agency_image
                 : recordsWithLastMessages[0].developer_image
             );
           }
@@ -213,9 +214,9 @@ export default function Chat() {
         console.error("Error fetching chat data:", error);
       }
     }
-    
+
     fetchChatData();
-    
+
     // Clean up any listeners when component unmounts
     return () => {
       // If we had stored the unsubscribe function, we would call it here
@@ -234,22 +235,22 @@ export default function Chat() {
     <>
       <ChatAdmin>
         {loading &&
-            <Preloader />
+          <Preloader />
         }
         {!loading &&
           <div className="containerr">
             <div className="link back-btn chat-back">
-								<button
-									className="form-wg tf-btn primary"
-									type="button"
-									style={{ margin: "10px" }}
-									onClick={() => router.back()}
-								>
-									<span style={{ color: "#fff" }}>&lt;</span>
-								</button>
-							</div>
+              <button
+                className="form-wg tf-btn primary"
+                type="button"
+                style={{ margin: "10px" }}
+                onClick={() => router.back()}
+              >
+                <span style={{ color: "#fff" }}>&lt; {t('back')}</span>
+              </button>
+            </div>
             <div className="row">
-              <section className="discussions" style={{position: "relative"}}>
+              <section className="discussions" style={{ position: "relative" }}>
                 {allRecord.map((user) => (
                   <div
                     key={user.id}
@@ -264,10 +265,10 @@ export default function Chat() {
                     </div>
                     <div className="desc-contact-2">
                       <p className="name">{user.property_name}</p>
-                      {user.developer_name !== '' && 
+                      {user.developer_name !== '' &&
                         <p className="name">{user.developer_name}</p>
                       }
-                      {user.agency_name !== '' && 
+                      {user.agency_name !== '' &&
                         <p className="name">{user.agency_name}</p>
                       }
                       <p className="message">{user.lastMessage?.text || "No messages yet"}</p>
@@ -280,8 +281,8 @@ export default function Chat() {
                 <div className="header-chat">
                   {/* <i className="icon fa fa-user-o" aria-hidden="true"></i> */}
                   <img
-                      src={agentImage} style={{width: "40px", height: "40px", borderRadius: "50%", objectFit: "cover", marginLeft: "30px"}}
-                    />
+                    src={agentImage} style={{ width: "40px", height: "40px", borderRadius: "50%", objectFit: "cover", marginLeft: "30px" }}
+                  />
                   <p className="name">{chatWithName}</p>
                   {/* <i className="icon clickable fa fa-ellipsis-h right" aria-hidden="true"></i> */}
                 </div>
@@ -342,8 +343,8 @@ export default function Chat() {
                     disabled={!activeUser || isLoading}
                   />
 
-                  <i 
-                    className={`icon send fa fa-paper-plane-o clickable ${isLoading ? 'disabled' : ''}`} 
+                  <i
+                    className={`icon send fa fa-paper-plane-o clickable ${isLoading ? 'disabled' : ''}`}
                     aria-hidden="true"
                     onClick={handleSendMessage}
                     style={{ cursor: activeUser && !isLoading ? 'pointer' : 'not-allowed', opacity: activeUser && !isLoading ? 1 : 0.5 }}

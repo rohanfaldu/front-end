@@ -116,7 +116,7 @@ import { useSearchParams } from "next/navigation";
 import PropertyData from "@/components/sections/PropertyData";
 export default function AgencyDetail({ params }) {
 	const { id } = params;
-	console.log(id, ">>>>>>>>>>>>>> SLUG");
+	// console.log(id, ">>>>>>>>>>>>>> SLUG");
 	const searchParams = useSearchParams();
 	const projectId = searchParams.get("id");
 	const [error, setError] = useState(null);
@@ -128,10 +128,10 @@ export default function AgencyDetail({ params }) {
 		setLoading(true); // Start loading
 		try {
 			const requestData = {};
-			console.log(234)
+			// console.log(234)
 			// API call
 			const response = await insertData(`api/agencies/${id}`, requestData, false);
-			console.log('API Response:', response);
+			// console.log('API Response:', response);
 
 			if (response.status) {
 				setAgencyDetails(response.data);

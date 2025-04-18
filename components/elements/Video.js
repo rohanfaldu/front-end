@@ -7,8 +7,8 @@ import ReactPlayer from 'react-player';
 export default function Video({ type, link }) {
 	//const [open, setOpen] = useState(false);
 	const [isOpen, setIsOpen] = useState(false);
-	console.log('type');
-	console.log(type);
+	// console.log('type');
+	// console.log(type);
 	const openModal = () => setIsOpen(true);
 	const closeModal = () => setIsOpen(false);
 	return (

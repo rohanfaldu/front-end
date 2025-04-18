@@ -139,7 +139,7 @@ export default function CreateProperty() {
     
 
     const handleStateChange = async (stateId) => {
-        console.log('State change triggered with ID:', stateId);
+        // console.log('State change triggered with ID:', stateId);
         setCityList([]);
         setDistrictList([]);
         setNeighborhoodList([]);
@@ -228,8 +228,8 @@ export default function CreateProperty() {
         });
 
         const pictureUrl = imageUrls.join(", ");
-        console.log("Image URLs:", pictureUrl);
-        console.log("Video URL:", videoUrl);
+        // console.log("Image URLs:", pictureUrl);
+        // console.log("Video URL:", videoUrl);
 
             videoUrl = videoUrl || (values.video_link ? values.video_link : null);
         
@@ -261,7 +261,7 @@ export default function CreateProperty() {
                 direction: values.direction
             };
 
-            console.log("Property Data:", propertyData); 
+            // console.log("Property Data:", propertyData); 
             const createPropertyInfo = await insertData("api/property/create", propertyData, true);
 
             if (createPropertyInfo.status) {
@@ -275,7 +275,7 @@ export default function CreateProperty() {
             }
         } else {
            // setLoading(false);
-            console.log('File not uploaded');
+            // console.log('File not uploaded');
             setErrorMessage('File not uploaded');
         }
     };
@@ -298,7 +298,7 @@ export default function CreateProperty() {
         { id: 'west', name: 'West', },  
     ];
   
-    console.log(currencyList);
+    // console.log(currencyList);
     const messageClass = (sucessMessage) ? "message success" : "message error";
 	return (
 		<>
@@ -357,7 +357,7 @@ export default function CreateProperty() {
                                         optionText="Select Transaction Type"
                                         onChange={(e) => {
                                             const selectedState = e.target.value;
-                                            console.log(selectedState);
+                                            // console.log(selectedState);
                                             setFieldValue("transaction_type", selectedState);
                                         }}
                                         options={transactionType}
@@ -370,7 +370,7 @@ export default function CreateProperty() {
                                         optionText="Select Property Type"
                                         onChange={(e) => {
                                             const selectedState = e.target.value;
-                                            console.log(selectedState);
+                                            // console.log(selectedState);
                                             setFieldValue("property_type", selectedState);
                                         }}
                                         options={propertyofTypesListing}
@@ -383,7 +383,7 @@ export default function CreateProperty() {
                                             optionText="Select Project Listing"
                                             onChange={(e) => {
                                                 const selectedState = e.target.value;
-                                                console.log(selectedState);
+                                                // console.log(selectedState);
                                                 setFieldValue("project_id", selectedState);
                                             }}
                                             options={projectOfListing}
@@ -413,7 +413,7 @@ export default function CreateProperty() {
                                         optionText="Select Direction"
                                         onChange={(e) => {
                                             const selectedState = e.target.value;
-                                            console.log(selectedState);
+                                            // console.log(selectedState);
                                             setFieldValue("direction", selectedState);
                                         }}
                                         options={directionType}
@@ -563,7 +563,7 @@ export default function CreateProperty() {
                                         required={true}
                                         optionText="Select State"
                                         onChange={(e) => {
-                                            console.log('eeeeeeeee')
+                                            // console.log('eeeeeeeee')
                                             const selectedState = e.target.value;
                                             setFieldValue("state_id", selectedState);
                                             handleStateChange(selectedState);

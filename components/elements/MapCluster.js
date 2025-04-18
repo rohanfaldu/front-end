@@ -19,8 +19,8 @@ function UpdateMapView({ center, zoom }) {
 }
 
 export default function MapCluster({ topmap, propertys, slug, lat, lng }) {
-	console.log('>>>>>>propertydxesds', propertys);
-	console.log(lat,lng,"444444444444444444")
+	// console.log('>>>>>>propertydxesds', propertys);
+	// console.log(lat,lng,"444444444444444444")
 
 	return (
 		<MapContainer

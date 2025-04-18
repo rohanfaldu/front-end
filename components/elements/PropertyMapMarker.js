@@ -82,7 +82,7 @@ export default function PropertyMapMarker({
   const geocodeLatLng = (lat, lng) => {
     const geocoder = new google.maps.Geocoder();
     geocoder.geocode({ location: { lat, lng } }, (results, status) => {
-      console.log("results>>>>>>>>>>>",results);
+      // console.log("results>>>>>>>>>>>",results);
       if (status === 'OK' && results[0]) {
         const formattedAddress = results[0].formatted_address;
         setCurrentLocationAddress(formattedAddress);

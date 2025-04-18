@@ -79,14 +79,14 @@ export default function EditProperty({ params }) {
 
 
     useEffect(() => {
-        // console.log(id);
+        // // console.log(id);
         const fetchData = async () => {
             try {
                 const requestData = {
                     property_slug: slug,
                 };
                 const getpropertyInfo = await insertData('api/property/getbyIds', requestData, true);
-                console.log('', getpropertyInfo);
+                // console.log('', getpropertyInfo);
 
                 if (getpropertyInfo.data) {
                     setPropertyDetail(getpropertyInfo.data);
@@ -102,7 +102,7 @@ export default function EditProperty({ params }) {
                     const cityObj = { state_id: getpropertyInfo.data.state, lang: "en" };
                     const getCityInfo = await insertData('api/city/getbystate', cityObj, true);
                     if (getCityInfo.status) {
-                        console.log(getCityInfo.data.cities, "statecity");
+                        // console.log(getCityInfo.data.cities, "statecity");
                         setCityList(getCityInfo.data.cities);
                     }
 
@@ -150,14 +150,14 @@ export default function EditProperty({ params }) {
                         setIsVideoUpload(true); // Set to 'Upload Video' if it's an .mp4
                         setVideoPreview(videoLink); // Set video preview (for .mp4)
                     } else {
-                        console.log(videoLink);
+                        // console.log(videoLink);
                         setIsVideoUpload(false); // Set to 'YouTube Link' otherwise
                     }
                 }
                 if (stateList.length === 0) {
                     const stateObj = {};
                     const getStateInfo = await insertData('api/state', stateObj, true);
-                    // console.log(getStateInfo.data.states[0].id);
+                    // // console.log(getStateInfo.data.states[0].id);
                     if (getStateInfo) {
                         setStateList(getStateInfo.data.states);
                     }
@@ -206,7 +206,7 @@ export default function EditProperty({ params }) {
                                 setPropertyOfNumberListing(
                                     res.data.list.filter((item) => item.type === "number")
                                 );
-                                console.log(res.data.list);
+                                // console.log(res.data.list);
                                 setPropertyOfBooleanListing(
                                     res.data.list.filter((item) => item.type === "boolean")
                                 );
@@ -222,7 +222,7 @@ export default function EditProperty({ params }) {
                     }
                 }
                 setCityName(getpropertyInfo.data.city.city_name);
-                console.log(getpropertyInfo.data.city.city_name)
+                // console.log(getpropertyInfo.data.city.city_name)
                 setLoading(false); // Stop loading
                 setError(null); // Clear errors
             } catch (err) {
@@ -231,7 +231,7 @@ export default function EditProperty({ params }) {
         };
         fetchData(); // Fetch data on component mount
     }, []);
-    console.log(propertyOfNumberListing);
+    // console.log(propertyOfNumberListing);
 
     const handleStateChange = async (stateId) => {
         setCityList([]);
@@ -250,15 +250,15 @@ export default function EditProperty({ params }) {
             const cityObj = { state_id: stateId, lang: "en" };
             const getCityInfo = await insertData('api/city/getbystate', cityObj, true);
             if (getCityInfo.status) {
-                console.log(getCityInfo.data.cities);
+                // console.log(getCityInfo.data.cities);
                 setCityList(getCityInfo.data.cities);
             }
         }
     };
     const handleDistrictChange = async (DistrictId) => {
-        console.log('District ID:', DistrictId);
+        // console.log('District ID:', DistrictId);
         const selectedDistricts = districtList.find((districts) => districts.id === DistrictId);
-        console.log('selectedState ID:', selectedDistricts.latitude);
+        // console.log('selectedState ID:', selectedDistricts.latitude);
         const { latitude, longitude } = selectedDistricts;
         setNeighborhoodList([]);
 
@@ -286,10 +286,10 @@ export default function EditProperty({ params }) {
         }
     };
     const handleNeighborhoodChange = async (NeighborhoodId) => {
-        console.log('NeighborhoodId ID:', NeighborhoodId);
+        // console.log('NeighborhoodId ID:', NeighborhoodId);
         const selecteNeighborhood = neighborhoodList.find((neighborhoods) => neighborhoods.id === NeighborhoodId);
         if (selecteNeighborhood) {
-            console.log('selectedNeighborhood ID:', selecteNeighborhood.latitude);
+            // console.log('selectedNeighborhood ID:', selecteNeighborhood.latitude);
             const { latitude, longitude } = selecteNeighborhood;
             setPropertyMapCoords({
                 latitude: parseFloat(latitude),
@@ -305,9 +305,9 @@ export default function EditProperty({ params }) {
 
 
     const handleCityChange = async (cityId) => {
-        console.log('City ID:', cityId);
+        // console.log('City ID:', cityId);
         const selectedCites = cityList.find((cities) => cities.id === cityId);
-        console.log('selectedState ID:', selectedCites.latitude);
+        // console.log('selectedState ID:', selectedCites.latitude);
         const { latitude, longitude } = selectedCites;
         setNeighborhoodList([]);
 
@@ -367,16 +367,16 @@ export default function EditProperty({ params }) {
     // Handler for image remove
     const handleImageRemove = (index) => {
         // Log current Formik values and filePreviews before removal
-        console.log('Before removal - filePreviews:', filePreviews);
-        console.log('Before removal - Formik picture_img:', form.values.picture_img);
+        // console.log('Before removal - filePreviews:', filePreviews);
+        // console.log('Before removal - Formik picture_img:', form.values.picture_img);
 
         // Remove the image from preview and Formik field
         const newFilePreviews = filePreviews.filter((_, i) => i !== index);
         const newImageList = form.values.picture_img.filter((_, i) => i !== index);
 
         // Log the new state and new image list
-        console.log('After removal - newFilePreviews:', newFilePreviews);
-        console.log('After removal - newImageList:', newImageList);
+        // console.log('After removal - newFilePreviews:', newFilePreviews);
+        // console.log('After removal - newImageList:', newImageList);
 
         // Update preview state
         setFilePreviews(newFilePreviews);
@@ -385,13 +385,13 @@ export default function EditProperty({ params }) {
         form.setFieldValue('picture_img', newImageList);
 
         // Log Formik values after updating to ensure it's updated
-        console.log('Formik picture_img after update:', form.values.picture_img);
+        // console.log('Formik picture_img after update:', form.values.picture_img);
     };
 
 
     // Handle form submission
     const handleSubmit = async (values, { resetForm, setErrors }) => {
-        console.log(values);
+        // console.log(values);
 
         try {
             setSucessMessage("Processing .........");
@@ -408,21 +408,21 @@ export default function EditProperty({ params }) {
                 .filter((property) => checkedItems[property.key])
                 .map((property) => ({ property_type_id: property.id, value: "true" }));
 
-            console.log("Selected Amenities:", selectedAmenities);
+            // console.log("Selected Amenities:", selectedAmenities);
 
             const updatedValues = Object.entries(propertyOfMetaNumberValue).map(([property_type_id, value]) => ({
                 property_type_id,
                 value
             }));
 
-            console.log(updatedValues, "updatedValues")
+            // console.log(updatedValues, "updatedValues")
 
             const metaDetailsPass = [
                 ...selectedAmenities,
                 ...updatedValues
             ];
 
-            console.log(metaDetailsPass, "metaDetailsPass")
+            // console.log(metaDetailsPass, "metaDetailsPass")
 
 
 
@@ -431,7 +431,7 @@ export default function EditProperty({ params }) {
             // Prepare images and videos for upload
             const uploadImageObj = Array.isArray(values.picture_img) ? values.picture_img : [values.picture_img];
             const videoObj = values.video ? [values.video] : [];
-            // console.log('uploadImageObj',uploadImageObj)
+            // // console.log('uploadImageObj',uploadImageObj)
             // uploadImageObj.push(values.video);
 
             const allUploadFiles = [...uploadImageObj, ...videoObj];
@@ -441,7 +441,7 @@ export default function EditProperty({ params }) {
                 const uploadImageUrlFIles = await insertMultipleUploadImage("image", allUploadFiles);
                 uploadImageUrl = uploadImageUrlFIles.files;
             }
-            console.log(uploadImageUrl, "lllll")
+            // console.log(uploadImageUrl, "lllll")
 
 
             if (uploadImageUrl.length > 0) {
@@ -462,8 +462,8 @@ export default function EditProperty({ params }) {
 
 
                 const pictureUrl = imageUrls.join(", ");
-                console.log("Image URLs:", pictureUrl);
-                console.log("Video URL:", videoUrl);
+                // console.log("Image URLs:", pictureUrl);
+                // console.log("Video URL:", videoUrl);
 
                 if (!videoUrl) {
                     videoUrl = values.video_link;
@@ -498,7 +498,7 @@ export default function EditProperty({ params }) {
                     direction: values.direction
                 };
 
-                console.log("Property Data:", propertyData);
+                // console.log("Property Data:", propertyData);
 
                 // Create property
                 const createPropertyInfo = await updateData(`api/property/${propertyDetail.id}`, propertyData, true);
@@ -559,7 +559,7 @@ export default function EditProperty({ params }) {
         setFieldValue("video_link", event.target.value); // Update Formik state
 
     };
-    console.log(checkedItems);
+    // console.log(checkedItems);
     const messageClass = (sucessMessage) ? "message success" : "message error";
 
     const directionType = [
@@ -832,7 +832,7 @@ export default function EditProperty({ params }) {
                                                                                                 validPreviews.push(URL.createObjectURL(file));
                                                                                                 imageList.push(file); // Add valid file to the list
                                                                                             }
-                                                                                            console.log(validPreviews);
+                                                                                            // console.log(validPreviews);
                                                                                             // Update state and Formik with valid files
                                                                                             setFilePreviews(validPreviews); // Set previews for valid files
                                                                                             setFieldValue(field.name, imageList);

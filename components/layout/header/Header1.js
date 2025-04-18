@@ -29,7 +29,7 @@ export default function Header1({ scroll, isMobileMenu, handleMobileMenu, isLogi
 			setUserStatus(localStorage.getItem('isLoggedIn'));
 			
 		}
-		console.log(localStorage.getItem("lang"),"/////////////////////")
+		// console.log(localStorage.getItem("lang"),"/////////////////////")
 			if(localStorage.getItem("lang") !== null && localStorage.getItem("lang") !== undefined){
 				setLang(localStorage.getItem("lang"))
 			}else{

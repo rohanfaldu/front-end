@@ -37,7 +37,7 @@ export default function ProjectListing() {
       };
 
       const response = await insertData("api/projects/developer", requestData, true);
-      console.log(response);
+      // console.log(response);
       if (response.status) {
         const { list, totalCount, totalPages, currentPage } = response.data;
         setProperties(list);
@@ -71,12 +71,12 @@ export default function ProjectListing() {
   };
 
   const handleDelete = async () => {
-    console.log(deleteProjectId, '>>>>>>> Delete id New');
+    // console.log(deleteProjectId, '>>>>>>> Delete id New');
     try {
 
-      console.log(deleteProjectId, '>>>>>>> Delete id Here');
+      // console.log(deleteProjectId, '>>>>>>> Delete id Here');
       const response = await deletedData(`api/projects/${deleteProjectId}`, { propertyId: deleteProjectId });
-      console.log(response);
+      // console.log(response);
       setIsModalOpen(false);
       if (response.status) {
         fetchProperties(pagination.currentPage, searchTerm, statusFilter);

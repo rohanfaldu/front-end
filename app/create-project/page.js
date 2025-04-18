@@ -71,7 +71,7 @@ export default function CreateProject() {
                 if (stateList.length === 0) {
                     const stateObj = {};
                     const getStateInfo = await insertData('api/state', { page: 1, limit: 1000 }, true);
-                    console.log(getStateInfo.data.states[0].id);
+                    // console.log(getStateInfo.data.states[0].id);
                     if (getStateInfo) {
                         setStateList(getStateInfo.data.states);
                     }
@@ -80,8 +80,8 @@ export default function CreateProject() {
                 // if(cityList.length === 0){
                 //     const stateObj = {};
                 //     const getCityInfo = await insertData('api/city', stateObj, true);
-                //     console.log('getCityInfo');
-                //     console.log(getCityInfo);
+                //     // console.log('getCityInfo');
+                //     // console.log(getCityInfo);
 
                 //     if(getCityInfo) {
                 //         setCityList(getCityInfo.data);
@@ -90,7 +90,7 @@ export default function CreateProject() {
                 if (projectOfNumberListing.length === 0 && projectOfBooleanListing.length === 0) {
                     const stateObj = {};
                     const getProjectListingInfo = await insertData('api/project-type-listings', stateObj, true);
-                    console.log(getProjectListingInfo);
+                    // console.log(getProjectListingInfo);
                     if (getProjectListingInfo) {
                         const projectOfNumberType = getProjectListingInfo.data.list.filter(item => item.type === "number");
                         const projectOfBlooeanType = getProjectListingInfo.data.list.filter(item => item.type === "boolean");
@@ -111,7 +111,7 @@ export default function CreateProject() {
                     setUserId(capitalizedString)
                 }
                 if (currencyList.length === 0) {
-                    // console.log(1);
+                    // // console.log(1);
                     const currencyObj = {};
                     const getCurrencyInfo = await insertData('api/currency/get', currencyObj, true);
 
@@ -124,10 +124,10 @@ export default function CreateProject() {
             }
         };
         fetchData();
-        console.log(stateList);
+        // console.log(stateList);
     });
     const handleStateChange = async (stateId) => {
-        console.log('State ID:', stateId);
+        // console.log('State ID:', stateId);
 
         setCityList([]);
         setDistrictList([]);
@@ -143,7 +143,7 @@ export default function CreateProject() {
             const cityObj = { state_id: stateId, lang: "en" };
             const getCityInfo = await insertData('api/city/getbystate', cityObj, true);
             if (getCityInfo.status) {
-                console.log(getCityInfo.data.cities);
+                // console.log(getCityInfo.data.cities);
                 setCityList(getCityInfo.data.cities);
             }
         }
@@ -151,7 +151,7 @@ export default function CreateProject() {
     };
     const handleCityChange = async (cityId) => {
         const selectedCites = cityList.find((cities) => cities.id === cityId);
-        console.log('selectedState ID:', selectedCites.latitude);
+        // console.log('selectedState ID:', selectedCites.latitude);
         const { latitude, longitude } = selectedCites;
         setPropertyMapCoords({
             latitude: latitude,
@@ -178,9 +178,9 @@ export default function CreateProject() {
     };
 
     const handleDistrictChange = async (DistrictId) => {
-        console.log('District ID:', DistrictId);
+        // console.log('District ID:', DistrictId);
         const selectedDistricts = districtList.find((districts) => districts.id === DistrictId);
-        console.log('selectedState ID:', selectedDistricts.latitude);
+        // console.log('selectedState ID:', selectedDistricts.latitude);
         const { latitude, longitude } = selectedDistricts;
         setPropertyMapCoords({
             latitude: latitude,
@@ -220,10 +220,10 @@ export default function CreateProject() {
     };
 
     const handleNeighborhoodChange = async (NeighborhoodId) => {
-        console.log('NeighborhoodId ID:', NeighborhoodId);
+        // console.log('NeighborhoodId ID:', NeighborhoodId);
         const selecteNeighborhood = neighborhoodList.find((neighborhoods) => neighborhoods.id === NeighborhoodId);
         if (selecteNeighborhood) {
-            console.log('selectedNeighborhood ID:', selecteNeighborhood.latitude);
+            // console.log('selectedNeighborhood ID:', selecteNeighborhood.latitude);
             const { latitude, longitude } = selecteNeighborhood;
             setPropertyMapCoords({
                 latitude: latitude,
@@ -258,7 +258,7 @@ export default function CreateProject() {
     };
     // Handle form submission
     const handleSubmit = async (values, { resetForm, setErrors }) => {
-        // console.log(values);
+        // // console.log(values);
         // if (isVideoUpload && !values.video) {
         //     alert("Please upload a video file.");
         //     return false;
@@ -288,7 +288,7 @@ export default function CreateProject() {
             //setErrorMessage('');
             //setLoading(true);
             setSucessMessage("Processing .........")
-            console.log(values);
+            // console.log(values);
             // const checkData = { email_address: values.email, phone_number: parseInt(values.phone,10) }
             // const getUserInfo = await insertData('auth/check/user', checkData, false);
             // if(getUserInfo.status === false) {
@@ -324,7 +324,7 @@ export default function CreateProject() {
                     iconUrl = uploadImageIconUrl.files[0].url; // Use the first file's URL
                 }
 
-                console.log("Project Data:", { imageUrls, videoUrl, iconUrl });
+                // console.log("Project Data:", { imageUrls, videoUrl, iconUrl });
 
                 // Default video URL if not uploaded
                 // Validate YouTube URL if a link is provided
@@ -337,11 +337,11 @@ export default function CreateProject() {
                 // Use the provided video link if no video was uploaded
                 videoUrl = videoUrl || values.video_link;
 
-                console.log('values');
-                console.log(values);
+                // console.log('values');
+                // console.log(values);
 
-                console.log('values');
-                console.log(values);
+                // console.log('values');
+                // console.log(values);
                 /********* create user ***********/
                 const projectData = {
 
@@ -365,7 +365,7 @@ export default function CreateProject() {
                     meta_details: selectedAmenities,
                     address: values.address,
                 }
-                console.log("Project Data:", projectData);
+                // console.log("Project Data:", projectData);
                 const createUserInfo = await insertData("api/projects/create", projectData, true);
 
                 if (createUserInfo.status) {
@@ -423,7 +423,7 @@ export default function CreateProject() {
         const selectedRadioId = event.target.id
         setSelectedRadio(selectedRadioId)
     }
-    console.log(checkedItems);
+    // console.log(checkedItems);
     const messageClass = (sucessMessage) ? "message success" : "message error";
     return (
         <>

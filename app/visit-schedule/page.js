@@ -97,7 +97,7 @@ export default function MyProperty() {
       setLoading(true);
       try {
         const formattedDateTime = dayjs(selectedDateTime).toISOString();
-        console.log('formattedDateTime: ', formattedDateTime);
+        // console.log('formattedDateTime: ', formattedDateTime);
   
         const requestData = {
           visitId: clickedId,
@@ -107,7 +107,7 @@ export default function MyProperty() {
   
         const response = await insertData("api/visit/visit-reschedule", requestData, true);
         if (response.status) {
-          console.log(response.data);
+          // console.log(response.data);
           setIsModalOpen(false);
           setError(null);
           fetchData();
@@ -121,13 +121,13 @@ export default function MyProperty() {
 
 
   const openModal = (id) => {
-		console.log("Opening Modal"); // Debugging
+		// console.log("Opening Modal"); // Debugging
 		setIsModalOpen(true);
     setClickedId(id);
 	};
 
 	const closeModal = () => {
-		console.log("Closing Modal"); // Debugging
+		// console.log("Closing Modal"); // Debugging
 		setIsModalOpen(false);
 	};
 
@@ -137,7 +137,7 @@ export default function MyProperty() {
 
   const exportToExcel = async () => {
     try {
-      console.log("Exporting to Excel...");
+      // console.log("Exporting to Excel...");
 
       if (!propertiesVisits || propertiesVisits.length === 0) {
         alert("No data to export");
@@ -145,7 +145,7 @@ export default function MyProperty() {
       }
 
       // Ensure properties data exists
-      console.log("Properties:", propertiesVisits);
+      // console.log("Properties:", propertiesVisits);
 
       // Create a new workbook instance
       const workbook = new ExcelJS.Workbook();
@@ -201,7 +201,7 @@ export default function MyProperty() {
       const buffer = await workbook.xlsx.writeBuffer();
       saveAs(new Blob([buffer]), "property_visit_accepted.xlsx");
 
-      console.log("Excel file exported successfully!");
+      // console.log("Excel file exported successfully!");
     } catch (error) {
       console.error("Excel export error:", error);
       alert("Error exporting to Excel: " + error.message);

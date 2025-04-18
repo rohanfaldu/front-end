@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 
 export default function Breadcrumb({ breadcrumbTitle }) {
 	const pathname = usePathname(); // Use usePathname from next/navigation
-	console.log(pathname, 'pathname');
+	// console.log(pathname, 'pathname');
 	const isAgency = pathname.includes("/agency");
 	const isDeveloper = pathname.includes("/developer");
 	const pathSegments = pathname.split('/').filter(segment => segment);  // Split URL path
@@ -32,7 +32,7 @@ export default function Breadcrumb({ breadcrumbTitle }) {
 						style={{marginLeft: "50px"  }}
 						onClick={() => router.back() }
 					>
-						<span style={{ color: "#fff" }}>&lt;</span>
+						<span style={{ color: "#fff" }}>&lt; {t('back')}</span>
 					</button>
 				</div>
 				<div className="container">

@@ -13259,7 +13259,7 @@ footer {
   }
 
   .project-sec.wrapper-layout-3 .wrap-map .leaflet-container .leaflet-pane {
-    transform: none !important;
+    /* transform: none !important; */
     /* position: static !important; */
   }
 
@@ -13283,7 +13283,7 @@ footer {
   }
 
   .property-sec.wrapper-layout-3 .wrap-map .leaflet-container .leaflet-pane {
-    transform: none !important;
+    /* transform: none !important; */
     /* position: static !important; */
   }
 
@@ -13458,7 +13458,7 @@ footer {
   display: inline-block;
   width: 100%;
   height: 100%;
-  background-color: #11a9bf8a;
+  background-color: #5c6368;
   border-radius: 9999px;
   position: relative;
   transition: background-color 0.3s;
@@ -13679,4 +13679,16 @@ label span {
 }
 .homeya-box .archive-top .content{
   display: inline-block;
+}
+.project-listing .homeya-box .content{
+  width: 100%;
+}
+.meta-list {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.meta-list li:last-child {
+  margin-left: auto;
 }

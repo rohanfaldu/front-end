@@ -17,7 +17,7 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 
 export default function ContactSeller({ data }) {  
-	console.log("Received data:", data); // Debugging: Check if data is received
+	// console.log("Received data:", data); // Debugging: Check if data is received
     const [isTab, setIsTab] = useState(1);
 	const [selectedDateTime, setSelectedDateTime] = useState(null);
 	const { t } = useTranslation();
@@ -30,14 +30,14 @@ export default function ContactSeller({ data }) {
 		const isLoggedIn = (localStorage.getItem('isLoggedIn'))? true : false;
 		setIsLogin(isLoggedIn);
 	}});
-	console.log(islogin,' >>>>>>>>>> islogin')
+	// console.log(islogin,' >>>>>>>>>> islogin')
 	const openModal = () => {
-		console.log("Opening Modal"); // Debugging
+		// console.log("Opening Modal"); // Debugging
 		setIsModalOpen(true);
 	};
 
 	const closeModal = () => {
-		console.log("Closing Modal"); // Debugging
+		// console.log("Closing Modal"); // Debugging
 		setIsModalOpen(false);
 	};
 
@@ -51,7 +51,7 @@ export default function ContactSeller({ data }) {
 		setLoading(true);
 		try {
 			const formattedDateTime = dayjs(selectedDateTime).toISOString();
-			console.log('formattedDateTime: ', formattedDateTime);
+			// console.log('formattedDateTime: ', formattedDateTime);
 
 			const requestData = {
 				propertyId: data.id,
@@ -62,7 +62,7 @@ export default function ContactSeller({ data }) {
 
 			const response = await insertData("api/visit/visit-schedule", requestData, true);
 			if (response.status) {
-				console.log(response.data);
+				// console.log(response.data);
 				setIsModalOpen(false);
 				setError(null);
 			}
@@ -115,14 +115,14 @@ export default function ContactSeller({ data }) {
 				  });
 			}
 			
-			console.log("New chat document created with ID:", documentId);
+			// console.log("New chat document created with ID:", documentId);
 			const chatCollectionRef = collection(docRef, "chat");
 			const blankDocRef = doc(chatCollectionRef); // Firestore will generate a random ID
 			await setDoc(blankDocRef, {}); // Creates an empty document
 			window.location.href = "/user-chat";
 			return documentId;
 		  } else {
-			console.log("Chat document already exists with ID:", documentId);
+			// console.log("Chat document already exists with ID:", documentId);
 			window.location.href = "/user-chat";
 			return documentId;
 		  }
@@ -136,7 +136,7 @@ export default function ContactSeller({ data }) {
 	const handleContactClick = () => {
 		checkAndCreateChatDocument()
 			.then(documentId => {
-				console.log("Chat document ID:", documentId);
+				// console.log("Chat document ID:", documentId);
 				// You can add navigation to chat page here if needed
 				// Example: router.push(`/chat/${documentId}`);
 			})

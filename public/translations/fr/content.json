@@ -338,8 +338,8 @@
     "titleAgency":"Nom",
     "amenities":"Caractéristiques",
     "footerMain": "Plateforme immobilière innovante avec technologie de matching intelligent. Pour plus d’information, contactez nous",
-    "rental": "Pour louer",
-    "sale": "Pour vendre",
+    "rental": "À louer",
+    "sale": "À vendre",
     "back": "Dos",
     "loginText": "Connectez-vous à votre compte pour continuer.",
     "loginAlert":"Alerte de connexion",
@@ -349,5 +349,7 @@
     "vrLink": "Lien VR",
     "luxuriousStudioSale": "Studio de luxe de 47 m² à vendre, Glorieux Nouaceur",
     "POUR sale": "À vendre",
-    "POUR rental": "À louer"
+    "POUR rental": "À louer",
+    "projectDetails": "Détails du projet"
+
 }

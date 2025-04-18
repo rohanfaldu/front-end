@@ -49,6 +49,6 @@ export default function RootLayout({ children }) {
 
 export function reportWebVitals(metric) {
     if (metric.label === 'web-vital') {
-        console.log(metric)
+        // console.log(metric)
     }
 }

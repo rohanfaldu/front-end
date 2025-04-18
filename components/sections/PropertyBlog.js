@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 
 export default function PropertyBlog(propertyData, slide, calsulation) {
     const propertySlide = slide ? "style-2" : "";
-    console.log(propertyData, ">>>>>>>>>> property Data");
+    // console.log(propertyData, ">>>>>>>>>> property Data");
     const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
     const [isLiked, setIsLiked] = useState(propertyData.data.like);
@@ -47,7 +47,7 @@ export default function PropertyBlog(propertyData, slide, calsulation) {
             }
         
             const data = await response.json();
-            console.log(data.message);
+            // console.log(data.message);
         } catch (error) {
             console.error('Error liking the property:', error);
         }
@@ -83,7 +83,7 @@ export default function PropertyBlog(propertyData, slide, calsulation) {
                 }
             
                 const data = await response.json();
-                console.log(data.message);
+                // console.log(data.message);
                 setIsLiked(!isLiked);
             }else{
                 const response = await fetch(`${API_URL}/api/property/${id}/like`, {
@@ -101,7 +101,7 @@ export default function PropertyBlog(propertyData, slide, calsulation) {
                 }
     
                 const data = await response.json();
-                console.log(data.message);
+                // console.log(data.message);
                 setIsLiked(!isLiked);
             }
         } catch (error) {
@@ -123,59 +123,59 @@ export default function PropertyBlog(propertyData, slide, calsulation) {
     };
 
     const clickTwitter = () => {
-        console.log('twitterUrl: ', propertyData.data);
+        // console.log('twitterUrl: ', propertyData.data);
 
         if (propertyData?.data?.user_twitter) {
             let twitterUrl = propertyData.data.user_twitter;
-            console.log('twitterUrl: ', twitterUrl);
+            // console.log('twitterUrl: ', twitterUrl);
     
             // Ensure URL starts with "https://"
             if (!twitterUrl.startsWith("http")) {
                 twitterUrl = `${twitterUrl}`;
             }
     
-            console.log("Opening URL:", twitterUrl);
+            // console.log("Opening URL:", twitterUrl);
             window.open(twitterUrl, '_blank');
         } else {
-            console.log("No Twitter URL available");
+            // console.log("No Twitter URL available");
         }
     };
 
     const clickInstagram = () => {
-        console.log('instagramUrl: ', propertyData.data);
+        // console.log('instagramUrl: ', propertyData.data);
 
         if (propertyData?.data?.user_instagram) {
             let instagramUrl = propertyData.data.user_instagram;
-            console.log('instagramUrl: ', instagramUrl);
+            // console.log('instagramUrl: ', instagramUrl);
     
             // Ensure URL starts with "https://"
             if (!instagramUrl.startsWith("http")) {
                 instagramUrl = `${instagramUrl}`;
             }
     
-            console.log("Opening URL:", instagramUrl);
+            // console.log("Opening URL:", instagramUrl);
             window.open(instagramUrl, '_blank');
         } else {
-            console.log("No Instagram URL available");
+            // console.log("No Instagram URL available");
         }
         };
 
         const clickFacebook = () => {
-            console.log('facebookUrl: ', propertyData.data);
+            // console.log('facebookUrl: ', propertyData.data);
 
             if (propertyData?.data?.user_facebook) {
                 let facebookUrl = propertyData.data.user_facebook;
-                console.log('facebookUrl: ', facebookUrl);
+                // console.log('facebookUrl: ', facebookUrl);
         
                 // Ensure URL starts with "https://"
                 if (!facebookUrl.startsWith("http")) {
                     facebookUrl = `${facebookUrl}`;
                 }
         
-                console.log("Opening URL:", facebookUrl);
+                // console.log("Opening URL:", facebookUrl);
                 window.open(facebookUrl, '_blank');
             } else {
-                console.log("No Facebook URL available");
+                // console.log("No Facebook URL available");
             }
             };
 

@@ -36,7 +36,7 @@ export default function LikedProperty() {
       };
 
       const response = await insertData("api/property/get-liked-property", requestData, true);
-      console.log(response);
+      // console.log(response);
       if (response.status) {
   
         const { list, totalCount, totalPages, currentPage } = response.data;

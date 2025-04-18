@@ -18,12 +18,12 @@ export const getData = async (endpoint) => {
 // Function to handle POST requests
 export const insertData = async (endpoint, data, flag) => {
   try {
-    console.log(endpoint);
+    // console.log(endpoint);
     //const router = useRouter();
     let header;
     if(flag){
       const token = localStorage.getItem('token');
-      console.log(token);
+      // console.log(token);
       if(!token){
         router.push('/');
       }
@@ -50,7 +50,7 @@ export const insertImageData = async (data) => {
 			"Content-Type": "multipart/form-data",
 			},
 		});
-    console.log(response);
+    // console.log(response);
     return response.data; // Return the created data
   } catch (error) {
     console.error('Error inserting data:', error);
@@ -61,7 +61,7 @@ export const createUser = async (userData) => {
   const endpoint = 'users'; // Example API endpoint for creating a user
   try {
     const result = await insertData(endpoint, userData);
-    console.log('User created successfully:', result);
+    // console.log('User created successfully:', result);
     return result; // Return the result if needed
   } catch (error) {
     return false;
@@ -74,7 +74,7 @@ export const createUser = async (userData) => {
 export const deletedData = async (endpoint, data) => {
   try {
     const token = localStorage.getItem('token');
-    console.log(token);
+    // console.log(token);
     if(!token){
       router.push('/');
       window.location.href = '/';
@@ -91,7 +91,7 @@ export const deletedData = async (endpoint, data) => {
     };
 
     const { data } = await axios.request(options);
-    console.log(data);
+    // console.log(data);
     return data; // Return the created data
   } catch (error) {
     console.error('Error delete data:', error);
@@ -109,11 +109,11 @@ export const deletedRecord = async (endpoint, data) => {
     if(!token){
       router.push('/');
     }
-    console.log(token);
+    // console.log(token);
     const response = await axios.delete(`${API_URL}/api/projects/38cd3335-f837-472e-ab07-f8efb6632331`, data, {
 			headers: { "Content-Type": "application/json", "Authorization":  `Bearer ${token}` },
 		});
-    console.log(response);
+    // console.log(response);
     return response.data; // Return the created data
   } catch (error) {
     if(error.response.status === 401){
@@ -127,10 +127,10 @@ export const deletedRecord = async (endpoint, data) => {
 };
 
 export const updateData = async (endpoint, data, flag) => {
-  console.log('q111111');
+  // console.log('q111111');
   try {
     let header;
-      console.log('Here');
+      // console.log('Here');
     if (flag) {
       // Retrieve the token from localStorage
       const token = localStorage.getItem('token');

@@ -62,7 +62,7 @@ export default function EditProject({ params }) {
 
 
     useEffect(() => {
-        // console.log(id);
+        // // console.log(id);
         const fetchData = async () => {
 
             try {
@@ -70,7 +70,7 @@ export default function EditProject({ params }) {
                     project_slug: slug,
                 };
                 const getProjectInfo = await insertData('api/projects/getbyIds', requestData, true);
-                console.log('>>>>>>>>>>>>>>>>>>>>>DS>>>>>>>',getProjectInfo);
+                // console.log('>>>>>>>>>>>>>>>>>>>>>DS>>>>>>>',getProjectInfo);
                 setPropertyMapCoords({
                     latitude: getProjectInfo.data.latitude,
                     longitude: getProjectInfo.data.longitude,
@@ -78,13 +78,13 @@ export default function EditProject({ params }) {
                 });
 
                 if (getProjectInfo.data) {
-                    console.log(getProjectInfo.data);
+                    // console.log(getProjectInfo.data);
                     setProjectDetail(getProjectInfo.data);
 
                     const cityObj = { state_id: getProjectInfo.data.state.id, lang: "en" };
                     const getCityInfo = await insertData('api/city/getbystate', cityObj, true);
                     if (getCityInfo.status) {
-                        console.log(getCityInfo.data.cities, "statecity");
+                        // console.log(getCityInfo.data.cities, "statecity");
                         setCityList(getCityInfo.data.cities);
                     }
 
@@ -115,7 +115,7 @@ export default function EditProject({ params }) {
                         return acc;
 
                     }, {});
-                    console.log(initialCheckedItems, "initialCheckedItems")
+                    // console.log(initialCheckedItems, "initialCheckedItems")
                     setCheckedItems(initialCheckedItems);
                 }
 
@@ -133,7 +133,7 @@ export default function EditProject({ params }) {
                         return num;
 
                     }, {});
-                    console.log(initialValueItems, "initialCheckedItems")
+                    // console.log(initialValueItems, "initialCheckedItems")
                     setValueItems(initialValueItems);
                 }
 
@@ -151,14 +151,14 @@ export default function EditProject({ params }) {
                         setIsVideoUpload(true); // Set to 'Upload Video' if it's an .mp4
                         setVideoPreview(videoLink); // Set video preview (for .mp4)
                     } else {
-                        console.log(videoLink);
+                        // console.log(videoLink);
                         setIsVideoUpload(false); // Set to 'YouTube Link' otherwise
                     }
                 }
                 if (stateList.length === 0) {
                     const stateObj = {};
                     const getStateInfo = await insertData('api/state', stateObj, true);
-                    // console.log(getStateInfo.data.states[0].id);
+                    // // console.log(getStateInfo.data.states[0].id);
                     if (getStateInfo) {
                         setStateList(getStateInfo.data.states);
                     }
@@ -169,7 +169,7 @@ export default function EditProject({ params }) {
                 if (projectOfNumberListing.length === 0 && projectOfBooleanListing.length === 0) {
                     const stateObj = {};
                     const getProjectListingInfo = await insertData('api/project-type-listings', stateObj, true);
-                    // console.log(getProjectListingInfo);
+                    // // console.log(getProjectListingInfo);
                     if (getProjectListingInfo) {
                         const projectOfNumberType = getProjectListingInfo.data.list.filter(item => item.type === "number");
                         const projectOfBlooeanType = getProjectListingInfo.data.list.filter(item => item.type === "boolean");
@@ -185,7 +185,7 @@ export default function EditProject({ params }) {
                     }
                 }
                 if (currencyList.length === 0) {
-                    // console.log(1);
+                    // // console.log(1);
                     const currencyObj = {};
                     const getCurrencyInfo = await insertData('api/currency/get', currencyObj, true);
 
@@ -237,7 +237,7 @@ export default function EditProject({ params }) {
             const cityObj = { state_id: stateId, lang: "en" };
             const getCityInfo = await insertData('api/city/getbystate', cityObj, true);
             if (getCityInfo.status) {
-                console.log(getCityInfo.data.cities);
+                // console.log(getCityInfo.data.cities);
                 setCityList(getCityInfo.data.cities);
             }
         }
@@ -277,7 +277,7 @@ export default function EditProject({ params }) {
     };
 
     const handleDistrictChange = async (DistrictId) => {
-        // console.log('District ID:', DistrictId);
+        // // console.log('District ID:', DistrictId);
         setNeighborhoodList([]);
         const selectedDistricts = districtList.find((districts) => districts.id === DistrictId);
         const { latitude, longitude } = selectedDistricts;
@@ -305,10 +305,10 @@ export default function EditProject({ params }) {
         }
     };
     const handleNeighborhoodChange = async (NeighborhoodId) => {
-        // console.log('NeighborhoodId ID:', NeighborhoodId);
+        // // console.log('NeighborhoodId ID:', NeighborhoodId);
         const selecteNeighborhood = neighborhoodList.find((neighborhoods) => neighborhoods.id === NeighborhoodId);
         if (selecteNeighborhood) {
-            // console.log('selectedNeighborhood ID:', selecteNeighborhood.latitude);
+            // // console.log('selectedNeighborhood ID:', selecteNeighborhood.latitude);
             const { latitude, longitude } = selecteNeighborhood;
             setPropertyMapCoords({
                 latitude: latitude,
@@ -329,7 +329,7 @@ export default function EditProject({ params }) {
             value: values[project.id] || 0, // Use Formik values
         }));
 
-        console.log("Updated Values to API:", updatedValues);
+        // console.log("Updated Values to API:", updatedValues);
 
 
         const metaDetailsPass = [
@@ -354,7 +354,7 @@ export default function EditProject({ params }) {
 
             const hasFile = allUploadFiles.some((item) => item instanceof File);
             const hasFileIcon = allUploadFilesICon.some((item) => item instanceof File);
-            console.log("Contains a File:", hasFileIcon);
+            // console.log("Contains a File:", hasFileIcon);
             // Upload files
             let uploadImageUrl = values.picture_img;
             let uploadImageIconUrl = [];
@@ -400,7 +400,7 @@ export default function EditProject({ params }) {
                 }
 
 
-                console.log("Project Data:", { imageUrls, videoUrl, iconUrl });
+                // console.log("Project Data:", { imageUrls, videoUrl, iconUrl });
 
                 // Default video URL if not uploaded
                 if (values.video_link) {
@@ -415,8 +415,8 @@ export default function EditProject({ params }) {
                     }
                     videoUrl = values.video_link;
                 }
-                console.log('values');
-                console.log(values);
+                // console.log('values');
+                // console.log(values);
 
                 const projectData = {
                     project_id: values.project_id,
@@ -441,7 +441,7 @@ export default function EditProject({ params }) {
                     address: values.address,
                 };
 
-                console.log("Project Data:", projectData);
+                // console.log("Project Data:", projectData);
                 const createUserInfo = await updateData("api/projects/" + values.project_id, projectData, true);
 
                 if (createUserInfo.status) {
@@ -669,7 +669,7 @@ export default function EditProject({ params }) {
                                                                                             validPreviews.push(URL.createObjectURL(file));
                                                                                             imageList.push(file); // Add valid file to the list
                                                                                         }
-                                                                                        console.log(validPreviews);
+                                                                                        // console.log(validPreviews);
                                                                                         // Update state and Formik with valid files
                                                                                         setFilePreviews(validPreviews); // Set previews for valid files
                                                                                         setFieldValue(field.name, imageList);

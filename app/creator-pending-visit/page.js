@@ -108,7 +108,7 @@ export default function MyProperty() {
 
   const exportToExcel = async () => {
       try {
-        console.log("Exporting to Excel...");
+        // console.log("Exporting to Excel...");
     
         if (!propertiesVisits || propertiesVisits.length === 0) {
           alert("No data to export");
@@ -116,7 +116,7 @@ export default function MyProperty() {
         }
     
         // Ensure properties data exists
-        console.log("Properties:", propertiesVisits);
+        // console.log("Properties:", propertiesVisits);
     
         // Create a new workbook instance
         const workbook = new ExcelJS.Workbook();
@@ -172,7 +172,7 @@ export default function MyProperty() {
         const buffer = await workbook.xlsx.writeBuffer();
         saveAs(new Blob([buffer]), "property_visit_pending.xlsx");
     
-        console.log("Excel file exported successfully!");
+        // console.log("Excel file exported successfully!");
       } catch (error) {
         console.error("Excel export error:", error);
         alert("Error exporting to Excel: " + error.message);

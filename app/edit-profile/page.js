@@ -46,7 +46,7 @@ export default function LikedProperty() {
             };
 
             const response = await insertData("api/property/get-liked-property", requestData, true);
-            console.log(response);
+            // console.log(response);
             if (response.status) {
 
                 const { list, totalCount, totalPages, currentPage } = response.data;
@@ -81,7 +81,7 @@ export default function LikedProperty() {
             .required('Confirm Password is required'),
     });
     const handleSubmit = async (values, { setSubmitting }) => {
-        console.log('Form Submitted with values:', values); 
+        // console.log('Form Submitted with values:', values); 
         setLoading(true);
 
         try {
@@ -89,7 +89,7 @@ export default function LikedProperty() {
                 password: values.password,
                 old_password: values.oldPassword
             }, true);
-            console.log("responseeeee", response)
+            // console.log("responseeeee", response)
             if (response.status === true) {
                 localStorage.removeItem('token');
                 localStorage.removeItem('user');

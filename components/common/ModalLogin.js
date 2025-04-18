@@ -25,11 +25,11 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
  	const base_url = process.env.NEXT_PUBLIC_API_URL;
 	const clientId = process.env.NEXT_PUBLIC_GOOGLE_LOGIN_CLIENT_ID;
 	const responseFacebook = async (response) => {
-		console.log(response); // Contains user data from Facebook
+		// console.log(response); // Contains user data from Facebook
 		if (response.status !== 'unknown') {
 			const checkData = { email_address: response.email,  phone_number: '' }
 			const getUserInfo = await insertData('auth/check/user', checkData);
-			console.log(getUserInfo);
+			// console.log(getUserInfo);
 			if(getUserInfo.status === false) {
 				const APP_API_URL = base_url;
 				const userData = {
@@ -109,14 +109,14 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 				user_id: null,
 				device_type: 'web'
 			}
-			console.log(userData);
+			// console.log(userData);
 			try {
 				const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/create/user`, userData, {
 					headers: {
 						'Content-Type': 'application/json'
 					},
 				});
-				console.log(response,"ffffff")
+				// console.log(response,"ffffff")
 				if(response.data.status === true) {
 					localStorage.setItem('token', response.data.data.token);
 					localStorage.setItem('user_id', response.data.data.userProfile.id);
@@ -138,8 +138,8 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 			if(getUserInfo.data.userProfile.user_login_type != 'GOOGLE'){
 				setErrorMessage('User already exists with another social app.');
 			}else{
-				console.log(3)
-				console.log(getUserInfo.data)
+				// console.log(3)
+				// console.log(getUserInfo.data)
 				localStorage.setItem('token', getUserInfo.data.token);
 				localStorage.setItem('user_id', getUserInfo.data.userProfile.id);
 				localStorage.setItem('user_image', getUserInfo.data.userProfile.image);
@@ -194,7 +194,7 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 			
 			const checkData = { email_address: values.email_address,  phone_number: '' }
 			const getUserInfo = await insertData('auth/check/user', checkData);
-			console.log(getUserInfo,"response")
+			// console.log(getUserInfo,"response")
 
 			if(getUserInfo.status === true) {
 				const sendData = JSON.stringify({email_address: values.email_address, phone_number: values.phone_number, password: values.password, device_type: "web"});
@@ -203,7 +203,7 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 						"Content-Type": "application/json",
 					},
 				});
-				console.log(response.data.data.userProfile.role_id,"response.data.userProfile.role_id")
+				// console.log(response.data.data.userProfile.role_id,"response.data.userProfile.role_id")
 
 				if(response.data.status === true) {
 					localStorage.setItem('token', response.data.data.token);
@@ -218,7 +218,7 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 					localStorage.setItem('tokenExpiration', expirationTime);
 					localStorage.setItem('isLoggedIn', 'true');
 					// window.location.reload();
-					console.log(response.data.data.userProfile.role_id,"response.data.userProfile.role_id")
+					// console.log(response.data.data.userProfile.role_id,"response.data.userProfile.role_id")
 					if(response.data.data.userProfile.role_id == 'c326e1e2-6f82-4af4-ba25-06029eba658f'){
 						window.location.reload();
 					}else{
@@ -228,7 +228,7 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 					setErrorMessage(response.data.message);
 				}
 			}else{
-				console.log(getUserInfo)
+				// console.log(getUserInfo)
 				setErrorMessage(getUserInfo.message);
 			}
 		  } catch (error) {

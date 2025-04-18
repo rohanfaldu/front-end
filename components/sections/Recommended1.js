@@ -27,8 +27,8 @@ export default function Recommended1() {
 
 				const propertyObj = { page: 1, limit: 6, lang: lang };
 				const response = await getData('api/property/', propertyObj);
-				console.log('response');
-				console.log(response);
+				// console.log('response');
+				// console.log(response);
 				const userLogin = (localStorage.getItem('isLoggedIn') )? true: false;
 				setIsLogin(userLogin);
 				setProperties(response.data.list); // Save data to state
@@ -56,7 +56,7 @@ export default function Recommended1() {
 
 	// if (loading) return <p>Loading...</p>; // Show loading message
 	// if (error) return <p>Error: {error}</p>; 
-	//// console.log(properties);
+	//// // console.log(properties);
 	/*const handleTab = (i) => {
 		setIsTab(i)
 		setIsVisible(false)
@@ -65,8 +65,8 @@ export default function Recommended1() {
 		}, 200)
 	}*/
 	const handleTab = async (i, id) => {
-		// console.log(i);
-		// console.log(id);
+		// // console.log(i);
+		// // console.log(id);
 		setIsTab(i);
 		// setIsVisible(false);
 
@@ -89,8 +89,8 @@ export default function Recommended1() {
 			}
 		}, 200); // Delay to create transition effect
 	};
-	console.log('property');
-	console.log(propertyType);
+	// console.log('property');
+	// console.log(propertyType);
 	return (
 		<>
 			{loading ?

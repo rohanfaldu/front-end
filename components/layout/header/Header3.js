@@ -23,7 +23,7 @@ export default function Header3({ scroll, isSidebar, handleSidebar, isMobileMenu
 	  setUserImage(userDetail.image)
 	  const capitalizedString = capitalizeFirstChar(userDetail.user_name?userDetail.user_name:"user");
 	  setUserName(capitalizedString)
-	  console.log(userDetail.user_name);
+	  // console.log(userDetail.user_name);
 
 	  const userString  = localStorage.getItem('user')
 	  if (userString) {
@@ -32,7 +32,7 @@ export default function Header3({ scroll, isSidebar, handleSidebar, isMobileMenu
 			setShowType(user.roles.name)
 		}
 	  } else {
-		console.log("No user data found in localStorage.");
+		// console.log("No user data found in localStorage.");
 	  }
 	}, []);
 	const pathname = usePathname();
@@ -48,7 +48,7 @@ export default function Header3({ scroll, isSidebar, handleSidebar, isMobileMenu
 		const loggedInStatus = JSON.parse(localStorage.getItem('user'));
 		setUserType(loggedInStatus.roles.name);
 	}, [])
-	console.log(userType);
+	// console.log(userType);
 	return (
 		<>
 

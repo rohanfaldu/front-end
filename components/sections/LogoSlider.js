@@ -53,8 +53,8 @@ export default function LogoSlider() {
           try {
             const developerResponse = await getDataWithOutTOken("api/developer", requestData, false);
             const agencyResponse = await getDataWithOutTOken("api/agencies", requestData, false);
-            console.log(developerResponse,'>>>>>>>> Developer');
-            console.log(agencyResponse,'>>>>>>>> Agency');
+            // console.log(developerResponse,'>>>>>>>> Developer');
+            // console.log(agencyResponse,'>>>>>>>> Agency');
             let mergedData = [];
             if(agencyResponse.status){
                 const agenciesWithType = agencyResponse.data.list.map(item => ({
@@ -82,7 +82,7 @@ export default function LogoSlider() {
       
         fetchData();
       }, []);
-      console.log(developerData,'>>>>>>>> Developer');
+      // console.log(developerData,'>>>>>>>> Developer');
 	return (
 		<>
             {isLoading?(

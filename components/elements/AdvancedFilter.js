@@ -113,7 +113,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 
 
 	  const handleCitySelect = (cityId, cityName) => {
-		console.log(cityName);
+		// console.log(cityName);
 		setFormData(() => ({
 			...formData,
 			city_name: cityName
@@ -179,7 +179,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 	};
 
 	const fetchPropertys = async (page = 1, updatedFilters = {}) => {
-		console.log("hit fetchPropertys");
+		// console.log("hit fetchPropertys");
 			try {
 				const lang = i18n.language;
 				const requestData = {
@@ -188,9 +188,9 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 					limit: pagination.itemsPerPage,
 					transaction: transaction
 				};
-				console.log(requestData,";;;;;;;;;;;;;;;;;;;;")
+				// console.log(requestData,";;;;;;;;;;;;;;;;;;;;")
 				const response = await getData("api/property", requestData, true);
-				console.log('response: ', response);
+				// console.log('response: ', response);
 				if (response.status) {
 					const { list, totalCount, totalPages, currentPage, property_meta_details, maxPriceSliderRange, property_types, cities, maxSizeSliderRange, developers } = response.data;
 					setPropertys(list);
@@ -203,7 +203,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 					setAmenities(property_meta_details);
 					setDevelopers(developers);
 					setpropertyType(property_types);
-					console.log(property_types,"property_types")
+					// console.log(property_types,"property_types")
 					if (initialMaxPrice !== maxPriceSliderRange) {
 						setInitialMaxPrice(maxPriceSliderRange);
 						setPriceRange([1000, maxPriceSliderRange]);
@@ -337,8 +337,8 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 			setAmenities(property_meta_details);
 			setDevelopers(developers);
 			setpropertyType(property_types);
-			console.log(property_types,"property_types")
-			console.log(maxPriceSliderRange,"maxPriceSliderRange")
+			// console.log(property_types,"property_types")
+			// console.log(maxPriceSliderRange,"maxPriceSliderRange")
 			if ( maxPriceSliderRange !== null) {
 				setInitialMaxPrice(maxPriceSliderRange);
 				setPriceRange([1000, maxPriceSliderRange]);
@@ -395,7 +395,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 	  
 		// Generate the query string
 		const queryString = new URLSearchParams(queryData).toString();
-		console.log('queryString: ', queryString);
+		// console.log('queryString: ', queryString);
 	  
 		// Update the URL
 		window.location.href = `/property?${queryString}`;
@@ -403,7 +403,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 	  
 
 	const handleToggle = () => setToggled(!isToggled);
-	  console.log(amenities, "amenities");
+	  // console.log(amenities, "amenities");
 	return (
 		<>
 			<div className={`wd-find-select ${sidecls ? sidecls : ""}`}>
@@ -641,7 +641,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 					<div className="widget-price">
 					<label className="title-select" style={{marginBottom:"0px"}}>{t("price")}</label>
 						<div className="group-form">
-							{ console.log(priceRange, ' >>>>>> priceRange')}
+							{/* { // console.log(priceRange, ' >>>>>> priceRange')} */}
 							<ReactSlider
 								ariaLabelledby="slider-label"
 								className="horizontal-slider st2"
@@ -688,7 +688,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 					{amenities && amenities.length > 0 ? (
 							[...amenities].reverse().map((project) => {
 								if (project.type === "number") {
-									console.log(project);
+									// console.log(project);
 									const selectedValue = formData.amenities_id_object_with_value?.[project.id] || "";
 
 									return (
