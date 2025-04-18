@@ -468,6 +468,7 @@ export default function ProjectHalfmapList() {
 																ariaLabelledby="slider-label"
 																className="horizontal-slider st2"
 																min={0}
+																step={100}
 																max={initialMaxPrice}
 																value={priceRange} // Bind to state
 																thumbClassName="example-thumb"
