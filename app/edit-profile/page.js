@@ -13,6 +13,7 @@ import ViewIcon from "../../public/images/favicon/view.png";
 
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useRouter } from 'next/navigation';
+import ErrorPopup from "../../components/error-popup/ErrorPopup.js";
 
 import * as Yup from 'yup';
 export default function LikedProperty() {
@@ -22,7 +23,9 @@ export default function LikedProperty() {
     const [searchTerm, setSearchTerm] = useState(''); // Store search input
     const [statusFilter, setStatusFilter] = useState(''); // Store selected status filter
     const [showPassword, setShowPassword] = useState(false);
+    const [showOldPassword, setshowOldPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [showErrorPopup, setShowErrorPopup] = useState(false);
     const router = useRouter();
     const [pagination, setPagination] = useState({
         totalCount: 0,
@@ -70,19 +73,21 @@ export default function LikedProperty() {
 
 
     const validationSchema = Yup.object().shape({
+        oldPassword: Yup.string()
+            .required('Old Password does not match'),
         password: Yup.string().required('Password is required'),
         confirmPassword: Yup.string()
             .oneOf([Yup.ref('password'), null], 'Passwords must match')
             .required('Confirm Password is required'),
     });
-
     const handleSubmit = async (values, { setSubmitting }) => {
-        console.log('Form Submitted with values:', values);
+        console.log('Form Submitted with values:', values); 
         setLoading(true);
 
         try {
             const response = await insertData(`auth/updatepasswordwithoutotp`, {
                 password: values.password,
+                old_password: values.oldPassword
             }, true);
             console.log("responseeeee", response)
             if (response.status === true) {
@@ -91,6 +96,8 @@ export default function LikedProperty() {
                 localStorage.removeItem('tokenExpiration');
                 localStorage.removeItem('isLoggedIn');
                 router.push('/');
+            } else {
+                
             }
         } catch (error) {
             console.error('Error updating password:', error);
@@ -105,7 +112,7 @@ export default function LikedProperty() {
             {loading && <Preloader />}
             <LayoutAdmin>
                 <Formik
-                    initialValues={{ password: '', confirmPassword: '' }}
+                    initialValues={{ oldPassword: '', password: '', confirmPassword: '' }}
                     validationSchema={validationSchema}
                     onSubmit={handleSubmit}
                 >
@@ -115,6 +122,42 @@ export default function LikedProperty() {
                                 <div className="top d-flex justify-content-between align-items-center">
                                     <h6 className="title">Change Password</h6>
                                 </div>
+
+                                {/* old_password Field */}
+                                <fieldset className="box-fieldset">
+                                    <label htmlFor="oldPassword">
+                                        Old Password<span>*</span>:
+                                    </label>
+                                    <div style={{ position: 'relative', width: '100%' }}>
+                                        <Field
+                                            type={showOldPassword ? 'text' : 'password'}
+                                            id="oldPassword"
+                                            name="oldPassword"
+                                            style={{ width: '100%', paddingRight: '2.5rem' }}
+                                        />
+                                        <span
+                                            onClick={() => setshowOldPassword((prev) => !prev)}
+                                            className="show-password old-password"
+                                            style={{
+                                                position: 'absolute',
+                                                right: '10px',
+                                                top: '50%',
+                                                transform: 'translateY(-83%)',
+                                                cursor: 'pointer'
+                                            }}
+                                        >
+                                            <img
+                                                src={
+                                                    showOldPassword
+                                                        ? '/images/favicon/password-show.png'
+                                                        : '/images/favicon/password-hide.png'
+                                                }
+                                                alt="toggle password"
+                                            />
+                                        </span>
+                                    </div>
+                                    <ErrorMessage name="oldPassword" component="div" className="error" />
+                                </fieldset>
 
                                 {/* Password Field */}
                                 <fieldset className="box-fieldset">
