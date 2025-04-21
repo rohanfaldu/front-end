@@ -11779,6 +11779,11 @@ tr {
     height: 300px !important;
     z-index: 0;
   }
+  .property-sec-list .project-listing .col-md-6{
+    display: flex;
+    position: relative;
+    justify-content: center;
+  }
   .wrapper-layout-3 .homeya-box {
     max-width: 350px;
   }
