@@ -51,10 +51,12 @@ export default function MyProperty() {
   });
   const startDateRef = useRef(null);
   const endDateRef = useRef(null);
-  const { t } = useTranslation();
+  // const { t } = useTranslation();
 
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const { t, i18n } = useTranslation();
+  
 
   useEffect(() => {
 
@@ -438,18 +440,18 @@ export default function MyProperty() {
       )}
       {isModalOpen && (
             <div className="custom-modal">
-              <div className="custom-modal-content">
+              <div className="custom-modal-content 12">
                 <>
-                  <div style={{ fontSize: "24px", fontWeight: "bold", marginBottom: "20px" }}>Visit Scheduler</div>
+                  <div style={{ fontSize: "24px", fontWeight: "bold", marginBottom: "20px" }}>{t("visitSchedule")}</div>
                   <section className="wrapper-layout-3">
                     <div style={{ width: "100%", backgroundColor: "#f7f7f7", padding: "20px" }}>
                       <div className="flat-tab flat-tab-form widget-filter-search">
                         <ul className="nav-tab-form" role="tablist">
                           <li className="nav-tab-item" onClick={() => handleTab(1)}>
-                            <a className={isTab === 1 ? "nav-link-item active" : "nav-link-item"}>{t("Physical")}</a>
+                            <a className={isTab === 1 ? "nav-link-item active" : "nav-link-item"}>{t("physical")}</a>
                           </li>
                           <li className="nav-tab-item" onClick={() => handleTab(2)}>
-                            <a className={isTab === 2 ? "nav-link-item active" : "nav-link-item"}>{t("Virtual")}</a>
+                            <a className={isTab === 2 ? "nav-link-item active" : "nav-link-item"}>{t("virtual")}</a>
                           </li>
                         </ul>
                       </div>
@@ -480,7 +482,7 @@ export default function MyProperty() {
                           {loading ? "Scheduling..." : "Confirm"}
                         </button>
                         <button className="tf-btn primary" onClick={closeModal}>
-                          Cancel
+                          {t("cancel")}
                         </button>
                       </div>
                     </div>

@@ -191,7 +191,7 @@ export default function ContactSeller({ data }) {
               <div className="custom-modal">
               <div className="custom-modal-content">
                 <>
-				<div style={{fontSize: "24px", fontWeight: "bold", marginBottom: "20px"}}>Visit Scheduler</div>
+				<div style={{fontSize: "24px", fontWeight: "bold", marginBottom: "20px"}}>{t("visitSchedule")}</div>
 				<section className="wrapper-layout-3">
 			<div style={{ width: "100%", backgroundColor: "#f7f7f7", padding: "20px" }}>
 				<div className="flat-tab flat-tab-form widget-filter-search">
@@ -228,10 +228,10 @@ export default function ContactSeller({ data }) {
 				{/* Buttons */}
 				<div style={{ marginTop: "20px" }}>
 					<button className="tf-btn primary" disabled={!selectedDateTime || loading} onClick={visitSchedule}>
-						{loading ? "Scheduling..." : "Confirm"}
+						{loading ? "Scheduling..." : t("confirm")}
 					</button>
 					<button className="tf-btn primary" onClick={closeModal}>
-						Cancel
+					{t("cancel")}
 					</button>
 				</div>
 

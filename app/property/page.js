@@ -1439,8 +1439,8 @@ export default function PropertyHalfmapList() {
 								<button className="tf-btn primary" onClick={() => {
 									closeModal();
 									setLogin(true)
-								}}>Login</button>
-								<button className="tf-btn primary" onClick={() => setIsModelOpen(false)} style={{ marginLeft: '15px' }}>Cancel</button>
+								}}>{t("login")}</button>
+								<button className="tf-btn primary" onClick={() => setIsModelOpen(false)} style={{ marginLeft: '15px' }}>{t("cancel")}</button>
 							</div>
 						</>
 					</div>

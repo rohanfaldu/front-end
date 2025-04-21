@@ -350,5 +350,17 @@
     "luxuriousStudioSale": "Studio de luxe de 47 m² à vendre, Glorieux Nouaceur",
     "POUR sale": "À vendre",
     "POUR rental": "À louer",
-    "projectDetails": "Détails du projet"
+    "projectDetails": "Détails du projet",
+    "cancel": "Annuler",
+    "mobilenumber":"Numéro de portable",
+    "contact": "Contact",
+    "visit": "Visite",
+    "visitSchedule": "Visitez le planificateur",
+    "Physical": "Physique",
+    "Virtual": "Virtuelle",
+    "selectedDateTime": "Date et heure sélectionnées",
+    "confirm" :"Confirmer",
+    "finddeveloper": "Trouver un développeur"
+
+
 }

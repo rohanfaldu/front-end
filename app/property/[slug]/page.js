@@ -632,7 +632,7 @@ export default function PropertyDetailsV1({ params }) {
 									}
 									{properties?.vr_link && ( // Render only if vr_link is available
 										<div className="single-property-element single-property-feature">
-											<div className="h7 title fw-7">Other Information</div>
+											<div className="h7 title fw-7">{t("otherInformation")}</div>
 											<div className="wrap-feature">
 												<div className="box-feature">
 													<button
@@ -641,7 +641,7 @@ export default function PropertyDetailsV1({ params }) {
 														type="button"
 														onClick={() => window.open(properties.vr_link, "_blank", "noopener,noreferrer")}
 													>
-														<span>{t("VR Link")}</span>
+														<span>{t("vrLink")}</span>
 													</button>
 												</div>
 											</div>
@@ -885,8 +885,8 @@ export default function PropertyDetailsV1({ params }) {
 								<button className="tf-btn primary" onClick={() => {
 									closeModal();
 									setLogin(true)
-								}}>Login</button>
-								<button className="tf-btn primary" onClick={() => setIsModelOpen(false)} style={{ marginLeft: '15px' }}>Cancel</button>
+								}}>{t("login")}</button>
+								<button className="tf-btn primary" onClick={() => setIsModelOpen(false)} style={{ marginLeft: '15px' }}>{t("cancel")}</button>
 							</div>
 						</>
 					</div>

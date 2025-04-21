@@ -53,9 +53,9 @@ export default function Breadcrumb({ breadcrumbTitle }) {
 					<h2 className="text-center">{breadcrumbTitle?.full_name}</h2>
 					<ul className="breadcrumb">
 					{isAgency ? (
-							<span>Agency</span>
+							<span>{t("agency")}</span>
 						) : isDeveloper ? (
-						<span>Developer</span>
+						<span>{t("developer")}</span>
 						) : (
 							<>
 								{breadcrumbLinks.map((breadcrumb, index) => (
