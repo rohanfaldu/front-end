@@ -7974,7 +7974,7 @@ label {
 
 .wrapper-layout-3 .homeya-box {
   margin-bottom: 30px;
-  max-width: 340px;
+  max-width: 500px;
 }
 
 .box-title-listing {
@@ -11780,7 +11780,7 @@ tr {
     z-index: 0;
   }
   .wrapper-layout-3 .homeya-box {
-    max-width: 380px;
+    max-width: 350px;
   }
   .project-listing-pagination{
     margin: 0px;
