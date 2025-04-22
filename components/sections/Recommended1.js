@@ -26,12 +26,12 @@ export default function Recommended1() {
 				setPropertyType(propertTypeResponse.data.list);
 
 				const propertyObj = { page: 1, limit: 6, lang: lang };
-				const response = await getData('api/property/', propertyObj);
+				const response = await getData('api/property-recommended/get', propertyObj);
 				// console.log('response');
 				// console.log(response);
 				const userLogin = (localStorage.getItem('isLoggedIn') )? true: false;
 				setIsLogin(userLogin);
-				setProperties(response.data.list); // Save data to state
+				setProperties(response.data); // Save data to state
 				setLoading(false); // Stop loading
 				setError(null);
 			} catch (err) {
@@ -56,7 +56,7 @@ export default function Recommended1() {
 
 	// if (loading) return <p>Loading...</p>; // Show loading message
 	// if (error) return <p>Error: {error}</p>; 
-	//// // console.log(properties);
+	// console.log(properties,'>>>>>> properties');
 	/*const handleTab = (i) => {
 		setIsTab(i)
 		setIsVisible(false)
@@ -65,8 +65,8 @@ export default function Recommended1() {
 		}, 200)
 	}*/
 	const handleTab = async (i, id) => {
-		// // console.log(i);
-		// // console.log(id);
+		// // // console.log(i);
+		// // // console.log(id);
 		setIsTab(i);
 		// setIsVisible(false);
 
@@ -89,8 +89,8 @@ export default function Recommended1() {
 			}
 		}, 200); // Delay to create transition effect
 	};
-	// console.log('property');
-	// console.log(propertyType);
+	// // console.log('property');
+	// // console.log(propertyType);
 	return (
 		<>
 			{loading ?
@@ -105,7 +105,7 @@ export default function Recommended1() {
 									<h4 className="mt-4">{t("recommendedforyou")}</h4>
 								</div>
 								<div className="flat-tab-recommended wow fadeInUpSmall" data-wow-delay=".2s" data-wow-duration="2000ms">
-									<ul className="nav-tab-recommended justify-content-center" role="tablist">
+									{/* <ul className="nav-tab-recommended justify-content-center" role="tablist">
 										<li className="nav-tab-item" onClick={() => handleTab(0, 0)}>
 											<a className={isTab == 0 ? "nav-link-item active" : "nav-link-item"} data-bs-toggle="tab">{t("viewall")}</a>
 										</li>
@@ -114,12 +114,28 @@ export default function Recommended1() {
 												<a className={isTab == (index + 1) ? "nav-link-item active" : "nav-link-item"} data-bs-toggle="tab">{typeList.title}</a>
 											</li>
 										))}
-									</ul>
-									<div className="tab-content">
+									</ul> */}
+									<div className="tab-content nav-tab-recommended">
 										<div
 										>
 											<div className="row">
-												{properties?.filter(property => property.status)?.length ? (
+												{
+													(properties)?
+														properties?.map((property) => (
+															<div key={property.id} className="col-xl-4 col-lg-6 col-md-6">
+																<PropertyData data={property} slide={false} />
+															</div>
+														)):(
+														<div style={{ textAlign: "center" }}>
+															<img 
+																src="/images/not-found/item-not-found.png" 
+																alt="No projects found" 
+																style={{ height: "300px" }} 
+															/>
+														</div>
+													)
+												}
+												{/* {properties?.filter(property => property.status)?.length ? (
 													properties.filter(property => property.status).map((property) => (
 														<div key={property.id} className="col-xl-4 col-lg-6 col-md-6">
 															<PropertyData data={property} slide={false} />
@@ -133,7 +149,7 @@ export default function Recommended1() {
 															style={{ height: "300px" }} 
 														/>
 													</div>
-												)}
+												)} */}
 											</div>
 
 										</div>
