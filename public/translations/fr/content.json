@@ -360,7 +360,7 @@
     "Virtual": "Virtuelle",
     "selectedDateTime": "Date et heure sélectionnées",
     "confirm" :"Confirmer",
-    "finddeveloper": "Trouver un développeur"
-
-
+    "finddeveloper": "Trouver un développeur",
+    "next" : "Suivante",
+    "previous" : "Précédente"
 }

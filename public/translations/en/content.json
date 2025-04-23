@@ -362,6 +362,7 @@
      "Physical": "Physical",
      "Virtual": "Virtual",
      "selectedDateTime": "Selected Date & Time",
-     "confirm" :"Confirm"
-
+     "confirm" :"Confirm",
+     "next" : "Next",
+     "previous" : "Previous"
 }
