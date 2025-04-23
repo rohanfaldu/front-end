@@ -115,7 +115,10 @@ export default function Testimonial1() {
 													</p>
 													<div className="box-avt d-flex align-items-center gap-12">
 														<div className="avatar avt-60 round">
-															<img src={commentData.users?.image} alt="avatar" />
+															<img
+																src={commentData.users?.image || "/images/avatar/user-image.png"}
+																alt="avatar"
+															/>
 														</div>
 														<div className="info">
 															<div className="h7 fw-7">{commentData.users?.full_name}</div>
