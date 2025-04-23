@@ -203,7 +203,7 @@ export default function PropertyHalfmapList() {
 		setTransaction(localStorage.getItem("transaction"));
 		const url = window.location.href;
 		const urlParams = new URLSearchParams(new URL(url).search);
-		// console.log('urlParams: ', urlParams);
+		//console.log('urlParams: ', urlParams.get("city_status"));
 		if (urlParams.size !== 0) {
 			setCheckURL(true);
 			const params = {
@@ -212,6 +212,7 @@ export default function PropertyHalfmapList() {
 				type_id: urlParams.get("type_id") || null,
 				city: urlParams.get("city") || null,
 				city_name: urlParams.get("city_name") || null,
+				city_slug: urlParams.get("city_slug") || null,
 				district_name: urlParams.get("district_name") || null,
 				neighbourhood_name: urlParams.get("neighbourhood_name") || null,
 				district: urlParams.get("district") || null,
@@ -228,8 +229,8 @@ export default function PropertyHalfmapList() {
 				direction: urlParams.get("direction") || null,
 			};
 
-			// console.log("Extracted Parameters:", params);
-			// setParams(params)
+			console.log("Extracted Parameters:", params);
+			
 
 			setFilters(() => ({
 				...params,
@@ -244,7 +245,7 @@ export default function PropertyHalfmapList() {
 				setPriceRange([params.minPrice, params.maxPrice]);
 				setSizeRange([params.minSize, params.maxSize]);
 			}
-			handleCitySelect(params.city, params.city_name);
+			handleCitySelect(params.city, params.city_name, params.city_slug);
 			handleDistrictSelect(params.district, params.district_name);
 			handleNeighbourhoodSelect(params.neighbourhood, params.neighbourhood_name);
 
@@ -259,8 +260,8 @@ export default function PropertyHalfmapList() {
 					title: params.title,
 					description: params.description,
 					city_id: params.city,
-					district_id: params.district,
-					neighborhoods_id: params.neighbourhood,
+					district_id: params.city,
+					neighborhoods_id: params.city,
 					type_id: params.type_id,
 					...(params.minPrice > 0 && { minPrice: params.minPrice }),
 					...(params.maxPrice > 0 && { maxPrice: params.maxPrice }),
@@ -270,7 +271,6 @@ export default function PropertyHalfmapList() {
 					direction: params.direction,
 					developer_id: params.developer_id,
 					amenities_id_object_with_value: params.amenities_id_object_with_value,
-
 					transaction: transaction
 				};
 				// console.log(transaction, ".....................")
@@ -346,8 +346,8 @@ export default function PropertyHalfmapList() {
 				limit: pagination.itemsPerPage,
 				city_name: value
 			};
-			const response = await getData("api/city", requestData, true);
-			setCityOptions(response.data.cities);
+			const response = await getData("api/city/getallcitydistrictneighborhoods", requestData, true);
+			setCityOptions(response.data.list);
 		} catch (error) {
 			console.error("Error fetching cities:", error);
 		}
@@ -798,12 +798,12 @@ export default function PropertyHalfmapList() {
 																		<li
 																			key={city.id}
 																			onClick={() => {
-																				handleCitySelect(city.id, city.city_name);
+																				handleCitySelect(city.id, city.name, city.slug);
 																				setSearchTerm('');
 																			}}
 																			className="city-option"
 																		>
-																			{city.city_name}
+																			{city.name}
 																		</li>
 																	))}
 																</ul>
@@ -814,7 +814,7 @@ export default function PropertyHalfmapList() {
 
 
 													{/* {showDistrict && ( */}
-													<div className="form-style">
+													{/* <div className="form-style">
 														<label className="title-select">{t("district")}</label>
 														<input
 															type="text"
@@ -851,7 +851,7 @@ export default function PropertyHalfmapList() {
 															)
 														)}
 
-													</div>
+													</div> */}
 													{/* )} */}
 													{/* {showNeighbourhood && ( */}
 													<div className="form-style">
@@ -870,7 +870,7 @@ export default function PropertyHalfmapList() {
 																	</option>
 																))}
 															</select> */}
-														<label className="title-select">{t("neighbourhood")}</label>
+														{/* <label className="title-select">{t("neighbourhood")}</label>
 														<input
 															type="text"
 															className="form-control"
@@ -903,7 +903,7 @@ export default function PropertyHalfmapList() {
 																	))}
 																</ul>
 															)
-														)}
+														)} */}
 
 
 													</div>

@@ -57,6 +57,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 		direction: "",
 		developer_id: '',
 		city_name: '',
+		city_slug: '',
 		district_name: '',
 		neighbourhood_name: '',
 
@@ -112,14 +113,15 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 	// };
 
 
-	  const handleCitySelect = (cityId, cityName) => {
+	  const handleCitySelect = (cityId, cityName, slug) => {
 		// console.log(cityName);
 		setFormData(() => ({
 			...formData,
-			city_name: cityName
+			city_name: cityName,
+			city_slug: slug
 		}));
 		setSearchCity(cityName); // Set the selected city name in the input
-		handleFilterChange({ target: { name: 'city', value: cityId } }); // Call filter change with selected city ID
+		handleFilterChange({ target: { name: slug, value: cityId } }); // Call filter change with selected city ID
 	};
 
 	const handleCitySelectTitle = (cityId, cityName, latitude, longitude) => {
@@ -264,8 +266,9 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 						limit: pagination.itemsPerPage,
 						city_name: value
 					};
-				  const response = await getData("api/city", requestData, true);
-				  setCityOptions(response.data.cities);
+				  const response = await getData("api/city/getallcitydistrictneighborhoods", requestData, true);
+				  setCityOptions(response.data.list);
+				  console.log(cityOptions,'>>>>>>>>>>>>>>>> cityOptions')
 				} catch (error) {
 				  console.error("Error fetching cities:", error);
 				}
@@ -422,16 +425,17 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 						{searchTerm.length > 0 && (
 							cityOptions.length > 0 && (
 								<ul className="city-dropdown form-style" style={{ marginTop: "0px", width: "35%", position: "absolute"}}>
+									{ console.log(cityOptions,' >>>>>> city list') }
 									{cityOptions.map((city) => (
 										<li
 											key={city.id}
 											onClick={() => {
-												handleCitySelect(city.id, city.city_name);
+												handleCitySelect(city.id, city.name, city.slug);
 												setSearchTerm('');
 											}}
 											className="city-option"
 										>
-											{city.city_name}
+											{city.name}
 										</li>
 									))}
 								</ul>

@@ -210,6 +210,17 @@ export default function PropertyDetailsV1({ params }) {
 					setMetaNumberList(metaNumberFieldDetails);
 					setLoading(false);
 					setError(null);
+
+					console.log(result,'>>>> Response'); 
+					const currentLoginUser = localStorage.getItem("user_id");
+					console.log(currentLoginUser,'>>>> Login')
+					const recommandedPerameter = {
+						"property_id": result.id,
+						"user_id": currentLoginUser
+					}
+					const recommandedResponse = await getData("api/property-recommended/store", recommandedPerameter);
+					console.log(recommandedResponse);
+
 				} else {
 					console.warn("Property not found!");
 				}
