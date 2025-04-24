@@ -99,7 +99,7 @@ export default function Recommended1() {
 				<Preloader />
 				:
 				<>
-					{isLogin?
+					{isLogin && Array.isArray(properties) && properties.length > 0 ? 
 						<section className="flat-section flat-recommended home-properties">
 							<div className="container">
 								<div className="text-center wow fadeInUpSmall" data-wow-delay=".2s" data-wow-duration="2000ms">
