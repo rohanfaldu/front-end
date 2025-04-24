@@ -229,7 +229,7 @@ export default function PropertyHalfmapList() {
 				direction: urlParams.get("direction") || null,
 			};
 
-			console.log("Extracted Parameters:", params);
+			//console.log("Extracted Parameters:", params);
 			
 
 			setFilters(() => ({

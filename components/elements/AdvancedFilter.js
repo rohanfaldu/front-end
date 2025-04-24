@@ -268,7 +268,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 			};
 			const response = await getData("api/city/getallcitydistrictneighborhoods", requestData, true);
 			setCityOptions(response.data.list);
-			console.log(cityOptions, '>>>>>>>>>>>>>>>> cityOptions')
+			//console.log(cityOptions, '>>>>>>>>>>>>>>>> cityOptions')
 		} catch (error) {
 			console.error("Error fetching cities:", error);
 		}
@@ -425,7 +425,6 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 						{searchTerm.length > 0 && (
 							cityOptions.length > 0 && (
 								<ul className="city-dropdown form-style" style={{ marginTop: "0px", width: "35%", position: "absolute" }}>
-									{console.log(cityOptions, ' >>>>>> city list')}
 									{cityOptions.map((city) => (
 										<li
 											key={city.id}
