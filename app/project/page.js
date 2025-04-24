@@ -353,7 +353,7 @@ export default function ProjectHalfmapList() {
 													</div>
 
 													<div className="form-style">
-														<label className="title-select">{t("city")}</label>
+														<label className="title-select">{t("keyword")}</label>
 														<input
 															type="text"
 															className="form-control"
