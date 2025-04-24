@@ -36,7 +36,7 @@ export default function PropertyHalfmapList() {
 	const [maxPriceSliderRange, setMaxPriceSliderRange] = useState(0); // Dynamic slider range
 	const [calculationStatus, setCalculationStatus] = useState(false);
 	const [isLiked, setIsLiked] = useState(false);
-	const [priceRange, setPriceRange] = useState([]); // Selected range
+	const [priceRange, setPriceRange] = useState([1000, 1000000]); // Selected range
 	const [sizeRange, setSizeRange] = useState([]); // Selected range
 	const [isTab, setIsTab] = useState(2)
 	const handleTab = (i) => {
@@ -230,7 +230,7 @@ export default function PropertyHalfmapList() {
 			};
 
 			//console.log("Extracted Parameters:", params);
-			
+
 
 			setFilters(() => ({
 				...params,
@@ -764,7 +764,7 @@ export default function PropertyHalfmapList() {
 															className="form-control"
 															id="city"
 															name="city"
-															value={searchCity}
+															value={searchCity ?? ''}
 															onChange={handleInputChange}
 															placeholder={t("searchCity")}
 														/>
@@ -916,7 +916,7 @@ export default function PropertyHalfmapList() {
 															className="form-control"
 															id="propertyType"
 															name="type_id"
-															value={filters.type_id}
+															value={filters.type_id ?? ''}
 															onChange={handleFilterChange}
 														>
 															<option value="">{t("selectpropertytype")}</option>
@@ -968,17 +968,19 @@ export default function PropertyHalfmapList() {
 													<div className="form-style widget-price">
 														<label className="title-select" style={{ marginBottom: "0px" }}>{t("price")}</label>
 														<div className="group-form">
-															<ReactSlider
-																ariaLabelledby="slider-label"
-																className="horizontal-slider st2"
-																min={1000}
-																max={initialMaxPrice}
-																value={priceRange}
-																step={100}
-																thumbClassName="example-thumb"
-																trackClassName="example-track"
-																onChange={handlePriceChange}
-															/>
+															{Array.isArray(priceRange) && priceRange.length === 2 && (
+																<ReactSlider
+																	ariaLabelledby="slider-label"
+																	className="horizontal-slider st2"
+																	min={1000}
+																	max={initialMaxPrice}
+																	value={priceRange ?? ''}
+																	step={100}
+																	thumbClassName="example-thumb"
+																	trackClassName="example-track"
+																	onChange={handlePriceChange}
+																/>
+															)}
 
 															<div className="group-range-title mt-2">
 																<label className="d-flex justify-content-between mb-0">
@@ -997,7 +999,7 @@ export default function PropertyHalfmapList() {
 																className="horizontal-slider st2"
 																min={0}
 																max={initialMaxSize}
-																value={sizeRange}
+																value={sizeRange ?? 0}
 																thumbClassName="example-thumb"
 																trackClassName="example-track"
 																onChange={handleSizeChange}
@@ -1005,8 +1007,8 @@ export default function PropertyHalfmapList() {
 
 															<div className="group-range-title mt-2">
 																<label className="d-flex justify-content-between mb-0">
-																	<span>{sizeRange[0]} m²</span>
-																	<span>{sizeRange[1]} m²</span>
+																	<span>{sizeRange[0] ?? 0} m²</span>
+																	<span>{sizeRange[1] ?? 0} m²</span>
 																</label>
 															</div>
 														</div>
@@ -1028,17 +1030,14 @@ export default function PropertyHalfmapList() {
 																{amenities && amenities.length > 0 ? (
 																	[...amenities].reverse().map((project) => {
 																		if (project.type === "number") {
-																			// console.log(project);
 																			const selectedValue = filters.amenities_id_object_with_value?.[project.id] || "";
 
 																			return (
-																				<>
+																				<div key={project.id} className="amenity-group">
 																					<div className="title-select text-variant-1" htmlFor={project.id}>
 																						{t("numberOfAminities")} {project.name}:
 																					</div>
-																					<fieldset key={project.id} className="box box-fieldse aminities-radio-sec">
-
-
+																					<fieldset className="box box-fieldse aminities-radio-sec">
 																						<div className="radio-group">
 																							{[
 																								{ label: "1", value: "1" },
@@ -1046,7 +1045,7 @@ export default function PropertyHalfmapList() {
 																								{ label: "3", value: "3" },
 																								{ label: "3+", value: "4" }
 																							].map((option) => (
-																								<label key={option.value} className="radio-label custom-radio" style={{ marginRight: '10px' }}>
+																								<label key={`${project.id}-${option.value}`} className="radio-label custom-radio" style={{ marginRight: '10px' }}>
 																									<input
 																										type="radio"
 																										className="nice-radio"
@@ -1055,18 +1054,19 @@ export default function PropertyHalfmapList() {
 																										name={project.id}
 																										onChange={() => handleNumberChange(project.id, option.value)}
 																									/>
-																									<span className="">{option.label}</span>
+																									<span>{option.label}</span>
 																								</label>
 																							))}
 																						</div>
 																					</fieldset>
-																				</>
+																				</div>
 																			);
 																		}
 																		return null;
 																	})
 																) : null}
 															</div>
+
 															{/* <div className="form-style">
 																	<label className="title-select">{t("direction")}</label>
 																	<select
@@ -1310,7 +1310,7 @@ export default function PropertyHalfmapList() {
 																				(item, index) => (
 																					<SwiperSlide key={index}>
 																						<Link href={`/property/${property.slug}`} className="link">
-																							<img src={item} alt="img-property" style={{ width: "100%", borderRadius: "8px", minHeight: "300px", maxHeight:" 300px" }} />
+																							<img src={item} alt="img-property" style={{ width: "100%", borderRadius: "8px", minHeight: "300px", maxHeight: " 300px" }} />
 																						</Link>
 																					</SwiperSlide>
 																				)
@@ -1318,7 +1318,7 @@ export default function PropertyHalfmapList() {
 																		</Swiper>
 																	</div>
 																	<div className="top">
-																	<ul className="d-flex gap-8">
+																		<ul className="d-flex gap-8">
 																			<li className="flag-tag style-1">{t(property.transaction)}</li>
 																		</ul>
 																		{/* <ul className="d-flex gap-4">
