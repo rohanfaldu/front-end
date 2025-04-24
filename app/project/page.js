@@ -130,8 +130,8 @@ export default function ProjectHalfmapList() {
 			limit: pagination.itemsPerPage,
 			title: filters.title,
 			city_id: filters.city,
-			district_id: filters.district,
-			neighborhoods_id: filters.neighbourhood,
+			district_id: filters.city,
+			neighborhoods_id: filters.city,
 			minPrice: filters.minPrice,
 			maxPrice: filters.maxPrice,
 			amenities_id_array: filters.amenities_id_array,
@@ -223,8 +223,8 @@ export default function ProjectHalfmapList() {
 				limit: pagination.itemsPerPage,
 				city_name: value
 			};
-			const response = await getData("api/city", requestData, true);
-			setCityOptions(response.data.cities);
+			const response = await getData("api/city/getallcitydistrictneighborhoods", requestData, true);
+			setCityOptions(response.data.list);
 		} catch (error) {
 			console.error("Error fetching cities:", error);
 		}
@@ -370,12 +370,12 @@ export default function ProjectHalfmapList() {
 																		<li
 																			key={city.id}
 																			onClick={() => {
-																				handleCitySelect(city.id, city.city_name);
+																				handleCitySelect(city.id, city.name);
 																				setSearchTerm('');
 																			}}
 																			className="city-option"
 																		>
-																			{city.city_name}
+																			{city.name}
 																		</li>
 																	))}
 																</ul>
@@ -383,7 +383,7 @@ export default function ProjectHalfmapList() {
 														)}
 													</div>
 
-													<div className="form-style">
+													{/* <div className="form-style">
 														<label className="title-select">{t("district")}</label>
 														<input
 															type="text"
@@ -459,7 +459,7 @@ export default function ProjectHalfmapList() {
 														)}
 
 
-													</div>
+													</div> */}
 
 
 													<div className="form-style widget-price">
