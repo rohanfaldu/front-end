@@ -249,7 +249,7 @@ export default function MyProperty() {
 
               <div className="widget-box-2 wd-listing">
              
-                <div class="top d-flex justify-content-between align-items-center">
+                <div className="top d-flex justify-content-between align-items-center">
                   <h6 className="title">Property visit Scheduler Listing</h6>
                   {/* <Link className="remove-file tf-btn primary" href="/create-agency">Add Agnecy</Link> */}
                   <div style={{display: "flex", alignItems: "center"}}>

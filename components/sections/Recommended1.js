@@ -117,7 +117,7 @@ export default function Recommended1() {
 									</ul> */}
 									<div className="tab-content nav-tab-recommended">
 										<div
-										>{ console.log(properties.length) }
+										>
 											<div className="row">
 												{
 													(properties)?

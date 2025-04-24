@@ -90,7 +90,7 @@ export default function LogoSlider() {
             ):(
                 <section className="logo-sec-list">
                   <div className="logo-sec-text">
-                    <h4 class="mt-4 mb-[10px]">{t('agencyDeveloperSlider')}</h4>
+                    <h4 className="mt-4 mb-[10px]">{t('agencyDeveloperSlider')}</h4>
                     </div>
                     <div className="logo-sec">
                       <Swiper {...swiperOptions}>

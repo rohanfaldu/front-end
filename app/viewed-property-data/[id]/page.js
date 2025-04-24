@@ -213,7 +213,7 @@ export default function PropertyViewedListing({ params }) {
           <LayoutAdmin>
             <div className="wrap-dashboard-content">
               <div className="widget-box-2 wd-listing">
-                <div class="top d-flex justify-content-between align-items-center">
+                <div className="top d-flex justify-content-between align-items-center">
                   <h6 className="title">Selected Property View Engagements</h6>
                   {/* <Link className="remove-file tf-btn primary" href="/create-property">Add Property</Link> */}
                   <div>

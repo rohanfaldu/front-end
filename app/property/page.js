@@ -1371,7 +1371,7 @@ export default function PropertyHalfmapList() {
 																				<i className="icon icon-ruler" />
 																				<span>{property.size === null ? '-' : `${property.size}`}</span>
 																			</li>
-																			<li class="filteration">
+																			<li className="filteration">
 																				<PercentageHeart percentage={property.filter_result.total_percentage} />
 																			</li>
 																		</ul>

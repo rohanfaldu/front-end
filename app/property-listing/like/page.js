@@ -240,7 +240,7 @@ export default function PropertyListing() {
           <LayoutAdmin>
             <div className="wrap-dashboard-content">
               <div className="widget-box-2 wd-listing">
-                <div class="top d-flex justify-content-between align-items-center">
+                <div className="top d-flex justify-content-between align-items-center">
                   <h6 className="title">Select Property to analyze Like Engagements</h6>
                   {/* <Link className="remove-file tf-btn primary" href="/create-property">Add Property</Link> */}
                   <div style={{ display: "flex", alignItems: "center" }}>

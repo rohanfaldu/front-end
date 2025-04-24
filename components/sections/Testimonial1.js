@@ -80,7 +80,7 @@ export default function Testimonial1() {
 		}
 	}, [pagination.currentPage, i18n.language]);
 
-	console.log(commentDetails, ' >>>>> commentDetails')
+	//console.log(commentDetails, ' >>>>> commentDetails')
 	return (
 		<>
 

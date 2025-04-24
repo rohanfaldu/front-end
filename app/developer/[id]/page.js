@@ -167,9 +167,9 @@ export default function AgencyDetail({ params }) {
                                     <div className="col-lg-8">
                                         <div className="single-property-element single-property-desc">
                                             {developerDetails.agency_name !== null ? (
-                                                <div class="content-top d-flex justify-content-between align-items-center">
-                                                    <div class="box-name">
-                                                        <a class="flag-tag primary" href="#">{developerDetails?.agency_name}</a>
+                                                <div className="content-top d-flex justify-content-between align-items-center">
+                                                    <div className="box-name">
+                                                        <a className="flag-tag primary" href="#">{developerDetails?.agency_name}</a>
                                                     </div>
                                                 </div>
                                             ) : ''}

@@ -248,7 +248,7 @@ export default function MyProperty() {
             <div className="wrap-dashboard-content">
 
               <div className="widget-box-2 wd-listing">
-              <div class="top d-flex align-items-center" style={{marginBottom: "20px"}}>
+              <div className="top d-flex align-items-center" style={{marginBottom: "20px"}}>
                       <Link href="/visit-schedule">
                         <button className="tf-btn secondary" style={{ marginRight: "20px" }}>Scheduled Visits</button>
                       </Link>
@@ -259,7 +259,7 @@ export default function MyProperty() {
                         <button className="tf-btn secondary">Rejected Visits</button>
                       </Link>
                 </div>
-                <div class="top d-flex justify-content-between align-items-center">
+                <div className="top d-flex justify-content-between align-items-center">
                   <h6 className="title">Property Pending visit Scheduled Listing</h6>
                   <div style={{ display: "flex", alignItems: "center" }}>
                     <div>

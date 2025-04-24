@@ -242,7 +242,7 @@ export default function PropertyListing() {
           <LayoutAdmin>
             <div className="wrap-dashboard-content">
               <div className="widget-box-2 wd-listing">
-                <div class="top d-flex justify-content-between align-items-center">
+                <div className="top d-flex justify-content-between align-items-center">
                   <h6 className="title">Select Property to analyze View Engagements</h6>
                   <div style={{ display: "flex", alignItems: "center" }}>
                     <div>

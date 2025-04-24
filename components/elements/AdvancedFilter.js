@@ -11,7 +11,7 @@ import debounce from "lodash.debounce";
 export default function AdvancedFilter({ sidecls, propertiesData }) {
 	const [isToggled, setToggled] = useState(false);
 	const [propertyType, setpropertyType] = useState([]);
-	const [propertys, setPropertys] = useState([]); 
+	const [propertys, setPropertys] = useState([]);
 	const [amenities, setAmenities] = useState([]);
 	const [developers, setDevelopers] = useState([]);
 	const [initialMaxPrice, setInitialMaxPrice] = useState(0); // Store the maximum price initially
@@ -61,7 +61,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 		district_name: '',
 		neighbourhood_name: '',
 
-		
+
 		// amenities: [],
 
 		minPrice: priceRange[0],
@@ -94,15 +94,15 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 	const handleInputChangeCity = (e) => {
 		setSearchTerm(e.target.value);
 		setSearchCity(e.target.value)
-	  };
+	};
 
-	  const handleInputChangeTitle = (e) => {
+	const handleInputChangeTitle = (e) => {
 		setSearchTermTitle(e.target.value);
 		setFormData((prevFilters) => ({
 			...prevFilters,
-			title : e.target.value,
+			title: e.target.value,
 		}))
-	  };
+	};
 	//   const handlePriceChange = (newRange) => {
 	// 	setPriceRange(newRange); // Update the range state
 	// 	setFormData((prevFilters) => ({
@@ -113,7 +113,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 	// };
 
 
-	  const handleCitySelect = (cityId, cityName, slug) => {
+	const handleCitySelect = (cityId, cityName, slug) => {
 		// console.log(cityName);
 		setFormData(() => ({
 			...formData,
@@ -127,21 +127,21 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 	const handleCitySelectTitle = (cityId, cityName, latitude, longitude) => {
 		setFormData((prevFilters) => ({
 			...prevFilters,
-			title : cityName,
+			title: cityName,
 		}))
 	};
 
 	const handleInputChangeDistrict = (e) => {
 		setSearchTermDistrict(e.target.value);
-		setSearchDistrict(e.target.value)	
-	  }
+		setSearchDistrict(e.target.value)
+	}
 
-	  const handleInputChangeNeighbourhood = (e) => {
+	const handleInputChangeNeighbourhood = (e) => {
 		setSearchTermNeighbourhood(e.target.value);
-		setSearchNeighbourhood(e.target.value)	
-	  }
+		setSearchNeighbourhood(e.target.value)
+	}
 
-	  const handleNeighbourhoodSelect = (neighbourhoodId, neighbourhoodName) => {
+	const handleNeighbourhoodSelect = (neighbourhoodId, neighbourhoodName) => {
 		setSearchNeighbourhood(neighbourhoodName);
 		setFormData(() => ({
 			...formData,
@@ -159,20 +159,20 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 			...(name === "city" && { district_id: "", neighbourhood_id: "" }),
 			...(name === "district" && { neighbourhood_id: "" }),
 		}));
-	
+
 		if (name === "city") {
 			setShowDistrict(false);
 			setShowNeighbourhood(false);
-	
+
 			if (value) {
 				setCityId(value);
 				setShowDistrict(true);
 			}
 		}
-	
+
 		if (name === "district") {
 			setShowNeighbourhood(false);
-	
+
 			if (value) {
 				setDistrictId(value);
 				setShowNeighbourhood(true);
@@ -182,136 +182,136 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 
 	const fetchPropertys = async (page = 1, updatedFilters = {}) => {
 		// console.log("hit fetchPropertys");
-			try {
-				const lang = i18n.language;
-				const requestData = {
-					page,
-					lang,
-					limit: pagination.itemsPerPage,
-					transaction: transaction
-				};
-				// console.log(requestData,";;;;;;;;;;;;;;;;;;;;")
-				const response = await getData("api/property", requestData, true);
-				// console.log('response: ', response);
-				if (response.status) {
-					const { list, totalCount, totalPages, currentPage, property_meta_details, maxPriceSliderRange, property_types, cities, maxSizeSliderRange, developers } = response.data;
-					setPropertys(list);
-					setPagination({
-						...pagination,
-						totalCount,
-						totalPages,
-						currentPage,
-					});
-					setAmenities(property_meta_details);
-					setDevelopers(developers);
-					setpropertyType(property_types);
-					// console.log(property_types,"property_types")
-					if (initialMaxPrice !== maxPriceSliderRange) {
-						setInitialMaxPrice(maxPriceSliderRange);
-						setPriceRange([1000, maxPriceSliderRange]);
-					}
-	
-					if (initialMaxSize !== maxSizeSliderRange){
-						setInitialMaxSize(maxSizeSliderRange);
-						setSizeRange([0, maxSizeSliderRange])
-					}
-					setError(null);
+		try {
+			const lang = i18n.language;
+			const requestData = {
+				page,
+				lang,
+				limit: pagination.itemsPerPage,
+				transaction: transaction
+			};
+			// console.log(requestData,";;;;;;;;;;;;;;;;;;;;")
+			const response = await getData("api/property", requestData, true);
+			// console.log('response: ', response);
+			if (response.status) {
+				const { list, totalCount, totalPages, currentPage, property_meta_details, maxPriceSliderRange, property_types, cities, maxSizeSliderRange, developers } = response.data;
+				setPropertys(list);
+				setPagination({
+					...pagination,
+					totalCount,
+					totalPages,
+					currentPage,
+				});
+				setAmenities(property_meta_details);
+				setDevelopers(developers);
+				setpropertyType(property_types);
+				// console.log(property_types,"property_types")
+				if (initialMaxPrice !== maxPriceSliderRange) {
+					setInitialMaxPrice(maxPriceSliderRange);
+					setPriceRange([1000, maxPriceSliderRange]);
 				}
-			} catch (err) {
-				setError(err.response?.data?.message || "An error occurred");
+
+				if (initialMaxSize !== maxSizeSliderRange) {
+					setInitialMaxSize(maxSizeSliderRange);
+					setSizeRange([0, maxSizeSliderRange])
+				}
+				setError(null);
 			}
-		};
+		} catch (err) {
+			setError(err.response?.data?.message || "An error occurred");
+		}
+	};
 
-		const handlePriceChange = (newRange) => {
-			setPriceRange(newRange); // Update the range state
-			setFormData((prevFilters) => ({
-				...prevFilters,
-				minPrice: newRange[0], // Set minPrice
-				maxPrice: newRange[1], // Set maxPrice
-			}));
-		};
-
-
-		const handleSizeChange = (newRange) => {
-			setSizeRange(newRange); // Update the range state
-			setFormData((prevFilters) => ({
-				...prevFilters,
-				minSize: newRange[0], // Set minPrice
-				maxSize: newRange[1], // Set maxPrice
-			}));
-		};
-		
-
-		const handleNumberChange = (amenityId, value) => {
-			setFormData((prevFilters) => ({
-				...prevFilters,
-				amenities_id_object_with_value: {
-					...prevFilters.amenities_id_object_with_value,
-					[amenityId]: value,
-				},
-			}));
-		};
+	const handlePriceChange = (newRange) => {
+		setPriceRange(newRange); // Update the range state
+		setFormData((prevFilters) => ({
+			...prevFilters,
+			minPrice: newRange[0], // Set minPrice
+			maxPrice: newRange[1], // Set maxPrice
+		}));
+	};
 
 
-		const fetchCityOptions = debounce(async (value, page = 1) => {
-				if (value.trim() === "") {
-				  setCityOptions([]);
-				  return;
-				}
-				try {
-					const lang = i18n.language;
-					const requestData = {
-						page,
-						lang,
-						limit: pagination.itemsPerPage,
-						city_name: value
-					};
-				  const response = await getData("api/city/getallcitydistrictneighborhoods", requestData, true);
-				  setCityOptions(response.data.list);
-				  console.log(cityOptions,'>>>>>>>>>>>>>>>> cityOptions')
-				} catch (error) {
-				  console.error("Error fetching cities:", error);
-				}
-			  }, 300);
+	const handleSizeChange = (newRange) => {
+		setSizeRange(newRange); // Update the range state
+		setFormData((prevFilters) => ({
+			...prevFilters,
+			minSize: newRange[0], // Set minPrice
+			maxSize: newRange[1], // Set maxPrice
+		}));
+	};
 
-			  const fetchDistrictOptions = debounce(async (value) => {
-					if (value.trim() === "") {
-						setDistrictOptions([]);
-					  return;
-					}
-					try {
-						const lang = i18n.language;
-						const requestData = {
-							lang,
-							city_id: cityId,
-							district_name: value
-						};
-					  const response = await getData("api/district/getbycity", requestData, true);
-					  setDistrictOptions(response.data);
-					} catch (error) {
-					  console.error("Error fetching cities:", error);
-					}
-				  }, 300);
-			  
-			  
-				  const fetchNeighbourhoodOptions = debounce(async (value) => {
-					if (value.trim() === "") {
-						setNeighbourhoodOptions([]);
-					  return;
-					}
-					try {
-						const lang = i18n.language;
-						const requestData = {
-							lang,
-							district_id: districtId,
-							neighbourhood_name: value
-						};
-					  const response = await getData("api/neighborhood/id", requestData, true);
-					  setNeighbourhoodOptions(response.data);
-					} catch (error) {
-					  console.error("Error fetching cities:", error);
-					}
-				  }, 300);
+
+	const handleNumberChange = (amenityId, value) => {
+		setFormData((prevFilters) => ({
+			...prevFilters,
+			amenities_id_object_with_value: {
+				...prevFilters.amenities_id_object_with_value,
+				[amenityId]: value,
+			},
+		}));
+	};
+
+
+	const fetchCityOptions = debounce(async (value, page = 1) => {
+		if (value.trim() === "") {
+			setCityOptions([]);
+			return;
+		}
+		try {
+			const lang = i18n.language;
+			const requestData = {
+				page,
+				lang,
+				limit: pagination.itemsPerPage,
+				city_name: value
+			};
+			const response = await getData("api/city/getallcitydistrictneighborhoods", requestData, true);
+			setCityOptions(response.data.list);
+			console.log(cityOptions, '>>>>>>>>>>>>>>>> cityOptions')
+		} catch (error) {
+			console.error("Error fetching cities:", error);
+		}
+	}, 300);
+
+	const fetchDistrictOptions = debounce(async (value) => {
+		if (value.trim() === "") {
+			setDistrictOptions([]);
+			return;
+		}
+		try {
+			const lang = i18n.language;
+			const requestData = {
+				lang,
+				city_id: cityId,
+				district_name: value
+			};
+			const response = await getData("api/district/getbycity", requestData, true);
+			setDistrictOptions(response.data);
+		} catch (error) {
+			console.error("Error fetching cities:", error);
+		}
+	}, 300);
+
+
+	const fetchNeighbourhoodOptions = debounce(async (value) => {
+		if (value.trim() === "") {
+			setNeighbourhoodOptions([]);
+			return;
+		}
+		try {
+			const lang = i18n.language;
+			const requestData = {
+				lang,
+				district_id: districtId,
+				neighbourhood_name: value
+			};
+			const response = await getData("api/neighborhood/id", requestData, true);
+			setNeighbourhoodOptions(response.data);
+		} catch (error) {
+			console.error("Error fetching cities:", error);
+		}
+	}, 300);
 
 
 	const handleCheckboxChange = (e) => {
@@ -326,9 +326,9 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 
 
 	useEffect(() => {
-			setTransaction(localStorage.getItem("transaction"));
-			// fetchPropertys(pagination.currentPage);
-			if(propertiesData !== undefined){
+		setTransaction(localStorage.getItem("transaction"));
+		// fetchPropertys(pagination.currentPage);
+		if (propertiesData !== undefined) {
 			const { list, totalCount, totalPages, currentPage, property_meta_details, maxPriceSliderRange, property_types, maxSizeSliderRange, developers } = propertiesData;
 			setPropertys(list);
 			setPagination({
@@ -342,7 +342,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 			setpropertyType(property_types);
 			// console.log(property_types,"property_types")
 			// console.log(maxPriceSliderRange,"maxPriceSliderRange")
-			if ( maxPriceSliderRange !== null) {
+			if (maxPriceSliderRange !== null) {
 				setInitialMaxPrice(maxPriceSliderRange);
 				setPriceRange([1000, maxPriceSliderRange]);
 				setFormData((prevFilters) => ({
@@ -350,7 +350,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 					minPrice: 1000, // Set minPrice
 					maxPrice: maxPriceSliderRange, // Set maxPrice
 				}));
-			}else{
+			} else {
 				setInitialMaxPrice(300000);
 				setPriceRange([1000, 300000]);
 				setFormData((prevFilters) => ({
@@ -359,9 +359,9 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 					maxPrice: 300000, // Set maxPrice
 				}));
 			}
-			
-			
-			if ( maxSizeSliderRange !== null) {
+
+
+			if (maxSizeSliderRange !== null) {
 				setInitialMaxSize(maxSizeSliderRange);
 				setSizeRange([0, maxSizeSliderRange])
 				setFormData((prevFilters) => ({
@@ -369,7 +369,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 					minSize: 0, // Set minPrice
 					maxSize: maxSizeSliderRange, // Set maxPrice
 				}));
-			}else{
+			} else {
 				setInitialMaxSize(2000);
 				setSizeRange([0, 2000])
 				setFormData((prevFilters) => ({
@@ -380,39 +380,39 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 			}
 		}
 
-			if(searchTerm){
-				fetchCityOptions(searchTerm);
-			}else if(searchTermTitle){
-				fetchCityOptions(searchTermTitle);
-			}
-			fetchDistrictOptions(searchTermDistrict)
-			fetchNeighbourhoodOptions(searchTermNeighbourhood)
+		if (searchTerm) {
+			fetchCityOptions(searchTerm);
+		} else if (searchTermTitle) {
+			fetchCityOptions(searchTermTitle);
+		}
+		fetchDistrictOptions(searchTermDistrict)
+		fetchNeighbourhoodOptions(searchTermNeighbourhood)
 	}, [pagination.currentPage, i18n.language, transaction, searchTerm, searchTermDistrict, searchTermNeighbourhood, searchTermTitle]);
 
 	const passingData = () => {
 		// Create a shallow copy of formData
 		const queryData = { ...formData };
-	  
+
 		// Stringify the nested object explicitly
 		queryData.amenities_id_object_with_value = JSON.stringify(formData.amenities_id_object_with_value);
-	  
+
 		// Generate the query string
 		const queryString = new URLSearchParams(queryData).toString();
 		// console.log('queryString: ', queryString);
-	  
+
 		// Update the URL
 		window.location.href = `/property?${queryString}`;
-	  };
-	  
+	};
+
 
 	const handleToggle = () => setToggled(!isToggled);
-	  // console.log(amenities, "amenities");
+	// console.log(amenities, "amenities");
 	return (
 		<>
 			<div className={`wd-find-select ${sidecls ? sidecls : ""}`}>
 				<div className="inner-group">
 					<div className="form-group-1 search-form form-style">
-					<label className="title-select">{t("keyword")}</label>
+						<label className="title-select">{t("keyword")}</label>
 						<input
 							type="text"
 							className="form-control"
@@ -424,8 +424,8 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 						/>
 						{searchTerm.length > 0 && (
 							cityOptions.length > 0 && (
-								<ul className="city-dropdown form-style" style={{ marginTop: "0px", width: "35%", position: "absolute"}}>
-									{ console.log(cityOptions,' >>>>>> city list') }
+								<ul className="city-dropdown form-style" style={{ marginTop: "0px", width: "35%", position: "absolute" }}>
+									{console.log(cityOptions, ' >>>>>> city list')}
 									{cityOptions.map((city) => (
 										<li
 											key={city.id}
@@ -469,7 +469,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 								onChange={handleInputChange}
 							>
 								<option value="">{t("selectpropertytype")}</option>
-								{propertyType.map((property) => ( 
+								{propertyType.map((property) => (
 									<option key={property.id} value={property.id}>
 										{property.title}
 									</option>
@@ -488,9 +488,9 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 			</div>
 			<div className={`wd-search-form ${isToggled ? "show" : ""}`}>
 
-			<div className="grid-1 group-box">
-				<div className="group-select grid-3">
-					{/* <div className="form-style">
+				<div className="grid-1 group-box">
+					<div className="group-select grid-3">
+						{/* <div className="form-style">
 						<label className="title-select">{t("city")}</label>
 						<input
 							type="text"
@@ -521,8 +521,8 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 						)}
 					</div> */}
 
-					{/* {showDistrict && ( */}
-					{/* <div className="form-style">
+						{/* {showDistrict && ( */}
+						{/* <div className="form-style">
 						<label className="title-select">{t("district")}</label>
 						<input
 							type="text"
@@ -557,9 +557,9 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 							)
 						)}
 					</div> */}
-					{/* )} */}
+						{/* )} */}
 
-					{/* {showNeighbourhood && ( */}
+						{/* {showNeighbourhood && ( */}
 						{/* <div className="form-style">
 							<label className="title-select">{t("neighbourhood")}</label>
 							<input
@@ -597,13 +597,13 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 						</div> */}
 						{/* )} */}
 
+					</div>
 				</div>
-			</div>
 
 
-			<div className="grid-1 group-box">
-				<div className="group-select grid-2">
-					{/* <div className="form-style">
+				<div className="grid-1 group-box">
+					<div className="group-select grid-2">
+						{/* <div className="form-style">
 						<label className="title-select">{t("direction")}</label>
 						<select
 							className="form-control"
@@ -620,7 +620,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 						</select>
 					</div> */}
 
-					{/* <div className="form-style">
+						{/* <div className="form-style">
 						<label className="title-select">{t("developedby")}</label>
 						<select
 							className="form-control"
@@ -637,13 +637,13 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 							))}
 						</select>
 					</div> */}
+					</div>
 				</div>
-			</div>
 
 
 				<div className="grid-2 group-box group-price">
 					<div className="widget-price">
-					<label className="title-select" style={{marginBottom:"0px"}}>{t("price")}</label>
+						<label className="title-select" style={{ marginBottom: "0px" }}>{t("price")}</label>
 						<div className="group-form">
 							{/* { // console.log(priceRange, ' >>>>>> priceRange')} */}
 							<ReactSlider
@@ -666,93 +666,74 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 						</div>
 					</div>
 					<div className="widget-price">
-					<label className="title-select" style={{marginBottom:"0px"}}>{t("size")}</label>
-					<div className="group-form">
-						<ReactSlider
-							ariaLabelledby="slider-label"
-							className="horizontal-slider st2"
-							min={0}
-							max={initialMaxSize}
-							value={sizeRange}
-							thumbClassName="example-thumb"
-							trackClassName="example-track"
-							onChange={handleSizeChange}
-						/>
-						<div className="group-range-title mt-2">
-							<label className="d-flex justify-content-between mb-0">
-								<span>{sizeRange[0]} m²</span>
-								<span>{sizeRange[1]} m²</span>
-							</label>
+						<label className="title-select" style={{ marginBottom: "0px" }}>{t("size")}</label>
+						<div className="group-form">
+							<ReactSlider
+								ariaLabelledby="slider-label"
+								className="horizontal-slider st2"
+								min={0}
+								max={initialMaxSize}
+								value={sizeRange}
+								thumbClassName="example-thumb"
+								trackClassName="example-track"
+								onChange={handleSizeChange}
+							/>
+							<div className="group-range-title mt-2">
+								<label className="d-flex justify-content-between mb-0">
+									<span>{sizeRange[0]} m²</span>
+									<span>{sizeRange[1]} m²</span>
+								</label>
+							</div>
 						</div>
-					</div>
 					</div>
 				</div>
 				<div className="grid-1 group-box">
 					<div className="group-select aminity-filter-sec">
-					{amenities && amenities.length > 0 ? (
+						{amenities && amenities.length > 0 ? (
 							[...amenities].reverse().map((project) => {
 								if (project.type === "number") {
-									// console.log(project);
 									const selectedValue = formData.amenities_id_object_with_value?.[project.id] || "";
 
 									return (
-										<>
-										<div className="radio-btn-filter-sec">
+										<div key={project.id} className="radio-btn-filter-sec">
 											<div className="title-select text-variant-1" htmlFor={project.id}>
 												{t("numberOfAminities")} {project.name}:
 											</div>
-										<fieldset key={project.id} className="box box-fieldset aminities-radio-sec advance-filter-radio">
-										
-
-											<div className="radio-group">
-												{[
-													{ label: "1", value: "1" },
-													{ label: "2", value: "2" },
-													{ label: "3", value: "3" },
-													{ label: "3+", value: "4" }
-												].map((option) => (
-													<label key={option.value} className="radio-label custom-radio" style={{ marginRight: '10px' }}>
-														<input
-															type="radio"
-															className="nice-radio"
-															value={option.value}
-															checked={selectedValue === option.value}
-															name={project.id}
-															onChange={() => handleNumberChange(project.id, option.value)}
-														/>
-														<span className="">{option.label}</span>
-													</label>
-												))}
-											</div>
-										</fieldset>
+											<fieldset className="box box-fieldset aminities-radio-sec advance-filter-radio">
+												<div className="radio-group">
+													{[
+														{ label: "1", value: "1" },
+														{ label: "2", value: "2" },
+														{ label: "3", value: "3" },
+														{ label: "3+", value: "4" },
+													].map((option) => (
+														<label
+															key={option.value}
+															className="radio-label custom-radio"
+															style={{ marginRight: "10px" }}
+														>
+															<input
+																type="radio"
+																className="nice-radio"
+																value={option.value}
+																checked={selectedValue === option.value}
+																name={project.id}
+																onChange={() => handleNumberChange(project.id, option.value)}
+															/>
+															<span className="">{option.label}</span>
+														</label>
+													))}
+												</div>
+											</fieldset>
 										</div>
-										</>
 									);
 								}
 								return null;
 							})
 						) : null}
-
-
-						{/* <div className="form-style">
-							<label className="title-select">{t("direction")}</label>
-							<select
-								className="form-control"
-								id="direction"
-								name="direction"
-								value={formData.direction} 
-								onChange={handleFilterChange}
-								style={{padding:"10px 16px"}}
-							>
-								<option value="">{t("selectdiretion")}</option>
-								<option value="north">North</option>
-								<option value="south">South</option>
-								<option value="east">East</option>
-								<option value="west">West</option>
-							</select>
-						</div> */}
 					</div>
 				</div>
+
 				<div className="group-checkbox">
 					<div className="text-1">{t("amenities")}:</div>
 					{/* <div className="group-amenities mt-8 grid-6">
@@ -791,28 +772,28 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 							</div>
 						))}
 					</div> */}
-				<div className="group-amenities mt-8 grid-6">
-					{amenities.map((amenity) => (
-						amenity.type === "boolean" ? (
-						<fieldset className="amenities-item" key={amenity.id}>
-							<input
-								type="checkbox"
-								className="tf-checkbox style-1"
-								id={`amenity-${amenity.id}`}
-								checked={formData?.amenities_id_array?.includes(amenity.id)} // Updated to amenities_id_array
-								onChange={(e) => {
-									const updatedAmenities = e.target.checked
-										? [...formData.amenities_id_array, amenity.id] // Updated to amenities_id_array
-										: formData.amenities_id_array.filter((id) => id !== amenity.id); // Updated to amenities_id_array
-									setFormData({ ...formData, amenities_id_array: updatedAmenities }); // Updated to amenities_id_array
-								}}
-							/>
-							<label htmlFor={`amenity-${amenity.id}`} className="text-cb-amenities">
-								{amenity.name}
-							</label>
-						</fieldset>
-						) : null
-					))}
+					<div className="group-amenities mt-8 grid-6">
+						{amenities.map((amenity) => (
+							amenity.type === "boolean" ? (
+								<fieldset className="amenities-item" key={amenity.id}>
+									<input
+										type="checkbox"
+										className="tf-checkbox style-1"
+										id={`amenity-${amenity.id}`}
+										checked={formData?.amenities_id_array?.includes(amenity.id)} // Updated to amenities_id_array
+										onChange={(e) => {
+											const updatedAmenities = e.target.checked
+												? [...formData.amenities_id_array, amenity.id] // Updated to amenities_id_array
+												: formData.amenities_id_array.filter((id) => id !== amenity.id); // Updated to amenities_id_array
+											setFormData({ ...formData, amenities_id_array: updatedAmenities }); // Updated to amenities_id_array
+										}}
+									/>
+									<label htmlFor={`amenity-${amenity.id}`} className="text-cb-amenities">
+										{amenity.name}
+									</label>
+								</fieldset>
+							) : null
+						))}
 					</div>
 
 

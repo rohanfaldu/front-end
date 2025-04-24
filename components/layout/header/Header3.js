@@ -83,7 +83,7 @@ export default function Header3({ scroll, isSidebar, handleSidebar, isMobileMenu
 									
 									<a onClick={handleToggle} className={`box-avatar dropdown-toggle ${isToggled ? "show" : ""}`}>
 										<div className="avatar avt-40 round">
-											{userImage? <img src={userImage} alt="avt" /> : <div class="user-charcter">{userName.charAt(0)}</div>}
+											{userImage? <img src={userImage} alt="avt" /> : <div className="user-charcter">{userName.charAt(0)}</div>}
 										</div>
 										<div>
 											<p className="name">{userName??""}<span className="icon icon-arr-down" /></p>

@@ -106,7 +106,7 @@ export default function LikedProperty() {
                 
                 <div className="wrap-dashboard-content">
                   <div className="widget-box-2 wd-listing">
-                    <div class="top d-flex justify-content-between align-items-center">
+                    <div className="top d-flex justify-content-between align-items-center">
                       <h6 className="title">Liked Property</h6>
                     </div>
                     {properties.length > 0 ? (
