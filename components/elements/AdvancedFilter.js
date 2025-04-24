@@ -412,7 +412,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 			<div className={`wd-find-select ${sidecls ? sidecls : ""}`}>
 				<div className="inner-group">
 					<div className="form-group-1 search-form form-style">
-					<label className="title-select">{t("city")}</label>
+					<label className="title-select">{t("keyword")}</label>
 						<input
 							type="text"
 							className="form-control"
@@ -522,7 +522,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 					</div> */}
 
 					{/* {showDistrict && ( */}
-					<div className="form-style">
+					{/* <div className="form-style">
 						<label className="title-select">{t("district")}</label>
 						<input
 							type="text"
@@ -556,11 +556,11 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 								</ul>
 							)
 						)}
-					</div>
+					</div> */}
 					{/* )} */}
 
 					{/* {showNeighbourhood && ( */}
-						<div className="form-style">
+						{/* <div className="form-style">
 							<label className="title-select">{t("neighbourhood")}</label>
 							<input
 								type="text"
@@ -594,7 +594,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 									</ul>
 								)
 							)}
-						</div>
+						</div> */}
 						{/* )} */}
 
 				</div>
