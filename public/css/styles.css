@@ -2374,6 +2374,8 @@ label {
 .flat-tab-recommended .nav-tab-recommended {
   margin-bottom: 40px;
   margin-top: 32px;
+  justify-content: center;
+  align-items: center;
 }
 
 .nav-tab-recommended {

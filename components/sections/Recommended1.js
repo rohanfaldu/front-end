@@ -117,16 +117,25 @@ export default function Recommended1() {
 									</ul> */}
 									<div className="tab-content nav-tab-recommended">
 										<div
-										>
+										>{ console.log(properties.length) }
 											<div className="row">
 												{
 													(properties)?
 														properties?.map((property) => (
-															<div key={property.id} className="col-xl-4 col-lg-6 col-md-6">
+															<div 
+																key={property.id} 
+																className={
+																	properties.length === 1
+																	  ? ""
+																	  : properties.length === 2
+																	  ? "col-lg-6 col-md-6"
+																	  : "col-xl-4 col-lg-6 col-md-6"
+																  }
+															>
 																<PropertyData data={property} slide={false} />
 															</div>
 														)):(
-														<div style={{ textAlign: "center" }}>
+														<div style={{ textAlign: "center" }} className="no-content">
 															<img 
 																src="/images/not-found/item-not-found.png" 
 																alt="No projects found" 

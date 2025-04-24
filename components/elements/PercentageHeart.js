@@ -38,8 +38,8 @@ const PercentageHeart = ({ percentage }) => {
       <style jsx>{`
         .heart-container {
           position: relative;
-          width: 50px;
-          height: 50px;
+          width: 60px;
+          height: 60px;
         }
         .heart-svg {
           width: 100%;
