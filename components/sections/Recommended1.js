@@ -24,14 +24,16 @@ export default function Recommended1() {
 				const propertyTypeObj = { page: 1, limit: 5, lang: lang };
 				const propertTypeResponse = await getData('api/property-type/', propertyTypeObj);
 				setPropertyType(propertTypeResponse.data.list);
-
-				const propertyObj = { page: 1, limit: 6, lang: lang };
-				const response = await getData('api/property-recommended/get', propertyObj);
+				const userLogin = (localStorage.getItem('isLoggedIn') )? true: false;
+				if(userLogin){
+					const propertyObj = { page: 1, limit: 6, lang: lang };
+					const response = await getData('api/property-recommended/get', propertyObj);
+					setProperties(response.data); // Save data to state
+				}
 				// console.log('response');
 				// console.log(response);
-				const userLogin = (localStorage.getItem('isLoggedIn') )? true: false;
+				
 				setIsLogin(userLogin);
-				setProperties(response.data); // Save data to state
 				setLoading(false); // Stop loading
 				setError(null);
 			} catch (err) {
