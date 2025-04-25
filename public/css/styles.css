@@ -13729,8 +13729,8 @@ label span {
   margin-top: 50px;
 }
 .homeya-box .archive-top .content{
-  display: grid;
-    justify-content: center;
+    display: grid;
+    /* justify-content: center; */
     align-items: center;
     width: 100%;
 }
@@ -13759,7 +13759,7 @@ label span {
   height: 30px;
 }
 .user-inner-sec .homeya-box .user-listing-sec .text-capitalize, .homeya-box .desc{
-  justify-content: center;
+  /* justify-content: center; */
   align-items: center;
   display: flex;
   position: relative;
@@ -13775,9 +13775,11 @@ label span {
 }
 .user-inner-sec .homeya-box .content.user-listing-sec .desc  {
   margin-bottom: 20px;
+  justify-content: center;
 }
 .user-inner-sec .homeya-box .content.user-listing-sec {
   text-align: center;
+  justify-content: center;
 }
 
 /* .archive-top {
@@ -13827,4 +13829,6 @@ label span {
   mask-repeat: no-repeat;
 }
 
-
+/* .project-listing .row .col-md-6{
+  width: 538.79px !important;
+} */
