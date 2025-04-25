@@ -245,14 +245,14 @@ export default function AgencyDetail({ params }) {
 														</div>
 													</li>
 												) : ''}
-												{agencyDetails.twitter_link  ? (
+												{/* {agencyDetails.twitter_link  ? (
 													<li className="item">
 														<Link target="_blank" href={agencyDetails.twitter_link} className="box-icon w-52"><i className="icon icon-twitter" /></Link>
 														<div className="content">
 															<span className="label">Twitter</span>
 														</div>
 													</li>
-												) : ''}
+												) : ''} */}
 												{agencyDetails.youtube_link  ? (
 													<li className="item">
 														<Link target="_blank" href={agencyDetails.youtube_link} className="box-icon w-52"><i className="icon icon-youtube" /></Link>
@@ -261,14 +261,14 @@ export default function AgencyDetail({ params }) {
 														</div>
 													</li>
 												) : ''}
-												{agencyDetails.pinterest_link  ? (
+												{/* {agencyDetails.pinterest_link  ? (
 													<li className="item">
 														<Link target="_blank" href={agencyDetails.pinterest_link} className="box-icon w-52"><i className="icon icon-pinterest" /></Link>
 														<div className="content">
 															<span className="label">pinterest</span>
 														</div>
 													</li>
-												) : ''}
+												) : ''} */}
 												{agencyDetails.linkedin_link  ? (
 													<li className="item">
 														<Link target="_blank" href={agencyDetails.linkedin_link} className="box-icon w-52"><i className="icon icon-linkedin" /></Link>

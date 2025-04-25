@@ -224,14 +224,14 @@ export default function AgencyDetail({ params }) {
                                                         </div>
                                                     </li>
                                                 ) : ''}
-                                                {developerDetails.twitter_link  ? (
+                                                {/* {developerDetails.twitter_link  ? (
                                                     <li className="item">
                                                         <Link target="_blank" href={developerDetails.twitter_link} className="box-icon w-52"><i className="icon icon-twitter" /></Link>
                                                         <div className="content">
                                                             <span className="label">Twitter</span>
                                                         </div>
                                                     </li>
-                                                ) : ''}
+                                                ) : ''} */}
                                                 {developerDetails.youtube_link  ? (
                                                     <li className="item">
                                                         <Link target="_blank" href={developerDetails.youtube_link} className="box-icon w-52"><i className="icon icon-youtube" /></Link>
@@ -240,14 +240,14 @@ export default function AgencyDetail({ params }) {
                                                         </div>
                                                     </li>
                                                 ) : ''}
-                                                {developerDetails.pinterest_link  ? (
+                                                {/* {developerDetails.pinterest_link  ? (
                                                     <li className="item">
                                                         <Link target="_blank" href={developerDetails.pinterest_link} className="box-icon w-52"><i className="icon icon-pinterest" /></Link>
                                                         <div className="content">
                                                             <span className="label">pinterest</span>
                                                         </div>
                                                     </li>
-                                                ) : ''}
+                                                ) : ''} */}
                                                 {developerDetails.linkedin_link  ? (
                                                     <li className="item">
                                                         <Link target="_blank" href={developerDetails.linkedin_link} className="box-icon w-52"><i className="icon icon-linkedin" /></Link>

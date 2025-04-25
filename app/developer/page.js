@@ -324,21 +324,21 @@ export default function developerListing() {
                                     <Link target="_blank" href={developerUserData.facebook_link} className="box-icon w-52"><i className="icon icon-facebook" /></Link>
                                   </li>
                                 ) : ''}
-                                {developerUserData.twitter_link ? (
+                                {/* {developerUserData.twitter_link ? (
                                   <li className="item">
                                     <Link target="_blank" href={developerUserData.twitter_link} className="box-icon w-52"><i className="icon icon-twitter" /></Link>
                                   </li>
-                                ) : ''}
+                                ) : ''} */}
                                 {developerUserData.youtube_link ? (
                                   <li className="item">
                                     <Link target="_blank" href={developerUserData.youtube_link} className="box-icon w-52"><i className="icon icon-youtube" /></Link>
                                   </li>
                                 ) : ''}
-                                {developerUserData.pinterest_link ? (
+                                {/* {developerUserData.pinterest_link ? (
                                   <li className="item">
                                     <Link target="_blank" href={developerUserData.pinterest_link} className="box-icon w-52"><i className="icon icon-pinterest" /></Link>
                                   </li>
-                                ) : ''}
+                                ) : ''} */}
                                 {developerUserData.linkedin_link ? (
                                   <li className="item">
                                     <Link target="_blank" href={developerUserData.linkedin_link} className="box-icon w-52"><i className="icon icon-linkedin" /></Link>

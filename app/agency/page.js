@@ -308,21 +308,21 @@ export default function AgencyListing() {
 																		<Link target="_blank" href={agencyUserData.facebook_link} className="box-icon w-52"><i className="icon icon-facebook" /></Link>
 																	</li>
 																) : ''}
-																{agencyUserData.twitter_link ? (
+																{/* {agencyUserData.twitter_link ? (
 																	<li className="item">
 																		<Link target="_blank" href={agencyUserData.twitter_link} className="box-icon w-52"><i className="icon icon-twitter" /></Link>
 																	</li>
-																) : ''}
+																) : ''} */}
 																{agencyUserData.youtube_link ? (
 																	<li className="item">
 																		<Link target="_blank" href={agencyUserData.youtube_link} className="box-icon w-52"><i className="icon icon-youtube" /></Link>
 																	</li>
 																) : ''}
-																{agencyUserData.pinterest_link ? (
+																{/* {agencyUserData.pinterest_link ? (
 																	<li className="item">
 																		<Link target="_blank" href={agencyUserData.pinterest_link} className="box-icon w-52"><i className="icon icon-pinterest" /></Link>
 																	</li>
-																) : ''}
+																) : ''} */}
 																{agencyUserData.linkedin_link ? (
 																	<li className="item">
 																		<Link target="_blank" href={agencyUserData.linkedin_link} className="box-icon w-52"><i className="icon icon-linkedin" /></Link>
