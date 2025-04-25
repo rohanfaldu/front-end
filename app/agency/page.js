@@ -21,7 +21,7 @@ export default function AgencyListing() {
 	const [initialMaxPrice, setInitialMaxPrice] = useState(0); // Store the maximum price initially
 	const [maxPriceSliderRange, setMaxPriceSliderRange] = useState(0); // Dynamic slider range
 	const [priceRange, setPriceRange] = useState([]); // Selected range
-	const [isTab, setIsTab] = useState(2) 
+	const [isTab, setIsTab] = useState(2)
 	const handleTab = (i) => {
 		setIsTab(i)
 	}
@@ -41,7 +41,7 @@ export default function AgencyListing() {
 		totalCount: 0,
 		totalPages: 0,
 		currentPage: variablesList.currentPage,
-		itemsPerPage: 9,
+		itemsPerPage: 8,
 	}); // Track pagination info
 	const [filters, setFilters] = useState({
 		title: '',
@@ -55,35 +55,35 @@ export default function AgencyListing() {
 
 	const handleInputChange = (e) => {
 		// console.log(e,"lllllllllllll")
-			setSearchTerm(e.target.value);
-			setSearchCity(e.target.value)
+		setSearchTerm(e.target.value);
+		setSearchCity(e.target.value)
 		if (e.target.name === "city" && e.target.value.trim() === "") {
-		  setFilters((prevFilters) => ({ ...prevFilters, city: "" }));
+			setFilters((prevFilters) => ({ ...prevFilters, city: "" }));
 		}
-		  };
-	
+	};
+
 	const fetchCityOptions = debounce(async (value, page = 1) => {
 		if (value.trim() === "") {
-		  setCityOptions([]);
-		  return;
+			setCityOptions([]);
+			return;
 		}
 		try {
-		  const requestData = {
-			page,
-			limit: pagination.itemsPerPage,
-			city_name: value
-		  };
-		  const response = await getData("api/city", requestData, true);
-		  setCityOptions(response.data.cities);
+			const requestData = {
+				page,
+				limit: pagination.itemsPerPage,
+				city_name: value
+			};
+			const response = await getData("api/city", requestData, true);
+			setCityOptions(response.data.cities);
 		} catch (error) {
-		  console.error("Error fetching cities:", error);
+			console.error("Error fetching cities:", error);
 		}
-		}, 300);
-	
-	
-		useEffect(() => {
-		  fetchCityOptions(searchTerm);
-		}, [searchTerm]);
+	}, 300);
+
+
+	useEffect(() => {
+		fetchCityOptions(searchTerm);
+	}, [searchTerm]);
 
 	const handleSubmit = async (page = pagination.currentPage) => {
 		setLoading(true);
@@ -162,7 +162,7 @@ export default function AgencyListing() {
 		<>
 
 			<Layout headerStyle={1} footerStyle={1}>
-				<section className="wrapper-layout-3 agency">
+				<section className="wrapper-layout-3 agency user-inner-sec">
 					<div className="wrap-sidebar">
 						<div className="flat-tab flat-tab-form widget-filter-search">
 							<div className="h7 title fw-7">{t("search")}</div>
@@ -171,21 +171,21 @@ export default function AgencyListing() {
 								<div className="tab-pane fade active show" role="tabpanel">
 									<div className="form-sl">
 										{/* <form method="post" onSubmit={(e) => { e.preventDefault(); applyFilters(); }}> */}
-										<form method="post" onSubmit={(e) => { e.preventDefault(); handleSubmit();}}>
+										<form method="post" onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
 											<div className="wd-filter-select">
 												<div className="inner-group inner-filter">
-												<div className="form-style">
-													<label className="title-select">{t("titleAgency")}</label>
-													<input
-														type="text"
-														className="form-control"
-														value={filters.title}
-														onChange={handleFilterChange}
-														name="title"
-														placeholder={t("searchtitle")}
-													/>
-												</div>
-												<div className="form-style">
+													<div className="form-style">
+														<label className="title-select">{t("titleAgency")}</label>
+														<input
+															type="text"
+															className="form-control"
+															value={filters.title}
+															onChange={handleFilterChange}
+															name="title"
+															placeholder={t("searchtitle")}
+														/>
+													</div>
+													<div className="form-style">
 														<label className="title-select">{t("city")}</label>
 														<input
 															type="text"
@@ -198,7 +198,7 @@ export default function AgencyListing() {
 														/>
 														{searchTerm.length > 0 && (
 															cityOptions.length > 0 && (
-																<ul className="city-dropdown form-style" style={{ marginTop: "0px"}}>
+																<ul className="city-dropdown form-style" style={{ marginTop: "0px" }}>
 																	{cityOptions.map((city) => (
 																		<li
 																			key={city.id}
@@ -215,7 +215,7 @@ export default function AgencyListing() {
 															)
 														)}
 													</div>
-													
+
 													{/* <div className="form-btn-fixed">
 														<button className="tf-btn primary" href="#">{t("findagency")}</button>
 													</div> */}
@@ -246,13 +246,13 @@ export default function AgencyListing() {
 							) : error ? (
 								<p>{error}</p>
 							) : agencyList.length === 0 ? (
-								<div style={{ textAlign: "center"}}>
-									<img src="/images/not-found/item-not-found.png" alt="No projects found" style={{ height: "300px"}}/>
+								<div style={{ textAlign: "center" }}>
+									<img src="/images/not-found/item-not-found.png" alt="No projects found" style={{ height: "300px" }} />
 								</div>
 							) : (
 								<div className="row">
 									{agencyList.map((agencyUserData) => (
-										<div className="col-md-4" key={agencyUserData.id}>
+										<div className="col-md-3" key={agencyUserData.id}>
 											<div className="homeya-box">
 												<div className="archive-top">
 													<Link
@@ -267,7 +267,7 @@ export default function AgencyListing() {
 															/>
 														</div>
 														<div className="top">
-															
+
 															{/* <ul className="d-flex gap-4">
 																<li className="box-icon w-32">
 																	<span className="icon icon-arrLeftRight" />
@@ -286,7 +286,7 @@ export default function AgencyListing() {
 															</span>
 														</div>
 													</Link>
-													<div className="content">
+													<div className="content user-listing-sec">
 														<div className="h7 text-capitalize fw-7">
 															<Link
 																href={`/agency/${agencyUserData.slug}`}// Pass ID as query param
@@ -300,6 +300,40 @@ export default function AgencyListing() {
 															<p>{[agencyUserData?.city]
 																.filter(Boolean)
 																.join(', ')} </p>
+														</div>
+														<div className="user-social-icons">
+															<ul className="info-box">
+																{agencyUserData.facebook_link !== null ? (
+																	<li className="item">
+																		<Link target="_blank" href={agencyUserData.facebook_link} className="box-icon w-52"><i className="icon icon-facebook" /></Link>
+																	</li>
+																) : ''}
+																{agencyUserData.twitter_link !== null ? (
+																	<li className="item">
+																		<Link target="_blank" href={agencyUserData.twitter_link} className="box-icon w-52"><i className="icon icon-twitter" /></Link>
+																	</li>
+																) : ''}
+																{agencyUserData.youtube_link !== null ? (
+																	<li className="item">
+																		<Link target="_blank" href={agencyUserData.youtube_link} className="box-icon w-52"><i className="icon icon-youtube" /></Link>
+																	</li>
+																) : ''}
+																{agencyUserData.pinterest_link !== null ? (
+																	<li className="item">
+																		<Link target="_blank" href={agencyUserData.pinterest_link} className="box-icon w-52"><i className="icon icon-pinterest" /></Link>
+																	</li>
+																) : ''}
+																{agencyUserData.linkedin_link !== null ? (
+																	<li className="item">
+																		<Link target="_blank" href={agencyUserData.linkedin_link} className="box-icon w-52"><i className="icon icon-linkedin" /></Link>
+																	</li>
+																) : ''}
+																{agencyUserData.instagram_link !== null ? (
+																	<li className="item">
+																		<Link target="_blank" href={agencyUserData.instagram_link} className="box-icon w-52"><i className="icon icon-instagram" /></Link>
+																	</li>
+																) : ''}
+															</ul>
 														</div>
 														{/* <ul className="meta-list">
 															<li className="item">
@@ -354,7 +388,7 @@ export default function AgencyListing() {
 							))}
 						</ul>
 					</div >
-					
+
 				</section >
 
 			</Layout >

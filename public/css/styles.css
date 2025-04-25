@@ -5650,6 +5650,7 @@ label {
 .homeya-box .images-group {
   position: relative;
   display: block;
+  background-color: #00a8c12e;
 }
 
 .homeya-box .images-group .top {
@@ -13713,4 +13714,102 @@ label span {
 }
 .post-navigation{
   margin-top: 50px;
+}
+.homeya-box .archive-top .content{
+  display: grid;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.user-social-icons .info-box .item .box-icon .icon {
+  font-size: 20px;
+  color: #00a8c1;
+}
+.user-social-icons .info-box .item {
+  display: flex;
+  align-items: center;
+  gap: 0px;
+}
+.user-social-icons .info-box {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 10px;
+    row-gap: 15px;
+}
+/* .user-social-icons .info-box .item .box-icon {
+  border-radius: 40px;
+  background-color: #f7f7f7;
+} */
+.user-social-icons .box-icon.w-52 {
+  width: 40px;
+  height: 40px;
+}
+.user-inner-sec .homeya-box .user-listing-sec .text-capitalize, .homeya-box .desc{
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  position: relative;
+}
+.user-inner-sec .homeya-box .content .desc {
+  display: flex;
+  gap: 4px;
+  top: 0px;
+  margin-top: 8px;
+  color: #5c6368;
+  padding: 0px;
+  margin: 0px;
+}
+.user-inner-sec .homeya-box .content.user-listing-sec .desc  {
+  margin-bottom: 20px;
+}
+.user-inner-sec .homeya-box .content.user-listing-sec {
+  text-align: center;
+}
+
+/* .archive-top {
+  height: 100vh;
+  background-color: #e0f7fa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
+
+.user-inner-sec .images-group {
+  text-decoration: none;
+  text-align: center;
+}
+
+.user-inner-sec .images-style {
+  margin: 20px 0px;
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 50%;
+  border: 5px solid white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  display: inline-block;
+  transition: all 0.4s ease;
+  position: relative;
+}
+
+.user-inner-sec .images-style img {
+  max-height: 0px;
+  min-height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: all 0.4s ease;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+
+/* Mask on hover: hide the center part */
+.user-inner-sec .images-style:hover img {
+  -webkit-mask-image: radial-gradient(circle at center, transparent 40%, black 41%);
+  mask-image: radial-gradient(circle at center, transparent 40%, black 41%);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
 }

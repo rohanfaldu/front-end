@@ -38,12 +38,12 @@ export default function developerListing() {
   const [neighbourhoods, setNeighbourhoods] = useState([]);
   const [searchCity, setSearchCity] = useState('');
   const [cityOptions, setCityOptions] = useState([]);
-  
+
   const [pagination, setPagination] = useState({
     totalCount: 0,
     totalPages: 0,
     currentPage: variablesList.currentPage,
-    itemsPerPage: 9,
+    itemsPerPage: 8,
   }); // Track pagination info
   const [filters, setFilters] = useState({
     title: '',
@@ -58,14 +58,14 @@ export default function developerListing() {
 
   const handleInputChange = (e) => {
     // console.log(e,"lllllllllllll")
-		setSearchTerm(e.target.value);
-		setSearchCity(e.target.value)
+    setSearchTerm(e.target.value);
+    setSearchCity(e.target.value)
     if (e.target.name === "city" && e.target.value.trim() === "") {
       setFilters((prevFilters) => ({ ...prevFilters, city: "" }));
     }
-	  };
+  };
 
-const fetchCityOptions = debounce(async (value, page = 1) => {
+  const fetchCityOptions = debounce(async (value, page = 1) => {
     if (value.trim() === "") {
       setCityOptions([]);
       return;
@@ -81,12 +81,12 @@ const fetchCityOptions = debounce(async (value, page = 1) => {
     } catch (error) {
       console.error("Error fetching cities:", error);
     }
-    }, 300);
+  }, 300);
 
 
-    useEffect(() => {
-      fetchCityOptions(searchTerm);
-    }, [searchTerm]);
+  useEffect(() => {
+    fetchCityOptions(searchTerm);
+  }, [searchTerm]);
 
 
   const fetchDeveloperList = async (page = 1, updatedFilters = {}) => {
@@ -168,12 +168,12 @@ const fetchCityOptions = debounce(async (value, page = 1) => {
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
 
-		setFilters((prevFilters) => ({
-			...prevFilters,
-			[name]: value,
-			...(name === "city" && { district_id: "", neighbourhood_id: "" }),
-			...(name === "district" && { neighbourhood_id: "" }),
-		}));
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [name]: value,
+      ...(name === "city" && { district_id: "", neighbourhood_id: "" }),
+      ...(name === "district" && { neighbourhood_id: "" }),
+    }));
   };
 
 
@@ -186,82 +186,82 @@ const fetchCityOptions = debounce(async (value, page = 1) => {
   };
 
   const handleCitySelect = (cityId, cityName, latitude, longitude) => {
-		setSearchCity(cityName); // Set the selected city name in the input
-		handleFilterChange({ target: { name: 'city', value: cityId } }); // Call filter change with selected city ID
-	};
+    setSearchCity(cityName); // Set the selected city name in the input
+    handleFilterChange({ target: { name: 'city', value: cityId } }); // Call filter change with selected city ID
+  };
   return (
     <>
 
       <Layout headerStyle={1} footerStyle={1}>
-        <section className="wrapper-layout-3 developer">
+        <section className="wrapper-layout-3 developer user-inner-sec">
           <div className="wrap-sidebar">
             <div className="flat-tab flat-tab-form widget-filter-search">
               <div className="h7 title fw-7">{t("search")}</div>
 
               <div className="tab-content">
-								<div className="tab-pane fade active show" role="tabpanel">
-									<div className="form-sl">
-										<form method="post" onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
-											<div className="wd-filter-select">
-												<div className="inner-group inner-filter">
+                <div className="tab-pane fade active show" role="tabpanel">
+                  <div className="form-sl">
+                    <form method="post" onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
+                      <div className="wd-filter-select">
+                        <div className="inner-group inner-filter">
 
                           <div className="form-style">
-														<label className="title-select">{t("titleDeveloper")}</label>
-														<input
-															type="text"
-															className="form-control"
-															value={filters.title}
-															onChange={handleFilterChange}
-															name="title"
-															placeholder={t("searchtitle")}
+                            <label className="title-select">{t("titleDeveloper")}</label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              value={filters.title}
+                              onChange={handleFilterChange}
+                              name="title"
+                              placeholder={t("searchtitle")}
 
-														/>
-													</div>
-													<div className="form-style">
-														<label className="title-select">{t("city")}</label>
-														<input
-															type="text"
-															className="form-control"
-															id="city"
-															name="city"
-															value={searchCity}
-															onChange={handleInputChange}
-															placeholder={t("searchCity")}
-														/>
-														{searchTerm.length > 0 && (
-															cityOptions.length > 0 && (
-																<ul className="city-dropdown form-style" style={{ marginTop: "0px"}}>
-																	{cityOptions.map((city) => (
-																		<li
-																			key={city.id}
-																			onClick={() => {
-																				handleCitySelect(city.id, city.city_name);
-																				setSearchTerm('');
-																			}}
-																			className="city-option"
-																		>
-																			{city.city_name}
-																		</li>
-																	))}
-																</ul>
-															)
-														)}
-													</div>
-													
-												</div>
+                            />
+                          </div>
+                          <div className="form-style">
+                            <label className="title-select">{t("city")}</label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              id="city"
+                              name="city"
+                              value={searchCity}
+                              onChange={handleInputChange}
+                              placeholder={t("searchCity")}
+                            />
+                            {searchTerm.length > 0 && (
+                              cityOptions.length > 0 && (
+                                <ul className="city-dropdown form-style" style={{ marginTop: "0px" }}>
+                                  {cityOptions.map((city) => (
+                                    <li
+                                      key={city.id}
+                                      onClick={() => {
+                                        handleCitySelect(city.id, city.city_name);
+                                        setSearchTerm('');
+                                      }}
+                                      className="city-option"
+                                    >
+                                      {city.city_name}
+                                    </li>
+                                  ))}
+                                </ul>
+                              )
+                            )}
+                          </div>
+
+                        </div>
                         <div className="form-btn-fixed d-flex">
-													<button
-														type="submit"
-														className="tf-btn primary"
-													>
-														{t("finddeveloper")}
-													</button>
-													</div>
-											</div>
-										</form>
-									</div>
-								</div>
-							</div >
+                          <button
+                            type="submit"
+                            className="tf-btn primary"
+                          >
+                            {t("finddeveloper")}
+                          </button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div >
             </div >
           </div >
           <div className="wrap-inner-55">
@@ -275,13 +275,13 @@ const fetchCityOptions = debounce(async (value, page = 1) => {
               ) : error ? (
                 <p>{error}</p>
               ) : developerList?.length === 0 ? (
-                <div style={{ textAlign: "center"}}>
-									<img src="/images/not-found/item-not-found.png" alt="No projects found" style={{ height: "300px"}}/>
-								</div>
+                <div style={{ textAlign: "center" }}>
+                  <img src="/images/not-found/item-not-found.png" alt="No projects found" style={{ height: "300px" }} />
+                </div>
               ) : (
                 <div className="row">
                   {developerList?.map((developerUserData) => (
-                    <div className="col-md-4" key={developerUserData.id}>
+                    <div className="col-md-3" key={developerUserData.id}>
                       <div className="homeya-box">
                         <div className="archive-top">
                           <Link
@@ -295,14 +295,14 @@ const fetchCityOptions = debounce(async (value, page = 1) => {
                                 alt={developerUserData.name}
                               />
                             </div>
-                            
-                            <div className="bottom">
+
+                            {/* <div className="bottom">
                               <span className="flag-tag style-2">
-                                {/* {agencyUserData.meta_details?.propertyType || 'Studio'} */}
+                                 {agencyUserData.meta_details?.propertyType || 'Studio'} 
                               </span>
-                            </div>
+                            </div> */}
                           </Link>
-                          <div className="content">
+                          <div className="content user-listing-sec">
                             <div className="h7 text-capitalize fw-7">
                               <Link
                                 href={`/developer/${developerUserData.slug}`}// Pass ID as query param
@@ -313,9 +313,43 @@ const fetchCityOptions = debounce(async (value, page = 1) => {
                             </div>
                             <div className="desc">
                               <i className="fs-16 icon icon-mapPin" />
-                              <p>{[developerUserData?.city]
-                                  .filter(Boolean)
-                                  .join(', ')} </p>
+                              <p>{[developerUserData?.city, developerUserData?.districts]
+                                .filter(Boolean)
+                                .join(', ')} </p>
+                            </div>
+                            <div className="user-social-icons">
+                              <ul className="info-box">
+                                {developerUserData.facebook_link !== null ? (
+                                  <li className="item">
+                                    <Link target="_blank" href={developerUserData.facebook_link} className="box-icon w-52"><i className="icon icon-facebook" /></Link>
+                                  </li>
+                                ) : ''}
+                                {developerUserData.twitter_link !== null ? (
+                                  <li className="item">
+                                    <Link target="_blank" href={developerUserData.twitter_link} className="box-icon w-52"><i className="icon icon-twitter" /></Link>
+                                  </li>
+                                ) : ''}
+                                {developerUserData.youtube_link !== null ? (
+                                  <li className="item">
+                                    <Link target="_blank" href={developerUserData.youtube_link} className="box-icon w-52"><i className="icon icon-youtube" /></Link>
+                                  </li>
+                                ) : ''}
+                                {developerUserData.pinterest_link !== null ? (
+                                  <li className="item">
+                                    <Link target="_blank" href={developerUserData.pinterest_link} className="box-icon w-52"><i className="icon icon-pinterest" /></Link>
+                                  </li>
+                                ) : ''}
+                                {developerUserData.linkedin_link !== null ? (
+                                  <li className="item">
+                                    <Link target="_blank" href={developerUserData.linkedin_link} className="box-icon w-52"><i className="icon icon-linkedin" /></Link>
+                                  </li>
+                                ) : ''}
+                                {developerUserData.instagram_link !== null ? (
+                                  <li className="item">
+                                    <Link target="_blank" href={developerUserData.instagram_link} className="box-icon w-52"><i className="icon icon-instagram" /></Link>
+                                  </li>
+                                ) : ''}
+                              </ul>
                             </div>
                             {/* <ul className="meta-list">
 															<li className="item">
