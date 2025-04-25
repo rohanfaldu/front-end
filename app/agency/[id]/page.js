@@ -237,7 +237,7 @@ export default function AgencyDetail({ params }) {
 										<div className="single-property-element single-property-overview">
 											<div className="h7 title fw-7">{t("socialinformation")}</div>
 											<ul className="info-box">
-												{agencyDetails.facebook_link !== null ? (
+												{agencyDetails.facebook_link  ? (
 													<li className="item">
 														<Link target="_blank" href={agencyDetails.facebook_link} className="box-icon w-52"><i className="icon icon-facebook" /></Link>
 														<div className="content">
@@ -245,7 +245,7 @@ export default function AgencyDetail({ params }) {
 														</div>
 													</li>
 												) : ''}
-												{agencyDetails.twitter_link !== null ? (
+												{agencyDetails.twitter_link  ? (
 													<li className="item">
 														<Link target="_blank" href={agencyDetails.twitter_link} className="box-icon w-52"><i className="icon icon-twitter" /></Link>
 														<div className="content">
@@ -253,7 +253,7 @@ export default function AgencyDetail({ params }) {
 														</div>
 													</li>
 												) : ''}
-												{agencyDetails.youtube_link !== null ? (
+												{agencyDetails.youtube_link  ? (
 													<li className="item">
 														<Link target="_blank" href={agencyDetails.youtube_link} className="box-icon w-52"><i className="icon icon-youtube" /></Link>
 														<div className="content">
@@ -261,7 +261,7 @@ export default function AgencyDetail({ params }) {
 														</div>
 													</li>
 												) : ''}
-												{agencyDetails.pinterest_link !== null ? (
+												{agencyDetails.pinterest_link  ? (
 													<li className="item">
 														<Link target="_blank" href={agencyDetails.pinterest_link} className="box-icon w-52"><i className="icon icon-pinterest" /></Link>
 														<div className="content">
@@ -269,7 +269,7 @@ export default function AgencyDetail({ params }) {
 														</div>
 													</li>
 												) : ''}
-												{agencyDetails.linkedin_link !== null ? (
+												{agencyDetails.linkedin_link  ? (
 													<li className="item">
 														<Link target="_blank" href={agencyDetails.linkedin_link} className="box-icon w-52"><i className="icon icon-linkedin" /></Link>
 														<div className="content">
@@ -277,7 +277,7 @@ export default function AgencyDetail({ params }) {
 														</div>
 													</li>
 												) : ''}
-												{agencyDetails.instagram_link !== null ? (
+												{agencyDetails.instagram_link  ? (
 													<li className="item">
 														<Link target="_blank" href={agencyDetails.instagram_link} className="box-icon w-52"><i className="icon icon-instagram" /></Link>
 														<div className="content">

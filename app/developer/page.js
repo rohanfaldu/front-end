@@ -319,32 +319,32 @@ export default function developerListing() {
                             </div>
                             <div className="user-social-icons">
                               <ul className="info-box">
-                                {developerUserData.facebook_link !== null ? (
+                                {developerUserData.facebook_link ? (
                                   <li className="item">
                                     <Link target="_blank" href={developerUserData.facebook_link} className="box-icon w-52"><i className="icon icon-facebook" /></Link>
                                   </li>
                                 ) : ''}
-                                {developerUserData.twitter_link !== null ? (
+                                {developerUserData.twitter_link ? (
                                   <li className="item">
                                     <Link target="_blank" href={developerUserData.twitter_link} className="box-icon w-52"><i className="icon icon-twitter" /></Link>
                                   </li>
                                 ) : ''}
-                                {developerUserData.youtube_link !== null ? (
+                                {developerUserData.youtube_link ? (
                                   <li className="item">
                                     <Link target="_blank" href={developerUserData.youtube_link} className="box-icon w-52"><i className="icon icon-youtube" /></Link>
                                   </li>
                                 ) : ''}
-                                {developerUserData.pinterest_link !== null ? (
+                                {developerUserData.pinterest_link ? (
                                   <li className="item">
                                     <Link target="_blank" href={developerUserData.pinterest_link} className="box-icon w-52"><i className="icon icon-pinterest" /></Link>
                                   </li>
                                 ) : ''}
-                                {developerUserData.linkedin_link !== null ? (
+                                {developerUserData.linkedin_link ? (
                                   <li className="item">
                                     <Link target="_blank" href={developerUserData.linkedin_link} className="box-icon w-52"><i className="icon icon-linkedin" /></Link>
                                   </li>
                                 ) : ''}
-                                {developerUserData.instagram_link !== null ? (
+                                {developerUserData.instagram_link  ? (
                                   <li className="item">
                                     <Link target="_blank" href={developerUserData.instagram_link} className="box-icon w-52"><i className="icon icon-instagram" /></Link>
                                   </li>

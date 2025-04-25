@@ -303,32 +303,32 @@ export default function AgencyListing() {
 														</div>
 														<div className="user-social-icons">
 															<ul className="info-box">
-																{agencyUserData.facebook_link !== null ? (
+																{agencyUserData.facebook_link  ? (
 																	<li className="item">
 																		<Link target="_blank" href={agencyUserData.facebook_link} className="box-icon w-52"><i className="icon icon-facebook" /></Link>
 																	</li>
 																) : ''}
-																{agencyUserData.twitter_link !== null ? (
+																{agencyUserData.twitter_link ? (
 																	<li className="item">
 																		<Link target="_blank" href={agencyUserData.twitter_link} className="box-icon w-52"><i className="icon icon-twitter" /></Link>
 																	</li>
 																) : ''}
-																{agencyUserData.youtube_link !== null ? (
+																{agencyUserData.youtube_link ? (
 																	<li className="item">
 																		<Link target="_blank" href={agencyUserData.youtube_link} className="box-icon w-52"><i className="icon icon-youtube" /></Link>
 																	</li>
 																) : ''}
-																{agencyUserData.pinterest_link !== null ? (
+																{agencyUserData.pinterest_link ? (
 																	<li className="item">
 																		<Link target="_blank" href={agencyUserData.pinterest_link} className="box-icon w-52"><i className="icon icon-pinterest" /></Link>
 																	</li>
 																) : ''}
-																{agencyUserData.linkedin_link !== null ? (
+																{agencyUserData.linkedin_link ? (
 																	<li className="item">
 																		<Link target="_blank" href={agencyUserData.linkedin_link} className="box-icon w-52"><i className="icon icon-linkedin" /></Link>
 																	</li>
 																) : ''}
-																{agencyUserData.instagram_link !== null ? (
+																{agencyUserData.instagram_link ? (
 																	<li className="item">
 																		<Link target="_blank" href={agencyUserData.instagram_link} className="box-icon w-52"><i className="icon icon-instagram" /></Link>
 																	</li>
