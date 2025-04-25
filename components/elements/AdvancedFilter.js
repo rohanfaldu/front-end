@@ -38,7 +38,15 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 	const [showDistrict, setShowDistrict] = useState(false);
 	const [showNeighbourhood, setShowNeighbourhood] = useState(false);
 	const [cityId, setCityId] = useState(['']);
+
 	const [districtId, setDistrictId] = useState(['']);
+	const defaultSuggestions = ['Apple', 'Banana', 'Orange', 'Pineapple', 'Grapes'];
+	const [suggestions, setSuggestions] = useState([]);
+	const handleFocus = () => {
+		setSuggestions(defaultSuggestions);
+	};
+	const [isFocused, setIsFocused] = useState(false);
+
 
 	const [pagination, setPagination] = useState({
 		totalCount: 0,
@@ -404,9 +412,28 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 		window.location.href = `/property?${queryString}`;
 	};
 
-
+	const defaultSuggestions1 = [{
+		"id": "eb18e6c2-5ec8-42bd-90f8-6061de5f3ede",
+		"slug": "city",
+		"name": "Braxa"
+	},
+	{
+		"id": "0d0c7cb1-8689-4fd3-a702-0a3fc2baff08",
+		"slug": "neighborhood",
+		"name": "Les Hôpitaux"
+	},
+	{
+		"id": "356e2a8f-f6d4-4afc-bf81-dcc624ed4c20",
+		"slug": "neighborhood",
+		"name": "Racine Extension"
+	},
+	{
+		"id": "d2910315-051f-40ba-8fff-d3eca54a4e4d",
+		"slug": "neighborhood",
+		"name": "Samir air max"
+	}];
 	const handleToggle = () => setToggled(!isToggled);
-	// console.log(amenities, "amenities");
+	console.log(cityOptions, "cityOptions");
 	return (
 		<>
 			<div className={`wd-find-select ${sidecls ? sidecls : ""}`}>
@@ -420,9 +447,28 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 							name="city"
 							value={searchCity}
 							onChange={handleInputChangeCity}
+							onFocus={() => {
+								setIsFocused(true);
+								// If no search term, we'll still show predefined cities
+								if (!searchCity || searchCity.length === 0) {
+								  // You can set predefined cities here or use existing cityOptions state
+								  setCityOptions([
+									{ id: 1, name: "Casablanca", slug: "casablanca" },
+									{ id: 2, name: "Rabat", slug: "rabat" },
+									{ id: 3, name: "Agadir", slug: "agadir" },
+									{ id: 4, name: "Tanger", slug: "tanger" },
+									{ id: 5, name: "Marrakech", slug: "marrakech" },
+									{ id: 6, name: "Fes", slug: "fes" }
+								  ]);
+								}
+							}}
+							onBlur={() => {
+								// Small delay to allow item selection before hiding dropdown
+								setTimeout(() => setIsFocused(false), 200);
+							}}
 							placeholder={t("searchCity")}
 						/>
-						{searchTerm.length > 0 && (
+						{(searchTerm.length > 0 || isFocused) && (
 							cityOptions.length > 0 && (
 								<ul className="city-dropdown form-style" style={{ marginTop: "0px", width: "35%", position: "absolute" }}>
 									{cityOptions.map((city) => (
@@ -431,6 +477,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 											onClick={() => {
 												handleCitySelect(city.id, city.name, city.slug);
 												setSearchTerm('');
+												setIsFocused(false);
 											}}
 											className="city-option"
 										>
