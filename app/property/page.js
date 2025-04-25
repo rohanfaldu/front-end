@@ -80,6 +80,7 @@ export default function PropertyHalfmapList() {
 	const [addressLatLong, setAddressLatLong] = useState([]);
 
 	const [isModelOpen, setIsModelOpen] = useState(false);
+	const [isFocused, setIsFocused] = useState(false);
 
 	const [pagination, setPagination] = useState({
 		totalCount: 0,
@@ -766,6 +767,25 @@ export default function PropertyHalfmapList() {
 															name="city"
 															value={searchCity ?? ''}
 															onChange={handleInputChange}
+															onFocus={() => {
+																setIsFocused(true);
+																// If no search term, we'll still show predefined cities
+																if (!searchCity || searchCity.length === 0) {
+																	// You can set predefined cities here or use existing cityOptions state
+																	setCityOptions([
+																		{ id: 1, name: "Casablanca", slug: "casablanca" },
+																		{ id: 2, name: "Rabat", slug: "rabat" },
+																		{ id: 3, name: "Agadir", slug: "agadir" },
+																		{ id: 4, name: "Tanger", slug: "tanger" },
+																		{ id: 5, name: "Marrakech", slug: "marrakech" },
+																		{ id: 6, name: "Fes", slug: "fes" }
+																	]);
+																}
+															}}
+															onBlur={() => {
+																// Small delay to allow item selection before hiding dropdown
+																setTimeout(() => setIsFocused(false), 200);
+															}}
 															placeholder={t("searchCity")}
 														/>
 														{/* {searchTerm.length > 0 && cityOptions.length === 0 ? (
@@ -791,15 +811,16 @@ export default function PropertyHalfmapList() {
 																)
 															)} */}
 
-														{searchTerm.length > 0 && (
+														{(searchTerm.length > 0 || isFocused) && (
 															cityOptions.length > 0 && (
-																<ul className="city-dropdown form-style" style={{ marginTop: "0px" }}>
+																<ul className="city-dropdown form-style" style={{ marginTop: "0px", width: "80%", position: "absolute" }}>
 																	{cityOptions.map((city) => (
 																		<li
 																			key={city.id}
 																			onClick={() => {
 																				handleCitySelect(city.id, city.name, city.slug);
 																				setSearchTerm('');
+																				setIsFocused(false);
 																			}}
 																			className="city-option"
 																		>
