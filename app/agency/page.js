@@ -252,7 +252,7 @@ export default function AgencyListing() {
 							) : (
 								<div className="row">
 									{agencyList.map((agencyUserData) => (
-										<div className="col-md-3" key={agencyUserData.id}>
+										<div className="col-md-4" key={agencyUserData.id}>
 											<div className="homeya-box">
 												<div className="archive-top">
 													<Link

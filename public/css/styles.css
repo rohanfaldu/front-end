@@ -3617,8 +3617,11 @@ label {
 
 .wd-search-form .group-select .title-select {
   margin-bottom: 4px;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 24px;
+  font-family: "Josefin Sans", sans-serif;
+  font-weight: 600; 
+  color: #161e2d;
 }
 
 .wd-search-form .group-checkbox {
@@ -3632,7 +3635,9 @@ label {
 }
 
 .wd-search-form .group-checkbox .amenities-item .text-cb-amenities {
-  color: #5c6368;
+  font-family: "Josefin Sans", sans-serif;
+  font-weight: 600; 
+  color: #161e2d;
   cursor: pointer;
 }
 
@@ -11805,6 +11810,12 @@ tr {
       top: 20px !important;
       left: 15px !important;
   }
+  .developer .tab-content .col-md-4, .agency .tab-content .col-md-4 {
+    width: 100% !important;
+  }
+  .user-social-icons .info-box, .agency .tab-content .info-box {
+    justify-content: center;
+  }
 }
 
 
@@ -11897,7 +11908,9 @@ tr {
     padding-top: 55px;
     right: 50px;
   }
-
+  .developer .tab-content .col-md-4, .agency .tab-content .col-md-4{
+    width: 50%;
+  }
 }
 
 @media only screen and (max-width: 767px) {
@@ -13742,8 +13755,8 @@ label span {
   background-color: #f7f7f7;
 } */
 .user-social-icons .box-icon.w-52 {
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
 }
 .user-inner-sec .homeya-box .user-listing-sec .text-capitalize, .homeya-box .desc{
   justify-content: center;
@@ -13813,3 +13826,5 @@ label span {
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
 }
+
+

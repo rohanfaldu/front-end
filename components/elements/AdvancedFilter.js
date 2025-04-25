@@ -433,7 +433,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 		"name": "Samir air max"
 	}];
 	const handleToggle = () => setToggled(!isToggled);
-	console.log(cityOptions, "cityOptions");
+	//console.log(cityOptions, "cityOptions");
 	return (
 		<>
 			<div className={`wd-find-select ${sidecls ? sidecls : ""}`}>

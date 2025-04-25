@@ -281,7 +281,7 @@ export default function developerListing() {
               ) : (
                 <div className="row">
                   {developerList?.map((developerUserData) => (
-                    <div className="col-md-3" key={developerUserData.id}>
+                    <div className="col-md-4" key={developerUserData.id}>
                       <div className="homeya-box">
                         <div className="archive-top">
                           <Link
