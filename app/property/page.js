@@ -231,7 +231,7 @@ export default function PropertyHalfmapList() {
 				direction: urlParams.get("direction") || null,
 			};
 
-			//console.log("Extracted Parameters:", params);
+			console.log("Extracted Parameters:", params);
 
 
 			setFilters(() => ({
@@ -262,8 +262,8 @@ export default function PropertyHalfmapList() {
 					title: params.title,
 					description: params.description,
 					city_id: params.city,
-					district_id: params.city,
-					neighborhoods_id: params.city,
+					district_id: params.district,
+					neighborhoods_id: params.neighbourhood,
 					type_id: params.type_id,
 					...(params.minPrice > 0 && { minPrice: params.minPrice }),
 					...(params.maxPrice > 0 && { maxPrice: params.maxPrice }),

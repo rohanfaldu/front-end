@@ -126,7 +126,8 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 		setFormData(() => ({
 			...formData,
 			city_name: cityName,
-			city_slug: slug
+			city_slug: slug,
+			city: cityId
 		}));
 		setSearchCity(cityName); // Set the selected city name in the input
 		handleFilterChange({ target: { name: slug, value: cityId } }); // Call filter change with selected city ID

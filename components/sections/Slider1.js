@@ -37,6 +37,7 @@ export default function Slider1({properties}) {
 									<p className="subtitle text-white body-1 wow fadeIn" data-wow-delay=".8s" data-wow-duration="2000ms">{t("bannerDescription")}
 									</p>
 								</div>
+								
 								<div className="flat-tab flat-tab-form">
 									<ul className="nav-tab-form style-1 justify-content-center" role="tablist">
 										<TabNav setTransaction={setTransaction}/>
@@ -45,6 +46,7 @@ export default function Slider1({properties}) {
 										<div className="tab-pane fade active show" role="tabpanel">
 											<div className="form-sl">
 												<form method="post">
+													<input type="hidden" name="transaction" value={transaction} />
 													{properties !== undefined && (
 														<AdvancedFilter sidecls="shadow-st" propertiesData = {properties}/>)}
 													{/* <AdvancedFilter sidecls="shadow-st" propertiesData = {properties}/> */}

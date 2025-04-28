@@ -122,7 +122,7 @@ export default function ProjectHalfmapList() {
 
 
 	const handleSubmit = async (page = pagination.currentPage) => {
-		// console.log("Filters:", filters);
+		// // console.log("Filters:", filters);
 		setLoading(true);
 
 		const lang = i18n.language;
@@ -196,7 +196,7 @@ export default function ProjectHalfmapList() {
 	useEffect(() => {
 		handleSubmit(pagination.currentPage);
 		const getSwitch = localStorage.getItem('switchProjectState');
-		console.log(getSwitch, '>>>>> Switch');
+		// console.log(getSwitch, '>>>>> Switch');
 		if (getSwitch !== null) {
 			const IsSwitch = JSON.parse(getSwitch);
 			setIsSwitch(IsSwitch);
@@ -300,7 +300,7 @@ export default function ProjectHalfmapList() {
 	}
 
 	const handleCitySelect = (cityId, cityName, slug) => {
-		// console.log(latitude, longitude);
+		// // console.log(latitude, longitude);
 		setSearchCity(cityName); // Set the selected city name in the input
 		handleFilterChange({ target: { name: 'city', value: cityId } }); // Call filter change with selected city ID
 	};
@@ -330,7 +330,7 @@ export default function ProjectHalfmapList() {
 		localStorage.setItem('switchProjectState', e.target.checked);
 		setIsSwitch(e.target.checked);
 	}
-	// console.log(isSwitch, ">>> isSwitch");
+	// // console.log(isSwitch, ">>> isSwitch");
 
 	const router = useRouter();
 
@@ -666,7 +666,6 @@ export default function ProjectHalfmapList() {
 
 
 						<div className="tab-content">
-							{console.log(isSwitch, ' >>>>>>>>>>>> isSwitch')}
 							<div class={(isSwitch) ? "property-sec-list hide-main-section" : "property-sec-list"}>
 								<div className="project-listing-pagination">
 									<div className="box-title-listing style-1">

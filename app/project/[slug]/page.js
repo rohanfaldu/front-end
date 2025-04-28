@@ -159,7 +159,7 @@ export default function ProjectDetailsView({ params }) {
 	const [currentImageIndex, setCurrentImageIndex] = useState(0);
 	const modalSwiperRef = useRef(null);
 	const [isModelOpen, setIsModelOpen] = useState(false);
-	
+	const [contactInfo, setContactInfo] = useState(false);
 	const [currentImage, setCurrentImage] = useState(null); // Current image in the modal
 	const fetchProjectsDetails = async () => {
 		setLoading(true); // Start loading
@@ -235,19 +235,23 @@ export default function ProjectDetailsView({ params }) {
 
 	const handleComment = async () => {
 		const token = localStorage.getItem('token');
-		
+
 		if (!token) {
 			setIsModelOpen(true);
 			return;
 		}
 
-	
+
 	};
 
 	const closeModal = () => {
 		setIsModelOpen(false);
 		//setShowLoginModal(true);
 	};
+
+	const handelContactClick = () => {
+		setContactInfo(true)
+	}
 	return (
 		<>
 
@@ -964,8 +968,8 @@ export default function ProjectDetailsView({ params }) {
 															<textarea id="comment-message" name="message" rows={4} tabIndex={4} placeholder={t("writecomment")} aria-required="true" defaultValue={""} />
 														</fieldset>
 														<button className="form-wg tf-btn primary" name="button" type="button" onClick={handleComment}>
-																	<span>{t("postcomment")}</span>
-																</button>
+															<span>{t("postcomment")}</span>
+														</button>
 													</form>
 												</div>
 											</div>
@@ -986,11 +990,14 @@ export default function ProjectDetailsView({ params }) {
 														null
 													}
 												</Link>
+												{!contactInfo && (<button className="form-wg tf-btn primary float-right" onClick={() => handelContactClick()} >{t('contactUser')}</button>)}
+												{contactInfo ? (
+													<div className="info">
+														<Link href={`/developer/${projectDetails?.developer_slug}`} className="images-group"><div className="text-1 name">{projectDetails?.user_name}</div></Link>
+														<br /><span>{projectDetails?.user_email_address}</span>
+													</div>
+												) : ''}
 
-												<div className="info">
-													<Link href={`/developer/${projectDetails?.developer_slug}`} className="images-group"><div className="text-1 name">{projectDetails?.user_name}</div></Link>
-													<br /><span>{projectDetails?.user_email_address}</span>
-												</div>
 											</div>
 											{/* <form action="#" className="contact-form">
 												<div className="ip-group">
@@ -1289,12 +1296,12 @@ export default function ProjectDetailsView({ params }) {
 													<div className="content">
 														<div className="h7 text-capitalize fw-7">
 															<Link href={`/property/${property.slug}`} className="link">
-															{i18n.language === 'en'
-																? property?.title_en // Show English title if lang = 'en'
-																: property?.title_fr // Show French title if lang = 'fr'
-															}
+																{i18n.language === 'en'
+																	? property?.title_en // Show English title if lang = 'en'
+																	: property?.title_fr // Show French title if lang = 'fr'
+																}
 															</Link>
-															</div>
+														</div>
 														<div className="desc"><i className="fs-16 icon icon-mapPin" /><p>
 															{[property?.neighborhood, property?.district, property?.city, property?.state]
 																.filter(Boolean) // Remove empty or falsy values

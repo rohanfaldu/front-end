@@ -124,7 +124,7 @@ export default function AgencyDetail({ params }) {
 	const [agencyDetails, setAgencyDetails] = useState('');
 	const [propertiesList, setPropertiesList] = useState([]);
 	const [properties, setProperties] = useState([]);
-		const [contactInfo, setContactInfo] = useState(false);
+	const [contactInfo, setContactInfo] = useState(false);
 	const fetchAgencyDetails = async () => {
 		setLoading(true); // Start loading
 		try {
