@@ -13252,7 +13252,7 @@ footer {
 
 .property-contact-sec {
   justify-content: start;
-  display: flex;
+  /* display: flex; */
   gap: 10px;
 }
 

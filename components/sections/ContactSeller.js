@@ -164,7 +164,7 @@ export default function ContactSeller({ data }) {
 									<button 
 										className="form-wg tf-btn primary" 
 										type="button" 
-										style={{ marginTop: "10px" }} 
+										style={{ marginTop: "10px", width: "205px" }} 
 										onClick={handleContactClick}
 									>
 										<span style={{ color: "#fff" }}>{t("contact")}</span>
@@ -176,7 +176,7 @@ export default function ContactSeller({ data }) {
 								<button 
 									className="form-wg tf-btn primary" 
 									type="button" 
-									style={{ marginTop: "10px", padding: "10px 30px" }} 
+									style={{ marginTop: "10px", padding: "10px 30px", width: "205px" }} 
 									onClick={openModal} 
 								>
 									<span style={{ color: "#fff" }}>{t("visit")}</span>

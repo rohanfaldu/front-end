@@ -16,6 +16,7 @@ import ProjectMap from "@/components/elements/ProjectMap"
 import debounce from "lodash.debounce";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
+import { useRouter } from 'next/navigation';
 
 export default function ProjectHalfmapList() {
 	const [isToggled, setToggled] = useState(false)
@@ -194,6 +195,12 @@ export default function ProjectHalfmapList() {
 
 	useEffect(() => {
 		handleSubmit(pagination.currentPage);
+		const getSwitch = localStorage.getItem('switchProjectState');
+		console.log(getSwitch, '>>>>> Switch');
+		if (getSwitch !== null) {
+			const IsSwitch = JSON.parse(getSwitch);
+			setIsSwitch(IsSwitch);
+		}
 	}, [pagination.currentPage, i18n.language]);
 
 	const handlePageChange = (page) => {
@@ -320,9 +327,17 @@ export default function ProjectHalfmapList() {
 	};
 
 	const handleSwitchChange = (e) => {
+		localStorage.setItem('switchProjectState', e.target.checked);
 		setIsSwitch(e.target.checked);
 	}
 	// console.log(isSwitch, ">>> isSwitch");
+
+	const router = useRouter();
+
+	const handleClick = (slug) => {
+		localStorage.setItem('switchProjectState', JSON.stringify(isSwitch));
+		router.push(`/project/${slug}`);
+	};
 
 	return (
 		<>
@@ -630,10 +645,6 @@ export default function ProjectHalfmapList() {
 															</div>
 														</div>
 													</div>
-
-
-
-
 													<div className="form-style btn-hide-advanced" onClick={handleToggle} style={{ display: `${isToggled ? "block" : "none"}` }}>
 														<a className="filter-advanced pull-right">
 															<span className="icon icon-faders" />
@@ -655,6 +666,7 @@ export default function ProjectHalfmapList() {
 
 
 						<div className="tab-content">
+							{console.log(isSwitch, ' >>>>>>>>>>>> isSwitch')}
 							<div class={(isSwitch) ? "property-sec-list hide-main-section" : "property-sec-list"}>
 								<div className="project-listing-pagination">
 									<div className="box-title-listing style-1">
@@ -687,8 +699,8 @@ export default function ProjectHalfmapList() {
 													<div className={(isSwitch) ? "col-md-6 property-inner-sec" : "col-md-6"} key={project.id}>
 														<div className="homeya-box">
 															<div className="archive-top">
-																<Link
-																	href={`/project/${project.slug}`}
+																<div
+																	onClick={() => handleClick(project.slug)}
 																	className="images-group"
 																>
 
@@ -733,7 +745,7 @@ export default function ProjectHalfmapList() {
 																			{/* {project.meta_details?.propertyType || 'Studio'} */}
 																		</span>
 																	</div>
-																</Link>
+																</div>
 																<div className="content">
 																	<div className="h7 text-capitalize fw-7">
 																		<Link

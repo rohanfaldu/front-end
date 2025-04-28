@@ -211,9 +211,9 @@ export default function PropertyDetailsV1({ params }) {
 					setLoading(false);
 					setError(null);
 
-					console.log(result,'>>>> Response'); 
+					console.log(result, '>>>> Response');
 					const currentLoginUser = localStorage.getItem("user_id");
-					console.log(currentLoginUser,'>>>> Login')
+					console.log(currentLoginUser, '>>>> Login')
 					const recommandedPerameter = {
 						"property_id": result.id,
 						"user_id": currentLoginUser
@@ -658,7 +658,7 @@ export default function PropertyDetailsV1({ params }) {
 											</div>
 										</div>
 									)}
-									
+
 									{metadetail.length > 0 && (
 										<div className="single-property-element single-property-feature">
 											<div className="h7 title fw-7">{t("amenitiesandfeatures")}</div>
@@ -755,62 +755,55 @@ export default function PropertyDetailsV1({ params }) {
 											</ul>
 
 										</div>
-										<div className="wrap-form-comment">
-											<div className="h7">{t("leaveareply")}</div>
-											<div id="comments" className="comments">
-												<div className="respond-comment">
-													<form method="post" id="contactform" className="comment-form form-submit" acceptCharset="utf-8" noValidate="novalidate">
-														{/* <div className="form-wg group-ip">
-															<fieldset>
-																<label className="sub-ip">{t("name")}</label>
-																<input type="text" className="form-control" name="text" placeholder={t("yourname")} required />
-															</fieldset>
-															<fieldset>
-																<label className="sub-ip">{t("email")}</label>
-																<input type="email" className="form-control" name="email" placeholder={t("youremail")} required />
-															</fieldset>
-														</div> */}
+										{isLogin && (
+											<div className="wrap-form-comment">
+												<div className="h7">{t("leaveareply")}</div>
+												<div id="comments" className="comments">
+													<div className="respond-comment">
+														<form method="post" id="contactform" className="comment-form form-submit" acceptCharset="utf-8" noValidate="novalidate">
 
-														<fieldset className="form-wg">
-															<div>
-																<div style={{ display: "flex", justifyContent: "space-between" }}>
-																	<div>
-																		<label className="sub-ip">{t("review")}</label>
-																	</div>
-																	<div>
-																		{[1, 2, 3, 4, 5].map((star) => (
-																			<img
-																				key={star}
-																				src={star <= rating ? "/images/logo/star-solid.svg" : "/images/logo/star-blank.svg"}
-																				alt="star"
-																				style={{ width: "25px", cursor: "pointer" }}
-																				onClick={() => setRating(star)}
-																			/>
-																		))}
-																	</div>
-																</div>
+															<fieldset className="form-wg">
 																<div>
-																	<textarea
-																		id="comment-message"
-																		name="message"
-																		rows={4}
-																		tabIndex={4}
-																		placeholder={t("writecomment")}
-																		aria-required="true"
-																		value={comment}
-																		onChange={(e) => setComment(e.target.value)} // Update state on change
-																	/>
+																	<div style={{ display: "flex", justifyContent: "space-between" }}>
+																		<div>
+																			<label className="sub-ip">{t("review")}</label>
+																		</div>
+																		<div>
+																			{[1, 2, 3, 4, 5].map((star) => (
+																				<img
+																					key={star}
+																					src={star <= rating ? "/images/logo/star-solid.svg" : "/images/logo/star-blank.svg"}
+																					alt="star"
+																					style={{ width: "25px", cursor: "pointer" }}
+																					onClick={() => setRating(star)}
+																				/>
+																			))}
+																		</div>
+																	</div>
+																	<div>
+																		<textarea
+																			id="comment-message"
+																			name="message"
+																			rows={4}
+																			tabIndex={4}
+																			placeholder={t("writecomment")}
+																			aria-required="true"
+																			value={comment}
+																			onChange={(e) => setComment(e.target.value)} // Update state on change
+																		/>
+																	</div>
 																</div>
-															</div>
-															<button className="form-wg tf-btn primary" name="button" type="button" disabled={comment.trim() === ""} onClick={handleComment}>
-																<span>{t("postcomment")}</span>
-															</button>
-														</fieldset>
+																<button className="form-wg tf-btn primary" name="button" type="button" disabled={comment.trim() === ""} onClick={handleComment}>
+																	<span>{t("postcomment")}</span>
+																</button>
+															</fieldset>
 
-													</form>
+														</form>
+													</div>
 												</div>
 											</div>
-										</div>
+										)}
+
 									</div>
 								</div>
 								<div className="col-lg-4">
