@@ -155,14 +155,14 @@ export default function PropertyDetailsV1({ params }) {
 		itemsPerPage: variablesList.itemsPerPage,
 	});
 	// Now you have `slugPart` and `matching` variables
-	// console.log('Slug:', slugPart);
-	// console.log('Matching:', matching);
+	// // console.log('Slug:', slugPart);
+	// // console.log('Matching:', matching);
 
 
 
 
 	useEffect(() => {
-		// console.log("Fetching properties...");
+		// // console.log("Fetching properties...");
 
 		const fetchData = async () => {
 			try {
@@ -211,15 +211,15 @@ export default function PropertyDetailsV1({ params }) {
 					setLoading(false);
 					setError(null);
 
-					console.log(result, '>>>> Response');
+					// console.log(result, '>>>> Response');
 					const currentLoginUser = localStorage.getItem("user_id");
-					console.log(currentLoginUser, '>>>> Login')
+					// console.log(currentLoginUser, '>>>> Login')
 					const recommandedPerameter = {
 						"property_id": result.id,
 						"user_id": currentLoginUser
 					}
 					const recommandedResponse = await getData("api/property-recommended/store", recommandedPerameter);
-					console.log(recommandedResponse);
+					// console.log(recommandedResponse);
 
 				} else {
 					console.warn("Property not found!");
@@ -235,7 +235,7 @@ export default function PropertyDetailsV1({ params }) {
 
 	const getPropertyComment = async () => {
 		if (!properties?.id) return; // Avoid unnecessary API calls
-		// console.log("Fetching property comments...");
+		// // console.log("Fetching property comments...");
 		const token = localStorage.getItem("token");
 
 		try {
@@ -298,7 +298,7 @@ export default function PropertyDetailsV1({ params }) {
 			</>
 		)
 	} else {
-		// console.log(properties);
+		// // console.log(properties);
 	}
 	const handleAccordion = (key) => {
 		setIsAccordion(prevState => prevState === key ? null : key)
@@ -323,7 +323,7 @@ export default function PropertyDetailsV1({ params }) {
 			});
 
 			const data = await response.json();
-			// console.log("API Response:", data);
+			// // console.log("API Response:", data);
 
 			if (response.ok) {
 				setComment("");
@@ -365,7 +365,7 @@ export default function PropertyDetailsV1({ params }) {
 				}
 
 				const data = await response.json();
-				// console.log(data.message);
+				// // console.log(data.message);
 				setIsLiked(!isLiked);
 			} else {
 				const response = await fetch(`${API_URL}/api/property/${id}/like`, {
@@ -383,7 +383,7 @@ export default function PropertyDetailsV1({ params }) {
 				}
 
 				const data = await response.json();
-				// console.log(data.message);
+				// // console.log(data.message);
 				setIsLiked(!isLiked);
 			}
 		} catch (error) {
@@ -394,8 +394,8 @@ export default function PropertyDetailsV1({ params }) {
 
 
 	const openPopup = (image) => {
-		// console.log('image');
-		// console.log(image);
+		// // console.log('image');
+		// // console.log(image);
 		setCurrentImage(image);
 		setCurrentImageIndex(image);
 		setIsOpen(true);
@@ -409,7 +409,7 @@ export default function PropertyDetailsV1({ params }) {
 
 
 	const handleLogin = () => {
-		// console.log(isLogin, "///////////////////////////")
+		// // console.log(isLogin, "///////////////////////////")
 		setLogin(!isLogin)
 		!isLogin ? document.body.classList.add("modal-open") : document.body.classList.remove("modal-open")
 	}
