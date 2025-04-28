@@ -158,7 +158,8 @@ export default function ProjectDetailsView({ params }) {
 	const [properties, setProperties] = useState([]);
 	const [currentImageIndex, setCurrentImageIndex] = useState(0);
 	const modalSwiperRef = useRef(null);
-
+	const [isModelOpen, setIsModelOpen] = useState(false);
+	
 	const [currentImage, setCurrentImage] = useState(null); // Current image in the modal
 	const fetchProjectsDetails = async () => {
 		setLoading(true); // Start loading
@@ -230,6 +231,22 @@ export default function ProjectDetailsView({ params }) {
 	const closePopup = () => {
 		setIsOpen(false);
 		setCurrentImage(null);
+	};
+
+	const handleComment = async () => {
+		const token = localStorage.getItem('token');
+		
+		if (!token) {
+			setIsModelOpen(true);
+			return;
+		}
+
+	
+	};
+
+	const closeModal = () => {
+		setIsModelOpen(false);
+		//setShowLoginModal(true);
 	};
 	return (
 		<>
@@ -946,9 +963,9 @@ export default function ProjectDetailsView({ params }) {
 															<label className="sub-ip">{t("review")}</label>
 															<textarea id="comment-message" name="message" rows={4} tabIndex={4} placeholder={t("writecomment")} aria-required="true" defaultValue={""} />
 														</fieldset>
-														<button className="form-wg tf-btn primary" name="button" type="button">
-															<span>{t("postcomment")}</span>
-														</button>
+														<button className="form-wg tf-btn primary" name="button" type="button" onClick={handleComment}>
+																	<span>{t("postcomment")}</span>
+																</button>
 													</form>
 												</div>
 											</div>
@@ -1328,6 +1345,28 @@ export default function ProjectDetailsView({ params }) {
 				</div >
 
 			</Layout >
+			{isModelOpen && (
+				<div className="modal" style={{ display: 'block', position: 'fixed', zIndex: 1000, top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+					<div className="modal-content-alert login-alert-sec" >
+						<>
+							<img
+								src="/images/logo/logo.svg" // Replace with your actual image path
+								alt="Logo"
+								style={{ width: '150px', marginBottom: '15px' }}
+							/><br></br>
+							<h4>{t('loginAlert')}</h4>
+							<p>{t('loginText')}</p>
+							<div className="modal-buttons">
+								<button className="tf-btn primary" onClick={() => {
+									closeModal();
+									setLogin(true)
+								}}>{t("login")}</button>
+								<button className="tf-btn primary" onClick={() => setIsModelOpen(false)} style={{ marginLeft: '15px' }}>{t("cancel")}</button>
+							</div>
+						</>
+					</div>
+				</div>
+			)}
 		</>
 	)
 }
