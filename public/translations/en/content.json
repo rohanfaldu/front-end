@@ -364,5 +364,6 @@
      "selectedDateTime": "Selected Date & Time",
      "confirm" :"Confirm",
      "next" : "Next",
-     "previous" : "Previous"
+     "previous" : "Previous",
+     "contactUser": "Contact"
 }

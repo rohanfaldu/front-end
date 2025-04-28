@@ -398,6 +398,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 	}, [pagination.currentPage, i18n.language, transaction, searchTerm, searchTermDistrict, searchTermNeighbourhood, searchTermTitle]);
 
 	const passingData = () => {
+		
 		// Create a shallow copy of formData
 		const queryData = { ...formData };
 
@@ -412,26 +413,6 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 		window.location.href = `/property?${queryString}`;
 	};
 
-	const defaultSuggestions1 = [{
-		"id": "eb18e6c2-5ec8-42bd-90f8-6061de5f3ede",
-		"slug": "city",
-		"name": "Braxa"
-	},
-	{
-		"id": "0d0c7cb1-8689-4fd3-a702-0a3fc2baff08",
-		"slug": "neighborhood",
-		"name": "Les Hôpitaux"
-	},
-	{
-		"id": "356e2a8f-f6d4-4afc-bf81-dcc624ed4c20",
-		"slug": "neighborhood",
-		"name": "Racine Extension"
-	},
-	{
-		"id": "d2910315-051f-40ba-8fff-d3eca54a4e4d",
-		"slug": "neighborhood",
-		"name": "Samir air max"
-	}];
 	const handleToggle = () => setToggled(!isToggled);
 	//console.log(cityOptions, "cityOptions");
 	return (
@@ -453,7 +434,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 								if (!searchCity || searchCity.length === 0) {
 								  // You can set predefined cities here or use existing cityOptions state
 								  setCityOptions([
-									{ id: 1, name: "Casablanca", slug: "casablanca" },
+									{ id: "bbc4c04e-0e2c-4c47-9627-d1fb4b1fb415", name: "Casablanca", slug: "casablanca" },
 									{ id: 2, name: "Rabat", slug: "rabat" },
 									{ id: 3, name: "Agadir", slug: "agadir" },
 									{ id: 4, name: "Tanger", slug: "tanger" },

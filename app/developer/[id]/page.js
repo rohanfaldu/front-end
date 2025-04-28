@@ -121,6 +121,7 @@ export default function AgencyDetail({ params }) {
     const [loading, setLoading] = useState(true);
     const [developerDetails, setDeveloperDetails] = useState([]);
     const [propertiesList, setPropertiesList] = useState('');
+    const [contactInfo, setContactInfo] = useState(false);
     const fetchDeveloperDetails = async () => {
         setLoading(true); // Start loading
         try {
@@ -152,6 +153,10 @@ export default function AgencyDetail({ params }) {
 
     // Translation hook
     const { t, i18n } = useTranslation();
+
+    const handelContactClick = () => {
+        setContactInfo(true)
+    }
     // console.log(developerDetails,'>>>>>>>>>>>>>>>> Developer Details');
     return (
         <>
@@ -280,7 +285,8 @@ export default function AgencyDetail({ params }) {
                                                             alt="avatar"
                                                         />
                                                     </div>
-                                                    {developerDetails ? (
+                                                    {!contactInfo && (<button className="form-wg tf-btn primary float-right" onClick={() => handelContactClick()} >{t('contactUser')}</button>)}
+                                                    {contactInfo ? (
                                                         <div className="info">
                                                             <div className="text-1 name">{developerDetails?.user_name}</div>
                                                             <span className="truncate-text">{developerDetails?.user_email_adress}</span><br />

@@ -34,7 +34,14 @@ export default function ContactSeller({ data, login }) {
 	// // console.log(islogin,' >>>>>>>>>> islogin')
 	const openModal = () => {
 		// // console.log("Opening Modal"); // Debugging
-		setIsModalOpen(true);
+		const token = localStorage.getItem('token');
+		if (!token) {
+			setIsContactModelOpen(true);
+			return;
+		}else{
+			setIsContactModelOpen(false);
+			setIsModalOpen(true);
+		}
 	};
 
 	const closeModal = () => {
