@@ -311,6 +311,11 @@ export default function PropertyDetailsV1({ params }) {
 
 	const handleComment = async () => {
 		const token = localStorage.getItem('token');
+		
+		if (!token) {
+			setIsModelOpen(true);
+			return;
+		}
 
 		try {
 			const response = await fetch(`${API_URL}/api/property/comment`, {
@@ -755,7 +760,7 @@ export default function PropertyDetailsV1({ params }) {
 											</ul>
 
 										</div>
-										{isLogin && (
+										
 											<div className="wrap-form-comment">
 												<div className="h7">{t("leaveareply")}</div>
 												<div id="comments" className="comments">
@@ -802,7 +807,7 @@ export default function PropertyDetailsV1({ params }) {
 													</div>
 												</div>
 											</div>
-										)}
+										
 
 									</div>
 								</div>
@@ -842,7 +847,7 @@ export default function PropertyDetailsV1({ params }) {
 												</div>
 											</div>
 											: <></>}
-										<ContactSeller data={properties} ></ContactSeller>
+										<ContactSeller data={properties} login={isModelOpen}></ContactSeller>
 
 										<div className="widget-box single-property-whychoose bg-surface">
 											<div className="h7 title fw-7">{t("whychooseus")}</div>

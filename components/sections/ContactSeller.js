@@ -16,7 +16,7 @@ import { db } from '@/components/layout/firebaseConfig';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-export default function ContactSeller({ data }) {  
+export default function ContactSeller({ data, login }) {  
 	// // console.log("Received data:", data); // Debugging: Check if data is received
     const [isTab, setIsTab] = useState(1);
 	const [selectedDateTime, setSelectedDateTime] = useState(null);
@@ -24,6 +24,7 @@ export default function ContactSeller({ data }) {
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(null);
 	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [isContactModelOpen, setIsContactModelOpen] = useState(false);
 	const [islogin, setIsLogin] = useState(false);
 
 	useEffect(() => {{
@@ -45,6 +46,10 @@ export default function ContactSeller({ data }) {
         setIsTab(i);
     };
 
+	const closeContactModal = () => {
+		setIsContactModelOpen(false);
+		//setShowLoginModal(true);
+	};
 	const visitSchedule = async () => {
 		if (!selectedDateTime) return;
 
@@ -134,7 +139,13 @@ export default function ContactSeller({ data }) {
 
 	// Function to handle the click event
 	const handleContactClick = () => {
-		checkAndCreateChatDocument()
+		const token = localStorage.getItem('token');
+
+		if (!token) {
+			setIsContactModelOpen(true);
+			return;
+		}else{
+			checkAndCreateChatDocument()
 			.then(documentId => {
 				// // console.log("Chat document ID:", documentId);
 				// You can add navigation to chat page here if needed
@@ -143,6 +154,7 @@ export default function ContactSeller({ data }) {
 			.catch(error => {
 				console.error("Error in handleContactClick:", error);
 			});
+		}
 	};
 
 	return (
@@ -158,7 +170,7 @@ export default function ContactSeller({ data }) {
 					<div className="info" style={{ overflow: "hidden", width: "100%" }}>
 						<div className="text-1 name">{data?.user_name}</div>
 						<div className="property-contact-sec" >
-							{islogin?(
+							{/* {islogin?( */}
 							<div>
 								<div className="link">
 									<button 
@@ -171,7 +183,7 @@ export default function ContactSeller({ data }) {
 									</button>
 								</div>
 							</div>
-							):null}
+							 {/* ):null} */}
 							<div>
 								<button 
 									className="form-wg tf-btn primary" 
@@ -186,7 +198,29 @@ export default function ContactSeller({ data }) {
 					</div>
 				</div>
 			</div>
-
+				
+			{isContactModelOpen && (
+						<div className="modal" style={{ display: 'block', position: 'fixed', zIndex: 1000, top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+							<div className="modal-content-alert login-alert-sec" >
+								<>
+									<img
+										src="/images/logo/logo.svg" // Replace with your actual image path
+										alt="Logo"
+										style={{ width: '150px', marginBottom: '15px' }}
+									/><br></br>
+									<h4>{t('loginAlert')}</h4>
+									<p>{t('loginText')}</p>
+									<div className="modal-buttons">
+										<button className="tf-btn primary" onClick={() => {
+											closeContactModal();
+											setLogin(true)
+										}}>{t("login")}</button>
+										<button className="tf-btn primary" onClick={() => setIsContactModelOpen(false)} style={{ marginLeft: '15px' }}>{t("cancel")}</button>
+									</div>
+								</>
+							</div>
+						</div>
+					)}
 			{isModalOpen && (
               <div className="custom-modal">
               <div className="custom-modal-content">

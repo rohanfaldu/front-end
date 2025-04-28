@@ -322,17 +322,17 @@ export default function PropertyHalfmapList() {
 					const getSwitch = localStorage.getItem('switchState');
 					//console.log(getSwitch,'>>>>> Switch');
 					if (getSwitch !== null) {
-						const IsSwitch = JSON.parse(getSwitch); 
+						const IsSwitch = JSON.parse(getSwitch);
 						setIsSwitch(IsSwitch);
 					}
-					
+
 					setLoading(false);
 				} else {
 					setLoading(false);
 				}
 			};
 			getFilterData(pagination.currentPage);
-			
+
 		} else {
 			//  fetchPropertys(pagination.currentPage);
 			handleSubmit(pagination.currentPage);
@@ -409,7 +409,7 @@ export default function PropertyHalfmapList() {
 		} else if (searchTermTitle) {
 			fetchCityOptions(searchTermTitle);
 		}
-	
+
 		fetchDistrictOptions(searchTermDistrict)
 		fetchNeighbourhoodOptions(searchTermNeighbourhood)
 	}, [searchTerm, searchTermDistrict, searchTermNeighbourhood, searchTermTitle]);
@@ -710,27 +710,27 @@ export default function PropertyHalfmapList() {
 	};
 	return (
 		<>
-		{ loading ? 
-			<Preloader />:
-			<>
-				<Layout headerStyle={1} footerStyle={1}>
-					<section className="wrapper-layout-3 property-sec">
-						<div className="wrap-sidebar property-inner-sec">
-							<form method="post" className="property-form" onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
-								<div className="flat-tab flat-tab-form widget-filter-search property-filter">
-									<div>
+			{loading ?
+				<Preloader /> :
+				<>
+					<Layout headerStyle={1} footerStyle={1}>
+						<section className="wrapper-layout-3 property-sec">
+							<div className="wrap-sidebar property-inner-sec">
+								<form method="post" className="property-form" onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
+									<div className="flat-tab flat-tab-form widget-filter-search property-filter">
+										<div>
 
-									</div>
-									<div className="h7 title fw-7">{t("search")}</div>
-									<ul className="nav-tab-form" role="tablist" onClick={filterSet}>
-										<TabNav setTransaction={setTransaction} />
-									</ul>
-									<div className="tab-content">
-										<div className="tab-pane fade active show" role="tabpanel">
-											<div className="form-sl">
-												<div className="wd-filter-select">
-													<div className="inner-group inner-filter">
-														{/* <div className="form-style">
+										</div>
+										<div className="h7 title fw-7">{t("search")}</div>
+										<ul className="nav-tab-form" role="tablist" onClick={filterSet}>
+											<TabNav setTransaction={setTransaction} />
+										</ul>
+										<div className="tab-content">
+											<div className="tab-pane fade active show" role="tabpanel">
+												<div className="form-sl">
+													<div className="wd-filter-select">
+														<div className="inner-group inner-filter">
+															{/* <div className="form-style">
 																<label className="title-select">{t("keyword")}</label>
 																<input
 																	type="text"
@@ -760,7 +760,7 @@ export default function PropertyHalfmapList() {
 																	)
 																)}
 															</div> */}
-														{/* <div className="form-style">
+															{/* <div className="form-style">
 																<label className="title-select">{t("description")}</label>
 																<div className="group-ip ip-icon">
 																	<input
@@ -776,37 +776,37 @@ export default function PropertyHalfmapList() {
 																</div>
 															</div> */}
 
-														<div className="form-style">
-															<label className="title-select">{t("city")}</label>
-															<input
-																type="text"
-																className="form-control"
-																id="city"
-																name="city"
-																value={searchCity ?? ''}
-																onChange={handleInputChange}
-																onFocus={() => {
-																	setIsFocused(true);
-																	// If no search term, we'll still show predefined cities
-																	if (!searchCity || searchCity.length === 0) {
-																		// You can set predefined cities here or use existing cityOptions state
-																		setCityOptions([
-																			{ id: 1, name: "Casablanca", slug: "casablanca" },
-																			{ id: 2, name: "Rabat", slug: "rabat" },
-																			{ id: 3, name: "Agadir", slug: "agadir" },
-																			{ id: 4, name: "Tanger", slug: "tanger" },
-																			{ id: 5, name: "Marrakech", slug: "marrakech" },
-																			{ id: 6, name: "Fes", slug: "fes" }
-																		]);
-																	}
-																}}
-																onBlur={() => {
-																	// Small delay to allow item selection before hiding dropdown
-																	setTimeout(() => setIsFocused(false), 200);
-																}}
-																placeholder={t("searchCity")}
-															/>
-															{/* {searchTerm.length > 0 && cityOptions.length === 0 ? (
+															<div className="form-style">
+																<label className="title-select">{t("city")}</label>
+																<input
+																	type="text"
+																	className="form-control"
+																	id="city"
+																	name="city"
+																	value={searchCity ?? ''}
+																	onChange={handleInputChange}
+																	onFocus={() => {
+																		setIsFocused(true);
+																		// If no search term, we'll still show predefined cities
+																		if (!searchCity || searchCity.length === 0) {
+																			// You can set predefined cities here or use existing cityOptions state
+																			setCityOptions([
+																				{ id: 1, name: "Casablanca", slug: "casablanca" },
+																				{ id: 2, name: "Rabat", slug: "rabat" },
+																				{ id: 3, name: "Agadir", slug: "agadir" },
+																				{ id: 4, name: "Tanger", slug: "tanger" },
+																				{ id: 5, name: "Marrakech", slug: "marrakech" },
+																				{ id: 6, name: "Fes", slug: "fes" }
+																			]);
+																		}
+																	}}
+																	onBlur={() => {
+																		// Small delay to allow item selection before hiding dropdown
+																		setTimeout(() => setIsFocused(false), 200);
+																	}}
+																	placeholder={t("searchCity")}
+																/>
+																{/* {searchTerm.length > 0 && cityOptions.length === 0 ? (
 																	<ul className="city-dropdown form-style" style={{ marginTop: "0px" }}>
 																		<li className="city-option">City not found</li>
 																	</ul>
@@ -829,31 +829,31 @@ export default function PropertyHalfmapList() {
 																	)
 																)} */}
 
-															{(searchTerm.length > 0 || isFocused) && (
-																cityOptions.length > 0 && (
-																	<ul className="city-dropdown form-style" style={{ marginTop: "0px", width: "80%", position: "absolute" }}>
-																		{cityOptions.map((city) => (
-																			<li
-																				key={city.id}
-																				onClick={() => {
-																					handleCitySelect(city.id, city.name, city.slug);
-																					setSearchTerm('');
-																					setIsFocused(false);
-																				}}
-																				className="city-option"
-																			>
-																				{city.name}
-																			</li>
-																		))}
-																	</ul>
-																)
-															)}
-														</div>
+																{(searchTerm.length > 0 || isFocused) && (
+																	cityOptions.length > 0 && (
+																		<ul className="city-dropdown form-style" style={{ marginTop: "0px", width: "80%", position: "absolute" }}>
+																			{cityOptions.map((city) => (
+																				<li
+																					key={city.id}
+																					onClick={() => {
+																						handleCitySelect(city.id, city.name, city.slug);
+																						setSearchTerm('');
+																						setIsFocused(false);
+																					}}
+																					className="city-option"
+																				>
+																					{city.name}
+																				</li>
+																			))}
+																		</ul>
+																	)
+																)}
+															</div>
 
 
 
-														{/* {showDistrict && ( */}
-														{/* <div className="form-style">
+															{/* {showDistrict && ( */}
+															{/* <div className="form-style">
 															<label className="title-select">{t("district")}</label>
 															<input
 																type="text"
@@ -891,10 +891,10 @@ export default function PropertyHalfmapList() {
 															)}
 
 														</div> */}
-														{/* )} */}
-														{/* {showNeighbourhood && ( */}
-														<div className="form-style">
-															{/* <label className="title-select">{t("neighbourhood")}</label>
+															{/* )} */}
+															{/* {showNeighbourhood && ( */}
+															<div className="form-style">
+																{/* <label className="title-select">{t("neighbourhood")}</label>
 																<select
 																	className="form-control"
 																	id="neighbourhood"
@@ -909,7 +909,7 @@ export default function PropertyHalfmapList() {
 																		</option>
 																	))}
 																</select> */}
-															{/* <label className="title-select">{t("neighbourhood")}</label>
+																{/* <label className="title-select">{t("neighbourhood")}</label>
 															<input
 																type="text"
 																className="form-control"
@@ -945,29 +945,29 @@ export default function PropertyHalfmapList() {
 															)} */}
 
 
-														</div>
+															</div>
 
 
-														{/* )} */}
-														<div className="form-style">
-															<label className="title-select">{t("propertytype")}</label>
-															<select
-																className="form-control"
-																id="propertyType"
-																name="type_id"
-																value={filters.type_id ?? ''}
-																onChange={handleFilterChange}
-															>
-																<option value="">{t("selectpropertytype")}</option>
-																{propertyType.map((property) => (
-																	<option key={property.id} value={property.id}>
-																		{property.title}
-																	</option>
-																))}
-															</select>
-														</div>
+															{/* )} */}
+															<div className="form-style">
+																<label className="title-select">{t("propertytype")}</label>
+																<select
+																	className="form-control"
+																	id="propertyType"
+																	name="type_id"
+																	value={filters.type_id ?? ''}
+																	onChange={handleFilterChange}
+																>
+																	<option value="">{t("selectpropertytype")}</option>
+																	{propertyType.map((property) => (
+																		<option key={property.id} value={property.id}>
+																			{property.title}
+																		</option>
+																	))}
+																</select>
+															</div>
 
-														{/* <div className="form-style">
+															{/* <div className="form-style">
 																<label className="title-select">{t("direction")}</label>
 																<select
 																	className="form-control"
@@ -985,7 +985,7 @@ export default function PropertyHalfmapList() {
 															</div> */}
 
 
-														{/* <div className="form-style">
+															{/* <div className="form-style">
 																<label className="title-select">{t("developedby")}</label>
 																<select
 																	className="form-control"
@@ -1004,109 +1004,109 @@ export default function PropertyHalfmapList() {
 															</div> */}
 
 
-														<div className="form-style widget-price">
-															<label className="title-select" style={{ marginBottom: "0px" }}>{t("price")}</label>
-															<div className="group-form">
-																{Array.isArray(priceRange) && priceRange.length === 2 && (
+															<div className="form-style widget-price">
+																<label className="title-select" style={{ marginBottom: "0px" }}>{t("price")}</label>
+																<div className="group-form">
+																	{Array.isArray(priceRange) && priceRange.length === 2 && (
+																		<ReactSlider
+																			ariaLabelledby="slider-label"
+																			className="horizontal-slider st2"
+																			min={1000}
+																			max={initialMaxPrice}
+																			value={priceRange ?? ''}
+																			step={100}
+																			thumbClassName="example-thumb"
+																			trackClassName="example-track"
+																			onChange={handlePriceChange}
+																		/>
+																	)}
+
+																	<div className="group-range-title mt-2">
+																		<label className="d-flex justify-content-between mb-0">
+																			<span>1000DH</span>
+																			<span>{priceRange[1]}DH</span>
+																		</label>
+																	</div>
+																</div>
+															</div>
+
+															<div className="form-style widget-price">
+																<label className="title-select" style={{ marginBottom: "0px" }}>{t("size")}</label>
+																<div className="group-form">
 																	<ReactSlider
 																		ariaLabelledby="slider-label"
 																		className="horizontal-slider st2"
-																		min={1000}
-																		max={initialMaxPrice}
-																		value={priceRange ?? ''}
-																		step={100}
+																		min={0}
+																		max={initialMaxSize}
+																		value={sizeRange ?? 0}
 																		thumbClassName="example-thumb"
 																		trackClassName="example-track"
-																		onChange={handlePriceChange}
+																		onChange={handleSizeChange}
 																	/>
-																)}
 
-																<div className="group-range-title mt-2">
-																	<label className="d-flex justify-content-between mb-0">
-																		<span>1000DH</span>
-																		<span>{priceRange[1]}DH</span>
-																	</label>
+																	<div className="group-range-title mt-2">
+																		<label className="d-flex justify-content-between mb-0">
+																			<span>{sizeRange[0] ?? 0} m²</span>
+																			<span>{sizeRange[1] ?? 0} m²</span>
+																		</label>
+																	</div>
 																</div>
 															</div>
-														</div>
 
-														<div className="form-style widget-price">
-															<label className="title-select" style={{ marginBottom: "0px" }}>{t("size")}</label>
-															<div className="group-form">
-																<ReactSlider
-																	ariaLabelledby="slider-label"
-																	className="horizontal-slider st2"
-																	min={0}
-																	max={initialMaxSize}
-																	value={sizeRange ?? 0}
-																	thumbClassName="example-thumb"
-																	trackClassName="example-track"
-																	onChange={handleSizeChange}
-																/>
-
-																<div className="group-range-title mt-2">
-																	<label className="d-flex justify-content-between mb-0">
-																		<span>{sizeRange[0] ?? 0} m²</span>
-																		<span>{sizeRange[1] ?? 0} m²</span>
-																	</label>
-																</div>
+															<div className="form-style btn-show-advanced" onClick={handleToggle} style={{ display: `${isToggled ? "none" : "block"}` }}>
+																<a className="filter-advanced pull-right">
+																	<span className="icon icon-faders" />
+																	<span className="text-advanced">{t("showadvance")}</span>
+																</a>
 															</div>
-														</div>
 
-														<div className="form-style btn-show-advanced" onClick={handleToggle} style={{ display: `${isToggled ? "none" : "block"}` }}>
-															<a className="filter-advanced pull-right">
-																<span className="icon icon-faders" />
-																<span className="text-advanced">{t("showadvance")}</span>
-															</a>
-														</div>
+															<div
+																className="form-style wd-amenities box-amenities-property"
+																style={{ display: `${isToggled ? "block" : "none"}` }}
+															>
+																<div className="group-checkbox">
+																	<div className="group-amenities">
+																		{amenities && amenities.length > 0 ? (
+																			[...amenities].reverse().map((project) => {
+																				if (project.type === "number") {
+																					const selectedValue = filters.amenities_id_object_with_value?.[project.id] || "";
 
-														<div
-															className="form-style wd-amenities box-amenities-property"
-															style={{ display: `${isToggled ? "block" : "none"}` }}
-														>
-															<div className="group-checkbox">
-																<div className="group-amenities">
-																	{amenities && amenities.length > 0 ? (
-																		[...amenities].reverse().map((project) => {
-																			if (project.type === "number") {
-																				const selectedValue = filters.amenities_id_object_with_value?.[project.id] || "";
-
-																				return (
-																					<div key={project.id} className="amenity-group">
-																						<div className="title-select text-variant-1" htmlFor={project.id}>
-																							{t("numberOfAminities")} {project.name}:
-																						</div>
-																						<fieldset className="box box-fieldse aminities-radio-sec">
-																							<div className="radio-group">
-																								{[
-																									{ label: "1", value: "1" },
-																									{ label: "2", value: "2" },
-																									{ label: "3", value: "3" },
-																									{ label: "3+", value: "4" }
-																								].map((option) => (
-																									<label key={`${project.id}-${option.value}`} className="radio-label custom-radio" style={{ marginRight: '10px' }}>
-																										<input
-																											type="radio"
-																											className="nice-radio"
-																											value={option.value}
-																											checked={selectedValue === option.value}
-																											name={project.id}
-																											onChange={() => handleNumberChange(project.id, option.value)}
-																										/>
-																										<span>{option.label}</span>
-																									</label>
-																								))}
+																					return (
+																						<div key={project.id} className="amenity-group">
+																							<div className="title-select text-variant-1" htmlFor={project.id}>
+																								{t("numberOfAminities")} {project.name}:
 																							</div>
-																						</fieldset>
-																					</div>
-																				);
-																			}
-																			return null;
-																		})
-																	) : null}
-																</div>
+																							<fieldset className="box box-fieldse aminities-radio-sec">
+																								<div className="radio-group">
+																									{[
+																										{ label: "1", value: "1" },
+																										{ label: "2", value: "2" },
+																										{ label: "3", value: "3" },
+																										{ label: "3+", value: "4" }
+																									].map((option) => (
+																										<label key={`${project.id}-${option.value}`} className="radio-label custom-radio" style={{ marginRight: '10px' }}>
+																											<input
+																												type="radio"
+																												className="nice-radio"
+																												value={option.value}
+																												checked={selectedValue === option.value}
+																												name={project.id}
+																												onChange={() => handleNumberChange(project.id, option.value)}
+																											/>
+																											<span>{option.label}</span>
+																										</label>
+																									))}
+																								</div>
+																							</fieldset>
+																						</div>
+																					);
+																				}
+																				return null;
+																			})
+																		) : null}
+																	</div>
 
-																{/* <div className="form-style">
+																	{/* <div className="form-style">
 																		<label className="title-select">{t("direction")}</label>
 																		<select
 																			className="form-control"
@@ -1122,52 +1122,52 @@ export default function PropertyHalfmapList() {
 																			<option value="west">West</option>
 																		</select>
 																	</div> */}
-															</div>
-														</div>
-
-
-
-
-														<div className="form-style wd-amenities" style={{ display: `${isToggled ? "block" : "none"}` }}>
-															<div className="group-checkbox">
-																<div className="text-1">{t("amenities")}:</div>
-																<div className="group-amenities">
-																	{amenities.map((amenity) => (
-																		amenity.type === "boolean" ? (
-																			<fieldset className="amenities-item" key={amenity.id}>
-																				<input
-																					type="checkbox"
-																					className="tf-checkbox style-1"
-																					id={`amenity-${amenity.id}`}
-																					checked={filters?.amenities_id_array?.includes(amenity.id)} // Updated to amenities_id_array
-																					onChange={(e) => {
-																						const updatedAmenities = e.target.checked
-																							? [...(filters.amenities_id_array || []), amenity.id]
-																							: (filters.amenities_id_array || []).filter((id) => id !== amenity.id);
-
-																						setFilters({ ...filters, amenities_id_array: updatedAmenities });
-																					}}
-
-																				/>
-																				<label htmlFor={`amenity-${amenity.id}`} className="text-cb-amenities">
-																					{amenity.name}
-																				</label>
-																			</fieldset>
-																		) : null
-																	))}
 																</div>
 															</div>
-														</div>
 
-														<div className="form-style btn-hide-advanced" onClick={handleToggle} style={{ display: `${isToggled ? "block" : "none"}` }}>
-															<a className="filter-advanced pull-right">
-																<span className="icon icon-faders" />
-																<span className="text-advanced">{t("hideadvance")}</span>
-															</a>
-														</div>
 
-													</div>
-													{/* <div className="form-btn-fixed d-flex">
+
+
+															<div className="form-style wd-amenities" style={{ display: `${isToggled ? "block" : "none"}` }}>
+																<div className="group-checkbox">
+																	<div className="text-1">{t("amenities")}:</div>
+																	<div className="group-amenities">
+																		{amenities.map((amenity) => (
+																			amenity.type === "boolean" ? (
+																				<fieldset className="amenities-item" key={amenity.id}>
+																					<input
+																						type="checkbox"
+																						className="tf-checkbox style-1"
+																						id={`amenity-${amenity.id}`}
+																						checked={filters?.amenities_id_array?.includes(amenity.id)} // Updated to amenities_id_array
+																						onChange={(e) => {
+																							const updatedAmenities = e.target.checked
+																								? [...(filters.amenities_id_array || []), amenity.id]
+																								: (filters.amenities_id_array || []).filter((id) => id !== amenity.id);
+
+																							setFilters({ ...filters, amenities_id_array: updatedAmenities });
+																						}}
+
+																					/>
+																					<label htmlFor={`amenity-${amenity.id}`} className="text-cb-amenities">
+																						{amenity.name}
+																					</label>
+																				</fieldset>
+																			) : null
+																		))}
+																	</div>
+																</div>
+															</div>
+
+															<div className="form-style btn-hide-advanced" onClick={handleToggle} style={{ display: `${isToggled ? "block" : "none"}` }}>
+																<a className="filter-advanced pull-right">
+																	<span className="icon icon-faders" />
+																	<span className="text-advanced">{t("hideadvance")}</span>
+																</a>
+															</div>
+
+														</div>
+														{/* <div className="form-btn-fixed d-flex">
 															<button
 																type="submit"
 																className="tf-btn primary"
@@ -1187,37 +1187,37 @@ export default function PropertyHalfmapList() {
 																{t("savesearches")}
 															</button>
 															</div> */}
+													</div>
+
 												</div>
-
 											</div>
-										</div>
+										</div >
 									</div >
-								</div >
-								<div className="form-btn-fixed d-flex">
-									<button
-										type="submit"
-										className="tf-btn primary"
-										style={{ marginRight: "10px" }}
-									>
-										{t("findproperties")}
-									</button>
-									<button
-										type="button" // Change type to "button" to prevent form submission
-										className="tf-btn primary-1"
-										style={{ marginLeft: "10px" }}
-										onClick={(e) => {
-											e.preventDefault(); // Prevent default form submission
-											saveSearch(); // Call saveSearch function on button click
-										}}
-									>
-										{t("savesearches")}
-									</button>
-								</div>
-							</form>
-						</div >
+									<div className="form-btn-fixed d-flex">
+										<button
+											type="submit"
+											className="tf-btn primary"
+											style={{ marginRight: "10px" }}
+										>
+											{t("findproperties")}
+										</button>
+										<button
+											type="button" // Change type to "button" to prevent form submission
+											className="tf-btn primary-1"
+											style={{ marginLeft: "10px" }}
+											onClick={(e) => {
+												e.preventDefault(); // Prevent default form submission
+												saveSearch(); // Call saveSearch function on button click
+											}}
+										>
+											{t("savesearches")}
+										</button>
+									</div>
+								</form>
+							</div >
 
-						<div className="wrap-inner">
-							{/* <div className="tab-content" style={{ position: "relative", height: "0px" }}>
+							<div className="wrap-inner">
+								{/* <div className="tab-content" style={{ position: "relative", height: "0px" }}>
 								{loading ? (
 									<Preloader />
 								) : error ? (
@@ -1300,73 +1300,79 @@ export default function PropertyHalfmapList() {
 									</div>
 								)}
 							</div> */}
-							<div className="tab-content">
-								<div className={(isSwitch) ? "property-sec-list hide-main-section" : "property-sec-list"}>
-									<div className="project-listing-pagination">
-										<div className="box-title-listing style-1">
-											<h5>{t("propertylisting")}</h5>
-											<div className="flex items-center cursor-pointer select-none">
-												{/* <span className="switch-text">{t('switchMapText')}</span> */}
-												{/* <Image src="/images/logo/location-solid.svg" alt="switch"></Image> */}
-												<img src="/images/logo/map-icon.png" alt="logo-footer" width={30} height={20} style={{ marginRight: "10px" }}></img>
-												<label className="switch">
-													<input
-														type="checkbox"
-														checked={isSwitch}
-														onChange={handleSwitchChange}
-													/>
-													<span className="slider"></span>
-												</label>
+								<div className="tab-content">
+									<div className={(isSwitch) ? "property-sec-list hide-main-section" : "property-sec-list"}>
+										<div className="project-listing-pagination">
+											<div className="box-title-listing style-1">
+												<h5>{t("propertylisting")}</h5>
+												<div className="flex items-center cursor-pointer select-none">
+													{/* <span className="switch-text">{t('switchMapText')}</span> */}
+													{/* <Image src="/images/logo/location-solid.svg" alt="switch"></Image> */}
+													<img src="/images/logo/map-icon.png" alt="logo-footer" width={30} height={20} style={{ marginRight: "10px" }}></img>
+													<label className="switch">
+														<input
+															type="checkbox"
+															checked={isSwitch}
+															onChange={handleSwitchChange}
+														/>
+														<span className="slider"></span>
+													</label>
+												</div>
 											</div>
-										</div>
-										<div className="project-listing">
-											{loading ? (
-												<Preloader />
-											) : error ? (
-												<p>{error}</p>
-											) : propertys.length === 0 ? (
-												<p>Not Found</p>
-											) : (
+											<div className="project-listing">
+												{loading ? (
+													<Preloader />
+												) : error ? (
+													<p>{error}</p>
+												) : propertys.length === 0 ? (
+													<div style={{ textAlign: "center" }}>
+														<img
+															src="/images/not-found/item-not-found.png"
+															alt="No projects found"
+															style={{ height: "300px" }}
+														/>
+													</div>
+												) : (
 
-												<div className="row">
-													{propertys.map((property) => (
-														<div className={(isSwitch) ? "col-md-6 property-inner-sec" : "col-md-6"} key={property.id}>
-															<div className="homeya-box">
-																<div className="archive-top">
-																	<div
-																		className="images-group"
-																	>
+													<div className="row">
+														{propertys.map((property) => (
+															<div className={(isSwitch) ? "col-md-6 property-inner-sec" : "col-md-6"} key={property.id}>
+																<div className="homeya-box">
+																	<div className="archive-top">
+																		<div
+																			className="images-group"
+																		>
 
-																		<div className="images-style">
-																			<Swiper
-																				modules={[Navigation]}
-																				slidesPerView={1}
-																				loop={property.picture.length > 1}
-																				navigation={property.picture.length > 1}
-																				className="property-slider"
-																			>
-																				{(property.picture.length > 0 ? property.picture : ["/images/banner/no-banner.png"]).map(
-																					(item, index) => (
-																						<SwiperSlide
-																							key={index}
-																							onClick={() => handleClick(property.slug)} // <-- FIX: now it's a function
-																							style={{ cursor: "pointer" }} // <-- Make it look clickable
-																						>
-																							<img
-																								src={item}
-																								alt="img-property"
-																								style={{ width: "100%", borderRadius: "8px", minHeight: "300px", maxHeight: "300px" }}
-																							/>
-																						</SwiperSlide>
-																					)
-																				)}
-																			</Swiper>
-																		</div>
-																		<div className="top">
-																			<ul className="d-flex gap-8">
-																				<li className="flag-tag style-1">{t(property.transaction)}</li>
-																			</ul>
-																			{/* <ul className="d-flex gap-4">
+																			<div className="images-style">
+																				<Swiper
+																					modules={[Navigation]}
+																					slidesPerView={1}
+																					loop={property.picture.length > 1}
+																					navigation={property.picture.length > 1}
+																					className="property-slider"
+																				>
+																					{(property.picture.length > 0 ? property.picture : ["/images/banner/no-banner.png"]).map(
+																						(item, index) => (
+																							<SwiperSlide
+																								key={index}
+																								onClick={() => handleClick(property.slug)} // <-- FIX: now it's a function
+																								style={{ cursor: "pointer" }} // <-- Make it look clickable
+																							>
+																								<img
+																									src={item}
+																									alt="img-property"
+																									style={{ width: "100%", borderRadius: "8px", minHeight: "300px", maxHeight: "300px" }}
+																								/>
+																							</SwiperSlide>
+																						)
+																					)}
+																				</Swiper>
+																			</div>
+																			<div className="top">
+																				<ul className="d-flex gap-8">
+																					<li className="flag-tag style-1">{t(property.transaction)}</li>
+																				</ul>
+																				{/* <ul className="d-flex gap-4">
 																	<li className="box-icon w-32">
 																		<span className="icon icon-arrLeftRight" />
 																	</li>
@@ -1377,123 +1383,123 @@ export default function PropertyHalfmapList() {
 																		<span className="icon icon-eye" />
 																	</li>
 																</ul> */}
+																			</div>
+																			<div className="left-side">
+																				<ul className="d-flex gap-8">
+																					<li className={`${property.like ? "liked" : "w-40 box-icon"}`} onClick={() => handleLike(property.like, property.id, property.user_id)}>
+																						<span className="icon icon-heart" style={{ fontSize: "30px" }} />
+																					</li>
+																				</ul>
+																			</div>
+																			<div className="bottom">
+																				<span className="flag-tag style-2">{property.type_details.title}</span>
+																			</div>
 																		</div>
-																		<div className="left-side">
-																			<ul className="d-flex gap-8">
-																				<li className={`${property.like ? "liked" : "w-40 box-icon"}`} onClick={() => handleLike(property.like, property.id, property.user_id)}>
-																					<span className="icon icon-heart" style={{ fontSize: "30px" }} />
-																				</li>
-																			</ul>
-																		</div>
-																		<div className="bottom">
-																			<span className="flag-tag style-2">{property.type_details.title}</span>
+																		<div onClick={() => handleClick(property.slug)} className="link">
+																			<div className="content">
+																				<div className="h7 text-capitalize fw-7">
+																					{/* <Link href={`/property/${property.slug}`} className="link"> */}
+																					{property.title}
+																					{/* </Link> */}
+																				</div>
+																				<div className="desc">
+																					<i className="fs-16 icon icon-mapPin" />
+																					<p>{[property?.district, property?.city, property?.state]
+																						.filter(Boolean)
+																						.join(', ')} </p>
+
+																				</div>
+																				<ul className="meta-list">
+																					<li className="item">
+																						<i className="icon icon-bed" />
+																						<span>{property.bedRooms === "0" ? '-' : `${property.bedRooms}`}</span>
+																					</li>
+																					<li className="item">
+																						<i className="icon icon-bathtub" />
+																						<span>{property.bathRooms === "0" ? '-' : `${property.bathRooms}`}</span>
+																					</li>
+																					<li className="item">
+																						<i className="icon icon-ruler" />
+																						<span>{property.size === null ? '-' : `${property.size}`}</span>
+																					</li>
+																					<li className="filteration">
+																						<PercentageHeart percentage={property.filter_result.total_percentage} />
+																					</li>
+																				</ul>
+																			</div>
 																		</div>
 																	</div>
 																	<div onClick={() => handleClick(property.slug)} className="link">
-																		<div className="content">
-																			<div className="h7 text-capitalize fw-7">
-																				{/* <Link href={`/property/${property.slug}`} className="link"> */}
-																				{property.title}
-																				{/* </Link> */}
+																		<div className="archive-bottom d-flex justify-content-between align-items-center">
+																			<div className="d-flex gap-8 align-items-center">
+																				<div className="avatar avt-40 round">
+																					<img src={property.user_image || '/images/avatar/user-image.png'} alt="user" />
+																				</div>
+																				<span>{property.user_name}</span>
 																			</div>
-																			<div className="desc">
-																				<i className="fs-16 icon icon-mapPin" />
-																				<p>{[property?.district, property?.city, property?.state]
-																					.filter(Boolean)
-																					.join(', ')} </p>
-
+																			<div className="d-flex align-items-center">
+																				<h6>{property.price} {property.currency}</h6>
+																				<span className="text-variant-1"></span>
 																			</div>
-																			<ul className="meta-list">
-																				<li className="item">
-																					<i className="icon icon-bed" />
-																					<span>{property.bedRooms === "0" ? '-' : `${property.bedRooms}`}</span>
-																				</li>
-																				<li className="item">
-																					<i className="icon icon-bathtub" />
-																					<span>{property.bathRooms === "0" ? '-' : `${property.bathRooms}`}</span>
-																				</li>
-																				<li className="item">
-																					<i className="icon icon-ruler" />
-																					<span>{property.size === null ? '-' : `${property.size}`}</span>
-																				</li>
-																				<li className="filteration">
-																					<PercentageHeart percentage={property.filter_result.total_percentage} />
-																				</li>
-																			</ul>
-																		</div>
-																	</div>
-																</div>
-																<div onClick={() => handleClick(property.slug)} className="link">
-																	<div className="archive-bottom d-flex justify-content-between align-items-center">
-																		<div className="d-flex gap-8 align-items-center">
-																			<div className="avatar avt-40 round">
-																				<img src={property.user_image || '/images/avatar/user-image.png'} alt="user" />
-																			</div>
-																			<span>{property.user_name}</span>
-																		</div>
-																		<div className="d-flex align-items-center">
-																			<h6>{property.price} {property.currency}</h6>
-																			<span className="text-variant-1"></span>
 																		</div>
 																	</div>
 																</div>
 															</div>
-														</div>
-													))}
-												</div>
+														))}
+													</div>
 
-											)}
+												)}
+											</div>
+											<ul className="wd-navigation">
+												{Array.from({ length: pagination.totalPages }, (_, index) => (
+													<li key={index}>
+														<Link
+															href="#"
+															className={`nav-item ${pagination.currentPage === index + 1 ? 'active' : ''}`}
+															onClick={() => handlePageChange(index + 1)}
+														>
+															{index + 1}
+														</Link>
+													</li>
+												))}
+											</ul>
 										</div>
-										<ul className="wd-navigation">
-											{Array.from({ length: pagination.totalPages }, (_, index) => (
-												<li key={index}>
-													<Link
-														href="#"
-														className={`nav-item ${pagination.currentPage === index + 1 ? 'active' : ''}`}
-														onClick={() => handlePageChange(index + 1)}
-													>
-														{index + 1}
-													</Link>
-												</li>
-											))}
-										</ul>
-									</div>
-									<div className={(isSwitch) ? "wrap-map map-section-hide" : "wrap-map"}>
-										<ProjectMap topmap={false} singleMap={false} propertys={propertys} slug="property" />
+										<div className={(isSwitch) ? "wrap-map map-section-hide" : "wrap-map"}>
+											<ProjectMap topmap={false} singleMap={false} propertys={propertys} slug="property" />
+										</div>
 									</div>
 								</div>
+
+							</div >
+						</section >
+
+					</Layout >
+
+					{isModelOpen && (
+						<div className="modal" style={{ display: 'block', position: 'fixed', zIndex: 1000, top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+							<div className="modal-content-alert login-alert-sec" >
+								<>
+									<img
+										src="/images/logo/logo.svg" // Replace with your actual image path
+										alt="Logo"
+										style={{ width: '150px', marginBottom: '15px' }}
+									/><br></br>
+									<h4>{t('loginAlert')}</h4>
+									<p>{t('loginText')}</p>
+									<div className="modal-buttons">
+										<button className="tf-btn primary" onClick={() => {
+											closeModal();
+											setLogin(true)
+										}}>{t("login")}</button>
+										<button className="tf-btn primary" onClick={() => setIsModelOpen(false)} style={{ marginLeft: '15px' }}>{t("cancel")}</button>
+									</div>
+								</>
 							</div>
-
-						</div >
-					</section >
-
-				</Layout >
-
-				{isModelOpen && (
-					<div className="modal" style={{ display: 'block', position: 'fixed', zIndex: 1000, top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
-						<div className="modal-content-alert login-alert-sec" >
-							<>
-								<img
-									src="/images/logo/logo.svg" // Replace with your actual image path
-									alt="Logo"
-									style={{ width: '150px', marginBottom: '15px' }}
-								/><br></br>
-								<h4>{t('loginAlert')}</h4>
-								<p>{t('loginText')}</p>
-								<div className="modal-buttons">
-									<button className="tf-btn primary" onClick={() => {
-										closeModal();
-										setLogin(true)
-									}}>{t("login")}</button>
-									<button className="tf-btn primary" onClick={() => setIsModelOpen(false)} style={{ marginLeft: '15px' }}>{t("cancel")}</button>
-								</div>
-							</>
 						</div>
-					</div>
-				)}
-				{showLoginModal && <ModalLoginLike isLogin={isLogin} handleLogin={handleLogin} />}
-			</>
-		}
+					)}
+					{showLoginModal && <ModalLoginLike isLogin={isLogin} handleLogin={handleLogin} />}
+				</>
+			}
 		</>
 	)
 }
