@@ -427,7 +427,7 @@ export default function ProjectDetailsView({ params }) {
 											<div className="h7 title fw-7">{t("video")}</div>
 											<div className="img-video">
 												{/* <img src="/images/banner/img-video.jpg" alt="img-video" /> */}
-												{(projectDetails?.video.endsWith(".mp4") ?
+												{/* {(projectDetails?.video.endsWith(".mp4") ?
 													<video height="500" controls>
 														<source src={projectDetails?.video} type="video/mp4" />
 														Your browser does not support the video tag.
@@ -442,7 +442,33 @@ export default function ProjectDetailsView({ params }) {
 														referrerpolicy="strict-origin-when-cross-origin"
 														allowfullscreen>
 													</iframe>
+												)} */}
+												{projectDetails?.video ? (
+													projectDetails.video.endsWith(".mp4") ? (
+														<video height="500" width="100%" controls>
+															<source src={projectDetails.video} type="video/mp4" />
+															Your browser does not support the video tag.
+														</video>
+													) : (
+														<iframe
+															height="500"
+															width="100%"
+															src={
+																projectDetails.video.includes("watch?v=")
+																	? projectDetails.video.replace("watch?v=", "embed/")
+																	: projectDetails.video
+															}
+															title="Immofind"
+															frameBorder="0"
+															allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+															referrerPolicy="strict-origin-when-cross-origin"
+															allowFullScreen
+														/>
+													)
+												) : (
+													<p>No video available</p>
 												)}
+
 												{/* <Video type="youtube" link={properties.video} /> <Video type="mp4" link={properties.video} /> */}
 												{/* <Video type="youtube" link="http://localhost:7000/uploads/big_buck_bunny_720p_2mb.mp4" /> */}
 											</div>

@@ -4,10 +4,11 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react';
 import { useTranslation } from "react-i18next";
+import { useRouter } from 'next/navigation';
 
-export default function MobileMenu() {
+export default function MobileMenu(data) {
 	const pathname = usePathname()
-	const [currentMenuItem, setCurrentMenuItem] = useState("")
+	const [currentMenuItem, setCurrentMenuItem] = useState("false")
 	const { t } = useTranslation();
 	useEffect(() => {
 		setCurrentMenuItem(pathname)
@@ -29,29 +30,50 @@ export default function MobileMenu() {
 		// For other paths, check if pathname starts with the given path
 		return pathname.startsWith(path) ? "nav-link-item active" : "nav-link-item";
 	};
+	const router = useRouter();
+	const handelSideMenuClick = (link) => {
+		!data.menuStatus ? document.body.classList.add("mobile-menu-visible") : document.body.classList.remove("mobile-menu-visible")
+		router.push(link);
+	}
 	return (
 		<>
 			<div className="menu-outer">
 				<div className="navbar-collapse collapse clearfix" id="navbarSupportedContent">
 					<ul className="navigation clearfix">
 						<li className={isActive('/')}>
-							<Link href="/">{t("home")}</Link>
+							<div
+								onClick={() => handelSideMenuClick("/")}
+								className="cust-menu-link">
+								{t("home")}
+							</div>
 						</li>
-
 						{/* <li className={isActive('/property')}>
 							<Link href="/property">{t("property")}</Link>
 						</li> */}
 						<li className={isActive('/project')}>
-							<Link href="/project">{t("project")}</Link>
+							<div
+								onClick={() => handelSideMenuClick("/project")}
+								className="cust-menu-link">
+								{t("project")}
+							</div>
 						</li>
 						<li className={isActive('/developer')}>
-							<Link href="/developer">{t("developer")}</Link>
+							<div onClick={() => handelSideMenuClick("/developer")}
+								className="cust-menu-link" >
+								{t("developer")}
+							</div>
 						</li>
 						<li className={isActive('/agency')}>
-							<Link href="/agency">{t("agency")}</Link>
+							<div onClick={() => handelSideMenuClick("/agency")}
+								className="cust-menu-link" >
+								{t("agency")}
+							</div>
 						</li>
 						<li className={isActive('/blog')}>
-							<Link href="/blog">{t("blog")}</Link>
+							<div onClick={() => handelSideMenuClick("/blog")}
+								className="cust-menu-link" >
+								{t("blog")}
+							</div>
 						</li>
 					</ul>
 					{ /*

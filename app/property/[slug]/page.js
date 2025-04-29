@@ -311,7 +311,7 @@ export default function PropertyDetailsV1({ params }) {
 
 	const handleComment = async () => {
 		const token = localStorage.getItem('token');
-		
+
 		if (!token) {
 			setIsModelOpen(true);
 			return;
@@ -626,7 +626,7 @@ export default function PropertyDetailsV1({ params }) {
 											<div className="single-property-element single-property-video">
 												<div className="h7 title fw-7">{t("video")}</div>
 												<div className="img-video">
-													{(properties.video.endsWith(".mp4") ?
+													{/* {(properties.video.endsWith(".mp4") ?
 														<video height="500" controls>
 															<source src={properties.video} type="video/mp4" />
 														</video>
@@ -640,7 +640,33 @@ export default function PropertyDetailsV1({ params }) {
 															referrerpolicy="strict-origin-when-cross-origin"
 															allowfullscreen>
 														</iframe>
+													)} */}
+													{properties?.video ? (
+														properties.video.endsWith(".mp4") ? (
+															<video height="500" width="100%" controls>
+																<source src={properties.video} type="video/mp4" />
+																Your browser does not support the video tag.
+															</video>
+														) : (
+															<iframe
+																height="500"
+																width="100%"
+																src={
+																	properties.video.includes("watch?v=")
+																		? properties.video.replace("watch?v=", "embed/")
+																		: properties.video
+																}
+																title="Immofind"
+																frameBorder="0"
+																allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+																referrerPolicy="strict-origin-when-cross-origin"
+																allowFullScreen
+															/>
+														)
+													) : (
+														<p>No video available</p>
 													)}
+
 												</div>
 											</div>
 										</>
@@ -760,54 +786,54 @@ export default function PropertyDetailsV1({ params }) {
 											</ul>
 
 										</div>
-										
-											<div className="wrap-form-comment">
-												<div className="h7">{t("leaveareply")}</div>
-												<div id="comments" className="comments">
-													<div className="respond-comment">
-														<form method="post" id="contactform" className="comment-form form-submit" acceptCharset="utf-8" noValidate="novalidate">
 
-															<fieldset className="form-wg">
-																<div>
-																	<div style={{ display: "flex", justifyContent: "space-between" }}>
-																		<div>
-																			<label className="sub-ip">{t("review")}</label>
-																		</div>
-																		<div>
-																			{[1, 2, 3, 4, 5].map((star) => (
-																				<img
-																					key={star}
-																					src={star <= rating ? "/images/logo/star-solid.svg" : "/images/logo/star-blank.svg"}
-																					alt="star"
-																					style={{ width: "25px", cursor: "pointer" }}
-																					onClick={() => setRating(star)}
-																				/>
-																			))}
-																		</div>
+										<div className="wrap-form-comment">
+											<div className="h7">{t("leaveareply")}</div>
+											<div id="comments" className="comments">
+												<div className="respond-comment">
+													<form method="post" id="contactform" className="comment-form form-submit" acceptCharset="utf-8" noValidate="novalidate">
+
+														<fieldset className="form-wg">
+															<div>
+																<div style={{ display: "flex", justifyContent: "space-between" }}>
+																	<div>
+																		<label className="sub-ip">{t("review")}</label>
 																	</div>
 																	<div>
-																		<textarea
-																			id="comment-message"
-																			name="message"
-																			rows={4}
-																			tabIndex={4}
-																			placeholder={t("writecomment")}
-																			aria-required="true"
-																			value={comment}
-																			onChange={(e) => setComment(e.target.value)} // Update state on change
-																		/>
+																		{[1, 2, 3, 4, 5].map((star) => (
+																			<img
+																				key={star}
+																				src={star <= rating ? "/images/logo/star-solid.svg" : "/images/logo/star-blank.svg"}
+																				alt="star"
+																				style={{ width: "25px", cursor: "pointer" }}
+																				onClick={() => setRating(star)}
+																			/>
+																		))}
 																	</div>
 																</div>
-																<button className="form-wg tf-btn primary" name="button" type="button" disabled={comment.trim() === ""} onClick={handleComment}>
-																	<span>{t("postcomment")}</span>
-																</button>
-															</fieldset>
+																<div>
+																	<textarea
+																		id="comment-message"
+																		name="message"
+																		rows={4}
+																		tabIndex={4}
+																		placeholder={t("writecomment")}
+																		aria-required="true"
+																		value={comment}
+																		onChange={(e) => setComment(e.target.value)} // Update state on change
+																	/>
+																</div>
+															</div>
+															<button className="form-wg tf-btn primary" name="button" type="button" disabled={comment.trim() === ""} onClick={handleComment}>
+																<span>{t("postcomment")}</span>
+															</button>
+														</fieldset>
 
-														</form>
-													</div>
+													</form>
 												</div>
 											</div>
-										
+										</div>
+
 
 									</div>
 								</div>

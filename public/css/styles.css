@@ -9658,6 +9658,7 @@ label {
 /*--------------- dashboard ---------------- */
 .header-dashboard {
   padding-left: 20px;
+  padding-top: 15px;
 }
 
 .fixed-header.header-dashboard {
@@ -13832,3 +13833,22 @@ label span {
 /* .project-listing .row .col-md-6{
   width: 538.79px !important;
 } */
+
+.cust-menu-link {
+  font-family: "Josefin Sans", sans-serif;
+  position: relative;
+  display: block;
+  font-weight: 600;
+  line-height: 26px;
+  padding: 10px 0px;
+  font-size: 16px;
+  color: #161e2d;
+  text-transform: capitalize;
+  cursor: pointer; /* 👈 hand icon */
+  transition: color 0.3s ease;
+}
+
+.cust-menu-link:hover,
+.cust-menu-link.active  {
+  color: #00a8c1 !important; 
+}

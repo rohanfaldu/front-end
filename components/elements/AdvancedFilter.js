@@ -421,7 +421,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 			<div className={`wd-find-select ${sidecls ? sidecls : ""}`}>
 				<div className="inner-group">
 					<div className="form-group-1 search-form form-style">
-						<label className="title-select">{t("keyword")}</label>
+						<label className="title-select">{t("location")}</label>
 						<input
 							type="text"
 							className="form-control"

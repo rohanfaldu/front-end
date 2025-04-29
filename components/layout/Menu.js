@@ -4,6 +4,8 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useTranslation } from "react-i18next";
+import { useRouter } from 'next/navigation';
+
 
 export default function Menu() {
 	const pathname = usePathname()
@@ -14,39 +16,62 @@ export default function Menu() {
 		setCurrentMenuItem(pathname)
 	}, [pathname])
 
+	const router = useRouter();
+
 	const checkCurrentMenuItem = (path) => currentMenuItem === path ? "current" : ""
 	const checkParentActive = (paths) => paths.some(path => currentMenuItem.startsWith(path)) ? "current" : ""
 	const isActive = (path) => {
-        // If it's the root '/', ensure it's an exact match
-        if (path === '/') {
-            return pathname === '/' ? "nav-link-item active" : "nav-link-item";
-        }
-        // For other paths, check if pathname starts with the given path
-        return pathname.startsWith(path) ? "nav-link-item active" : "nav-link-item";
-    };
+		// If it's the root '/', ensure it's an exact match
+		if (path === '/') {
+			return pathname === '/' ? "nav-link-item active" : "nav-link-item";
+		}
+		// For other paths, check if pathname starts with the given path
+		return pathname.startsWith(path) ? "nav-link-item active" : "nav-link-item";
+	};
 	return (
 		<>
 			<ul className="navigation clearfix">
 				<li className={isActive('/')}>
-					<Link href="/">{t("home")}</Link>
+					{/* <Link href="/">{t("home")}</Link> */}
+					<div
+						onClick={() => router.push('/')}
+						className="cust-menu-link">
+						{t("home")}
+					</div>
 				</li>
-				
+
 				{/* <li className={isActive('/property')}>
 					<Link href="/property">{t("property")}</Link>
 				</li> */}
 				<li className={isActive('/project')}>
-					<Link href="/project">{t("project")}</Link>
+					<div
+						onClick={() => router.push('/project')}
+						className="cust-menu-link">
+						{t("project")}
+					</div>
 				</li>
 				<li className={isActive('/developer')}>
-					<Link href="/developer">{t("developer")}</Link>
+					<div
+						onClick={() => router.push('/developer')}
+						className="cust-menu-link">
+						{t("developer")}
+					</div>
 				</li>
 				<li className={isActive('/agency')}>
-					<Link href="/agency">{t("agency")}</Link>
+					<div
+						onClick={() => router.push('/agency')}
+						className="cust-menu-link">
+						{t("agency")}
+					</div>
 				</li>
 				<li className={isActive('/blog')}>
-					<Link href="/blog">{t("blog")}</Link>
+					<div
+						onClick={() => router.push('/blog')}
+						className="cust-menu-link">
+						{t("blog")}
+					</div>
 				</li>
-				
+
 			</ul>
 			{ /* 
 			<ul className="navigation clearfix">

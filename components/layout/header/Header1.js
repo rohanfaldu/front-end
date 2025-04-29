@@ -128,11 +128,11 @@ export default function Header1({ scroll, isMobileMenu, handleMobileMenu, isLogi
 									<LanguageSwitcher language={lang} />
 								</div>
 							</div>
-							<MobileMenu />
+							<MobileMenu  menuStatus={isMobileMenu} />
 							{/* <div className="button-mobi-sell">
 								<Link className="tf-btn primary" href="/add-property">Submit Property</Link>
 							</div> */}
-							<div className="mobi-icon-box">
+							{/* <div className="mobi-icon-box">
 								<div className="box d-flex align-items-center">
 									<span className="icon icon-phone2" />
 									<div>1-333-345-6868</div>
@@ -141,7 +141,7 @@ export default function Header1({ scroll, isMobileMenu, handleMobileMenu, isLogi
 									<span className="icon icon-mail" />
 									<div>themesflat@gmail.com</div>
 								</div>
-							</div>
+							</div> */}
 						</div>
 					</nav>
 				</div>
