@@ -125,7 +125,7 @@ export default function CreateProject() {
         };
         fetchData();
         // console.log(stateList);
-    });
+    },[]);
     const handleStateChange = async (stateId) => {
         // console.log('State ID:', stateId);
 

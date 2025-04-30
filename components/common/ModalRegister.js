@@ -163,7 +163,7 @@ export default function ModalRegister({ isRegister, handleRegister, handleLogin 
 												<label htmlFor="pass">{t("password")}<span>*</span>:</label>
 												<Field 
 													type={showPassword ? "text" : "password"}
-													id="password" 
+													id="password_register" 
 													name="password"
 													onChange={handleChange}
 													onBlur={handleBlur} 
@@ -181,7 +181,7 @@ export default function ModalRegister({ isRegister, handleRegister, handleLogin 
 												<label htmlFor="confirmPassword">{t("confirmPassword")}<span>*</span>:</label>
 												<Field
 													type={showConfirmPassword ? 'text' : 'password'}
-													id="confirmPassword"
+													id="confirmPassword_register"
 													name="confirmPassword"
 													onChange={handleChange}
 													onBlur={handleBlur}

@@ -89,7 +89,7 @@ export default function ModalForgotPassword({ isLogin, isForgotPassword, handleF
 										<Form>
 											<fieldset className="box-fieldset">
 												<label htmlFor="name">Email Address<span>*</span>:</label>
-												<Field type="text" id="email_address" name="email_address" className="form-control style-1" />
+												<Field type="text" id="forgot_email_address" name="email_address" className="form-control style-1" />
 												<ErrorMessage name="email_address" component="div" className="error" />
 											</fieldset>
 											

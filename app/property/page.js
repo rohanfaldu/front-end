@@ -259,7 +259,7 @@ export default function PropertyHalfmapList() {
 				direction: propertyFilterData.direction || null,
 			};
 
-			console.log("Extracted Parameters:", params);
+			//console.log("Extracted Parameters:", params);
 
 			setFilters(() => ({
 				...params,
@@ -811,7 +811,7 @@ export default function PropertyHalfmapList() {
 																<input
 																	type="text"
 																	className="form-control"
-																	id="city"
+																	id="city_property"
 																	name="city"
 																	value={searchCity ?? ''}
 																	onChange={handleInputChange}
@@ -983,7 +983,7 @@ export default function PropertyHalfmapList() {
 																<label className="title-select">{t("propertytype")}</label>
 																<select
 																	className="form-control"
-																	id="propertyType"
+																	id="property_type"
 																	name="type_id"
 																	value={filters.type_id ?? ''}
 																	onChange={handleFilterChange}

@@ -37,8 +37,6 @@ export default function Dashboard() {
 				if( localStorage.getItem('isLoggedIn') ){
                     const userDetail = JSON.parse(localStorage.getItem('user'));
 					setUserType(userDetail.roles.name);
-                    const capitalizedString = userDetail.roles.name;
-                    setUserId(capitalizedString)
                 }
 			} catch (error) {
 				console.error('Error fetching data:', error);

@@ -76,8 +76,8 @@ export default function ModalUpdatePassword({isUpdatePassword, handleUpdatePassw
 									{({ errors, touched, handleChange, handleBlur }) => (
 										<Form>
 											<fieldset className="box-fieldset">
-												<label htmlFor="name">Email Address<span>*</span>:</label>
-												<Field type="text" id="email_address" name="email_address" className="form-control style-1" />
+												<label htmlFor="update_email_address">Email Address<span>*</span>:</label>
+												<Field type="text" id="update_email_address" name="email_address" className="form-control style-1" />
 												<ErrorMessage name="email_address" component="div" className="error" />
 											</fieldset>
                                             <fieldset className="box-fieldset">
@@ -89,7 +89,7 @@ export default function ModalUpdatePassword({isUpdatePassword, handleUpdatePassw
 												<label htmlFor="pass">Password<span>*</span>:</label>
 												<Field 
 													type={showPassword ? "text" : "password"}
-													id="password" 
+													id="password_update" 
 													name="password"
 													onChange={handleChange}
 													onBlur={handleBlur} 
@@ -104,10 +104,10 @@ export default function ModalUpdatePassword({isUpdatePassword, handleUpdatePassw
 												<ErrorMessage name="password" component="div" className="error" />
 											</fieldset>
 											<fieldset className="box-fieldset">
-												<label htmlFor="confirmPassword">Confirm Password<span>*</span>:</label>
+												<label htmlFor="confirm_password_update">Confirm Password<span>*</span>:</label>
 												<Field
 													type={showConfirmPassword ? 'text' : 'password'}
-													id="confirmPassword"
+													id="confirm_password_update"
 													name="confirmPassword"
 													onChange={handleChange}
 													onBlur={handleBlur}

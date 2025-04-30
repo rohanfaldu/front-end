@@ -254,8 +254,8 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 								{({ errors, touched, handleChange, handleBlur }) => (
 										<Form>
 											<fieldset className="box-fieldset">
-												<label htmlFor="name">{t("emailAddress")}<span>*</span>:</label>
-												<Field type="text" id="email_address" name="email_address" className="form-control style-1" />
+												<label htmlFor="login_email_address">{t("emailAddress")}<span>*</span>:</label>
+												<Field type="text" id="login_email_address" name="email_address" className="form-control style-1" />
 												<ErrorMessage name="email_address" component="div" className="error" />
 											</fieldset>
 											<fieldset className="box-fieldset">
