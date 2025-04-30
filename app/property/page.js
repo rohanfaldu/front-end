@@ -201,39 +201,65 @@ export default function PropertyHalfmapList() {
 		pagination.currentPage = 1;
 	}
 
+	//const isApiCalled = useRef(false);
+
 	useEffect(() => {
+		//if (isApiCalled.current) return;
 		setLoading(true);
 		setTransaction(localStorage.getItem("transaction"));
-		const url = window.location.href;
-		const urlParams = new URLSearchParams(new URL(url).search);
+		const propertyFilterData = JSON.parse(localStorage.getItem('propertyFilterData'));
+		// const url = window.location.href;
+		// const urlParams = new URLSearchParams(new URL(url).search);
 		//console.log('urlParams: ', urlParams.get("city_status"));
-		if (urlParams.size !== 0) {
+		if (propertyFilterData && typeof propertyFilterData === 'object') {
 			setCheckURL(true);
+			// const params = {
+			// 	title: urlParams.get("title") || null,
+			// 	description: urlParams.get("description") || null,
+			// 	type_id: urlParams.get("type_id") || null,
+			// 	city: urlParams.get("city") || null,
+			// 	city_name: urlParams.get("city_name") || null,
+			// 	city_slug: urlParams.get("city_slug") || null,
+			// 	district_name: urlParams.get("district_name") || null,
+			// 	neighbourhood_name: urlParams.get("neighbourhood_name") || null,
+			// 	district: urlParams.get("district") || null,
+			// 	neighbourhood: urlParams.get("neighbourhood") || null,
+			// 	minPrice: urlParams.get("minPrice") !== "undefined" ? urlParams.get("minPrice") : priceRange[0],
+			// 	maxPrice: urlParams.get("maxPrice") !== "undefined" ? urlParams.get("maxPrice") : priceRange[1],
+			// 	minSize: urlParams.get("minSize") !== "undefined" ? urlParams.get("minSize") : sizeRange[0],
+			// 	maxSize: urlParams.get("maxSize") !== "undefined" ? urlParams.get("maxSize") : sizeRange[1],
+			// 	amenities_id_object_with_value: urlParams.get("amenities_id_object_with_value")
+			// 		? JSON.parse(urlParams.get("amenities_id_object_with_value"))
+			// 		: null,
+			// 	amenities_id_array: urlParams.get("amenities_id_array") || null,
+			// 	developer_id: urlParams.get("developer_id") || null,
+			// 	direction: urlParams.get("direction") || null,
+			// };
+
 			const params = {
-				title: urlParams.get("title") || null,
-				description: urlParams.get("description") || null,
-				type_id: urlParams.get("type_id") || null,
-				city: urlParams.get("city") || null,
-				city_name: urlParams.get("city_name") || null,
-				city_slug: urlParams.get("city_slug") || null,
-				district_name: urlParams.get("district_name") || null,
-				neighbourhood_name: urlParams.get("neighbourhood_name") || null,
-				district: urlParams.get("district") || null,
-				neighbourhood: urlParams.get("neighbourhood") || null,
-				minPrice: urlParams.get("minPrice") !== "undefined" ? urlParams.get("minPrice") : priceRange[0],
-				maxPrice: urlParams.get("maxPrice") !== "undefined" ? urlParams.get("maxPrice") : priceRange[1],
-				minSize: urlParams.get("minSize") !== "undefined" ? urlParams.get("minSize") : sizeRange[0],
-				maxSize: urlParams.get("maxSize") !== "undefined" ? urlParams.get("maxSize") : sizeRange[1],
-				amenities_id_object_with_value: urlParams.get("amenities_id_object_with_value")
-					? JSON.parse(urlParams.get("amenities_id_object_with_value"))
+				title: propertyFilterData.title || null,
+				description: propertyFilterData.description || null,
+				type_id: propertyFilterData.type_id || null,
+				city: propertyFilterData.city || null,
+				city_name: propertyFilterData.city_name || null,
+				city_slug: propertyFilterData.city_slug || null,
+				district_name: propertyFilterData.district_name || null,
+				neighbourhood_name: propertyFilterData.neighbourhood_name || null,
+				district: propertyFilterData.district || null,
+				neighbourhood: propertyFilterData.neighbourhood || null,
+				minPrice: propertyFilterData.minPrice !== "undefined" ? propertyFilterData.minPrice : priceRange[0],
+				maxPrice: propertyFilterData.maxPrice !== "undefined" ? propertyFilterData.maxPrice : priceRange[1],
+				minSize: propertyFilterData.minSize !== "undefined" ? propertyFilterData.minSize : sizeRange[0],
+				maxSize: propertyFilterData.maxSize !== "undefined" ? propertyFilterData.maxSize : sizeRange[1],
+				amenities_id_object_with_value: propertyFilterData.amenities_id_object_with_value
+					? JSON.parse(propertyFilterData.amenities_id_object_with_value)
 					: null,
-				amenities_id_array: urlParams.get("amenities_id_array") || null,
-				developer_id: urlParams.get("developer_id") || null,
-				direction: urlParams.get("direction") || null,
+				amenities_id_array: propertyFilterData.amenities_id_array || null,
+				developer_id: propertyFilterData.developer_id || null,
+				direction: propertyFilterData.direction || null,
 			};
 
 			console.log("Extracted Parameters:", params);
-
 
 			setFilters(() => ({
 				...params,
@@ -333,10 +359,11 @@ export default function PropertyHalfmapList() {
 				}
 			};
 			getFilterData(pagination.currentPage);
-
+			//isApiCalled.current = true;
 		} else {
 			//  fetchPropertys(pagination.currentPage);
 			handleSubmit(pagination.currentPage);
+			//isApiCalled.current = true;
 		}
 
 
@@ -591,6 +618,7 @@ export default function PropertyHalfmapList() {
 
 
 	const handlePageChange = (page) => {
+		console.log(pagination,'>>>>>>>>> pagination');
 		setPagination({ ...pagination, currentPage: page });
 	};
 
@@ -615,12 +643,13 @@ export default function PropertyHalfmapList() {
 
 	const filteredProperties = propertys.filter(property => property.status).reverse(); // Reverse before mapping
 	const lastPropertyId = filteredProperties.length > 0 ? filteredProperties[0].id : null; // First item is now the last one
-	const handleSubmit = async (page = pagination.currentPage) => {
-		// console.log(addressLatLong, "/////////////////")
-		setCalculationStatus(true)
-		// console.log("Filters:", filters);
-		setLoading(true);
+	const handleSubmit = async (event, page = pagination.currentPage) => {
 
+		const form = event.target;
+		const formData = new FormData(form);
+		setCalculationStatus(true);
+		setLoading(true);
+		const selctCityId = (formData.get('city'))? filters.city : null;
 		const lang = i18n.language;
 		const requestData = {
 			page,
@@ -629,7 +658,7 @@ export default function PropertyHalfmapList() {
 
 			title: filters.title,
 			description: filters.description,
-			city_id: filters.city,
+			city_id: selctCityId,
 			district_id: filters.district,
 			neighborhoods_id: filters.neighbourhood,
 			type_id: filters.type_id,
@@ -717,7 +746,7 @@ export default function PropertyHalfmapList() {
 					<Layout headerStyle={1} footerStyle={1}>
 						<section className="wrapper-layout-3 property-sec">
 							<div className="wrap-sidebar property-inner-sec">
-								<form method="post" className="property-form" onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
+								<form method="post" className="property-form" onSubmit={(e) => { e.preventDefault(); handleSubmit(e); }}>
 									<div className="flat-tab flat-tab-form widget-filter-search property-filter">
 										<div>
 

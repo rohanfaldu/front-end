@@ -8,6 +8,7 @@ import { getData, insertData } from "../../components/api/Helper";
 import ReactSlider from "react-slider"
 import debounce from "lodash.debounce";
 import { formatPropertyPrice } from "@/components/common/Functions";
+import { useRouter } from 'next/navigation';
 
 export default function AdvancedFilter({ sidecls, propertiesData }) {
 	const [isToggled, setToggled] = useState(false);
@@ -79,10 +80,8 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 		maxSize: sizeRange[1],
 		amenities_id_object_with_value: {},
 		amenities_id_array: [],
-
-
 	});
-
+	const router = useRouter();
 	const handleInputChange = (e) => {
 		const { name, value } = e.target;
 		setFormData((prevData) => ({
@@ -398,7 +397,6 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 		fetchDistrictOptions(searchTermDistrict)
 		fetchNeighbourhoodOptions(searchTermNeighbourhood)
 	}, [pagination.currentPage, i18n.language, transaction, searchTerm, searchTermDistrict, searchTermNeighbourhood, searchTermTitle]);
-
 	const passingData = () => {
 		
 		// Create a shallow copy of formData
@@ -412,7 +410,9 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 		// console.log('queryString: ', queryString);
 
 		// Update the URL
-		window.location.href = `/property?${queryString}`;
+		// window.location.href = `/property?${queryString}`;
+		localStorage.setItem('propertyFilterData', JSON.stringify(queryData));
+		router.push(`/property/`);
 	};
 
 	const handleToggle = () => setToggled(!isToggled);
