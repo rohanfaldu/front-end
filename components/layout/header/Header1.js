@@ -132,16 +132,16 @@ export default function Header1({ scroll, isMobileMenu, handleMobileMenu, isLogi
 							{/* <div className="button-mobi-sell">
 								<Link className="tf-btn primary" href="/add-property">Submit Property</Link>
 							</div> */}
-							{/* <div className="mobi-icon-box">
+							<div className="mobi-icon-box">
 								<div className="box d-flex align-items-center">
 									<span className="icon icon-phone2" />
-									<div>1-333-345-6868</div>
+									<div>+212-661-70-17-87</div>
 								</div>
 								<div className="box d-flex align-items-center">
 									<span className="icon icon-mail" />
-									<div>themesflat@gmail.com</div>
+									<div>immofindmaroc@gmail.com</div>
 								</div>
-							</div> */}
+							</div>
 						</div>
 					</nav>
 				</div>

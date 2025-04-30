@@ -19,8 +19,8 @@ export default function Footer1() {
 								<ul className="list-social d-flex align-items-center">
 									<li><Link href="#" className="box-icon w-40 social"><i className="icon icon-facebook" /></Link></li>
 									<li><Link href="#" className="box-icon w-40 social"><i className="icon icon-linkedin" /></Link></li>
-									<li><Link href="#" className="box-icon w-40 social"><i className="icon icon-twitter" /></Link></li>
-									<li><Link href="#" className="box-icon w-40 social"><i className="icon icon-pinterest" /></Link></li>
+									{/* <li><Link href="#" className="box-icon w-40 social"><i className="icon icon-twitter" /></Link></li> */}
+									{/* <li><Link href="#" className="box-icon w-40 social"><i className="icon icon-pinterest" /></Link></li> */}
 									<li><Link href="#" className="box-icon w-40 social"><i className="icon icon-instagram" /></Link></li>
 									<li><Link href="#" className="box-icon w-40 social"><i className="icon icon-youtube" /></Link></li>
 								</ul>

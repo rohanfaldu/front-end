@@ -8,6 +8,7 @@ import ProjectMap from "@/components/elements/ProjectMap"
 import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import L from 'leaflet';
 import "leaflet/dist/leaflet.css";
+import { formatPropertyPrice } from "@/components/common/Functions";
 
 import Image from "next/image";
 const toCapitalCase = (str) => {
@@ -311,7 +312,7 @@ export default function PropertyDetailsV1({ params }) {
 
 	const handleComment = async () => {
 		const token = localStorage.getItem('token');
-
+		console.log('Here');
 		if (!token) {
 			setIsModelOpen(true);
 			return;
@@ -414,7 +415,7 @@ export default function PropertyDetailsV1({ params }) {
 
 
 	const handleLogin = () => {
-		// // console.log(isLogin, "///////////////////////////")
+		console.log(isLogin, "///////////////////////////")
 		setLogin(!isLogin)
 		!isLogin ? document.body.classList.add("modal-open") : document.body.classList.remove("modal-open")
 	}
@@ -527,14 +528,14 @@ export default function PropertyDetailsV1({ params }) {
 										)}
 										<h4 className="title link">{properties.title}</h4>
 									</div>
-									<div className="box-price d-flex align-items-center" style={{ width: "20%", justifyContent: "space-between" }}>
+									<div className="box-price d-flex align-items-center" style={{ justifyContent: "space-between" }}>
 										<div>
 											{(matching !== undefined) ? (
 												<PercentageHeart percentage={matching} />
 											) : null}
 										</div>
 										<div>
-											<h4>{properties.price} {properties.currency}</h4>
+											<h4>{formatPropertyPrice(properties.price)} {properties.currency}</h4>
 										</div>
 										{/* <span className="body-1 text-variant-1">/month</span> */}
 									</div>
@@ -917,7 +918,7 @@ export default function PropertyDetailsV1({ params }) {
 							<h4>{t('loginAlert')}</h4>
 							<p>{t('loginText')}</p>
 							<div className="modal-buttons">
-								<button className="tf-btn primary" onClick={() => {
+								<button className="tf-btn primary" onClick={() => {{}
 									closeModal();
 									setLogin(true)
 								}}>{t("login")}</button>

@@ -44,3 +44,8 @@ export function checkURL(url) {
     return false;
   }
 }
+
+export function formatPropertyPrice(amount){
+  const number = parseFloat(amount.toString().replace(/[^\d]/g, ''));
+  return new Intl.NumberFormat('fr-FR').format(number);
+};

@@ -41,7 +41,7 @@ export default function AgencyListing() {
 		totalCount: 0,
 		totalPages: 0,
 		currentPage: variablesList.currentPage,
-		itemsPerPage: 8,
+		itemsPerPage: 9,
 	}); // Track pagination info
 	const [filters, setFilters] = useState({
 		title: '',

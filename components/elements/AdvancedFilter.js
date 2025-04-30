@@ -7,6 +7,7 @@ import variablesList from "../common/Variable";
 import { getData, insertData } from "../../components/api/Helper";
 import ReactSlider from "react-slider"
 import debounce from "lodash.debounce";
+import { formatPropertyPrice } from "@/components/common/Functions";
 
 export default function AdvancedFilter({ sidecls, propertiesData }) {
 	const [isToggled, setToggled] = useState(false);
@@ -687,8 +688,8 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 							/>
 							<div className="group-range-title mt-2">
 								<label className="d-flex justify-content-between mb-0">
-									<span>1000DH</span>
-									<span>{priceRange[1]}DH</span>
+									{ (priceRange[0] !== undefined  )? ( <span>{formatPropertyPrice(priceRange[0])} DH</span> ) : null}
+									{ (priceRange[1] !== undefined  )? ( <span>{formatPropertyPrice(priceRange[1])} DH</span> ) : null}
 								</label>
 							</div>
 						</div>

@@ -125,9 +125,9 @@ export default function Header3({ scroll, isSidebar, handleSidebar, isMobileMenu
 						<div className="nav-logo"><img src="/images/logo/logo.svg" alt="nav-logo" width={174} height={44} /></div>
 						<div className="bottom-canvas">
 							<MobileMenu />
-							<div className="button-mobi-sell">
+							{/* <div className="button-mobi-sell">
 								<Link className="tf-btn primary" href="#">Submit Property</Link>
-							</div>
+							</div> */}
 							<div className="mobi-icon-box">
 								<div className="box d-flex align-items-center">
 									<span className="icon icon-phone2" />

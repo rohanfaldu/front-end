@@ -20,6 +20,7 @@ import ProjectMap from "@/components/elements/ProjectMap"
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import PercentageHeart from "@/components/elements/PercentageHeart";
+import { formatPropertyPrice } from "@/components/common/Functions";
 
 export default function PropertyHalfmapList() {
 	const [isToggled, setToggled] = useState(false)
@@ -831,7 +832,7 @@ export default function PropertyHalfmapList() {
 
 																{(searchTerm.length > 0 || isFocused) && (
 																	cityOptions.length > 0 && (
-																		<ul className="city-dropdown form-style" style={{ marginTop: "0px", width: "80%", position: "absolute" }}>
+																		<ul className="city-dropdown form-style" style={{ marginTop: "0px", width: "100%", position: "relative" }}>
 																			{cityOptions.map((city) => (
 																				<li
 																					key={city.id}
@@ -1023,8 +1024,8 @@ export default function PropertyHalfmapList() {
 
 																	<div className="group-range-title mt-2">
 																		<label className="d-flex justify-content-between mb-0">
-																			<span>1000DH</span>
-																			<span>{priceRange[1]}DH</span>
+																			<span>{formatPropertyPrice(priceRange[0])} DH</span>
+																			<span>{formatPropertyPrice(priceRange[1])} DH</span>
 																		</label>
 																	</div>
 																</div>
@@ -1438,8 +1439,8 @@ export default function PropertyHalfmapList() {
 																				<span>{property.user_name}</span>
 																			</div>
 																			<div className="d-flex align-items-center">
-																				<h6>{property.price} {property.currency}</h6>
-																				<span className="text-variant-1"></span>
+																			<h6>{formatPropertyPrice(property.price)} {property.currency}</h6>
+																			<span className="text-variant-1"></span>
 																			</div>
 																		</div>
 																	</div>

@@ -12,11 +12,14 @@ const LanguageSwitcher = () => {
     setGetlang(savedLang);
   }, [i18n]);
 
-  // Function to change the language
+  // Function to change the language and close mobile menu
   const changeLanguage = (lang) => {
     i18n.changeLanguage(lang);
     setGetlang(lang); // Update local state
     localStorage.setItem("lang", lang); // Persist language in localStorage
+
+    // Close mobile menu if open
+    document.body.classList.remove("mobile-menu-visible");
   };
 
   return (

@@ -7956,6 +7956,15 @@ label {
     overflow-x: hidden;
     overflow-y: auto;
   }
+  .show-password {
+    top: 40% !important;
+  }
+}
+
+@media (max-width: 1024px) {
+  .show-password {
+    top: 40% !important;
+  }
 }
 
 .wrapper-layout-3 .wrap-inner::-webkit-scrollbar {
@@ -10686,6 +10695,9 @@ tr {
     -o-transition: all 0.3s ease;
     transition: all 0.3s ease;
   }
+  .project-listing .col-md-6{
+    width: 100%;
+  }
 }
 
 @media only screen and (max-width: 1350px) {
@@ -11816,6 +11828,9 @@ tr {
   }
   .user-social-icons .info-box, .agency .tab-content .info-box {
     justify-content: center;
+  }
+  .show-password {
+    top: 40% !important;
   }
 }
 
@@ -13261,7 +13276,7 @@ footer {
 
   /* Your styles for screens larger than 1440px */
   .flat-property-detail {
-    margin-top: 5%;
+    /* margin-top: 5%; */
   }
 }
 
@@ -13299,7 +13314,7 @@ footer {
   }
 
   .property-sec.wrapper-layout-3 .wrap-map {
-    width: 30%;
+    width: 50%;
     position: relative;
     height: auto !important;
   }
@@ -13384,10 +13399,11 @@ footer {
 }
 
 .radio-label {
-  display: flex;
-  align-items: center;
+  display: flex !important;
+  align-items: center !important;
   gap: 6px;
   cursor: pointer;
+  padding: 0px 5px;
 }
 
 .aminities-radio-sec label span.radio-text {
@@ -13851,4 +13867,11 @@ label span {
 .cust-menu-link:hover,
 .cust-menu-link.active  {
   color: #00a8c1 !important; 
+}
+
+@media (min-width: 768px) and (max-width: 1440px) {
+  /* Your styles here */
+  .property-sec.wrapper-layout-3 .wrap-map {
+    width: 50%;
+  }
 }

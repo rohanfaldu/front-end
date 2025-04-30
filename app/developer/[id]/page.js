@@ -225,7 +225,7 @@ export default function AgencyDetail({ params }) {
                                                     <li className="item">
                                                         <Link target="_blank" href={developerDetails.facebook_link} className="box-icon w-52"><i className="icon icon-facebook" /></Link>
                                                         <div className="content">
-                                                            <span className="label">Facebook</span>
+                                                            <span className="label"><Link target="_blank" href={developerDetails.facebook_link} className="link">Facebook</Link></span>
                                                         </div>
                                                     </li>
                                                 ) : ''}
@@ -241,7 +241,7 @@ export default function AgencyDetail({ params }) {
                                                     <li className="item">
                                                         <Link target="_blank" href={developerDetails.youtube_link} className="box-icon w-52"><i className="icon icon-youtube" /></Link>
                                                         <div className="content">
-                                                            <span className="label">Youtube</span>
+                                                            <span className="label"><Link target="_blank" href={developerDetails.youtube_link} className="link">Youtube</Link></span>
                                                         </div>
                                                     </li>
                                                 ) : ''}
@@ -257,7 +257,7 @@ export default function AgencyDetail({ params }) {
                                                     <li className="item">
                                                         <Link target="_blank" href={developerDetails.linkedin_link} className="box-icon w-52"><i className="icon icon-linkedin" /></Link>
                                                         <div className="content">
-                                                            <span className="label">linkedin</span>
+                                                            <span className="label"><Link target="_blank" href={developerDetails.linkedin_link} className="link">linkedin</Link></span>
                                                         </div>
                                                     </li>
                                                 ) : ''}
@@ -265,7 +265,7 @@ export default function AgencyDetail({ params }) {
                                                     <li className="item">
                                                         <Link target="_blank" href={developerDetails.instagram_link} className="box-icon w-52"><i className="icon icon-instagram" /></Link>
                                                         <div className="content">
-                                                            <span className="label">instagram</span>
+                                                            <span className="label"><Link target="_blank" href={developerDetails.instagram_link} className="link">Instagram</Link></span>
                                                         </div>
                                                     </li>
                                                 ) : ''}

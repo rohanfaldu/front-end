@@ -17,6 +17,7 @@ import debounce from "lodash.debounce";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import { useRouter } from 'next/navigation';
+import { formatPropertyPrice } from "@/components/common/Functions";
 
 export default function ProjectHalfmapList() {
 	const [isToggled, setToggled] = useState(false)
@@ -369,7 +370,7 @@ export default function ProjectHalfmapList() {
 													</div>
 
 													<div className="form-style">
-														<label className="title-select">{t("keyword")}</label>
+														<label className="title-select">{t("location")}</label>
 														<input
 															type="text"
 															className="form-control"
@@ -400,7 +401,7 @@ export default function ProjectHalfmapList() {
 														/>
 														{(searchTerm.length > 0 || isFocused) && (
 															cityOptions.length > 0 && (
-																<ul className="city-dropdown form-style" style={{ marginTop: "0px", width: "80%", position: "absolute" }}>
+																<ul className="city-dropdown form-style" style={{ marginTop: "0px", width: "100%", position: "relative" }}>
 																	{cityOptions.map((city) => (
 																		<li
 																			key={city.id}
@@ -493,10 +494,7 @@ export default function ProjectHalfmapList() {
 																</ul>
 															)
 														)}
-
-
 													</div> */}
-
 
 													<div className="form-style widget-price">
 														<div className="group-form">
@@ -514,8 +512,8 @@ export default function ProjectHalfmapList() {
 
 															<div className="group-range-title mt-2">
 																<label className="d-flex justify-content-between mb-0">
-																	<span>{priceRange[0]}DH</span>
-																	<span>{priceRange[1]}DH</span>
+																	<span>{ (priceRange[0] !== undefined  )? ( <span>{formatPropertyPrice(priceRange[0])} DH</span> ) : null}</span>
+																	<span>{ (priceRange[1] !== undefined  )? ( <span>{formatPropertyPrice(priceRange[1])} DH</span> ) : null}</span>
 																</label>
 															</div>
 														</div>
@@ -775,7 +773,7 @@ export default function ProjectHalfmapList() {
 																	<span>{project.user_name || 'Unknown Agent'}</span>
 																</div>
 																<div className="d-flex align-items-center">
-																	<h6>{t('from')} {project.price || '0.00'} {project.currency || 'USD'} </h6>
+																<h6>{t('from')} {formatPropertyPrice(project.price || '0')} {project.currency || 'USD'} </h6>
 																</div>
 															</div>
 														</div>

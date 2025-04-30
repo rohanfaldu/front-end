@@ -5,6 +5,8 @@ import { getData } from "../../../components/api/Helper";
 import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import L from 'leaflet';
 import "leaflet/dist/leaflet.css";
+import { formatPropertyPrice } from "@/components/common/Functions";
+
 const toCapitalCase = (str) => {
 	if (!str) return '';
 	return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
@@ -353,7 +355,7 @@ export default function ProjectDetailsView({ params }) {
 										}
 									</h4>
 									<div className="box-price d-flex align-items-center">
-										<h4>{t('from')} {projectDetails.price || '0.00'} {projectDetails.currency || 'USD'} </h4>
+										<h4>{t('from')} {formatPropertyPrice(projectDetails.price || '0')} {projectDetails.currency || 'USD'} </h4>
 										{/* <span className="body-1 text-variant-1">/month</span> */}
 									</div>
 								</div>

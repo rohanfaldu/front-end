@@ -28,6 +28,7 @@ export default function Layout({ headerStyle, hcls, footerStyle, breadcrumbTitle
 	const [isLogin, setLogin] = useState(false)
 	//localStorage.getItem('tokenExpiration')?setLogin(true):setLogin(false);
 	const handleLogin = () => {
+		document.body.classList.remove("mobile-menu-visible");
 		setLogin(!isLogin)
 		!isLogin ? document.body.classList.add("modal-open") : document.body.classList.remove("modal-open")
 	}
