@@ -4,13 +4,19 @@ import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { useMemo } from "react";
+import { useRouter } from 'next/navigation';
 
 export default function MapClusterProject({ topmap, propertys, slug }) {
   // console.log(propertys, '>>>>> propertys Map')
+  const router = useRouter();
   const customMarker = useMemo(() => L.icon({
     iconUrl: "/images/location/map-lo.png",
     iconSize: [30, 30],
   }), []);
+
+  const handleClick = (link) => {
+		router.push(link);
+	};
 
   // ✅ Move CenterMarker INSIDE MapClusterProject
   function CenterMarker({ property }) {
@@ -55,9 +61,13 @@ export default function MapClusterProject({ topmap, propertys, slug }) {
                       .join(', ')}
                   </p>
                   <div className="title">
-                    <a href={`${slug}/${property.slug}`}>
+                    <div 
+                      className="link"
+                      onClick={() => handleClick(`${slug}/${property.slug}`)}
+                      style={{ cursor: "pointer" }}
+                    >
                       {property.title}
-                    </a>
+                    </div>
                   </div>
                   <ul className="list-info">
                     <li><span className="icon icon-bed" /> {property.bedRooms || '-'}</li>

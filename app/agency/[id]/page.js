@@ -114,6 +114,7 @@ import Preloader from '@/components/elements/Preloader';
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "next/navigation";
 import PropertyData from "@/components/sections/PropertyData";
+import ContactPopup from "@/components/elements/ContactPopup";
 export default function AgencyDetail({ params }) {
 	const { id } = params;
 	// console.log(id, ">>>>>>>>>>>>>> SLUG");
@@ -125,6 +126,8 @@ export default function AgencyDetail({ params }) {
 	const [propertiesList, setPropertiesList] = useState([]);
 	const [properties, setProperties] = useState([]);
 	const [contactInfo, setContactInfo] = useState(false);
+	const [iscontactUser, setIscontactUser] = useState(false);
+	const [contactUserDetails, setContactUserDetails] = useState({});
 	const fetchAgencyDetails = async () => {
 		setLoading(true); // Start loading
 		try {
@@ -165,7 +168,15 @@ export default function AgencyDetail({ params }) {
 	const { t, i18n } = useTranslation();
 
 	const handelContactClick = () => {
-        setContactInfo(true)
+        setContactUserDetails({
+            user_name: agencyDetails?.user_name,
+            email_address: agencyDetails?.user_email_adress,
+            country_code: agencyDetails?.user_country_code,
+            mobile_number: agencyDetails?.user_mobile_number,
+            image: agencyDetails?.image && agencyDetails.image !== '' ? agencyDetails.image : '/images/avatar/user-image.png',
+        })
+        //setContactInfo(true)
+        setIscontactUser(true)
     }
 	
 	return (
@@ -351,13 +362,14 @@ export default function AgencyDetail({ params }) {
 															alt="avatar"
 														/>
 													</div>
-													{!contactInfo && (<button className="form-wg tf-btn primary float-right" onClick={() => handelContactClick()} >{t('contactUser')}</button>)}
+													{!iscontactUser && (<button className="form-wg tf-btn primary float-right" onClick={() => handelContactClick()} >{t('contactUser')}</button>)}
 													{contactInfo ? (
-														<div className="info">
-															<div className="text-1 name">{agencyDetails?.user_name}</div>
-															<span className="truncate-text">{agencyDetails?.user_email_adress}</span><br />
-															<span>{agencyDetails?.user_country_code} {agencyDetails?.user_mobile_number}</span>
-														</div>
+														<></>
+														// <div className="info">
+														// 	<div className="text-1 name">{agencyDetails?.user_name}</div>
+														// 	<span className="truncate-text">{agencyDetails?.user_email_adress}</span><br />
+														// 	<span>{agencyDetails?.user_country_code} {agencyDetails?.user_mobile_number}</span>
+														// </div>
 													) : ''}
 												</div>
 											</div>
@@ -413,6 +425,7 @@ export default function AgencyDetail({ params }) {
 
 				</Layout >
 			}
+			 <ContactPopup contactModelPopup={iscontactUser} contactDetail={contactUserDetails} onClose={() => setIscontactUser(false)}/>
 		</>
 	)
 }

@@ -6,6 +6,7 @@ import SidebarFilter from "@/components/elements/SidebarFilter";
 import ProjectBlog from "@/components/sections/ProjectBlog";
 import MapMarker from "@/components/elements/MapMarker";
 import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
+import ContactPopup from "@/components/elements/ContactPopup";
 import L from 'leaflet';
 import "leaflet/dist/leaflet.css";
 const toCapitalCase = (str) => {
@@ -120,6 +121,8 @@ export default function AgencyDetail({ params }) {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
     const [developerDetails, setDeveloperDetails] = useState([]);
+    const [contactUserDetails, setContactUserDetails] = useState({});
+    const [iscontactUser, setIscontactUser] = useState(false);
     const [propertiesList, setPropertiesList] = useState('');
     const [contactInfo, setContactInfo] = useState(false);
     const fetchDeveloperDetails = async () => {
@@ -131,7 +134,7 @@ export default function AgencyDetail({ params }) {
             // console.log(234)
             // API call
             const response = await insertData(`api/developer/getbyid`, requestData, false);
-            
+
             if (response.status) {
                 setDeveloperDetails(response.data.developer);
                 setPropertiesList(response.data.developer.project_details);
@@ -155,9 +158,16 @@ export default function AgencyDetail({ params }) {
     const { t, i18n } = useTranslation();
 
     const handelContactClick = () => {
+        setContactUserDetails({
+            user_name: developerDetails?.user_name,
+            email_address: developerDetails?.user_email_adress,
+            country_code: developerDetails?.user_country_code,
+            mobile_number: developerDetails?.user_mobile_number,
+            image: developerDetails?.image && developerDetails.image !== '' ? developerDetails.image : '/images/avatar/user-image.png',
+        })
         setContactInfo(true)
+        setIscontactUser(true)
     }
-    // console.log(developerDetails,'>>>>>>>>>>>>>>>> Developer Details');
     return (
         <>
             {loading ?
@@ -205,7 +215,7 @@ export default function AgencyDetail({ params }) {
                                                 >
                                                 </Marker>
                                             </MapContainer>
-                                                
+
                                             <ul className="info-map">
                                                 <li>
                                                     <div className="fw-7">{t("address")}</div>
@@ -221,7 +231,7 @@ export default function AgencyDetail({ params }) {
                                         <div className="single-property-element single-property-overview">
                                             <div className="h7 title fw-7">{t("socialinformation")}</div>
                                             <ul className="info-box">
-                                                {developerDetails.facebook_link  ? (
+                                                {developerDetails.facebook_link ? (
                                                     <li className="item">
                                                         <Link target="_blank" href={developerDetails.facebook_link} className="box-icon w-52"><i className="icon icon-facebook" /></Link>
                                                         <div className="content">
@@ -237,7 +247,7 @@ export default function AgencyDetail({ params }) {
                                                         </div>
                                                     </li>
                                                 ) : ''} */}
-                                                {developerDetails.youtube_link  ? (
+                                                {developerDetails.youtube_link ? (
                                                     <li className="item">
                                                         <Link target="_blank" href={developerDetails.youtube_link} className="box-icon w-52"><i className="icon icon-youtube" /></Link>
                                                         <div className="content">
@@ -253,7 +263,7 @@ export default function AgencyDetail({ params }) {
                                                         </div>
                                                     </li>
                                                 ) : ''} */}
-                                                {developerDetails.linkedin_link  ? (
+                                                {developerDetails.linkedin_link ? (
                                                     <li className="item">
                                                         <Link target="_blank" href={developerDetails.linkedin_link} className="box-icon w-52"><i className="icon icon-linkedin" /></Link>
                                                         <div className="content">
@@ -261,7 +271,7 @@ export default function AgencyDetail({ params }) {
                                                         </div>
                                                     </li>
                                                 ) : ''}
-                                                {developerDetails.instagram_link  ? (
+                                                {developerDetails.instagram_link ? (
                                                     <li className="item">
                                                         <Link target="_blank" href={developerDetails.instagram_link} className="box-icon w-52"><i className="icon icon-instagram" /></Link>
                                                         <div className="content">
@@ -285,14 +295,14 @@ export default function AgencyDetail({ params }) {
                                                             alt="avatar"
                                                         />
                                                     </div>
-                                                    {!contactInfo && (<button className="form-wg tf-btn primary float-right" onClick={() => handelContactClick()} >{t('contactUser')}</button>)}
-                                                    {contactInfo ? (
-                                                        <div className="info">
-                                                            <div className="text-1 name">{developerDetails?.user_name}</div>
-                                                            <span className="truncate-text">{developerDetails?.user_email_adress}</span><br />
-                                                            
-                                                            <span>{developerDetails?.user_country_code} {developerDetails?.user_mobile_number}</span>
-                                                        </div>
+                                                    {!iscontactUser && (<button className="form-wg tf-btn primary float-right" onClick={() => handelContactClick()} >{t('contactUser')}</button>)}
+                                                    {contactInfo ? (<></>
+                                                        // <div className="info">
+                                                        //     <div className="text-1 name">{developerDetails?.user_name}</div>
+                                                        //     <span className="truncate-text">{developerDetails?.user_email_adress}</span><br />
+
+                                                        //     <span>{developerDetails?.user_country_code} {developerDetails?.user_mobile_number}</span>
+                                                        // </div>
                                                     ) : ''}
                                                 </div>
                                             </div>
@@ -336,7 +346,7 @@ export default function AgencyDetail({ params }) {
                                         {propertiesList.map((property) => (
                                             <SwiperSlide>
                                                 <ProjectBlog data={property} slide={true} />
-                                                
+
                                             </SwiperSlide>
                                         ))}
 
@@ -345,9 +355,9 @@ export default function AgencyDetail({ params }) {
                             </div>
                         </section>
                     </div>
-
                 </Layout >
             }
+            <ContactPopup contactModelPopup={iscontactUser} contactDetail={contactUserDetails} onClose={() => setIscontactUser(false)}/>
         </>
     )
 }

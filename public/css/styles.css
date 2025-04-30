@@ -10608,6 +10608,24 @@ tr {
     width: 100% !important;
     height: 100% !important;
   }
+  .wrapper-layout-3.project-sec .form-sec {
+    width: 100%;
+  }
+  .property-sec-list .project-listing .col-md-6{
+    width: 50%;
+  }
+  .project-sec.wrapper-layout-3 .wrap-map, .property-inner-sec .wrap-map{
+    width: 100%;
+  }
+  .project-sec .project-listing-pagination, .property-sec .project-listing-pagination {
+    width: 100%;    
+  }
+  .project-sec .property-sec-list {
+    display: block;
+  }
+  .project-sec .wrap-inner .tab-content .project-listing{
+    height: auto !important;
+  }
 }
 
 @media only screen and (max-width: 1440px) {
@@ -10695,6 +10713,9 @@ tr {
     -o-transition: all 0.3s ease;
     transition: all 0.3s ease;
   }
+}
+
+@media only screen and (max-width: 1439px) {
   .project-listing .col-md-6{
     width: 100%;
   }
@@ -11985,7 +12006,7 @@ tr {
     right: 80px;
   }
 
-  .property-sec-list {
+  /* .property-sec-list {
     display: grid;
     grid-template-columns: 70% 30%;
     gap: 10px;
@@ -11995,7 +12016,7 @@ tr {
     display: grid;
     grid-template-columns: 70% 30%;
     gap: 10px;
-  }
+  } */
 
   .wrapper-layout-3.project-sec .form-sec {
     width: 100%;
@@ -13281,52 +13302,24 @@ footer {
 }
 
 @media (min-width: 1024px) {
-  .project-sec .property-sec-list {
+  /* .project-sec .property-sec-list {
     display: flex;
-  }
-
-  .project-sec .project-listing-pagination, .property-sec .project-listing-pagination{
-    width: 70%;
-  }
-
-  .project-sec.wrapper-layout-3 .wrap-map,  .property-inner-sec .wrap-map {
-    width: 30%;
-    position: relative;
-    height: auto !important;
-  }
-
-  .project-sec.wrapper-layout-3 .wrap-map .leaflet-container {
-    position: relative !important;
-  }
+  }*/
 
   .project-sec.wrapper-layout-3 .wrap-map .leaflet-container .leaflet-pane {
     /* transform: none !important; */
     /* position: static !important; */
   }
 
-  .property-sec .property-sec-list {
+  /* .property-sec .property-sec-list {
     display: flex;
-  }
+  } */
 
   .property-sec .property-blog-sec {
     padding: 30px;
     width: 70%;
   }
 
-  .property-sec.wrapper-layout-3 .wrap-map {
-    width: 50%;
-    position: relative;
-    height: auto !important;
-  }
-
-  .property-sec.wrapper-layout-3 .wrap-map .leaflet-container {
-    position: relative !important;
-  }
-
-  .property-sec.wrapper-layout-3 .wrap-map .leaflet-container .leaflet-pane {
-    /* transform: none !important; */
-    /* position: static !important; */
-  }
 
   .property-sec.wrapper-layout-3 .wrap-inner {
     padding: 0px;
@@ -13872,6 +13865,79 @@ label span {
 @media (min-width: 768px) and (max-width: 1440px) {
   /* Your styles here */
   .property-sec.wrapper-layout-3 .wrap-map {
+    width: 100%;
+  }
+}
+
+.contact-close-popup{
+  display: flex;
+  float: right;
+}
+
+.contact-call-sec, .contact-email-sec{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.contact-user-phone{
+  display: inline-block;
+  color: #00a8c1;
+  text-decoration: none;
+  font-weight: 500;
+}
+.contact-user-phone:hover{
+  color: #045c8d;
+}
+
+@media only screen and (max-width: 600px) {
+  .property-sec-list .project-listing .col-md-6{
+    width: 100%;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    max-width: 300px;
+  }
+}
+
+@media (min-width: 1100px) {
+  .project-sec .project-listing-pagination, .property-sec .project-listing-pagination{
+    width: 70%;
+  }
+
+  .project-sec.wrapper-layout-3 .wrap-map,  .property-inner-sec .wrap-map {
+    width: 30%;
+    position: relative;
+    height: auto !important;
+  } 
+
+  .project-sec.wrapper-layout-3 .wrap-map .leaflet-container {
+    position: relative !important;
+  }
+  .project-sec .property-sec-list, .property-sec .property-sec-list {
+    display: flex;
+  }
+
+  .property-sec-list .wrap-map{
+    width: 30%;
+    position: relative;
+    height: auto !important;
+  }
+  /* .property-sec.wrapper-layout-3 .wrap-map {
     width: 50%;
+    position: relative;
+    height: auto !important;
+  }
+
+  .property-sec.wrapper-layout-3 .wrap-map .leaflet-container {
+    position: relative !important;
+  } */
+
+  .property-sec.wrapper-layout-3 .wrap-map .leaflet-container .leaflet-pane {
+    /* transform: none !important; */
+    /* position: static !important; */
   }
 }

@@ -147,6 +147,8 @@ import { useRouter } from 'next/navigation';
 import Preloader from '@/components/elements/Preloader';
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "next/navigation";
+import ContactPopup from "@/components/elements/ContactPopup";
+
 export default function ProjectDetailsView({ params }) {
 	const { slug } = params;
 	const searchParams = useSearchParams();
@@ -162,7 +164,9 @@ export default function ProjectDetailsView({ params }) {
 	const modalSwiperRef = useRef(null);
 	const [isModelOpen, setIsModelOpen] = useState(false);
 	const [contactInfo, setContactInfo] = useState(false);
-	const [currentImage, setCurrentImage] = useState(null); // Current image in the modal
+	const [currentImage, setCurrentImage] = useState(null); 
+	const [iscontactUser, setIscontactUser] = useState(false);
+	const [contactUserDetails, setContactUserDetails] = useState({});
 	const fetchProjectsDetails = async () => {
 		setLoading(true); // Start loading
 		try {
@@ -250,9 +254,16 @@ export default function ProjectDetailsView({ params }) {
 		setIsModelOpen(false);
 		//setShowLoginModal(true);
 	};
-
 	const handelContactClick = () => {
-		setContactInfo(true)
+		setContactUserDetails({
+            user_name: projectDetails?.user_name,
+            email_address: projectDetails?.user_email_address,
+            country_code: projectDetails?.user_country_code,
+            mobile_number: projectDetails?.user_mobile_number,
+            image: projectDetails?.user_image && projectDetails.user_image !== '' ? projectDetails.user_image : '/images/avatar/user-image.png',
+        })
+        //setContactInfo(true)
+        setIscontactUser(true)
 	}
 	return (
 		<>
@@ -1018,12 +1029,13 @@ export default function ProjectDetailsView({ params }) {
 														null
 													}
 												</Link>
-												{!contactInfo && (<button className="form-wg tf-btn primary float-right" onClick={() => handelContactClick()} >{t('contactUser')}</button>)}
+												{!iscontactUser && (<button className="form-wg tf-btn primary float-right" onClick={() => handelContactClick()} >{t('contactUser')}</button>)}
 												{contactInfo ? (
-													<div className="info">
-														<Link href={`/developer/${projectDetails?.developer_slug}`} className="images-group"><div className="text-1 name">{projectDetails?.user_name}</div></Link>
-														<br /><span>{projectDetails?.user_email_address}</span>
-													</div>
+													<></>
+													// <div className="info">
+													// 	<Link href={`/developer/${projectDetails?.developer_slug}`} className="images-group"><div className="text-1 name">{projectDetails?.user_name}</div></Link>
+													// 	<br /><span>{projectDetails?.user_email_address}</span>
+													// </div>
 												) : ''}
 
 											</div>
@@ -1402,6 +1414,7 @@ export default function ProjectDetailsView({ params }) {
 					</div>
 				</div>
 			)}
+			 <ContactPopup contactModelPopup={iscontactUser} contactDetail={contactUserDetails} onClose={() => setIscontactUser(false)}/>
 		</>
 	)
 }

@@ -437,11 +437,11 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 								  // You can set predefined cities here or use existing cityOptions state
 								  setCityOptions([
 									{ id: "bbc4c04e-0e2c-4c47-9627-d1fb4b1fb415", name: "Casablanca", slug: "casablanca" },
-									{ id: 2, name: "Rabat", slug: "rabat" },
-									{ id: 3, name: "Agadir", slug: "agadir" },
-									{ id: 4, name: "Tanger", slug: "tanger" },
-									{ id: 5, name: "Marrakech", slug: "marrakech" },
-									{ id: 6, name: "Fes", slug: "fes" }
+									{ id: "885a0061-f10f-499c-beed-ba98ac5a3ef7", name: "Rabat", slug: "rabat" },
+									{ id: "3cd31d23-d688-42a6-a207-9a2a96f88a89", name: "Agadir", slug: "agadir" },
+									{ id: "c9d714ba-331a-4634-b92e-1511a17c0f25", name: "Tanger", slug: "tanger" },
+									{ id: "6880643f-8441-40b2-92e4-98a5a9e44070", name: "Marrakech", slug: "marrakech" },
+									{ id: "eb9e825d-a8a0-4726-ba6f-790c5da0af00", name: "Fes", slug: "fes" }
 								  ]);
 								}
 							}}
