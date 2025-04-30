@@ -13862,7 +13862,7 @@ label span {
   color: #00a8c1 !important; 
 }
 
-@media (min-width: 768px) and (max-width: 1440px) {
+@media (min-width: 768px) and (max-width: 1339px) {
   /* Your styles here */
   .property-sec.wrapper-layout-3 .wrap-map {
     width: 100%;
