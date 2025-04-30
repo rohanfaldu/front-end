@@ -10626,6 +10626,9 @@ tr {
   .project-sec .wrap-inner .tab-content .project-listing{
     height: auto !important;
   }
+  .property-sec-list .project-listing{
+    height: auto !important;
+  }
 }
 
 @media only screen and (max-width: 1440px) {
