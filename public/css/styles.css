@@ -10629,6 +10629,14 @@ tr {
   .property-sec-list .project-listing{
     height: auto !important;
   }
+
+  .property-form .property-filter{
+    height: 625px !important;
+  }
+  .property-sec .form-btn-fixed{
+    padding-bottom: 30px !important;
+    padding-top: 30px !important;
+  }
 }
 
 @media only screen and (max-width: 1440px) {
