@@ -754,7 +754,15 @@ export default function PropertyHalfmapList() {
 										className="accordion-button"
 									>
 										<span className="h7 title fw-7">{t("search")}</span>
-										<span className="text-xl">{seachAccordion ? '-' : '+'}</span>
+										<span className="arrow-icon">
+											<img
+												src="/images/avatar/down-arrow.svg"
+												alt="Arrow Icon"
+												className={seachAccordion ? 'rotated' : ''}
+												width="20"
+												height="20"
+											/>
+										</span>
 									</button>
 								</div>
 							)}

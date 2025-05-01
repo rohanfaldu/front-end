@@ -572,7 +572,7 @@ export default function PropertyDetailsV1({ params }) {
 											<span style={{fontSize: "25px"}}>Matching-{matching} %</span>
 										</li> */}
 										<li className={`${isLiked ? "liked" : "w-40 box-icon"}`} onClick={() => handleLike(isLiked, properties.id, properties.user_id)}>
-											<span className="icon icon-heart" style={{ fontSize: "30px" }} />
+											<span className="icon icon-heart" style={{ fontSize: "50px" }} />
 										</li>
 									</ul>
 								</div>

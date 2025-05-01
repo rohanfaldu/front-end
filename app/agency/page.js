@@ -52,7 +52,8 @@ export default function AgencyListing() {
 		maxPrice: priceRange[1],
 		amenities_id: [],
 	});
-
+	const [seachAccordion, setSeachAccordion] = useState(false);
+	const [isMobile, setIsMobile] = useState(false);
 	const handleInputChange = (e) => {
 		// console.log(e,"lllllllllllll")
 		setSearchTerm(e.target.value);
@@ -137,6 +138,16 @@ export default function AgencyListing() {
 
 	useEffect(() => {
 		handleSubmit(pagination.currentPage);
+		const checkViewport = () => {
+			setIsMobile((window.innerWidth < 768) ? true : false);
+			if (window.innerWidth < 768) {
+				setSeachAccordion(false);
+			} else {
+				console.log(213);
+				setSeachAccordion(true);
+			}
+		};
+		checkViewport();
 	}, [pagination.currentPage]);
 
 	const handlePageChange = (page) => {
@@ -157,84 +168,108 @@ export default function AgencyListing() {
 			maxPrice: newRange[1], // Set maxPrice
 		}));
 	};
+	const handlesearchAccordion = (status) => {
+		const updateStatus = (status) ? false : true;
+		setSeachAccordion(updateStatus);
+	}
 	// console.log('>>>>>>>>agencyList', agencyList);
 	return (
 		<>
 
 			<Layout headerStyle={1} footerStyle={1}>
 				<section className="wrapper-layout-3 agency user-inner-sec">
-					<div className="wrap-sidebar">
-						<div className="flat-tab flat-tab-form widget-filter-search">
-							<div className="h7 title fw-7">{t("search")}</div>
+					{isMobile && (
+						<div className="accordion-section">
+							<button
+								onClick={() => handlesearchAccordion(seachAccordion)}
+								className="accordion-button"
+							>
+								<span className="h7 title fw-7">{t("search")}</span>
+								<span className="arrow-icon">
+									<img
+										src="/images/avatar/down-arrow.svg"
+										alt="Arrow Icon"
+										className={seachAccordion ? 'rotated' : ''}
+										width="20"
+										height="20"
+									/>
+								</span>
+							</button>
+						</div>
+					)}
+					{seachAccordion && (
+						<div className="wrap-sidebar">
+							<div className="flat-tab flat-tab-form widget-filter-search">
+								<div className="h7 title fw-7 search-text">{t("search")}</div>
+								<div className="tab-content">
+									<div className="tab-pane fade active show" role="tabpanel">
+										<div className="form-sl">
+											{/* <form method="post" onSubmit={(e) => { e.preventDefault(); applyFilters(); }}> */}
+											<form method="post" onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
+												<div className="wd-filter-select">
+													<div className="inner-group inner-filter">
+														<div className="form-style">
+															<label className="title-select">{t("titleAgency")}</label>
+															<input
+																type="text"
+																className="form-control"
+																value={filters.title}
+																onChange={handleFilterChange}
+																name="title"
+																placeholder={t("searchtitle")}
+															/>
+														</div>
+														<div className="form-style">
+															<label className="title-select">{t("city")}</label>
+															<input
+																type="text"
+																className="form-control"
+																id="city"
+																name="city"
+																value={searchCity}
+																onChange={handleInputChange}
+																placeholder={t("searchCity")}
+															/>
+															{searchTerm.length > 0 && (
+																cityOptions.length > 0 && (
+																	<ul className="city-dropdown form-style" style={{ marginTop: "0px" }}>
+																		{cityOptions.map((city) => (
+																			<li
+																				key={city.id}
+																				onClick={() => {
+																					handleCitySelect(city.id, city.city_name);
+																					setSearchTerm('');
+																				}}
+																				className="city-option"
+																			>
+																				{city.city_name}
+																			</li>
+																		))}
+																	</ul>
+																)
+															)}
+														</div>
 
-							<div className="tab-content">
-								<div className="tab-pane fade active show" role="tabpanel">
-									<div className="form-sl">
-										{/* <form method="post" onSubmit={(e) => { e.preventDefault(); applyFilters(); }}> */}
-										<form method="post" onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
-											<div className="wd-filter-select">
-												<div className="inner-group inner-filter">
-													<div className="form-style">
-														<label className="title-select">{t("titleAgency")}</label>
-														<input
-															type="text"
-															className="form-control"
-															value={filters.title}
-															onChange={handleFilterChange}
-															name="title"
-															placeholder={t("searchtitle")}
-														/>
-													</div>
-													<div className="form-style">
-														<label className="title-select">{t("city")}</label>
-														<input
-															type="text"
-															className="form-control"
-															id="city"
-															name="city"
-															value={searchCity}
-															onChange={handleInputChange}
-															placeholder={t("searchCity")}
-														/>
-														{searchTerm.length > 0 && (
-															cityOptions.length > 0 && (
-																<ul className="city-dropdown form-style" style={{ marginTop: "0px" }}>
-																	{cityOptions.map((city) => (
-																		<li
-																			key={city.id}
-																			onClick={() => {
-																				handleCitySelect(city.id, city.city_name);
-																				setSearchTerm('');
-																			}}
-																			className="city-option"
-																		>
-																			{city.city_name}
-																		</li>
-																	))}
-																</ul>
-															)
-														)}
-													</div>
-
-													{/* <div className="form-btn-fixed">
+														{/* <div className="form-btn-fixed">
 														<button className="tf-btn primary" href="#">{t("findagency")}</button>
 													</div> */}
+													</div>
+													<div className="form-btn-fixed d-flex" >
+														<button
+															type="submit"
+															className="tf-btn primary"
+														>
+															{t("findagency")}
+														</button>
+													</div>
 												</div>
-												<div className="form-btn-fixed d-flex" >
-													<button
-														type="submit"
-														className="tf-btn primary"
-													>
-														{t("findagency")}
-													</button>
-												</div>
-											</div>
-										</form>
+											</form>
+										</div>
 									</div>
-								</div>
+								</div >
 							</div >
 						</div >
-					</div >
+					)}
 					<div className="wrap-inner-55">
 						<div className="box-title-listing style-1">
 							<h5>{t("agencylisting")}</h5>
@@ -303,7 +338,7 @@ export default function AgencyListing() {
 														</div>
 														<div className="user-social-icons">
 															<ul className="info-box">
-																{agencyUserData.facebook_link  ? (
+																{agencyUserData.facebook_link ? (
 																	<li className="item">
 																		<Link target="_blank" href={agencyUserData.facebook_link} className="box-icon w-52"><i className="icon icon-facebook" /></Link>
 																	</li>
