@@ -270,6 +270,7 @@ export default function PropertyHalfmapList() {
 			const getFilterData = async (page = 1,) => {
 				// console.log("Filters:", filters);
 				const lang = i18n.language;
+				const transactionData = localStorage.getItem("transaction") || transaction;
 				const requestData = {
 					page,
 					lang,
@@ -288,7 +289,7 @@ export default function PropertyHalfmapList() {
 					direction: params.direction,
 					developer_id: params.developer_id,
 					amenities_id_object_with_value: params.amenities_id_object_with_value,
-					transaction: transaction
+					transaction: transactionData
 				};
 				// console.log(transaction, ".....................")
 				const response = await getData("api/property", requestData, true);
