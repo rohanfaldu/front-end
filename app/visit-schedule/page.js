@@ -454,8 +454,8 @@ export default function MyProperty() {
                             <a className={isTab === 2 ? "nav-link-item active" : "nav-link-item"}>{t("virtual")}</a>
                           </li>
                         </ul>
-                      </div>
-
+                      </div>  
+                      
                       {/* DateTime Picker */}
                       <div style={{ marginTop: "20px" }}>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>

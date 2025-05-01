@@ -407,21 +407,22 @@ export default function AgencyListing() {
 									))}
 								</div>
 							)}
-
 						</div>
-						<ul className="wd-navigation">
-							{Array.from({ length: pagination.totalPages }, (_, index) => (
-								<li key={index}>
-									<Link
-										href="#"
-										className={`nav-item ${pagination.currentPage === index + 1 ? 'active' : ''}`}
-										onClick={() => handlePageChange(index + 1)}
-									>
-										{index + 1}
-									</Link>
-								</li>
-							))}
-						</ul>
+						{pagination.totalCount > pagination.itemsPerPage && (
+							<ul className="wd-navigation">
+								{Array.from({ length: pagination.totalPages }, (_, index) => (
+									<li key={index}>
+										<Link
+											href="#"
+											className={`nav-item ${pagination.currentPage === index + 1 ? 'active' : ''}`}
+											onClick={() => handlePageChange(index + 1)}
+										>
+											{index + 1}
+										</Link>
+									</li>
+								))}
+							</ul>
+						)}
 					</div >
 
 				</section >

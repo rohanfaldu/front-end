@@ -137,20 +137,22 @@ export default function Blog() {
 												</Link>
 											</div> */}
 										</div>
-										<ul className="wd-navigation">
-											{console.log(pagination.totalPages)}
-											{Array.from({ length: pagination.totalPages }, (_, index) => (
-												<li key={index}>
-													<Link
-														href="#" data-id={index}
-														className={`nav-item ${pagination.currentPage === index + 1 ? 'active' : ''}`}
-														onClick={() => handlePageChange(index + 1)}
-													>
-														{index + 1}
-													</Link>
-												</li>
-											))}
-										</ul>
+										{pagination.totalCount > pagination.itemsPerPage && (
+											<ul className="wd-navigation">
+												{console.log(pagination.totalPages)}
+												{Array.from({ length: pagination.totalPages }, (_, index) => (
+													<li key={index}>
+														<Link
+															href="#" data-id={index}
+															className={`nav-item ${pagination.currentPage === index + 1 ? 'active' : ''}`}
+															onClick={() => handlePageChange(index + 1)}
+														>
+															{index + 1}
+														</Link>
+													</li>
+												))}
+											</ul>
+										)}
 									</div>
 								</section>
 							</Layout>
