@@ -31,8 +31,6 @@ export default function PropertyHalfmapList() {
 	const [neighbourhoodOptions, setNeighbourhoodOptions] = useState([]);
 	const [checkURL, setCheckURL] = useState(false);
 	const [isSwitch, setIsSwitch] = useState(false);
-
-
 	const [initialMaxPrice, setInitialMaxPrice] = useState(0); // Store the maximum price initially
 	const [initialMaxSize, setInitialMaxSize] = useState(0);
 	const [maxPriceSliderRange, setMaxPriceSliderRange] = useState(0); // Dynamic slider range
@@ -49,41 +47,28 @@ export default function PropertyHalfmapList() {
 	const [loading, setLoading] = useState(true); // Manage loading state
 	const [error, setError] = useState(null); // Manage error state
 	const [params, setParams] = useState({}); // Store query parameters
-
 	const [searchTerm, setSearchTerm] = useState(''); // Store search input
 	const [searchTermTitle, setSearchTermTitle] = useState(''); // Store search input
 	const [searchTermDistrict, setSearchTermDistrict] = useState('');
 	const [searchTermNeighbourhood, setSearchTermNeighbourhood] = useState('');
-
-
-
 	const [searchCity, setSearchCity] = useState('');
 	const [searchDistrict, setSearchDistrict] = useState('');
 	const [searchNeighbourhood, setSearchNeighbourhood] = useState('');
-
-
 	const [statusFilter, setStatusFilter] = useState(''); // Store selected status filter
 	const [amenities, setAmenities] = useState([]);
 	const [propertyType, setpropertyType] = useState([]);
 	const [developers, setDevelopers] = useState([]);
-
 	const [city, setCity] = useState([]);
 	const [district, setDistricts] = useState([]);
 	const [neighbourhood, setNeighbourhood] = useState([]);
-
 	const [cityId, setCityId] = useState(['']);
 	const [districtId, setDistrictId] = useState(['']);
-
-
 	const [showDistrict, setShowDistrict] = useState(false);
 	const [showNeighbourhood, setShowNeighbourhood] = useState(false);
-
 	const [transaction, setTransaction] = useState();
 	const [addressLatLong, setAddressLatLong] = useState([]);
-
 	const [isModelOpen, setIsModelOpen] = useState(false);
 	const [isFocused, setIsFocused] = useState(false);
-
 	const [pagination, setPagination] = useState({
 		totalCount: 0,
 		totalPages: 1,
@@ -172,6 +157,9 @@ export default function PropertyHalfmapList() {
 
 	const [currentIndex, setCurrentIndex] = useState(0);
 	const [showNoMore, setShowNoMore] = useState(false);
+	const [seachAccordion, setSeachAccordion] = useState(false);
+	const [isMobile, setIsMobile] = useState(false);
+	
 	const handleDislike = () => {
 		if (currentIndex < filteredProperties.length - 1) {
 			setCurrentIndex((prevIndex) => prevIndex + 1);
@@ -366,7 +354,17 @@ export default function PropertyHalfmapList() {
 			//isApiCalled.current = true;
 		}
 
-
+		const checkViewport = () => {
+			console.log(isMobile,' >>>>>>>>>>> isMobile');
+			setIsMobile(window.innerWidth < 768);
+			if(!isMobile){
+				setSeachAccordion(true);
+			}else{
+				setSeachAccordion(false);
+			}
+		};
+	   
+		checkViewport();
 	}, [params, pagination.currentPage, i18n.language, transaction]);
 
 	// console.log(priceRange, ' >>>>>>>>>>>> Price')
@@ -738,6 +736,10 @@ export default function PropertyHalfmapList() {
 		localStorage.setItem('switchState', JSON.stringify(isSwitch));
 		router.push(`/property/${slug}`);
 	};
+	const handlesearchAccordion = (status) =>{
+		const updateStatus = (status)?false:true;
+		setSeachAccordion(updateStatus);
+	}
 	return (
 		<>
 			{loading ?
@@ -745,395 +747,266 @@ export default function PropertyHalfmapList() {
 				<>
 					<Layout headerStyle={1} footerStyle={1}>
 						<section className="wrapper-layout-3 property-sec">
-							<div className="wrap-sidebar property-inner-sec">
-								<form method="post" className="property-form" onSubmit={(e) => { e.preventDefault(); handleSubmit(e); }}>
-									<div className="flat-tab flat-tab-form widget-filter-search property-filter">
-										<div>
+							{isMobile && (
+								<div className="accordion-section">
+									<button
+										onClick={() =>handlesearchAccordion(seachAccordion)}
+										className="accordion-button"
+									>
+										<span className="h7 title fw-7">{t("search")}</span>
+										<span className="text-xl">{seachAccordion ? '-' : '+'}</span>
+									</button>
+								</div>
+							)}
+							{seachAccordion && (
+								<div className="filter-section">
+									<div className="wrap-sidebar property-inner-sec">
+										<form method="post" className="property-form" onSubmit={(e) => { e.preventDefault(); handleSubmit(e); }}>
+											<div className="flat-tab flat-tab-form widget-filter-search property-filter">
+												<div className="h7 title fw-7 search-text">{t("search")}</div>
+												<ul className="nav-tab-form" role="tablist" onClick={filterSet}>
+													<TabNav setTransaction={setTransaction} />
+												</ul>
+												<div className="tab-content">
+													<div className="tab-pane fade active show" role="tabpanel">
+														<div className="form-sl">
+															<div className="wd-filter-select">
+																<div className="inner-group inner-filter">
+																	{/* <div className="form-style">
+																		<label className="title-select">{t("keyword")}</label>
+																		<input
+																			type="text"
+																			className="form-control"
+																			value={filters.title}
+																			onChange={handleInputChangeTitle}
+																			name="title"
+																			placeholder={t("searchkeyword")}
 
-										</div>
-										<div className="h7 title fw-7">{t("search")}</div>
-										<ul className="nav-tab-form" role="tablist" onClick={filterSet}>
-											<TabNav setTransaction={setTransaction} />
-										</ul>
-										<div className="tab-content">
-											<div className="tab-pane fade active show" role="tabpanel">
-												<div className="form-sl">
-													<div className="wd-filter-select">
-														<div className="inner-group inner-filter">
-															{/* <div className="form-style">
-																<label className="title-select">{t("keyword")}</label>
-																<input
-																	type="text"
-																	className="form-control"
-																	value={filters.title}
-																	onChange={handleInputChangeTitle}
-																	name="title"
-																	placeholder={t("searchkeyword")}
+																		/>
+																		{searchTermTitle.length > 0 && (
+																			cityOptions.length > 0 && (
+																				<ul className="city-dropdown form-style" style={{ marginTop: "0px"}}>
+																					{cityOptions.map((city) => (
+																						<li
+																							key={city.id}
+																							onClick={() => {
+																								handleCitySelectTitle(city.id, city.city_name);
+																								setSearchTermTitle('');
+																							}}
+																							className="city-option"
+																						>
+																							{city.city_name}
+																						</li>
+																					))}
+																				</ul>
+																			)
+																		)}
+																	</div> */}
+																	{/* <div className="form-style">
+																		<label className="title-select">{t("description")}</label>
+																		<div className="group-ip ip-icon">
+																			<input
+																				type="text"
+																				className="form-control"
+																				value={filters.description}
+																				onChange={handleFilterChange}
+																				name="description"
+																				placeholder={t("searchdescription")}
 
-																/>
-																{searchTermTitle.length > 0 && (
-																	cityOptions.length > 0 && (
-																		<ul className="city-dropdown form-style" style={{ marginTop: "0px"}}>
-																			{cityOptions.map((city) => (
-																				<li
-																					key={city.id}
-																					onClick={() => {
-																						handleCitySelectTitle(city.id, city.city_name);
-																						setSearchTermTitle('');
-																					}}
-																					className="city-option"
-																				>
-																					{city.city_name}
-																				</li>
-																			))}
-																		</ul>
-																	)
-																)}
-															</div> */}
-															{/* <div className="form-style">
-																<label className="title-select">{t("description")}</label>
-																<div className="group-ip ip-icon">
+																			/>
+
+																		</div>
+																	</div> */}
+
+																	<div className="form-style">
+																		<label className="title-select">{t("location")}</label>
+																		<input
+																			type="text"
+																			className="form-control"
+																			id="city_property"
+																			name="city"
+																			value={searchCity ?? ''}
+																			onChange={handleInputChange}
+																			onFocus={() => {
+																				setIsFocused(true);
+																				// If no search term, we'll still show predefined cities
+																				if (!searchCity || searchCity.length === 0) {
+																					// You can set predefined cities here or use existing cityOptions state
+																					setCityOptions([
+																						{ id: "bbc4c04e-0e2c-4c47-9627-d1fb4b1fb415", name: "Casablanca", slug: "casablanca" },
+																						{ id: "885a0061-f10f-499c-beed-ba98ac5a3ef7", name: "Rabat", slug: "rabat" },
+																						{ id: "3cd31d23-d688-42a6-a207-9a2a96f88a89", name: "Agadir", slug: "agadir" },
+																						{ id: "c9d714ba-331a-4634-b92e-1511a17c0f25", name: "Tanger", slug: "tanger" },
+																						{ id: "6880643f-8441-40b2-92e4-98a5a9e44070", name: "Marrakech", slug: "marrakech" },
+																						{ id: "eb9e825d-a8a0-4726-ba6f-790c5da0af00", name: "Fes", slug: "fes" }
+																					]);
+																				}
+																			}}
+																			onBlur={() => {
+																				// Small delay to allow item selection before hiding dropdown
+																				setTimeout(() => setIsFocused(false), 200);
+																			}}
+																			placeholder={t("searchCity")}
+																		/>
+																		{/* {searchTerm.length > 0 && cityOptions.length === 0 ? (
+																			<ul className="city-dropdown form-style" style={{ marginTop: "0px" }}>
+																				<li className="city-option">City not found</li>
+																			</ul>
+																		) : (
+																			cityOptions.length > 0 && (
+																				<ul className="city-dropdown form-style" style={{ marginTop: "0px" }}>
+																					{cityOptions.map((city) => (
+																						<li
+																							key={city.id}
+																							onClick={() => {
+																								handleCitySelect(city.id, city.city_name, city.latitude, city.longitude); // Pass city name to the function
+																								setSearchTerm(''); // Clear the search term
+																							}}
+																							className="city-option"
+																						>
+																							{city.city_name}
+																						</li>
+																					))}
+																				</ul>
+																			)
+																		)} */}
+
+																		{(searchTerm.length > 0 || isFocused) && (
+																			cityOptions.length > 0 && (
+																				<ul className="city-dropdown form-style" style={{ marginTop: "0px", width: "100%", position: "relative" }}>
+																					{cityOptions.map((city) => (
+																						<li
+																							key={city.id}
+																							onClick={() => {
+																								handleCitySelect(city.id, city.name, city.slug);
+																								setSearchTerm('');
+																								setIsFocused(false);
+																							}}
+																							className="city-option"
+																						>
+																							{city.name}
+																						</li>
+																					))}
+																				</ul>
+																			)
+																		)}
+																	</div>
+
+
+
+																	{/* {showDistrict && ( */}
+																	{/* <div className="form-style">
+																	<label className="title-select">{t("district")}</label>
 																	<input
 																		type="text"
 																		className="form-control"
-																		value={filters.description}
-																		onChange={handleFilterChange}
-																		name="description"
-																		placeholder={t("searchdescription")}
-
+																		id="district"
+																		name="district"
+																		value={searchDistrict}
+																		onChange={handleInputChangeDistrict}
+																		placeholder={t("searchDistrict")}
+																		disabled={!showDistrict}
 																	/>
 
-																</div>
-															</div> */}
 
-															<div className="form-style">
-																<label className="title-select">{t("location")}</label>
-																<input
-																	type="text"
-																	className="form-control"
-																	id="city_property"
-																	name="city"
-																	value={searchCity ?? ''}
-																	onChange={handleInputChange}
-																	onFocus={() => {
-																		setIsFocused(true);
-																		// If no search term, we'll still show predefined cities
-																		if (!searchCity || searchCity.length === 0) {
-																			// You can set predefined cities here or use existing cityOptions state
-																			setCityOptions([
-																				{ id: "bbc4c04e-0e2c-4c47-9627-d1fb4b1fb415", name: "Casablanca", slug: "casablanca" },
-																				{ id: "885a0061-f10f-499c-beed-ba98ac5a3ef7", name: "Rabat", slug: "rabat" },
-																				{ id: "3cd31d23-d688-42a6-a207-9a2a96f88a89", name: "Agadir", slug: "agadir" },
-																				{ id: "c9d714ba-331a-4634-b92e-1511a17c0f25", name: "Tanger", slug: "tanger" },
-																				{ id: "6880643f-8441-40b2-92e4-98a5a9e44070", name: "Marrakech", slug: "marrakech" },
-																				{ id: "eb9e825d-a8a0-4726-ba6f-790c5da0af00", name: "Fes", slug: "fes" }
-																			]);
-																		}
-																	}}
-																	onBlur={() => {
-																		// Small delay to allow item selection before hiding dropdown
-																		setTimeout(() => setIsFocused(false), 200);
-																	}}
-																	placeholder={t("searchCity")}
-																/>
-																{/* {searchTerm.length > 0 && cityOptions.length === 0 ? (
-																	<ul className="city-dropdown form-style" style={{ marginTop: "0px" }}>
-																		<li className="city-option">City not found</li>
-																	</ul>
-																) : (
-																	cityOptions.length > 0 && (
+																	{searchTermDistrict.length > 0 && districtOptions.length === 0 ? (
 																		<ul className="city-dropdown form-style" style={{ marginTop: "0px" }}>
-																			{cityOptions.map((city) => (
-																				<li
-																					key={city.id}
-																					onClick={() => {
-																						handleCitySelect(city.id, city.city_name, city.latitude, city.longitude); // Pass city name to the function
-																						setSearchTerm(''); // Clear the search term
-																					}}
-																					className="city-option"
-																				>
-																					{city.city_name}
-																				</li>
-																			))}
+																			<li className="city-option">District not found</li>
 																		</ul>
-																	)
-																)} */}
-
-																{(searchTerm.length > 0 || isFocused) && (
-																	cityOptions.length > 0 && (
-																		<ul className="city-dropdown form-style" style={{ marginTop: "0px", width: "100%", position: "relative" }}>
-																			{cityOptions.map((city) => (
-																				<li
-																					key={city.id}
-																					onClick={() => {
-																						handleCitySelect(city.id, city.name, city.slug);
-																						setSearchTerm('');
-																						setIsFocused(false);
-																					}}
-																					className="city-option"
-																				>
-																					{city.name}
-																				</li>
-																			))}
-																		</ul>
-																	)
-																)}
-															</div>
-
-
-
-															{/* {showDistrict && ( */}
-															{/* <div className="form-style">
-															<label className="title-select">{t("district")}</label>
-															<input
-																type="text"
-																className="form-control"
-																id="district"
-																name="district"
-																value={searchDistrict}
-																onChange={handleInputChangeDistrict}
-																placeholder={t("searchDistrict")}
-																disabled={!showDistrict}
-															/>
-
-
-															{searchTermDistrict.length > 0 && districtOptions.length === 0 ? (
-																<ul className="city-dropdown form-style" style={{ marginTop: "0px" }}>
-																	<li className="city-option">District not found</li>
-																</ul>
-															) : (
-																districtOptions.length > 0 && (
-																	<ul className="city-dropdown form-style" style={{ marginTop: "0px" }}>
-																		{districtOptions.map((city) => (
-																			<li
-																				key={city.id}
-																				onClick={() => {
-																					handleDistrictSelect(city.id, city.name, city.latitude, city.longitude); // Pass city name to the function
-																					setSearchTermDistrict('');
-																				}}
-																				className="city-option"
-																			>
-																				{city.name}
-																			</li>
-																		))}
-																	</ul>
-																)
-															)}
-
-														</div> */}
-															{/* )} */}
-															{/* {showNeighbourhood && ( */}
-															<div className="form-style">
-																{/* <label className="title-select">{t("neighbourhood")}</label>
-																<select
-																	className="form-control"
-																	id="neighbourhood"
-																	name="neighbourhood"
-																	value={filters.neighbourhood}
-																	onChange={handleFilterChange}
-																>
-																	<option value="">{t("selectneighbourhood")}</option>
-																	{neighbourhood.map((neighbourhood) => (
-																		<option key={neighbourhood.id} value={neighbourhood.id}>
-																			{neighbourhood.name}
-																		</option>
-																	))}
-																</select> */}
-																{/* <label className="title-select">{t("neighbourhood")}</label>
-															<input
-																type="text"
-																className="form-control"
-																id="neighbourhood"
-																name="neighbourhood"
-																value={searchNeighbourhood}
-																onChange={handleInputChangeNeighbourhood}
-																placeholder={t("searchNeighbourhood")}
-																disabled={!showNeighbourhood}
-															/>
-
-															{searchTermNeighbourhood.length > 0 && neighbourhoodOptions.length === 0 ? (
-																<ul className="city-dropdown form-style" style={{ marginTop: "0px" }}>
-																	<li className="city-option">Neighbourhood not found</li>
-																</ul>
-															) : (
-																neighbourhoodOptions.length > 0 && (
-																	<ul className="city-dropdown form-style" style={{ marginTop: "0px" }}>
-																		{neighbourhoodOptions?.map((city) => (
-																			<li
-																				key={city.id}
-																				onClick={() => {
-																					handleNeighbourhoodSelect(city.id, city.name, city.latitude, city.longitude);
-																					setSearchTermNeighbourhood('');
-																				}}
-																				className="city-option"
-																			>
-																				{city.name}
-																			</li>
-																		))}
-																	</ul>
-																)
-															)} */}
-
-
-															</div>
-
-
-															{/* )} */}
-															<div className="form-style">
-																<label className="title-select">{t("propertytype")}</label>
-																<select
-																	className="form-control"
-																	id="property_type"
-																	name="type_id"
-																	value={filters.type_id ?? ''}
-																	onChange={handleFilterChange}
-																>
-																	<option value="">{t("selectpropertytype")}</option>
-																	{propertyType.map((property) => (
-																		<option key={property.id} value={property.id}>
-																			{property.title}
-																		</option>
-																	))}
-																</select>
-															</div>
-
-															{/* <div className="form-style">
-																<label className="title-select">{t("direction")}</label>
-																<select
-																	className="form-control"
-																	id="direction"
-																	name="direction"
-																	value={filters.direction} 
-																	onChange={handleFilterChange}
-																>
-																	<option value="">{t("selectdiretion")}</option>
-																	<option value="north">North</option>
-																	<option value="south">South</option>
-																	<option value="east">East</option>
-																	<option value="west">West</option>
-																</select>
-															</div> */}
-
-
-															{/* <div className="form-style">
-																<label className="title-select">{t("developedby")}</label>
-																<select
-																	className="form-control"
-																	id="developer_id"
-																	name="developer_id"
-																	value={filters.developer_id} 
-																	onChange={handleFilterChange}
-																>
-																	<option value="">{t("selectdeveloper")}</option>
-																	{developers.map((developer) => ( 
-																		<option key={developer.user_id} value={developer.user_id}>
-																			{developer.user_name}
-																		</option>
-																	))}
-																</select>
-															</div> */}
-
-
-															<div className="form-style widget-price">
-																<label className="title-select" style={{ marginBottom: "0px" }}>{t("price")}</label>
-																<div className="group-form">
-																	{Array.isArray(priceRange) && priceRange.length === 2 && (
-																		<ReactSlider
-																			ariaLabelledby="slider-label"
-																			className="horizontal-slider st2"
-																			min={1000}
-																			max={initialMaxPrice}
-																			value={priceRange ?? ''}
-																			step={100}
-																			thumbClassName="example-thumb"
-																			trackClassName="example-track"
-																			onChange={handlePriceChange}
-																		/>
+																	) : (
+																		districtOptions.length > 0 && (
+																			<ul className="city-dropdown form-style" style={{ marginTop: "0px" }}>
+																				{districtOptions.map((city) => (
+																					<li
+																						key={city.id}
+																						onClick={() => {
+																							handleDistrictSelect(city.id, city.name, city.latitude, city.longitude); // Pass city name to the function
+																							setSearchTermDistrict('');
+																						}}
+																						className="city-option"
+																					>
+																						{city.name}
+																					</li>
+																				))}
+																			</ul>
+																		)
 																	)}
 
-																	<div className="group-range-title mt-2">
-																		<label className="d-flex justify-content-between mb-0">
-																			<span>{formatPropertyPrice(priceRange[0])} DH</span>
-																			<span>{formatPropertyPrice(priceRange[1])} DH</span>
-																		</label>
-																	</div>
-																</div>
-															</div>
-
-															<div className="form-style widget-price">
-																<label className="title-select" style={{ marginBottom: "0px" }}>{t("size")}</label>
-																<div className="group-form">
-																	<ReactSlider
-																		ariaLabelledby="slider-label"
-																		className="horizontal-slider st2"
-																		min={0}
-																		max={initialMaxSize}
-																		value={sizeRange ?? 0}
-																		thumbClassName="example-thumb"
-																		trackClassName="example-track"
-																		onChange={handleSizeChange}
+																</div> */}
+																	{/* )} */}
+																	{/* {showNeighbourhood && ( */}
+																	<div className="form-style">
+																		{/* <label className="title-select">{t("neighbourhood")}</label>
+																		<select
+																			className="form-control"
+																			id="neighbourhood"
+																			name="neighbourhood"
+																			value={filters.neighbourhood}
+																			onChange={handleFilterChange}
+																		>
+																			<option value="">{t("selectneighbourhood")}</option>
+																			{neighbourhood.map((neighbourhood) => (
+																				<option key={neighbourhood.id} value={neighbourhood.id}>
+																					{neighbourhood.name}
+																				</option>
+																			))}
+																		</select> */}
+																		{/* <label className="title-select">{t("neighbourhood")}</label>
+																	<input
+																		type="text"
+																		className="form-control"
+																		id="neighbourhood"
+																		name="neighbourhood"
+																		value={searchNeighbourhood}
+																		onChange={handleInputChangeNeighbourhood}
+																		placeholder={t("searchNeighbourhood")}
+																		disabled={!showNeighbourhood}
 																	/>
 
-																	<div className="group-range-title mt-2">
-																		<label className="d-flex justify-content-between mb-0">
-																			<span>{sizeRange[0] ?? 0} m²</span>
-																			<span>{sizeRange[1] ?? 0} m²</span>
-																		</label>
+																	{searchTermNeighbourhood.length > 0 && neighbourhoodOptions.length === 0 ? (
+																		<ul className="city-dropdown form-style" style={{ marginTop: "0px" }}>
+																			<li className="city-option">Neighbourhood not found</li>
+																		</ul>
+																	) : (
+																		neighbourhoodOptions.length > 0 && (
+																			<ul className="city-dropdown form-style" style={{ marginTop: "0px" }}>
+																				{neighbourhoodOptions?.map((city) => (
+																					<li
+																						key={city.id}
+																						onClick={() => {
+																							handleNeighbourhoodSelect(city.id, city.name, city.latitude, city.longitude);
+																							setSearchTermNeighbourhood('');
+																						}}
+																						className="city-option"
+																					>
+																						{city.name}
+																					</li>
+																				))}
+																			</ul>
+																		)
+																	)} */}
+
+
 																	</div>
-																</div>
-															</div>
 
-															<div className="form-style btn-show-advanced" onClick={handleToggle} style={{ display: `${isToggled ? "none" : "block"}` }}>
-																<a className="filter-advanced pull-right">
-																	<span className="icon icon-faders" />
-																	<span className="text-advanced">{t("showadvance")}</span>
-																</a>
-															</div>
 
-															<div
-																className="form-style wd-amenities box-amenities-property"
-																style={{ display: `${isToggled ? "block" : "none"}` }}
-															>
-																<div className="group-checkbox">
-																	<div className="group-amenities">
-																		{amenities && amenities.length > 0 ? (
-																			[...amenities].reverse().map((project) => {
-																				if (project.type === "number") {
-																					const selectedValue = filters.amenities_id_object_with_value?.[project.id] || "";
-
-																					return (
-																						<div key={project.id} className="amenity-group">
-																							<div className="title-select text-variant-1" htmlFor={project.id}>
-																								{t("numberOfAminities")} {project.name}:
-																							</div>
-																							<fieldset className="box box-fieldse aminities-radio-sec">
-																								<div className="radio-group">
-																									{[
-																										{ label: "1", value: "1" },
-																										{ label: "2", value: "2" },
-																										{ label: "3", value: "3" },
-																										{ label: "3+", value: "4" }
-																									].map((option) => (
-																										<label key={`${project.id}-${option.value}`} className="radio-label custom-radio" style={{ marginRight: '10px' }}>
-																											<input
-																												type="radio"
-																												className="nice-radio"
-																												value={option.value}
-																												checked={selectedValue === option.value}
-																												name={project.id}
-																												onChange={() => handleNumberChange(project.id, option.value)}
-																											/>
-																											<span>{option.label}</span>
-																										</label>
-																									))}
-																								</div>
-																							</fieldset>
-																						</div>
-																					);
-																				}
-																				return null;
-																			})
-																		) : null}
+																	{/* )} */}
+																	<div className="form-style">
+																		<label className="title-select">{t("propertytype")}</label>
+																		<select
+																			className="form-control"
+																			id="property_type"
+																			name="type_id"
+																			value={filters.type_id ?? ''}
+																			onChange={handleFilterChange}
+																		>
+																			<option value="">{t("selectpropertytype")}</option>
+																			{propertyType.map((property) => (
+																				<option key={property.id} value={property.id}>
+																					{property.title}
+																				</option>
+																			))}
+																		</select>
 																	</div>
 
 																	{/* <div className="form-style">
@@ -1152,100 +1025,240 @@ export default function PropertyHalfmapList() {
 																			<option value="west">West</option>
 																		</select>
 																	</div> */}
-																</div>
-															</div>
 
 
+																	{/* <div className="form-style">
+																		<label className="title-select">{t("developedby")}</label>
+																		<select
+																			className="form-control"
+																			id="developer_id"
+																			name="developer_id"
+																			value={filters.developer_id} 
+																			onChange={handleFilterChange}
+																		>
+																			<option value="">{t("selectdeveloper")}</option>
+																			{developers.map((developer) => ( 
+																				<option key={developer.user_id} value={developer.user_id}>
+																					{developer.user_name}
+																				</option>
+																			))}
+																		</select>
+																	</div> */}
 
 
-															<div className="form-style wd-amenities" style={{ display: `${isToggled ? "block" : "none"}` }}>
-																<div className="group-checkbox">
-																	<div className="text-1">{t("amenities")}:</div>
-																	<div className="group-amenities">
-																		{amenities.map((amenity) => (
-																			amenity.type === "boolean" ? (
-																				<fieldset className="amenities-item" key={amenity.id}>
-																					<input
-																						type="checkbox"
-																						className="tf-checkbox style-1"
-																						id={`amenity-${amenity.id}`}
-																						checked={filters?.amenities_id_array?.includes(amenity.id)} // Updated to amenities_id_array
-																						onChange={(e) => {
-																							const updatedAmenities = e.target.checked
-																								? [...(filters.amenities_id_array || []), amenity.id]
-																								: (filters.amenities_id_array || []).filter((id) => id !== amenity.id);
+																	<div className="form-style widget-price">
+																		<label className="title-select" style={{ marginBottom: "0px" }}>{t("price")}</label>
+																		<div className="group-form">
+																			{Array.isArray(priceRange) && priceRange.length === 2 && (
+																				<ReactSlider
+																					ariaLabelledby="slider-label"
+																					className="horizontal-slider st2"
+																					min={1000}
+																					max={initialMaxPrice}
+																					value={priceRange ?? ''}
+																					step={100}
+																					thumbClassName="example-thumb"
+																					trackClassName="example-track"
+																					onChange={handlePriceChange}
+																				/>
+																			)}
 
-																							setFilters({ ...filters, amenities_id_array: updatedAmenities });
-																						}}
-
-																					/>
-																					<label htmlFor={`amenity-${amenity.id}`} className="text-cb-amenities">
-																						{amenity.name}
-																					</label>
-																				</fieldset>
-																			) : null
-																		))}
+																			<div className="group-range-title mt-2">
+																				<label className="d-flex justify-content-between mb-0">
+																					<span>{formatPropertyPrice(priceRange[0])} DH</span>
+																					<span>{formatPropertyPrice(priceRange[1])} DH</span>
+																				</label>
+																			</div>
+																		</div>
 																	</div>
-																</div>
-															</div>
 
-															<div className="form-style btn-hide-advanced" onClick={handleToggle} style={{ display: `${isToggled ? "block" : "none"}` }}>
-																<a className="filter-advanced pull-right">
-																	<span className="icon icon-faders" />
-																	<span className="text-advanced">{t("hideadvance")}</span>
-																</a>
+																	<div className="form-style widget-price">
+																		<label className="title-select" style={{ marginBottom: "0px" }}>{t("size")}</label>
+																		<div className="group-form">
+																			<ReactSlider
+																				ariaLabelledby="slider-label"
+																				className="horizontal-slider st2"
+																				min={0}
+																				max={initialMaxSize}
+																				value={sizeRange ?? 0}
+																				thumbClassName="example-thumb"
+																				trackClassName="example-track"
+																				onChange={handleSizeChange}
+																			/>
+
+																			<div className="group-range-title mt-2">
+																				<label className="d-flex justify-content-between mb-0">
+																					<span>{sizeRange[0] ?? 0} m²</span>
+																					<span>{sizeRange[1] ?? 0} m²</span>
+																				</label>
+																			</div>
+																		</div>
+																	</div>
+
+																	<div className="form-style btn-show-advanced" onClick={handleToggle} style={{ display: `${isToggled ? "none" : "block"}` }}>
+																		<a className="filter-advanced pull-right">
+																			<span className="icon icon-faders" />
+																			<span className="text-advanced">{t("showadvance")}</span>
+																		</a>
+																	</div>
+
+																	<div
+																		className="form-style wd-amenities box-amenities-property"
+																		style={{ display: `${isToggled ? "block" : "none"}` }}
+																	>
+																		<div className="group-checkbox">
+																			<div className="group-amenities">
+																				{amenities && amenities.length > 0 ? (
+																					[...amenities].reverse().map((project) => {
+																						if (project.type === "number") {
+																							const selectedValue = filters.amenities_id_object_with_value?.[project.id] || "";
+
+																							return (
+																								<div key={project.id} className="amenity-group">
+																									<div className="title-select text-variant-1" htmlFor={project.id}>
+																										{t("numberOfAminities")} {project.name}:
+																									</div>
+																									<fieldset className="box box-fieldse aminities-radio-sec">
+																										<div className="radio-group">
+																											{[
+																												{ label: "1", value: "1" },
+																												{ label: "2", value: "2" },
+																												{ label: "3", value: "3" },
+																												{ label: "3+", value: "4" }
+																											].map((option) => (
+																												<label key={`${project.id}-${option.value}`} className="radio-label custom-radio" style={{ marginRight: '10px' }}>
+																													<input
+																														type="radio"
+																														className="nice-radio"
+																														value={option.value}
+																														checked={selectedValue === option.value}
+																														name={project.id}
+																														onChange={() => handleNumberChange(project.id, option.value)}
+																													/>
+																													<span>{option.label}</span>
+																												</label>
+																											))}
+																										</div>
+																									</fieldset>
+																								</div>
+																							);
+																						}
+																						return null;
+																					})
+																				) : null}
+																			</div>
+
+																			{/* <div className="form-style">
+																				<label className="title-select">{t("direction")}</label>
+																				<select
+																					className="form-control"
+																					id="direction"
+																					name="direction"
+																					value={filters.direction} 
+																					onChange={handleFilterChange}
+																				>
+																					<option value="">{t("selectdiretion")}</option>
+																					<option value="north">North</option>
+																					<option value="south">South</option>
+																					<option value="east">East</option>
+																					<option value="west">West</option>
+																				</select>
+																			</div> */}
+																		</div>
+																	</div>
+
+
+
+
+																	<div className="form-style wd-amenities" style={{ display: `${isToggled ? "block" : "none"}` }}>
+																		<div className="group-checkbox">
+																			<div className="text-1">{t("amenities")}:</div>
+																			<div className="group-amenities">
+																				{amenities.map((amenity) => (
+																					amenity.type === "boolean" ? (
+																						<fieldset className="amenities-item" key={amenity.id}>
+																							<input
+																								type="checkbox"
+																								className="tf-checkbox style-1"
+																								id={`amenity-${amenity.id}`}
+																								checked={filters?.amenities_id_array?.includes(amenity.id)} // Updated to amenities_id_array
+																								onChange={(e) => {
+																									const updatedAmenities = e.target.checked
+																										? [...(filters.amenities_id_array || []), amenity.id]
+																										: (filters.amenities_id_array || []).filter((id) => id !== amenity.id);
+
+																									setFilters({ ...filters, amenities_id_array: updatedAmenities });
+																								}}
+
+																							/>
+																							<label htmlFor={`amenity-${amenity.id}`} className="text-cb-amenities">
+																								{amenity.name}
+																							</label>
+																						</fieldset>
+																					) : null
+																				))}
+																			</div>
+																		</div>
+																	</div>
+
+																	<div className="form-style btn-hide-advanced" onClick={handleToggle} style={{ display: `${isToggled ? "block" : "none"}` }}>
+																		<a className="filter-advanced pull-right">
+																			<span className="icon icon-faders" />
+																			<span className="text-advanced">{t("hideadvance")}</span>
+																		</a>
+																	</div>
+
+																</div>
+																{/* <div className="form-btn-fixed d-flex">
+																	<button
+																		type="submit"
+																		className="tf-btn primary"
+																		style={{ marginRight: "10px" }}
+																	>
+																		{t("findproperties")}
+																	</button>
+																	<button
+																		type="button" // Change type to "button" to prevent form submission
+																		className="tf-btn primary-1"
+																		style={{ marginLeft: "10px" }}
+																		onClick={(e) => {
+																		e.preventDefault(); // Prevent default form submission
+																		saveSearch(); // Call saveSearch function on button click
+																		}}
+																	>
+																		{t("savesearches")}
+																	</button>
+																	</div> */}
 															</div>
 
 														</div>
-														{/* <div className="form-btn-fixed d-flex">
-															<button
-																type="submit"
-																className="tf-btn primary"
-																style={{ marginRight: "10px" }}
-															>
-																{t("findproperties")}
-															</button>
-															<button
-																type="button" // Change type to "button" to prevent form submission
-																className="tf-btn primary-1"
-																style={{ marginLeft: "10px" }}
-																onClick={(e) => {
-																e.preventDefault(); // Prevent default form submission
-																saveSearch(); // Call saveSearch function on button click
-																}}
-															>
-																{t("savesearches")}
-															</button>
-															</div> */}
 													</div>
-
 												</div>
 											</div>
-										</div >
-									</div >
-									<div className="form-btn-fixed d-flex">
-										<button
-											type="submit"
-											className="tf-btn primary"
-											style={{ marginRight: "10px" }}
-										>
-											{t("findproperties")}
-										</button>
-										<button
-											type="button" // Change type to "button" to prevent form submission
-											className="tf-btn primary-1"
-											style={{ marginLeft: "10px" }}
-											onClick={(e) => {
-												e.preventDefault(); // Prevent default form submission
-												saveSearch(); // Call saveSearch function on button click
-											}}
-										>
-											{t("savesearches")}
-										</button>
+											<div className="form-btn-fixed d-flex">
+												<button
+													type="submit"
+													className="tf-btn primary"
+													style={{ marginRight: "10px" }}
+												>
+													{t("findproperties")}
+												</button>
+												<button
+													type="button" // Change type to "button" to prevent form submission
+													className="tf-btn primary-1"
+													style={{ marginLeft: "10px" }}
+													onClick={(e) => {
+														e.preventDefault(); // Prevent default form submission
+														saveSearch(); // Call saveSearch function on button click
+													}}
+												>
+													{t("savesearches")}
+												</button>
+											</div>
+										</form>
 									</div>
-								</form>
-							</div >
-
+								</div>
+							)}
 							<div className="wrap-inner">
 								{/* <div className="tab-content" style={{ position: "relative", height: "0px" }}>
 								{loading ? (

@@ -7959,6 +7959,10 @@ label {
   .show-password {
     top: 40% !important;
   }
+  .search-text{
+    display: none;
+  }
+
 }
 
 @media (max-width: 1024px) {
@@ -10631,11 +10635,14 @@ tr {
   }
 
   .property-form .property-filter{
-    height: 625px !important;
+    height: auto !important;
   }
   .property-sec .form-btn-fixed{
     padding-bottom: 30px !important;
     padding-top: 30px !important;
+  }
+  .filter-section{
+    width: 100%;
   }
 }
 
@@ -11331,7 +11338,7 @@ tr {
   }
 
   .wrapper-layout-3 .wrap-sidebar .widget-filter-search {
-    padding: 30px 15px;
+    padding: 30px 27px;
   }
 
   .wrapper-layout-3 .wrap-inner {
@@ -13890,6 +13897,67 @@ label span {
 .contact-user-phone:hover{
   color: #045c8d;
 }
+
+.accordion-section {
+  margin: 0 auto;
+  background-color: #f7f7f7;
+  padding: 10px 15px;
+  width: 100%;
+}
+.accordion-button {
+  width: 100%;
+  padding: 12px 16px;
+  background-color: #ffffff;
+  border: none;
+  outline: none;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* important to push icon right */
+}
+
+.accordion-button .title {
+  flex: 1;               /* let the title take available space */
+
+}
+
+.accordion-button .text-xl {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-left: auto;     /* ensures it's pushed far right */
+}
+
+/*
+.accordion-button {
+  width: 100%;
+  padding: 16px 20px;
+  background-color: #f9f9f9;
+  border: none;
+  outline: none;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.accordion-button:hover {
+  background-color: #f1f1f1;
+}
+
+.accordion-button .title {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.accordion-button .text-xl {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #333;
+}*/
 
 @media (min-width:375px) and (max-width: 600px) {
   .property-sec-list .project-listing .col-md-6{
