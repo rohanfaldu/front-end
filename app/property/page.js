@@ -247,7 +247,7 @@ export default function PropertyHalfmapList() {
 				direction: propertyFilterData.direction || null,
 			};
 
-			//console.log("Extracted Parameters:", params);
+			console.log("Extracted Parameters:", params);
 
 			setFilters(() => ({
 				...params,
@@ -355,7 +355,6 @@ export default function PropertyHalfmapList() {
 		}
 
 		const checkViewport = () => {
-			console.log(isMobile,' >>>>>>>>>>> isMobile');
 			setIsMobile(window.innerWidth < 768);
 			if(!isMobile){
 				setSeachAccordion(true);
@@ -773,7 +772,7 @@ export default function PropertyHalfmapList() {
 											<div className="flat-tab flat-tab-form widget-filter-search property-filter">
 												<div className="h7 title fw-7 search-text">{t("search")}</div>
 												<ul className="nav-tab-form" role="tablist" onClick={filterSet}>
-													<TabNav setTransaction={setTransaction} />
+													<TabNav transaction={setTransaction} />
 												</ul>
 												<div className="tab-content">
 													<div className="tab-pane fade active show" role="tabpanel">
@@ -1448,7 +1447,7 @@ export default function PropertyHalfmapList() {
 																		</div>
 																		<div onClick={() => handleClick(property.slug)} className="link">
 																			<div className="content">
-																				<div className="h7 text-capitalize fw-7">
+																				<div className="h7 text-capitalize fw-7 truncate-text">
 																					{/* <Link href={`/property/${property.slug}`} className="link"> */}
 																					{property.title}
 																					{/* </Link> */}

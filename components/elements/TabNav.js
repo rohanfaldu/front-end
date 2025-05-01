@@ -2,13 +2,13 @@
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
-export default function TabNav({ setTransaction }) {
+export default function TabNav({ transaction }) {
     const [isTab, setIsTab] = useState(1);
     const { t } = useTranslation();
 
     const handleTab = (i) => {
         setIsTab(i);
-        setTransaction(i === 1 ? "rental" : "sale"); // Set transaction type based on the selected tab
+        transaction(i === 1 ? "rental" : "sale"); // Set transaction type based on the selected tab
         localStorage.setItem("transaction", i === 1 ? "rental" : "sale");
     };
 

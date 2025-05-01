@@ -39,21 +39,22 @@ export default function Slider1({properties}) {
 								</div>
 								
 								<div className="flat-tab flat-tab-form">
-									<ul className="nav-tab-form style-1 justify-content-center" role="tablist">
-										<TabNav setTransaction={setTransaction}/>
-									</ul>
-									<div className="tab-content">
-										<div className="tab-pane fade active show" role="tabpanel">
-											<div className="form-sl">
-												<form method="post">
-													<input type="hidden" name="transaction" value={transaction} />
-													{properties !== undefined && (
-														<AdvancedFilter sidecls="shadow-st" propertiesData = {properties}/>)}
-													{/* <AdvancedFilter sidecls="shadow-st" propertiesData = {properties}/> */}
-												</form>
+									<form method="post">
+										<ul className="nav-tab-form style-1 justify-content-center" role="tablist">
+											<TabNav transaction={setTransaction}/>
+										</ul>
+										<div className="tab-content">
+											<div className="tab-pane fade active show" role="tabpanel">
+												<div className="form-sl">
+														<input type="hidden" name="transaction_new" value={transaction} />
+														{properties !== undefined && (
+															<AdvancedFilter sidecls="shadow-st" propertiesData = {properties}/>)}
+														{/* <AdvancedFilter sidecls="shadow-st" propertiesData = {properties}/> */}
+													
+												</div>
 											</div>
 										</div>
-									</div>
+									</form>
 								</div>
 							</div>
 						</div>

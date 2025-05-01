@@ -177,7 +177,7 @@ export default function PropertyData( propertyData, slide, calculation ) {
                         </div>
                     </Link>
                     <Link className="content" href={`/property/${propertyData.data.slug}`} style={{width: "100%"}}>
-                        <div className="h7 text-capitalize fw-7">
+                        <div className="h7 text-capitalize fw-7 truncate-text">
                             
                                 {propertyData.data.title}
 

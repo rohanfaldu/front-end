@@ -21,6 +21,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 	const [sizeRange, setSizeRange] = useState([]);
 	const [priceRange, setPriceRange] = useState([]);
 	const [transaction, setTransaction] = useState();
+	const [transactionData, setTransactionData] = useState();
 	const { t, i18n } = useTranslation();
 	const [cityOptions, setCityOptions] = useState([]);
 	const [error, setError] = useState(null);
@@ -57,6 +58,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 		itemsPerPage: variablesList.itemsPerPage,
 	});
 	// Initialize formData state
+	
 	const [formData, setFormData] = useState({
 		title: '',
 		description: '',
@@ -336,7 +338,10 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 
 	useEffect(() => {
 		setTransaction(localStorage.getItem("transaction"));
+		//setTransactionData(localStorage.getItem("transaction"));
 		// fetchPropertys(pagination.currentPage);
+	
+
 		if (propertiesData !== undefined) {
 			const { list, totalCount, totalPages, currentPage, property_meta_details, maxPriceSliderRange, property_types, maxSizeSliderRange, developers } = propertiesData;
 			setPropertys(list);
@@ -398,12 +403,15 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 		fetchNeighbourhoodOptions(searchTermNeighbourhood)
 	}, [pagination.currentPage, i18n.language, transaction, searchTerm, searchTermDistrict, searchTermNeighbourhood, searchTermTitle]);
 	const passingData = () => {
-		
-		// Create a shallow copy of formData
-		const queryData = { ...formData };
+		const transactionData = localStorage.getItem("transaction") || "rental";
+		const updatedFormData = {
+			...formData,
+			saction: transactionData,
+		};
 
-		// Stringify the nested object explicitly
-		queryData.amenities_id_object_with_value = JSON.stringify(formData.amenities_id_object_with_value);
+		// Create queryData from the updatedFormData
+		const queryData = { ...updatedFormData };
+		queryData.amenities_id_object_with_value = JSON.stringify(updatedFormData.amenities_id_object_with_value);
 
 		// Generate the query string
 		const queryString = new URLSearchParams(queryData).toString();
