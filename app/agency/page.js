@@ -13,6 +13,7 @@ const { defaultImage } = "/images/banner/no-banner.png";
 import Preloader from "@/components/elements/Preloader";
 import variablesList from "@/components/common/Variable";
 import debounce from "lodash.debounce";
+import { useRouter } from 'next/navigation';
 
 export default function AgencyListing() {
 	const [isToggled, setToggled] = useState(false)
@@ -172,6 +173,10 @@ export default function AgencyListing() {
 		const updateStatus = (status) ? false : true;
 		setSeachAccordion(updateStatus);
 	}
+	const router = useRouter();
+	const handleClick = (slug) => {
+		router.push(slug);
+	};
 	// console.log('>>>>>>>>agencyList', agencyList);
 	return (
 		<>
@@ -290,11 +295,7 @@ export default function AgencyListing() {
 										<div className="col-md-4" key={agencyUserData.id}>
 											<div className="homeya-box">
 												<div className="archive-top">
-													<Link
-														href={`/agency/${agencyUserData.slug}`}
-														className="images-group"
-													>
-
+													<div onClick={() => handleClick(`/agency/${agencyUserData.slug}`)} className="link custom-link images-group">
 														<div className="images-style">
 															<img
 																src={agencyUserData.image || "/images/banner/no-banner.png"}
@@ -320,15 +321,12 @@ export default function AgencyListing() {
 																{/* {agencyUserData.meta_details?.propertyType || 'Studio'} */}
 															</span>
 														</div>
-													</Link>
+													</div>
 													<div className="content user-listing-sec">
 														<div className="h7 text-capitalize fw-7">
-															<Link
-																href={`/agency/${agencyUserData.slug}`}// Pass ID as query param
-																className="link"
-															>
+															<div onClick={() => handleClick(`/agency/${agencyUserData.slug}`)} className="link custom-link">
 																{agencyUserData.user_name}
-															</Link>
+															</div>
 														</div>
 														<div className="desc">
 															<i className="fs-16 icon icon-mapPin" />

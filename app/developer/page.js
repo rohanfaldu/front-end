@@ -13,7 +13,7 @@ const { defaultImage } = "/images/banner/no-banner.png";
 import Preloader from "@/components/elements/Preloader";
 import variablesList from "@/components/common/Variable";
 import debounce from "lodash.debounce";
-
+import { useRouter } from 'next/navigation';
 
 export default function developerListing() {
   const [isToggled, setToggled] = useState(false)
@@ -204,7 +204,11 @@ export default function developerListing() {
 		const updateStatus = (status)?false:true;
 		setSeachAccordion(updateStatus);
 	}
-	
+	const router = useRouter();
+  const handleClick = (slug) => {
+		router.push(slug);
+	};
+
   return (
     <>
 
@@ -320,11 +324,7 @@ export default function developerListing() {
                     <div className="col-md-4" key={developerUserData.id}>
                       <div className="homeya-box">
                         <div className="archive-top">
-                          <Link
-                            href={`/developer/${developerUserData.slug}`}
-                            className="images-group"
-                          >
-
+                          <div onClick={() => handleClick(`/developer/${developerUserData.slug}`)} className="link custom-link images-group">
                             <div className="images-style">
                               <img
                                 src={developerUserData.image || "/images/banner/no-banner.png"}
@@ -337,15 +337,12 @@ export default function developerListing() {
                                  {agencyUserData.meta_details?.propertyType || 'Studio'} 
                               </span>
                             </div> */}
-                          </Link>
+                          </div>
                           <div className="content user-listing-sec">
                             <div className="h7 text-capitalize fw-7">
-                              <Link
-                                href={`/developer/${developerUserData.slug}`}// Pass ID as query param
-                                className="link"
-                              >
+                              <div onClick={() => handleClick(`/developer/${developerUserData.slug}`)} className="link custom-link">
                                 {developerUserData.user_name}
-                              </Link>
+                              </div>
                             </div>
                             <div className="desc">
                               <i className="fs-16 icon icon-mapPin" />
