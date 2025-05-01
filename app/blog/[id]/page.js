@@ -56,8 +56,22 @@ export default function BlogDetail() {
                         <Layout headerStyle={1} footerStyle={1}>
                             <div>
                                 <section className="flat-banner-blog">
-                                    <img src={blogDetails.image} alt="banner-blog" />
+                                    {/* <img src={blogDetails.image} alt="banner-blog" /> */}
+                                    <div className="banner-container">
+                                        <img src={blogDetails.image} alt="banner-blog" />
+                                        <div className="link back-btn">
+                                            <button
+                                                className="form-wg tf-btn primary"
+                                                type="button"
+                                                onClick={() => router.back()}
+                                                style={{ margin: "30px" }}
+                                            >
+                                                <span style={{ color: "#fff" }}>&lt; {t('back')}</span>
+                                            </button>
+                                        </div>
+                                    </div>
                                 </section>
+
 
                                 <section className="flat-section-v2">
                                     <div className="container">
