@@ -9,6 +9,7 @@ import ReactSlider from "react-slider"
 import debounce from "lodash.debounce";
 import { formatPropertyPrice } from "@/components/common/Functions";
 import { useRouter } from 'next/navigation';
+import TabNav from "@/components/elements/TabNav";
 
 export default function AdvancedFilter({ sidecls, propertiesData }) {
 	const [isToggled, setToggled] = useState(false);
@@ -20,8 +21,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 	const [initialMaxSize, setInitialMaxSize] = useState(0);
 	const [sizeRange, setSizeRange] = useState([]);
 	const [priceRange, setPriceRange] = useState([]);
-	const [transaction, setTransaction] = useState();
-	const [transactionData, setTransactionData] = useState();
+	const [transactionData, setTransactionData] = useState("rental");
 	const { t, i18n } = useTranslation();
 	const [cityOptions, setCityOptions] = useState([]);
 	const [error, setError] = useState(null);
@@ -45,6 +45,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 	const [districtId, setDistrictId] = useState(['']);
 	const defaultSuggestions = ['Apple', 'Banana', 'Orange', 'Pineapple', 'Grapes'];
 	const [suggestions, setSuggestions] = useState([]);
+	const [formReady, setFormReady] = useState(false);
 	const handleFocus = () => {
 		setSuggestions(defaultSuggestions);
 	};
@@ -58,7 +59,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 		itemsPerPage: variablesList.itemsPerPage,
 	});
 	// Initialize formData state
-	
+
 	const [formData, setFormData] = useState({
 		title: '',
 		description: '',
@@ -337,10 +338,10 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 
 
 	useEffect(() => {
-		setTransaction(localStorage.getItem("transaction"));
+		//setTransaction(localStorage.getItem("transaction"));
 		//setTransactionData(localStorage.getItem("transaction"));
 		// fetchPropertys(pagination.currentPage);
-	
+
 
 		if (propertiesData !== undefined) {
 			const { list, totalCount, totalPages, currentPage, property_meta_details, maxPriceSliderRange, property_types, maxSizeSliderRange, developers } = propertiesData;
@@ -400,10 +401,14 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 			fetchCityOptions(searchTermTitle);
 		}
 		fetchDistrictOptions(searchTermDistrict)
-		fetchNeighbourhoodOptions(searchTermNeighbourhood)
-	}, [pagination.currentPage, i18n.language, transaction, searchTerm, searchTermDistrict, searchTermNeighbourhood, searchTermTitle]);
+		fetchNeighbourhoodOptions(searchTermNeighbourhood);
+		if(localStorage.getItem("transaction")){
+			setTransactionData(localStorage.getItem("transaction"));
+		}
+		setFormReady(true);
+	}, [pagination.currentPage, i18n.language, transactionData, searchTerm, searchTermDistrict, searchTermNeighbourhood, searchTermTitle]);
 	const passingData = () => {
-		const transactionData = localStorage.getItem("transaction") || "rental";
+		//const transactionData = localStorage.getItem("transaction") || "rental";
 		const updatedFormData = {
 			...formData,
 			saction: transactionData,
@@ -424,62 +429,82 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 	};
 
 	const handleToggle = () => setToggled(!isToggled);
-	//console.log(cityOptions, "cityOptions");
+	const handleTab = (i) => {
+		setTransactionData(i);
+		localStorage.setItem("transaction",i)
+    };
+
+	if (!formReady) return null;
+	
 	return (
 		<>
-			<div className={`wd-find-select ${sidecls ? sidecls : ""}`}>
-				<div className="inner-group">
-					<div className="form-group-1 search-form form-style">
-						<label className="title-select">{t("location")}</label>
-						<input
-							type="text"
-							className="form-control"
-							id="city"
-							name="city"
-							value={searchCity}
-							onChange={handleInputChangeCity}
-							onFocus={() => {
-								setIsFocused(true);
-								// If no search term, we'll still show predefined cities
-								if (!searchCity || searchCity.length === 0) {
-								  // You can set predefined cities here or use existing cityOptions state
-								  setCityOptions([
-									{ id: "bbc4c04e-0e2c-4c47-9627-d1fb4b1fb415", name: "Casablanca", slug: "casablanca" },
-									{ id: "885a0061-f10f-499c-beed-ba98ac5a3ef7", name: "Rabat", slug: "rabat" },
-									{ id: "3cd31d23-d688-42a6-a207-9a2a96f88a89", name: "Agadir", slug: "agadir" },
-									{ id: "c9d714ba-331a-4634-b92e-1511a17c0f25", name: "Tanger", slug: "tanger" },
-									{ id: "6880643f-8441-40b2-92e4-98a5a9e44070", name: "Marrakech", slug: "marrakech" },
-									{ id: "eb9e825d-a8a0-4726-ba6f-790c5da0af00", name: "Fes", slug: "fes" }
-								  ]);
-								}
-							}}
-							onBlur={() => {
-								// Small delay to allow item selection before hiding dropdown
-								setTimeout(() => setIsFocused(false), 200);
-							}}
-							placeholder={t("searchCity")}
-						/>
-						{(searchTerm.length > 0 || isFocused) && (
-							cityOptions.length > 0 && (
-								<ul className="city-dropdown form-style" style={{ marginTop: "0px", width: "35%", position: "absolute" }}>
-									{cityOptions.map((city) => (
-										<li
-											key={city.id}
-											onClick={() => {
-												handleCitySelect(city.id, city.name, city.slug);
-												setSearchTerm('');
-												setIsFocused(false);
-											}}
-											className="city-option"
-										>
-											{city.name}
-										</li>
-									))}
-								</ul>
-							)
-						)}
-					</div>
-					{/* <div className="form-group-2 form-style">
+			<div className="flat-tab flat-tab-form">
+				<form method="post">
+					<ul className="nav-tab-form style-1 justify-content-center" role="tablist">
+							<li className="nav-tab-item" onClick={() => handleTab('rental')}>
+							<a className={transactionData === "rental" ? "nav-link-item active" : "nav-link-item"}>{t("forrent")}</a>
+						</li>
+						<li className="nav-tab-item" onClick={() => handleTab('sale')}>
+							<a className={transactionData === "sale" ? "nav-link-item active" : "nav-link-item"}>{t("forsale")}</a>
+						</li>
+					</ul>
+					<div className="tab-content">
+						<div className="tab-pane fade active show" role="tabpanel">
+							<div className="form-sl">
+								<input type="hidden" name="transaction_new" value={transactionData} />
+								<div className={`wd-find-select ${sidecls ? sidecls : ""}`}>
+									<div className="inner-group">
+										<div className="form-group-1 search-form form-style">
+											<label className="title-select">{t("location")}</label>
+											<input
+												type="text"
+												className="form-control"
+												id="city"
+												name="city"
+												value={searchCity}
+												onChange={handleInputChangeCity}
+												onFocus={() => {
+													setIsFocused(true);
+													// If no search term, we'll still show predefined cities
+													if (!searchCity || searchCity.length === 0) {
+														// You can set predefined cities here or use existing cityOptions state
+														setCityOptions([
+															{ id: "bbc4c04e-0e2c-4c47-9627-d1fb4b1fb415", name: "Casablanca", slug: "casablanca" },
+															{ id: "885a0061-f10f-499c-beed-ba98ac5a3ef7", name: "Rabat", slug: "rabat" },
+															{ id: "3cd31d23-d688-42a6-a207-9a2a96f88a89", name: "Agadir", slug: "agadir" },
+															{ id: "c9d714ba-331a-4634-b92e-1511a17c0f25", name: "Tanger", slug: "tanger" },
+															{ id: "6880643f-8441-40b2-92e4-98a5a9e44070", name: "Marrakech", slug: "marrakech" },
+															{ id: "eb9e825d-a8a0-4726-ba6f-790c5da0af00", name: "Fes", slug: "fes" }
+														]);
+													}
+												}}
+												onBlur={() => {
+													// Small delay to allow item selection before hiding dropdown
+													setTimeout(() => setIsFocused(false), 200);
+												}}
+												placeholder={t("searchCity")}
+											/>
+											{(searchTerm.length > 0 || isFocused) && (
+												cityOptions.length > 0 && (
+													<ul className="city-dropdown form-style" style={{ marginTop: "0px", width: "35%", position: "absolute" }}>
+														{cityOptions.map((city) => (
+															<li
+																key={city.id}
+																onClick={() => {
+																	handleCitySelect(city.id, city.name, city.slug);
+																	setSearchTerm('');
+																	setIsFocused(false);
+																}}
+																className="city-option"
+															>
+																{city.name}
+															</li>
+														))}
+													</ul>
+												)
+											)}
+										</div>
+										{/* <div className="form-group-2 form-style">
 						<label>{t("description")}</label>
 						<div className="group-ip">
 							<input
@@ -494,40 +519,40 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 							/>
 						</div>
 					</div> */}
-					<div className="form-group-3 form-style">
-						<label>{t("propertytype")}</label>
-						<div className="group-select">
+										<div className="form-group-3 form-style">
+											<label>{t("propertytype")}</label>
+											<div className="group-select">
 
-							<select
-								className="nice-select"
-								id="propertyType"
-								name="type_id"
-								value={formData.type_id}
-								onChange={handleInputChange}
-							>
-								<option value="">{t("selectpropertytype")}</option>
-								{propertyType.map((property) => (
-									<option key={property.id} value={property.id}>
-										{property.title}
-									</option>
-								))}
-							</select>
-						</div>
-					</div>
-					<div className="form-group-4 box-filter">
-						<a className="filter-advanced pull-right" onClick={handleToggle}>
-							<span className="icon icon-faders" />
-							<span className="text-1">{t("advanced")}</span>
-						</a>
-					</div>
-				</div>
-				<button type="button" className="tf-btn primary" onClick={passingData}>{t("findproperties")}</button>
-			</div>
-			<div className={`wd-search-form ${isToggled ? "show" : ""}`}>
+												<select
+													className="nice-select"
+													id="propertyType"
+													name="type_id"
+													value={formData.type_id}
+													onChange={handleInputChange}
+												>
+													<option value="">{t("selectpropertytype")}</option>
+													{propertyType.map((property) => (
+														<option key={property.id} value={property.id}>
+															{property.title}
+														</option>
+													))}
+												</select>
+											</div>
+										</div>
+										<div className="form-group-4 box-filter">
+											<a className="filter-advanced pull-right" onClick={handleToggle}>
+												<span className="icon icon-faders" />
+												<span className="text-1">{t("advanced")}</span>
+											</a>
+										</div>
+									</div>
+									<button type="button" className="tf-btn primary" onClick={passingData}>{t("findproperties")}</button>
+								</div>
+								<div className={`wd-search-form ${isToggled ? "show" : ""}`}>
 
-				<div className="grid-1 group-box">
-					<div className="group-select grid-3">
-						{/* <div className="form-style">
+									<div className="grid-1 group-box">
+										<div className="group-select grid-3">
+											{/* <div className="form-style">
 						<label className="title-select">{t("city")}</label>
 						<input
 							type="text"
@@ -558,8 +583,8 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 						)}
 					</div> */}
 
-						{/* {showDistrict && ( */}
-						{/* <div className="form-style">
+											{/* {showDistrict && ( */}
+											{/* <div className="form-style">
 						<label className="title-select">{t("district")}</label>
 						<input
 							type="text"
@@ -594,10 +619,10 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 							)
 						)}
 					</div> */}
-						{/* )} */}
+											{/* )} */}
 
-						{/* {showNeighbourhood && ( */}
-						{/* <div className="form-style">
+											{/* {showNeighbourhood && ( */}
+											{/* <div className="form-style">
 							<label className="title-select">{t("neighbourhood")}</label>
 							<input
 								type="text"
@@ -632,209 +657,215 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 								)
 							)}
 						</div> */}
-						{/* )} */}
+											{/* )} */}
 
-					</div>
-				</div>
-
-
-				<div className="grid-1 group-box">
-					<div className="group-select grid-2">
-						{/* <div className="form-style">
-						<label className="title-select">{t("direction")}</label>
-						<select
-							className="form-control"
-							id="direction"
-							name="direction"
-							value={formData.direction} 
-							onChange={handleFilterChange}
-						>
-							<option value="">{t("selectdiretion")}</option>
-							<option value="north">North</option>
-							<option value="south">South</option>
-							<option value="east">East</option>
-							<option value="west">West</option>
-						</select>
-					</div> */}
-
-						{/* <div className="form-style">
-						<label className="title-select">{t("developedby")}</label>
-						<select
-							className="form-control"
-							id="developer_id"
-							name="developer_id"
-							value={formData.developer_id} 
-							onChange={handleFilterChange}
-						>
-							<option value="">{t("selectdeveloper")}</option>
-							{developers.map((developer) => ( 
-								<option key={developer.user_id} value={developer.user_id}>
-									{developer.user_name}
-								</option>
-							))}
-						</select>
-					</div> */}
-					</div>
-				</div>
-
-
-				<div className="grid-2 group-box group-price">
-					<div className="widget-price">
-						<label className="title-select" style={{ marginBottom: "0px" }}>{t("price")}</label>
-						<div className="group-form">
-							{/* { // console.log(priceRange, ' >>>>>> priceRange')} */}
-							<ReactSlider
-								ariaLabelledby="slider-label"
-								className="horizontal-slider st2"
-								min={1000}
-								max={initialMaxPrice}
-								value={priceRange}
-								step={100}
-								thumbClassName="example-thumb"
-								trackClassName="example-track"
-								onChange={handlePriceChange}
-							/>
-							<div className="group-range-title mt-2">
-								<label className="d-flex justify-content-between mb-0">
-									{ (priceRange[0] !== undefined  )? ( <span>{formatPropertyPrice(priceRange[0])} DH</span> ) : null}
-									{ (priceRange[1] !== undefined  )? ( <span>{formatPropertyPrice(priceRange[1])} DH</span> ) : null}
-								</label>
-							</div>
-						</div>
-					</div>
-					<div className="widget-price">
-						<label className="title-select" style={{ marginBottom: "0px" }}>{t("size")}</label>
-						<div className="group-form">
-							<ReactSlider
-								ariaLabelledby="slider-label"
-								className="horizontal-slider st2"
-								min={0}
-								max={initialMaxSize}
-								value={sizeRange}
-								thumbClassName="example-thumb"
-								trackClassName="example-track"
-								onChange={handleSizeChange}
-							/>
-							<div className="group-range-title mt-2">
-								<label className="d-flex justify-content-between mb-0">
-									<span>{sizeRange[0]} m²</span>
-									<span>{sizeRange[1]} m²</span>
-								</label>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div className="grid-1 group-box">
-					<div className="group-select aminity-filter-sec">
-						{amenities && amenities.length > 0 ? (
-							[...amenities].reverse().map((project) => {
-								if (project.type === "number") {
-									const selectedValue = formData.amenities_id_object_with_value?.[project.id] || "";
-
-									return (
-										<div key={project.id} className="radio-btn-filter-sec">
-											<div className="title-select text-variant-1" htmlFor={project.id}>
-												{t("numberOfAminities")} {project.name}:
-											</div>
-											<fieldset className="box box-fieldset aminities-radio-sec advance-filter-radio">
-												<div className="radio-group">
-													{[
-														{ label: "1", value: "1" },
-														{ label: "2", value: "2" },
-														{ label: "3", value: "3" },
-														{ label: "3+", value: "4" },
-													].map((option) => (
-														<label
-															key={option.value}
-															className="radio-label custom-radio"
-															style={{ marginRight: "10px" }}
-														>
-															<input
-																type="radio"
-																className="nice-radio"
-																value={option.value}
-																checked={selectedValue === option.value}
-																name={project.id}
-																onChange={() => handleNumberChange(project.id, option.value)}
-															/>
-															<span className="">{option.label}</span>
-														</label>
-													))}
-												</div>
-											</fieldset>
 										</div>
-									);
-								}
-								return null;
-							})
-						) : null}
+									</div>
+
+
+									<div className="grid-1 group-box">
+										<div className="group-select grid-2">
+											{/* <div className="form-style">
+															<label className="title-select">{t("direction")}</label>
+															<select
+																className="form-control"
+																id="direction"
+																name="direction"
+																value={formData.direction} 
+																onChange={handleFilterChange}
+															>
+																<option value="">{t("selectdiretion")}</option>
+																<option value="north">North</option>
+																<option value="south">South</option>
+																<option value="east">East</option>
+																<option value="west">West</option>
+															</select>
+														</div> */}
+
+																				{/* <div className="form-style">
+															<label className="title-select">{t("developedby")}</label>
+															<select
+																className="form-control"
+																id="developer_id"
+																name="developer_id"
+																value={formData.developer_id} 
+																onChange={handleFilterChange}
+															>
+																<option value="">{t("selectdeveloper")}</option>
+																{developers.map((developer) => ( 
+																	<option key={developer.user_id} value={developer.user_id}>
+																		{developer.user_name}
+																	</option>
+																))}
+															</select>
+														</div> */}
+										</div>
+									</div>
+
+
+									<div className="grid-2 group-box group-price">
+										<div className="widget-price">
+											<label className="title-select" style={{ marginBottom: "0px" }}>{t("price")}</label>
+											<div className="group-form">
+												{/* { // console.log(priceRange, ' >>>>>> priceRange')} */}
+												<ReactSlider
+													ariaLabelledby="slider-label"
+													className="horizontal-slider st2"
+													min={1000}
+													max={initialMaxPrice}
+													value={priceRange}
+													step={100}
+													thumbClassName="example-thumb"
+													trackClassName="example-track"
+													onChange={handlePriceChange}
+												/>
+												<div className="group-range-title mt-2">
+													<label className="d-flex justify-content-between mb-0">
+														{(priceRange[0] !== undefined) ? (<span>{formatPropertyPrice(priceRange[0])} DH</span>) : null}
+														{(priceRange[1] !== undefined) ? (<span>{formatPropertyPrice(priceRange[1])} DH</span>) : null}
+													</label>
+												</div>
+											</div>
+										</div>
+										<div className="widget-price">
+											<label className="title-select" style={{ marginBottom: "0px" }}>{t("size")}</label>
+											<div className="group-form">
+												<ReactSlider
+													ariaLabelledby="slider-label"
+													className="horizontal-slider st2"
+													min={0}
+													max={initialMaxSize}
+													value={sizeRange}
+													thumbClassName="example-thumb"
+													trackClassName="example-track"
+													onChange={handleSizeChange}
+												/>
+												<div className="group-range-title mt-2">
+													<label className="d-flex justify-content-between mb-0">
+														<span>{sizeRange[0]} m²</span>
+														<span>{sizeRange[1]} m²</span>
+													</label>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div className="grid-1 group-box">
+										<div className="group-select aminity-filter-sec">
+											{amenities && amenities.length > 0 ? (
+												[...amenities].reverse().map((project) => {
+													if (project.type === "number") {
+														const selectedValue = formData.amenities_id_object_with_value?.[project.id] || "";
+
+														return (
+															<div key={project.id} className="radio-btn-filter-sec">
+																<div className="title-select text-variant-1" htmlFor={project.id}>
+																	{t("numberOfAminities")} {project.name}:
+																</div>
+																<fieldset className="box box-fieldset aminities-radio-sec advance-filter-radio">
+																	<div className="radio-group">
+																		{[
+																			{ label: "1", value: "1" },
+																			{ label: "2", value: "2" },
+																			{ label: "3", value: "3" },
+																			{ label: "3+", value: "4" },
+																		].map((option) => (
+																			<label
+																				key={option.value}
+																				className="radio-label custom-radio"
+																				style={{ marginRight: "10px" }}
+																			>
+																				<input
+																					type="radio"
+																					className="nice-radio"
+																					value={option.value}
+																					checked={selectedValue === option.value}
+																					name={project.id}
+																					onChange={() => handleNumberChange(project.id, option.value)}
+																				/>
+																				<span className="">{option.label}</span>
+																			</label>
+																		))}
+																	</div>
+																</fieldset>
+															</div>
+														);
+													}
+													return null;
+												})
+											) : null}
+										</div>
+									</div>
+
+									<div className="group-checkbox">
+										<div className="text-1">{t("amenities")}:</div>
+										{/* <div className="group-amenities mt-8 grid-6">
+															{[
+																{ id: "cb1", label: "Air Condition" },
+																{ id: "cb2", label: "Cable TV" },
+																{ id: "cb3", label: "Ceiling Height" },
+																{ id: "cb4", label: "Fireplace" },
+																{ id: "cb5", label: "Disabled Access" },
+																{ id: "cb6", label: "Elevator" },
+																{ id: "cb7", label: "Fence" },
+																{ id: "cb8", label: "Garden" },
+																{ id: "cb9", label: "Floor" },
+																{ id: "cb10", label: "Furnishing" },
+																{ id: "cb11", label: "Garage" },
+																{ id: "cb12", label: "Pet Friendly" },
+																{ id: "cb13", label: "Heating" },
+																{ id: "cb14", label: "Intercom" },
+																{ id: "cb15", label: "Parking" },
+																{ id: "cb16", label: "WiFi" },
+																{ id: "cb17", label: "Renovation" },
+																{ id: "cb18", label: "Security" },
+																{ id: "cb19", label: "Swimming Pool" },
+															].map((amenity) => (
+																<div className="box-amenities" key={amenity.id}>
+																	<fieldset className="amenities-item">
+																		<input
+																			type="checkbox"
+																			className="tf-checkbox style-1"
+																			id={amenity.id}
+																			checked={formData.amenities.includes(amenity.id)}
+																			onChange={handleCheckboxChange}
+																		/>
+																		<label htmlFor={amenity.id} className="text-cb-amenities">{amenity.label}</label>
+																	</fieldset>
+																</div>
+															))}
+														</div> */}
+										<div className="group-amenities mt-8 grid-6">
+											{amenities.map((amenity) => (
+												amenity.type === "boolean" ? (
+													<fieldset className="amenities-item" key={amenity.id}>
+														<input
+															type="checkbox"
+															className="tf-checkbox style-1"
+															id={`amenity-${amenity.id}`}
+															checked={formData?.amenities_id_array?.includes(amenity.id)} // Updated to amenities_id_array
+															onChange={(e) => {
+																const updatedAmenities = e.target.checked
+																	? [...formData.amenities_id_array, amenity.id] // Updated to amenities_id_array
+																	: formData.amenities_id_array.filter((id) => id !== amenity.id); // Updated to amenities_id_array
+																setFormData({ ...formData, amenities_id_array: updatedAmenities }); // Updated to amenities_id_array
+															}}
+														/>
+														<label htmlFor={`amenity-${amenity.id}`} className="text-cb-amenities">
+															{amenity.name}
+														</label>
+													</fieldset>
+												) : null
+											))}
+										</div>
+
+
+									</div>
+								</div>
+
+								</div>
+						</div>
 					</div>
-				</div>
-
-				<div className="group-checkbox">
-					<div className="text-1">{t("amenities")}:</div>
-					{/* <div className="group-amenities mt-8 grid-6">
-						{[
-							{ id: "cb1", label: "Air Condition" },
-							{ id: "cb2", label: "Cable TV" },
-							{ id: "cb3", label: "Ceiling Height" },
-							{ id: "cb4", label: "Fireplace" },
-							{ id: "cb5", label: "Disabled Access" },
-							{ id: "cb6", label: "Elevator" },
-							{ id: "cb7", label: "Fence" },
-							{ id: "cb8", label: "Garden" },
-							{ id: "cb9", label: "Floor" },
-							{ id: "cb10", label: "Furnishing" },
-							{ id: "cb11", label: "Garage" },
-							{ id: "cb12", label: "Pet Friendly" },
-							{ id: "cb13", label: "Heating" },
-							{ id: "cb14", label: "Intercom" },
-							{ id: "cb15", label: "Parking" },
-							{ id: "cb16", label: "WiFi" },
-							{ id: "cb17", label: "Renovation" },
-							{ id: "cb18", label: "Security" },
-							{ id: "cb19", label: "Swimming Pool" },
-						].map((amenity) => (
-							<div className="box-amenities" key={amenity.id}>
-								<fieldset className="amenities-item">
-									<input
-										type="checkbox"
-										className="tf-checkbox style-1"
-										id={amenity.id}
-										checked={formData.amenities.includes(amenity.id)}
-										onChange={handleCheckboxChange}
-									/>
-									<label htmlFor={amenity.id} className="text-cb-amenities">{amenity.label}</label>
-								</fieldset>
-							</div>
-						))}
-					</div> */}
-					<div className="group-amenities mt-8 grid-6">
-						{amenities.map((amenity) => (
-							amenity.type === "boolean" ? (
-								<fieldset className="amenities-item" key={amenity.id}>
-									<input
-										type="checkbox"
-										className="tf-checkbox style-1"
-										id={`amenity-${amenity.id}`}
-										checked={formData?.amenities_id_array?.includes(amenity.id)} // Updated to amenities_id_array
-										onChange={(e) => {
-											const updatedAmenities = e.target.checked
-												? [...formData.amenities_id_array, amenity.id] // Updated to amenities_id_array
-												: formData.amenities_id_array.filter((id) => id !== amenity.id); // Updated to amenities_id_array
-											setFormData({ ...formData, amenities_id_array: updatedAmenities }); // Updated to amenities_id_array
-										}}
-									/>
-									<label htmlFor={`amenity-${amenity.id}`} className="text-cb-amenities">
-										{amenity.name}
-									</label>
-								</fieldset>
-							) : null
-						))}
-					</div>
-
-
-				</div>
+				</form>
 			</div>
 		</>
 	);
