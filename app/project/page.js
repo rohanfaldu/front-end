@@ -670,7 +670,7 @@ export default function ProjectHalfmapList() {
 										<h5>{t("projectlisting")}</h5>
 										<div className="flex items-center cursor-pointer select-none">
 											{/* <span className="switch-text">{t('switchMapText')}</span> */}
-											<img src="/images/logo/map-icon.png" alt="logo-footer" width={30} height={20} style={{ marginRight: "10px" }}></img>
+											<img src="/images/logo/map-icon.png" alt="logo-footer" width={30} height={20} style={{ marginRight: "10px" }} className="map-switch-icon"></img>
 											<label className="switch">
 												<input
 													type="checkbox"

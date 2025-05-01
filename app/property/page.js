@@ -1338,7 +1338,7 @@ export default function PropertyHalfmapList() {
 												<div className="flex items-center cursor-pointer select-none">
 													{/* <span className="switch-text">{t('switchMapText')}</span> */}
 													{/* <Image src="/images/logo/location-solid.svg" alt="switch"></Image> */}
-													<img src="/images/logo/map-icon.png" alt="logo-footer" width={30} height={20} style={{ marginRight: "10px" }}></img>
+													<img src="/images/logo/map-icon.png" alt="logo-footer" width={30} height={20} style={{ marginRight: "10px" }} className="map-switch-icon"></img>
 													<label className="switch">
 														<input
 															type="checkbox"

@@ -11848,7 +11848,7 @@ tr {
     margin: 0px;
     padding: 10px !important;
   }
-  .items-center .switch{
+  .items-center .switch, .items-center .map-switch-icon{
     display: none;
   }
   .flat-slider-detail-v1 .back-btn {
@@ -12482,36 +12482,18 @@ tr {
 }
 
 @media only screen and (max-width: 769px) {
-  .widget-box-2 .grid-4 {
-    grid-template-columns: 1fr;
-  }
-
-  .property-information {
-    margin-left: 0px;
-    margin-right: 0px;
-  }
+  .widget-box-2 .grid-4 { grid-template-columns: 1fr; }
+  .property-information { margin-left: 0px; margin-right: 0px; }
+  .homeya-box .content .meta-list{ grid-template-columns: repeat(2, 1fr); display: grid; }
+  .homeya-box .content .meta-list .filteration{ margin-left: 0px; }
 }
 
 @media screen and (max-width: 600px) {
-  .swiper .swiper-slide .box-imgage-detail img {
-    height: 100% !important;
-  }
-
-  .flat-slider-detail-v1 {
-    margin-bottom: 10px !important;
-  }
-
-  .flat-location.flat-slider-detail-v1 {
-    height: 300px;
-  }
-
-  .swiper.tf-sw-location {
-    height: 100% !important;
-  }
-
-  .property-image {
-    height: 100% !important;
-  }
+  .swiper .swiper-slide .box-imgage-detail img { height: 100% !important; }
+  .flat-slider-detail-v1 { margin-bottom: 10px !important;}
+  .flat-location.flat-slider-detail-v1 { height: 300px; }
+  .swiper.tf-sw-location { height: 100% !important; }
+  .property-image { height: 100% !important;}
 }
 
 .swiper .swiper-slide .box-imgage-detail img {
@@ -13358,6 +13340,12 @@ footer {
   }
 }
 
+@media (max-width: 426px) {
+  .homeya-box .content .meta-list{
+    column-gap: 17px !important;
+  }
+}
+
 
 .flat-slider-detail-v1 .swiper {
   position: relative;
@@ -13903,7 +13891,18 @@ label span {
   color: #045c8d;
 }
 
-@media only screen and (max-width: 600px) {
+@media (min-width:375px) and (max-width: 600px) {
+  .property-sec-list .project-listing .col-md-6{
+    width: 100%;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    max-width: 350px;
+  }
+}
+
+@media (max-width: 374px) {
   .property-sec-list .project-listing .col-md-6{
     width: 100%;
     margin: 0 auto;
