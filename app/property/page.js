@@ -194,12 +194,13 @@ export default function PropertyHalfmapList() {
 	useEffect(() => {
 		//if (isApiCalled.current) return;
 		setLoading(true);
-		setTransaction(localStorage.getItem("transaction"));
+		
 		const propertyFilterData = JSON.parse(localStorage.getItem('propertyFilterData'));
 		// const url = window.location.href;
 		// const urlParams = new URLSearchParams(new URL(url).search);
 		//console.log('urlParams: ', urlParams.get("city_status"));
 		if (propertyFilterData && typeof propertyFilterData === 'object') {
+			setTransaction(localStorage.getItem('transaction'));
 			setCheckURL(true);
 			// const params = {
 			// 	title: urlParams.get("title") || null,
@@ -249,6 +250,7 @@ export default function PropertyHalfmapList() {
 			};
 
 			console.log("Extracted Parameters:", params);
+			console.log("Extracted Parameters:", params.transaction);
 
 			setFilters(() => ({
 				...params,
@@ -349,6 +351,7 @@ export default function PropertyHalfmapList() {
 				}
 			};
 			getFilterData(pagination.currentPage);
+			console.log(transaction,'>>>>>>>> transaction Lod');
 			//isApiCalled.current = true;
 		} else {
 			//  fetchPropertys(pagination.currentPage);
@@ -741,6 +744,7 @@ export default function PropertyHalfmapList() {
 		const updateStatus = (status)?false:true;
 		setSeachAccordion(updateStatus);
 	}
+	console.log(transaction,'>>>>>>>> transaction');
 	return (
 		<>
 			{loading ?
