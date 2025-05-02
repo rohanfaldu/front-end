@@ -791,7 +791,7 @@ export default function ProjectHalfmapList() {
 																	</div>
 																	<div className="desc">
 																		<i className="fs-16 icon icon-mapPin" />
-																		<p>
+																		<p className="truncate-text">
 																			{[project?.district, project?.city, project?.state]
 																				.filter(Boolean)
 																				.join(', ')} </p> {/* Join remaining values with comma */}

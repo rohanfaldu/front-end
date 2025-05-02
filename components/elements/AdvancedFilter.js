@@ -411,13 +411,13 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 		//const transactionData = localStorage.getItem("transaction") || "rental";
 		const updatedFormData = {
 			...formData,
-			saction: transactionData,
+			transaction: transactionData,
 		};
 
 		// Create queryData from the updatedFormData
 		const queryData = { ...updatedFormData };
 		queryData.amenities_id_object_with_value = JSON.stringify(updatedFormData.amenities_id_object_with_value);
-
+		console.log(queryData,)
 		// Generate the query string
 		const queryString = new URLSearchParams(queryData).toString();
 		// console.log('queryString: ', queryString);

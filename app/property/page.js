@@ -245,6 +245,7 @@ export default function PropertyHalfmapList() {
 				amenities_id_array: propertyFilterData.amenities_id_array || null,
 				developer_id: propertyFilterData.developer_id || null,
 				direction: propertyFilterData.direction || null,
+				transaction: propertyFilterData.transaction || null,
 			};
 
 			console.log("Extracted Parameters:", params);
@@ -1455,7 +1456,7 @@ export default function PropertyHalfmapList() {
 																				</div>
 																				<div className="desc">
 																					<i className="fs-16 icon icon-mapPin" />
-																					<p>{[property?.district, property?.city, property?.state]
+																					<p className="truncate-text">{[property?.district, property?.city, property?.state]
 																						.filter(Boolean)
 																						.join(', ')} </p>
 

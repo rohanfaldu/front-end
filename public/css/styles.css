@@ -14018,6 +14018,7 @@ label span {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  width: 300px;
 }
 .custom-link{
   cursor: pointer;
