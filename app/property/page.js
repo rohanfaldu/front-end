@@ -198,7 +198,7 @@ export default function PropertyHalfmapList() {
 		const getFilterStatus = sessionStorage.getItem('filterStatus');
 		console.log(getFilterStatus, '>>>>>>>>>> getFilterStatus')
 		if (propertyFilterData && typeof propertyFilterData === 'object' && getFilterStatus) {
-			//sessionStorage.removeItem('filterStatus')
+			sessionStorage.removeItem('filterStatus')
 			setTransaction(localStorage.getItem('transaction'));
 			setCheckURL(true);
 			// const params = {
@@ -615,12 +615,9 @@ export default function PropertyHalfmapList() {
 		}
 	};
 
-
-
-
 	const handlePageChange = (page) => {
 		console.log(pagination,'>>>>>>>>> pagination');
-		sessionStorage.removeItem('filterStatus')
+		//sessionStorage.removeItem('filterStatus')
 		setPagination({ ...pagination, currentPage: page });
 	};
 
