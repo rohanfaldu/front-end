@@ -648,13 +648,16 @@ export default function PropertyHalfmapList() {
 	const handleSubmit = async (event, page = pagination.currentPage) => {
 
 		const form = event.target;
+		const pageNumber = (form)? 1 : pagination.currentPage;
+
 		const formData = new FormData(form);
+		console.log(form,'>>>>>>>>>> event');
 		setCalculationStatus(true);
 		setLoading(true);
-		const selctCityId = (formData.get('city'))? filters.city : null;
+		const selctCityId = filters.city;
 		const lang = i18n.language;
 		const requestData = {
-			page,
+			page: pageNumber,
 			lang,
 			limit: pagination.itemsPerPage,
 
@@ -1508,6 +1511,7 @@ export default function PropertyHalfmapList() {
 											</div>
 											{pagination.totalCount > pagination.itemsPerPage && (
 												<ul className="wd-navigation">
+													{console.log(pagination,'>>>>>>>>>>>>>> current')}
 													{Array.from({ length: pagination.totalPages }, (_, index) => (
 														<li key={index}>
 															<div
