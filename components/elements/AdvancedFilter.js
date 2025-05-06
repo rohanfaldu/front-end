@@ -421,7 +421,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 		// Generate the query string
 		const queryString = new URLSearchParams(queryData).toString();
 		// console.log('queryString: ', queryString);
-
+		sessionStorage.setItem('filterStatus', true);
 		// Update the URL
 		// window.location.href = `/property?${queryString}`;
 		localStorage.setItem('propertyFilterData', JSON.stringify(queryData));

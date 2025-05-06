@@ -37,7 +37,7 @@ export default function PropertyHalfmapList() {
 	const [calculationStatus, setCalculationStatus] = useState(false);
 	const [isLiked, setIsLiked] = useState(false);
 	const [priceRange, setPriceRange] = useState([1000, 1000000]); // Selected range
-	const [sizeRange, setSizeRange] = useState([]); // Selected range
+	const [sizeRange, setSizeRange] = useState([0, 2000]); // Selected range
 	const [isTab, setIsTab] = useState(2)
 	const handleTab = (i) => {
 		setIsTab(i)
@@ -194,12 +194,11 @@ export default function PropertyHalfmapList() {
 	useEffect(() => {
 		//if (isApiCalled.current) return;
 		setLoading(true);
-		
 		const propertyFilterData = JSON.parse(localStorage.getItem('propertyFilterData'));
-		// const url = window.location.href;
-		// const urlParams = new URLSearchParams(new URL(url).search);
-		//console.log('urlParams: ', urlParams.get("city_status"));
-		if (propertyFilterData && typeof propertyFilterData === 'object') {
+		const getFilterStatus = sessionStorage.getItem('filterStatus');
+		console.log(getFilterStatus, '>>>>>>>>>> getFilterStatus')
+		if (propertyFilterData && typeof propertyFilterData === 'object' && getFilterStatus) {
+			sessionStorage.removeItem('filterStatus')
 			setTransaction(localStorage.getItem('transaction'));
 			setCheckURL(true);
 			// const params = {
@@ -384,7 +383,7 @@ export default function PropertyHalfmapList() {
 				page,
 				lang,
 				limit: pagination.itemsPerPage,
-				city_name: value
+				city_name: value,
 			};
 			const response = await getData("api/city/getallcitydistrictneighborhoods", requestData, true);
 			setCityOptions(response.data.list);
@@ -1510,13 +1509,13 @@ export default function PropertyHalfmapList() {
 												<ul className="wd-navigation">
 													{Array.from({ length: pagination.totalPages }, (_, index) => (
 														<li key={index}>
-															<Link
+															<div
 																href="#"
 																className={`nav-item ${pagination.currentPage === index + 1 ? 'active' : ''}`}
 																onClick={() => handlePageChange(index + 1)}
 															>
 																{index + 1}
-															</Link>
+															</div>
 														</li>
 													))}
 												</ul>
