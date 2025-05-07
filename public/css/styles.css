@@ -12866,6 +12866,7 @@ footer {
   opacity: 1;
   transform: translateY(0);
   position: absolute;
+  height: 100%;
 }
 
 .discussions .discussion {
@@ -13007,7 +13008,7 @@ footer {
   box-shadow: 0px 3px 2px rgba(0, 0, 0, 0.100);
   display: flex;
   align-items: center;
-  position: fixed;
+  /* position: fixed; */
   width: -webkit-fill-available;
   z-index: 1000;
 }
@@ -13033,7 +13034,7 @@ footer {
 
 .chat .messages-chat {
   padding: 25px 35px;
-  margin-top: 80px;
+  /* margin-top: 80px; */
   padding-bottom: 50px;
   height: 525px;
   overflow-x: hidden;
@@ -13098,7 +13099,8 @@ footer {
 }
 
 .footer-chat {
-  width: calc(100% - 0px);
+  width: 100%;
+  max-width: 800px;
   position: static;
   height: 80px;
   display: flex;
@@ -13119,7 +13121,7 @@ footer {
 .chat .footer-chat .send {
   color: #fff;
   background-color: #4f6ebd;
-  position: absolute;
+  /* position: absolute; */
   right: 50px;
   padding: 12px 12px 12px 12px;
   border-radius: 50px;

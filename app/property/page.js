@@ -195,6 +195,7 @@ export default function PropertyHalfmapList() {
 		//if (isApiCalled.current) return;
 		setLoading(true);
 		const propertyFilterData = JSON.parse(localStorage.getItem('propertyFilterData'));
+		console.log(propertyFilterData, '>>>>>>>>>> propertyFilterData');
 		const getFilterStatus = sessionStorage.getItem('filterStatus');
 		console.log(getFilterStatus, '>>>>>>>>>> getFilterStatus')
 		if (propertyFilterData && typeof propertyFilterData === 'object' && getFilterStatus) {
@@ -260,12 +261,16 @@ export default function PropertyHalfmapList() {
 			// console.log(params.minPrice, "/////////////")
 			// console.log(params.maxPrice, "/////////////")
 			if (params.maxSize == "null" && params.maxPrice == "null") {
+				console.log(2)
 				setPriceRange([0, 300000]);
 				setSizeRange([0, 2000]);
 			} else {
+				console.log(1);
+				console.log(params,">>>>>>>>>>>>> params");
 				setPriceRange([params.minPrice, params.maxPrice]);
 				setSizeRange([params.minSize, params.maxSize]);
 			}
+				
 			handleCitySelect(params.city, params.city_name, params.city_slug);
 			handleDistrictSelect(params.district, params.district_name);
 			handleNeighbourhoodSelect(params.neighbourhood, params.neighbourhood_name);
@@ -316,9 +321,11 @@ export default function PropertyHalfmapList() {
 							setInitialMaxPrice(maxPriceSliderRange);
 							setMaxPriceSliderRange(maxPriceSliderRange);
 							if (params.minPrice == undefined && params.maxPrice == undefined) {
+								console.log(3);
 								setPriceRange([1000, maxPriceSliderRange]);
 							}
 						} else {
+							console.log(4);
 							setInitialMaxPrice(300000);
 							setMaxPriceSliderRange(300000);
 							setPriceRange([0, 300000]);
@@ -371,7 +378,7 @@ export default function PropertyHalfmapList() {
 	   
 		checkViewport();
 	}, [params, pagination.currentPage, i18n.language, transaction]);
-
+	console.log(priceRange, "///////////// priceRange ////////////")
 	// console.log(priceRange, ' >>>>>>>>>>>> Price')
 
 	const fetchCityOptions = debounce(async (value, page = 1) => {
@@ -542,6 +549,7 @@ export default function PropertyHalfmapList() {
 				if (initialMaxPrice !== maxPriceSliderRange) {
 					setInitialMaxPrice(maxPriceSliderRange);
 					setMaxPriceSliderRange(maxPriceSliderRange);
+					console.log(5);
 					setPriceRange([1000, maxPriceSliderRange]);
 				}
 
@@ -655,7 +663,7 @@ export default function PropertyHalfmapList() {
 		setCalculationStatus(true);
 		setLoading(true);
 		console.log(filters, '>>>>>>>>>>>>> Filters')
-		const selctCityId = filters.city;
+		const selctCityId = (formData.get('city') === "") ? null :filters.city;
 		const lang = i18n.language;
 		const requestData = {
 			page: pageNumber,
@@ -680,6 +688,9 @@ export default function PropertyHalfmapList() {
 			filter_longitude: addressLatLong[1],
 			transaction: transaction
 		};
+		setPriceRange([requestData.minPrice, requestData.maxPrice]);
+		setSizeRange([requestData.minSize, requestData.maxSize]);
+
 		console.log('requestData', requestData, '>>>>>>>>>> After')
 		const response = await getData("api/property", requestData, true);
 		if (response.status) {
@@ -698,12 +709,14 @@ export default function PropertyHalfmapList() {
 			if (!initialMaxPrice) {
 				setInitialMaxPrice(maxPriceSliderRange);
 				setMaxPriceSliderRange(maxPriceSliderRange);
-				setPriceRange([1000, maxPriceSliderRange]);
+				console.log(6);
+				//setPriceRange([filters.minPrice, filters.maxPrice]);
 			}
 
 			if (!initialMaxSize) {
 				setInitialMaxSize(maxSizeSliderRange);
-				setSizeRange([0, maxSizeSliderRange])
+				//setSizeRange([0, maxSizeSliderRange])
+				//setSizeRange([filters.minSize, filters.maxSize]);
 			}
 			setError(null);
 			setLoading(false);
@@ -749,10 +762,11 @@ export default function PropertyHalfmapList() {
 		const updateStatus = (status)?false:true;
 		setSeachAccordion(updateStatus);
 	}
-	console.log(transaction,'>>>>>>>> transaction');
+	console.log(propertys,'>>>>>>>> propertys List');
+	console.log(propertys.length,'>>>>>>>> propertys List length');
 	return (
 		<>
-			{loading ?
+			{(!propertys && loading) ?
 				<Preloader /> :
 				<>
 					<Layout headerStyle={1} footerStyle={1}>
@@ -1381,19 +1395,11 @@ export default function PropertyHalfmapList() {
 												</div>
 											</div>
 											<div className="project-listing">
-												{loading ? (
+												{(!propertys  && loading) ? (
 													<Preloader />
 												) : error ? (
 													<p>{error}</p>
-												) : propertys.length === 0 ? (
-													<div style={{ textAlign: "center" }}>
-														<img
-															src="/images/not-found/item-not-found.png"
-															alt="No projects found"
-															style={{ height: "300px" }}
-														/>
-													</div>
-												) : (
+												) : propertys.length !== 0 ?(
 
 													<div className="row">
 														{propertys.map((property) => (
@@ -1509,7 +1515,15 @@ export default function PropertyHalfmapList() {
 														))}
 													</div>
 
-												)}
+												) : (
+													<div style={{ textAlign: "center" }}>
+														<img
+															src="/images/not-found/item-not-found.png"
+															alt="No projects found"
+															style={{ height: "300px" }}
+														/>
+													</div>
+												) }
 											</div>
 											{pagination.totalCount > pagination.itemsPerPage && (
 												<ul className="wd-navigation">
