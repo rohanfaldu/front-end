@@ -10,12 +10,13 @@ export default function TabNav({ transaction }) {
         setIsTab(i);
         transaction(i === 1 ? "rental" : "sale"); // Set transaction type based on the selected tab
         localStorage.setItem("transaction", i === 1 ? "rental" : "sale");
+
     };
 
     useEffect(() => {
         setIsTab(localStorage.getItem("transaction") === "rental" ? 1 : 2);
     })
-
+    console.log(localStorage.getItem("transaction") ,'>>>>>>>>>>>>>>>>>>> Current transaction type');
     return (
         <>
             <li className="nav-tab-item" onClick={() => handleTab(1)}>

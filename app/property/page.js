@@ -199,6 +199,8 @@ export default function PropertyHalfmapList() {
 		console.log(getFilterStatus, '>>>>>>>>>> getFilterStatus')
 		if (propertyFilterData && typeof propertyFilterData === 'object' && getFilterStatus) {
 			sessionStorage.removeItem('filterStatus')
+			console.log(localStorage.getItem('transaction'),'>>>>>>>>>> transaction')
+			//setTransaction(propertyFilterData.transaction);
 			setTransaction(localStorage.getItem('transaction'));
 			setCheckURL(true);
 			// const params = {
@@ -272,7 +274,7 @@ export default function PropertyHalfmapList() {
 			const getFilterData = async (page = 1,) => {
 				// console.log("Filters:", filters);
 				const lang = i18n.language;
-				const transactionData = localStorage.getItem("transaction") || transaction;
+				const transactionData = params.transaction;
 				const requestData = {
 					page,
 					lang,
@@ -293,7 +295,7 @@ export default function PropertyHalfmapList() {
 					amenities_id_object_with_value: params.amenities_id_object_with_value,
 					transaction: transactionData
 				};
-				// console.log(transaction, ".....................")
+				 console.log(requestData, " >>>>>>>>>>>>>>>>> requestData .....................")
 				const response = await getData("api/property", requestData, true);
 				if (response.status) {
 					const { list, totalCount, totalPages, currentPage, property_meta_details, maxPriceSliderRange, property_types, cities, maxSizeSliderRange, developers } = response.data;
@@ -648,9 +650,11 @@ export default function PropertyHalfmapList() {
 		const pageNumber = (form)? 1 : pagination.currentPage;
 
 		const formData = new FormData(form);
+		const filterationVal = (filters.transaction)? filters.transaction : transaction;
 		console.log(form,'>>>>>>>>>> event');
 		setCalculationStatus(true);
 		setLoading(true);
+		console.log(filters, '>>>>>>>>>>>>> Filters')
 		const selctCityId = filters.city;
 		const lang = i18n.language;
 		const requestData = {
@@ -676,6 +680,7 @@ export default function PropertyHalfmapList() {
 			filter_longitude: addressLatLong[1],
 			transaction: transaction
 		};
+		console.log('requestData', requestData, '>>>>>>>>>> After')
 		const response = await getData("api/property", requestData, true);
 		if (response.status) {
 			const { list, totalCount, totalPages, currentPage, property_meta_details, maxPriceSliderRange, property_types, cities, maxSizeSliderRange } = response.data;

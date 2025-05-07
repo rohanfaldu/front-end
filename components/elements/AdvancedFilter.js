@@ -341,8 +341,11 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 		//setTransaction(localStorage.getItem("transaction"));
 		//setTransactionData(localStorage.getItem("transaction"));
 		// fetchPropertys(pagination.currentPage);
+		//localStorage.setItem("transaction","rental");
 
-
+		if (!localStorage.getItem("transaction")) {
+			localStorage.setItem("transaction", "rental");
+		}
 		if (propertiesData !== undefined) {
 			const { list, totalCount, totalPages, currentPage, property_meta_details, maxPriceSliderRange, property_types, maxSizeSliderRange, developers } = propertiesData;
 			setPropertys(list);
@@ -413,7 +416,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 			...formData,
 			transaction: transactionData,
 		};
-
+		console.log(updatedFormData, 'updatedFormData')
 		// Create queryData from the updatedFormData
 		const queryData = { ...updatedFormData };
 		queryData.amenities_id_object_with_value = JSON.stringify(updatedFormData.amenities_id_object_with_value);
