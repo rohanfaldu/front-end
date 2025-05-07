@@ -41,7 +41,7 @@ export default function MyProperty() {
   const [deletePropertyid, setDeletePropertyid] = useState('');
   const [isTab, setIsTab] = useState(1);
   const [clickedId, setClickedId] = useState('');
-	const [selectedDateTime, setSelectedDateTime] = useState(null);
+  const [selectedDateTime, setSelectedDateTime] = useState(null);
 
   const [pagination, setPagination] = useState({
     totalCount: 0,
@@ -56,7 +56,7 @@ export default function MyProperty() {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const { t, i18n } = useTranslation();
-  
+
 
   useEffect(() => {
 
@@ -94,48 +94,48 @@ export default function MyProperty() {
   };
 
   const visitSchedule = async () => {
-      if (!selectedDateTime) return;
-  
-      setLoading(true);
-      try {
-        const formattedDateTime = dayjs(selectedDateTime).toISOString();
-        // console.log('formattedDateTime: ', formattedDateTime);
-  
-        const requestData = {
-          visitId: clickedId,
-          dateAndTime: formattedDateTime,
-          visitType: isTab === 1 ? "Physical" : "Virtual",
-        };
-  
-        const response = await insertData("api/visit/visit-reschedule", requestData, true);
-        if (response.status) {
-          // console.log(response.data);
-          setIsModalOpen(false);
-          setError(null);
-          fetchData();
-        }
-      } catch (err) {
-        setError(err.response?.data?.message || "An error occurred");
-      } finally {
-        setLoading(false);
+    if (!selectedDateTime) return;
+
+    setLoading(true);
+    try {
+      const formattedDateTime = dayjs(selectedDateTime).toISOString();
+      // console.log('formattedDateTime: ', formattedDateTime);
+
+      const requestData = {
+        visitId: clickedId,
+        dateAndTime: formattedDateTime,
+        visitType: isTab === 1 ? "Physical" : "Virtual",
+      };
+
+      const response = await insertData("api/visit/visit-reschedule", requestData, true);
+      if (response.status) {
+        // console.log(response.data);
+        setIsModalOpen(false);
+        setError(null);
+        fetchData();
       }
-    };
+    } catch (err) {
+      setError(err.response?.data?.message || "An error occurred");
+    } finally {
+      setLoading(false);
+    }
+  };
 
 
   const openModal = (id) => {
-		// console.log("Opening Modal"); // Debugging
-		setIsModalOpen(true);
+    // console.log("Opening Modal"); // Debugging
+    setIsModalOpen(true);
     setClickedId(id);
-	};
+  };
 
-	const closeModal = () => {
-		// console.log("Closing Modal"); // Debugging
-		setIsModalOpen(false);
-	};
+  const closeModal = () => {
+    // console.log("Closing Modal"); // Debugging
+    setIsModalOpen(false);
+  };
 
   const handleTab = (i) => {
     setIsTab(i);
-};
+  };
 
   const exportToExcel = async () => {
     try {
@@ -267,7 +267,13 @@ export default function MyProperty() {
     doc.save("property_visit_accepted.pdf");
   };
 
-
+  const handleClickToWhatsApp = (code, mobile_number) => {
+    
+    if (mobile_number) {
+      const whatsappUrl = `https://wa.me/${code.replace(/\D/g, '')}${mobile_number.replace(/\D/g, '')}`;
+      window.open(whatsappUrl, "_blank");
+    } 
+  }
   return (
     <>
       {loading ? (
@@ -280,16 +286,16 @@ export default function MyProperty() {
 
               <div className="widget-box-2 wd-listing">
 
-                <div className="top d-flex align-items-center" style={{marginBottom: "20px"}}>
-                      <div>
-                        <button className="tf-btn primary" style={{ marginRight: "20px" }}>Scheduled Visits</button>
-                      </div>
-                      <Link href="/creator-pending-visit">
-                        <button className="tf-btn secondary" style={{ marginRight: "20px" }}>Pending Visits</button>
-                      </Link>
-                      <Link href="/creator-rejected-visit">
-                        <button className="tf-btn secondary">Rejected Visits</button>
-                      </Link>
+                <div className="top d-flex align-items-center" style={{ marginBottom: "20px" }}>
+                  <div>
+                    <button className="tf-btn primary" style={{ marginRight: "20px" }}>Scheduled Visits</button>
+                  </div>
+                  <Link href="/creator-pending-visit">
+                    <button className="tf-btn secondary" style={{ marginRight: "20px" }}>Pending Visits</button>
+                  </Link>
+                  <Link href="/creator-rejected-visit">
+                    <button className="tf-btn secondary">Rejected Visits</button>
+                  </Link>
                 </div>
                 <div className="top d-flex justify-content-between align-items-center">
                   <h6 className="title">Property visit Scheduled Listing</h6>
@@ -301,7 +307,7 @@ export default function MyProperty() {
                     <div>
                       <button onClick={exportToExcel} className="tf-btn primary" style={{ marginRight: "20px" }}>Export Excel</button>
                       <button onClick={exportToPDF} className="tf-btn secondary" style={{ marginRight: "20px" }}>Export PDF</button>
-                      
+
                     </div>
                   </div>
                 </div>
@@ -347,7 +353,7 @@ export default function MyProperty() {
                     </button>
                   </div>
                 </div>
-
+                {console.log(propertiesVisits, '>>>>>>>>>>>> user')}
                 {(propertiesVisits.length > 0) ?
                   <>
                     <div className="wrap-table">
@@ -380,13 +386,32 @@ export default function MyProperty() {
                                   second: '2-digit',
                                   hour12: false
                                 })}</td>
-                                <td>{user.visit_type}</td>
-                                <td onClick={() => openModal(user.id)}>
-                                    <div className="status-wrap">
-                                      <div href="#" className="btn-status"  style={{backgroundColor:"#00a8c1", cursor:"pointer"}} >
-                                          Reschedule
+                                <td>
+                                  {user.visit_type === "Virtual" ? (
+                                    <div
+                                    onClick={() => handleClickToWhatsApp(user.property.users.country_code, user.property.users.mobile_number)}
+                                    >
+                                      <div className="status-wrap" style={{ cursor: "pointer" }}>
+                                        <span>{user.visit_type}</span>
+                                        <img
+                                          src="/images/icons/whatsapp.png"
+                                          alt="WhatsApp"
+                                          width={30}
+                                          height={30}
+                                          className="visit-icon-whatsapp"
+                                        />
                                       </div>
                                     </div>
+                                  ) : (
+                                    user.visit_type
+                                  )}
+                                </td>
+                                <td onClick={() => openModal(user.id)}>
+                                  <div className="status-wrap">
+                                    <div href="#" className="btn-status" style={{ backgroundColor: "#00a8c1", cursor: "pointer" }} >
+                                      Reschedule
+                                    </div>
+                                  </div>
                                 </td>
                               </tr>
                             ))}
@@ -435,65 +460,65 @@ export default function MyProperty() {
             </div>
           </LayoutAdmin>
 
-          
+
         </>
       )}
       {isModalOpen && (
-            <div className="custom-modal">
-              <div className="custom-modal-content 12">
-                <>
-                  <div style={{ fontSize: "24px", fontWeight: "bold", marginBottom: "20px" }}>{t("visitSchedule")}</div>
-                  <section className="wrapper-layout-3">
-                    <div style={{ width: "100%", backgroundColor: "#f7f7f7", padding: "20px" }}>
-                      <div className="flat-tab flat-tab-form widget-filter-search">
-                        <ul className="nav-tab-form" role="tablist">
-                          <li className="nav-tab-item" onClick={() => handleTab(1)}>
-                            <a className={isTab === 1 ? "nav-link-item active" : "nav-link-item"}>{t("physical")}</a>
-                          </li>
-                          <li className="nav-tab-item" onClick={() => handleTab(2)}>
-                            <a className={isTab === 2 ? "nav-link-item active" : "nav-link-item"}>{t("virtual")}</a>
-                          </li>
-                        </ul>
-                      </div>  
-                      
-                      {/* DateTime Picker */}
-                      <div style={{ marginTop: "20px" }}>
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                          <DateTimePicker
-                            label="Select Date & Time"
-                            value={selectedDateTime}
-                            ampm={false}
-                            onChange={(newValue) => setSelectedDateTime(newValue)}
-                            renderInput={(params) => <TextField {...params} fullWidth />}
-                          />
-                        </LocalizationProvider>
-                      </div>
+        <div className="custom-modal">
+          <div className="custom-modal-content 12">
+            <>
+              <div style={{ fontSize: "24px", fontWeight: "bold", marginBottom: "20px" }}>{t("visitSchedule")}</div>
+              <section className="wrapper-layout-3">
+                <div style={{ width: "100%", backgroundColor: "#f7f7f7", padding: "20px" }}>
+                  <div className="flat-tab flat-tab-form widget-filter-search">
+                    <ul className="nav-tab-form" role="tablist">
+                      <li className="nav-tab-item" onClick={() => handleTab(1)}>
+                        <a className={isTab === 1 ? "nav-link-item active" : "nav-link-item"}>{t("physical")}</a>
+                      </li>
+                      <li className="nav-tab-item" onClick={() => handleTab(2)}>
+                        <a className={isTab === 2 ? "nav-link-item active" : "nav-link-item"}>{t("virtual")}</a>
+                      </li>
+                    </ul>
+                  </div>
 
-                      {/* Display Selected Date & Time */}
-                      {selectedDateTime && (
-                        <div style={{ marginTop: "10px", fontWeight: "bold" }}>
-                          Selected Date & Time: {dayjs(selectedDateTime).format("YYYY-MM-DD HH:mm")}
-                        </div>
-                      )}
+                  {/* DateTime Picker */}
+                  <div style={{ marginTop: "20px" }}>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DateTimePicker
+                        label="Select Date & Time"
+                        value={selectedDateTime}
+                        ampm={false}
+                        onChange={(newValue) => setSelectedDateTime(newValue)}
+                        renderInput={(params) => <TextField {...params} fullWidth />}
+                      />
+                    </LocalizationProvider>
+                  </div>
 
-                      {/* Buttons */}
-                      <div style={{ marginTop: "20px" }}>
-                        <button className="tf-btn primary" disabled={!selectedDateTime || loading} onClick={visitSchedule}>
-                          {loading ? "Scheduling..." : "Confirm"}
-                        </button>
-                        <button className="tf-btn primary" onClick={closeModal}>
-                          {t("cancel")}
-                        </button>
-                      </div>
+                  {/* Display Selected Date & Time */}
+                  {selectedDateTime && (
+                    <div style={{ marginTop: "10px", fontWeight: "bold" }}>
+                      Selected Date & Time: {dayjs(selectedDateTime).format("YYYY-MM-DD HH:mm")}
                     </div>
-                  </section>
+                  )}
+
+                  {/* Buttons */}
+                  <div style={{ marginTop: "20px" }}>
+                    <button className="tf-btn primary" disabled={!selectedDateTime || loading} onClick={visitSchedule}>
+                      {loading ? "Scheduling..." : "Confirm"}
+                    </button>
+                    <button className="tf-btn primary" onClick={closeModal}>
+                      {t("cancel")}
+                    </button>
+                  </div>
+                </div>
+              </section>
 
 
-                </>
+            </>
 
-              </div>
-            </div>
-          )}
+          </div>
+        </div>
+      )}
     </>
   );
 }
