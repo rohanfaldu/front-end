@@ -235,8 +235,14 @@ export default function MyProperty() {
   
       doc.save("property_visit_accepted.pdf");
       };
-  
-
+      
+      const handleClickToWhatsApp = (code, mobile_number) => {
+    
+        if (mobile_number) {
+          const whatsappUrl = `https://wa.me/${code.replace(/\D/g, '')}${mobile_number.replace(/\D/g, '')}`;
+          window.open(whatsappUrl, "_blank");
+        } 
+      }
   return (
     <>
       {loading ? (
@@ -345,7 +351,26 @@ export default function MyProperty() {
                                         second: '2-digit', 
                                         hour12: false 
                                         })}</td>
-                                  <td>{user.visit_type}</td>
+                                  <td>
+                                  {user.visit_type === "Virtual" ? (
+                                    <div
+                                    onClick={() => handleClickToWhatsApp(user.property.users.country_code, user.property.users.mobile_number)}
+                                    >
+                                      <div className="status-wrap" style={{ cursor: "pointer" }}>
+                                        <span>{user.visit_type}</span>
+                                        <img
+                                          src="/images/icons/whatsapp.png"
+                                          alt="WhatsApp"
+                                          width={30}
+                                          height={30}
+                                          className="visit-icon-whatsapp"
+                                        />
+                                      </div>
+                                    </div>
+                                  ) : (
+                                    user.visit_type
+                                  )}
+                                </td>
                                   <td style={{paddingLeft:"20px"}}>
                                     <div className="status-wrap" style={{display:"flex", justifyContent:"space-between", width:"130px"}}>
                                         {(user.is_accepted == false && user.decline_permanent == false) &&

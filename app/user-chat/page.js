@@ -239,7 +239,7 @@ export default function Chat() {
         }
         {!loading &&
           <div className="containerr">
-            <div className="link back-btn chat-back">
+            {/* <div className="link back-btn chat-back">
               <button
                 className="form-wg tf-btn primary"
                 type="button"
@@ -248,7 +248,7 @@ export default function Chat() {
               >
                 <span style={{ color: "#fff" }}>&lt; {t('back')}</span>
               </button>
-            </div>
+            </div> */}
             <div className="row">
               <section className="discussions" style={{ position: "relative" }}>
                 {allRecord.map((user) => (
