@@ -199,7 +199,6 @@ export default function PropertyHalfmapList() {
 		const getFilterStatus = sessionStorage.getItem('filterStatus');
 		console.log(getFilterStatus, '>>>>>>>>>> getFilterStatus')
 		if (propertyFilterData && typeof propertyFilterData === 'object' && getFilterStatus) {
-			sessionStorage.removeItem('filterStatus')
 			console.log(localStorage.getItem('transaction'),'>>>>>>>>>> transaction')
 			//setTransaction(propertyFilterData.transaction);
 			setTransaction(localStorage.getItem('transaction'));
@@ -363,6 +362,7 @@ export default function PropertyHalfmapList() {
 			//isApiCalled.current = true;
 		} else {
 			//  fetchPropertys(pagination.currentPage);
+			sessionStorage.removeItem('filterStatus')
 			handleSubmit(pagination.currentPage);
 			//isApiCalled.current = true;
 		}
@@ -377,7 +377,9 @@ export default function PropertyHalfmapList() {
 		};
 	   
 		checkViewport();
-	}, [params, pagination.currentPage, i18n.language, transaction]);
+	}, [params, pagination.currentPage, i18n.language]);
+	
+	
 	console.log(priceRange, "///////////// priceRange ////////////")
 	// console.log(priceRange, ' >>>>>>>>>>>> Price')
 
@@ -1399,7 +1401,7 @@ export default function PropertyHalfmapList() {
 													<Preloader />
 												) : error ? (
 													<p>{error}</p>
-												) : propertys.length !== 0 ?(
+												) : propertys.length > 0 ?(
 
 													<div className="row">
 														{propertys.map((property) => (
