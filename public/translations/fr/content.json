@@ -363,5 +363,6 @@
     "finddeveloper": "Trouver un promoteur",
     "next" : "Suivante",
     "previous" : "Précédente",
-     "contactUser": "Contact"
+    "contactUser": "Contact",
+    "clearAll": "Tout effacer"
 }

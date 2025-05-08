@@ -13736,6 +13736,7 @@ label span {
 
 .meta-list .filteration {
   margin-left: auto;
+  margin-right: 20px;
 }
 .blog-listing-img{
   max-width: 410px;
@@ -14026,4 +14027,21 @@ label span {
 }
 .visit-icon-whatsapp{
    padding-left: 10px;
+}
+.clear-btn{
+  width: 100%;
+  max-width: 200px;
+}
+.property-change-view{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 20px;
+}
+.property-show-mobile{
+  display: block;
+}
+.property-hide-mobile{
+  display: none;
 }

@@ -69,13 +69,17 @@ export default function PropertyHalfmapList() {
 	const [addressLatLong, setAddressLatLong] = useState([]);
 	const [isModelOpen, setIsModelOpen] = useState(false);
 	const [isFocused, setIsFocused] = useState(false);
+	const [isFilterProperty, setIsFilterProperty] = useState(true);
+	const [isPropertyViewMobile, setIsPropertyViewMobile] = useState(false);
+	const [isPropertyViewMap, setIsPropertyViewMap] = useState(false);
+	const [isDefaultPropertyViewMobile, setIsDefaultPropertyViewMobile] = useState(false);
 	const [pagination, setPagination] = useState({
 		totalCount: 0,
 		totalPages: 1,
 		currentPage: variablesList.currentPage,
 		itemsPerPage: 4,
 	}); // Track pagination info
-	const [filters, setFilters] = useState({
+	const defaultData = {
 		title: '',
 		description: '',
 		minPrice: priceRange[0],
@@ -92,7 +96,9 @@ export default function PropertyHalfmapList() {
 		direction: "",
 		filter_latitude: addressLatLong[0],
 		filter_longitude: addressLatLong[1],
-	});
+	};
+
+	const [filters, setFilters] = useState(defaultData);
 
 	const lang = i18n.language;
 	const isInitialRender = useRef(true);
@@ -198,34 +204,12 @@ export default function PropertyHalfmapList() {
 		console.log(propertyFilterData, '>>>>>>>>>> propertyFilterData');
 		const getFilterStatus = sessionStorage.getItem('filterStatus');
 		console.log(getFilterStatus, '>>>>>>>>>> getFilterStatus')
-		if (propertyFilterData && typeof propertyFilterData === 'object' && getFilterStatus) {
+		if (propertyFilterData && typeof propertyFilterData === 'object' && isFilterProperty) {
+			//sessionStorage.removeItem('filterStatus')
 			console.log(localStorage.getItem('transaction'),'>>>>>>>>>> transaction')
 			//setTransaction(propertyFilterData.transaction);
 			setTransaction(localStorage.getItem('transaction'));
 			setCheckURL(true);
-			// const params = {
-			// 	title: urlParams.get("title") || null,
-			// 	description: urlParams.get("description") || null,
-			// 	type_id: urlParams.get("type_id") || null,
-			// 	city: urlParams.get("city") || null,
-			// 	city_name: urlParams.get("city_name") || null,
-			// 	city_slug: urlParams.get("city_slug") || null,
-			// 	district_name: urlParams.get("district_name") || null,
-			// 	neighbourhood_name: urlParams.get("neighbourhood_name") || null,
-			// 	district: urlParams.get("district") || null,
-			// 	neighbourhood: urlParams.get("neighbourhood") || null,
-			// 	minPrice: urlParams.get("minPrice") !== "undefined" ? urlParams.get("minPrice") : priceRange[0],
-			// 	maxPrice: urlParams.get("maxPrice") !== "undefined" ? urlParams.get("maxPrice") : priceRange[1],
-			// 	minSize: urlParams.get("minSize") !== "undefined" ? urlParams.get("minSize") : sizeRange[0],
-			// 	maxSize: urlParams.get("maxSize") !== "undefined" ? urlParams.get("maxSize") : sizeRange[1],
-			// 	amenities_id_object_with_value: urlParams.get("amenities_id_object_with_value")
-			// 		? JSON.parse(urlParams.get("amenities_id_object_with_value"))
-			// 		: null,
-			// 	amenities_id_array: urlParams.get("amenities_id_array") || null,
-			// 	developer_id: urlParams.get("developer_id") || null,
-			// 	direction: urlParams.get("direction") || null,
-			// };
-
 			const params = {
 				title: propertyFilterData.title || null,
 				description: propertyFilterData.description || null,
@@ -361,8 +345,8 @@ export default function PropertyHalfmapList() {
 			console.log(transaction,'>>>>>>>> transaction Lod');
 			//isApiCalled.current = true;
 		} else {
+			setIsFilterProperty(false)
 			//  fetchPropertys(pagination.currentPage);
-			sessionStorage.removeItem('filterStatus')
 			handleSubmit(pagination.currentPage);
 			//isApiCalled.current = true;
 		}
@@ -371,8 +355,11 @@ export default function PropertyHalfmapList() {
 			setIsMobile(window.innerWidth < 768);
 			if(!isMobile){
 				setSeachAccordion(true);
+				setIsDefaultPropertyViewMobile(true);
+				setIsPropertyViewMobile(true);
 			}else{
 				setSeachAccordion(false);
+				setIsDefaultPropertyViewMobile(false);
 			}
 		};
 	   
@@ -380,7 +367,7 @@ export default function PropertyHalfmapList() {
 	}, [params, pagination.currentPage, i18n.language]);
 	
 	
-	console.log(priceRange, "///////////// priceRange ////////////")
+	console.log(isDefaultPropertyViewMobile, "///////////// isDefaultPropertyViewMobile ////////////")
 	// console.log(priceRange, ' >>>>>>>>>>>> Price')
 
 	const fetchCityOptions = debounce(async (value, page = 1) => {
@@ -628,6 +615,7 @@ export default function PropertyHalfmapList() {
 	};
 
 	const handlePageChange = (page) => {
+		setIsFilterProperty(false)
 		console.log(pagination,'>>>>>>>>> pagination');
 		//sessionStorage.removeItem('filterStatus')
 		setPagination({ ...pagination, currentPage: page });
@@ -764,8 +752,40 @@ export default function PropertyHalfmapList() {
 		const updateStatus = (status)?false:true;
 		setSeachAccordion(updateStatus);
 	}
-	console.log(propertys,'>>>>>>>> propertys List');
-	console.log(propertys.length,'>>>>>>>> propertys List length');
+	const handleClearAll = () =>{
+		setSearchCity("")
+		setPriceRange([1000, 1000000])
+		setSizeRange([0, 2000])
+		setFilters((prevFilters) => ({
+			...prevFilters,
+			maxPrice: 1000000,
+			maxSize: 2000,		
+			minPrice: 1000,
+			minSize: 0,
+			type_id: '',
+			amenities_id_object_with_value: {},
+			amenities_id_array:[]
+		}));
+		
+		defaultData.minPrice = 0;
+		defaultData.maxPrice = 1000000;
+		defaultData.maxSize = 2000;
+		defaultData.minSize = 0;
+		defaultData.amenities_id_object_with_value = "{}";
+		defaultData.transaction = transaction;
+
+		localStorage.setItem('propertyFilterData', JSON.stringify(defaultData));
+	}
+
+	const handlePropertyview = () => {
+		setIsPropertyViewMobile(true)
+		setIsPropertyViewMap(false)
+	}
+	const handlePropertyMapview = (e) => {
+		setIsPropertyViewMap(true)
+		setIsPropertyViewMobile(false)
+		//setIsDefaultPropertyViewMobile(false)
+	}
 	return (
 		<>
 			{(!propertys && loading) ?
@@ -806,52 +826,6 @@ export default function PropertyHalfmapList() {
 														<div className="form-sl">
 															<div className="wd-filter-select">
 																<div className="inner-group inner-filter">
-																	{/* <div className="form-style">
-																		<label className="title-select">{t("keyword")}</label>
-																		<input
-																			type="text"
-																			className="form-control"
-																			value={filters.title}
-																			onChange={handleInputChangeTitle}
-																			name="title"
-																			placeholder={t("searchkeyword")}
-
-																		/>
-																		{searchTermTitle.length > 0 && (
-																			cityOptions.length > 0 && (
-																				<ul className="city-dropdown form-style" style={{ marginTop: "0px"}}>
-																					{cityOptions.map((city) => (
-																						<li
-																							key={city.id}
-																							onClick={() => {
-																								handleCitySelectTitle(city.id, city.city_name);
-																								setSearchTermTitle('');
-																							}}
-																							className="city-option"
-																						>
-																							{city.city_name}
-																						</li>
-																					))}
-																				</ul>
-																			)
-																		)}
-																	</div> */}
-																	{/* <div className="form-style">
-																		<label className="title-select">{t("description")}</label>
-																		<div className="group-ip ip-icon">
-																			<input
-																				type="text"
-																				className="form-control"
-																				value={filters.description}
-																				onChange={handleFilterChange}
-																				name="description"
-																				placeholder={t("searchdescription")}
-
-																			/>
-
-																		</div>
-																	</div> */}
-
 																	<div className="form-style">
 																		<label className="title-select">{t("location")}</label>
 																		<input
@@ -882,29 +856,7 @@ export default function PropertyHalfmapList() {
 																			}}
 																			placeholder={t("searchCity")}
 																		/>
-																		{/* {searchTerm.length > 0 && cityOptions.length === 0 ? (
-																			<ul className="city-dropdown form-style" style={{ marginTop: "0px" }}>
-																				<li className="city-option">City not found</li>
-																			</ul>
-																		) : (
-																			cityOptions.length > 0 && (
-																				<ul className="city-dropdown form-style" style={{ marginTop: "0px" }}>
-																					{cityOptions.map((city) => (
-																						<li
-																							key={city.id}
-																							onClick={() => {
-																								handleCitySelect(city.id, city.city_name, city.latitude, city.longitude); // Pass city name to the function
-																								setSearchTerm(''); // Clear the search term
-																							}}
-																							className="city-option"
-																						>
-																							{city.city_name}
-																						</li>
-																					))}
-																				</ul>
-																			)
-																		)} */}
-
+																		
 																		{(searchTerm.length > 0 || isFocused) && (
 																			cityOptions.length > 0 && (
 																				<ul className="city-dropdown form-style" style={{ marginTop: "0px", width: "100%", position: "relative" }}>
@@ -926,105 +878,6 @@ export default function PropertyHalfmapList() {
 																		)}
 																	</div>
 
-
-
-																	{/* {showDistrict && ( */}
-																	{/* <div className="form-style">
-																	<label className="title-select">{t("district")}</label>
-																	<input
-																		type="text"
-																		className="form-control"
-																		id="district"
-																		name="district"
-																		value={searchDistrict}
-																		onChange={handleInputChangeDistrict}
-																		placeholder={t("searchDistrict")}
-																		disabled={!showDistrict}
-																	/>
-
-
-																	{searchTermDistrict.length > 0 && districtOptions.length === 0 ? (
-																		<ul className="city-dropdown form-style" style={{ marginTop: "0px" }}>
-																			<li className="city-option">District not found</li>
-																		</ul>
-																	) : (
-																		districtOptions.length > 0 && (
-																			<ul className="city-dropdown form-style" style={{ marginTop: "0px" }}>
-																				{districtOptions.map((city) => (
-																					<li
-																						key={city.id}
-																						onClick={() => {
-																							handleDistrictSelect(city.id, city.name, city.latitude, city.longitude); // Pass city name to the function
-																							setSearchTermDistrict('');
-																						}}
-																						className="city-option"
-																					>
-																						{city.name}
-																					</li>
-																				))}
-																			</ul>
-																		)
-																	)}
-
-																</div> */}
-																	{/* )} */}
-																	{/* {showNeighbourhood && ( */}
-																	<div className="form-style">
-																		{/* <label className="title-select">{t("neighbourhood")}</label>
-																		<select
-																			className="form-control"
-																			id="neighbourhood"
-																			name="neighbourhood"
-																			value={filters.neighbourhood}
-																			onChange={handleFilterChange}
-																		>
-																			<option value="">{t("selectneighbourhood")}</option>
-																			{neighbourhood.map((neighbourhood) => (
-																				<option key={neighbourhood.id} value={neighbourhood.id}>
-																					{neighbourhood.name}
-																				</option>
-																			))}
-																		</select> */}
-																		{/* <label className="title-select">{t("neighbourhood")}</label>
-																	<input
-																		type="text"
-																		className="form-control"
-																		id="neighbourhood"
-																		name="neighbourhood"
-																		value={searchNeighbourhood}
-																		onChange={handleInputChangeNeighbourhood}
-																		placeholder={t("searchNeighbourhood")}
-																		disabled={!showNeighbourhood}
-																	/>
-
-																	{searchTermNeighbourhood.length > 0 && neighbourhoodOptions.length === 0 ? (
-																		<ul className="city-dropdown form-style" style={{ marginTop: "0px" }}>
-																			<li className="city-option">Neighbourhood not found</li>
-																		</ul>
-																	) : (
-																		neighbourhoodOptions.length > 0 && (
-																			<ul className="city-dropdown form-style" style={{ marginTop: "0px" }}>
-																				{neighbourhoodOptions?.map((city) => (
-																					<li
-																						key={city.id}
-																						onClick={() => {
-																							handleNeighbourhoodSelect(city.id, city.name, city.latitude, city.longitude);
-																							setSearchTermNeighbourhood('');
-																						}}
-																						className="city-option"
-																					>
-																						{city.name}
-																					</li>
-																				))}
-																			</ul>
-																		)
-																	)} */}
-
-
-																	</div>
-
-
-																	{/* )} */}
 																	<div className="form-style">
 																		<label className="title-select">{t("propertytype")}</label>
 																		<select
@@ -1042,44 +895,6 @@ export default function PropertyHalfmapList() {
 																			))}
 																		</select>
 																	</div>
-
-																	{/* <div className="form-style">
-																		<label className="title-select">{t("direction")}</label>
-																		<select
-																			className="form-control"
-																			id="direction"
-																			name="direction"
-																			value={filters.direction} 
-																			onChange={handleFilterChange}
-																		>
-																			<option value="">{t("selectdiretion")}</option>
-																			<option value="north">North</option>
-																			<option value="south">South</option>
-																			<option value="east">East</option>
-																			<option value="west">West</option>
-																		</select>
-																	</div> */}
-
-
-																	{/* <div className="form-style">
-																		<label className="title-select">{t("developedby")}</label>
-																		<select
-																			className="form-control"
-																			id="developer_id"
-																			name="developer_id"
-																			value={filters.developer_id} 
-																			onChange={handleFilterChange}
-																		>
-																			<option value="">{t("selectdeveloper")}</option>
-																			{developers.map((developer) => ( 
-																				<option key={developer.user_id} value={developer.user_id}>
-																					{developer.user_name}
-																				</option>
-																			))}
-																		</select>
-																	</div> */}
-
-
 																	<div className="form-style widget-price">
 																		<label className="title-select" style={{ marginBottom: "0px" }}>{t("price")}</label>
 																		<div className="group-form">
@@ -1181,29 +996,8 @@ export default function PropertyHalfmapList() {
 																					})
 																				) : null}
 																			</div>
-
-																			{/* <div className="form-style">
-																				<label className="title-select">{t("direction")}</label>
-																				<select
-																					className="form-control"
-																					id="direction"
-																					name="direction"
-																					value={filters.direction} 
-																					onChange={handleFilterChange}
-																				>
-																					<option value="">{t("selectdiretion")}</option>
-																					<option value="north">North</option>
-																					<option value="south">South</option>
-																					<option value="east">East</option>
-																					<option value="west">West</option>
-																				</select>
-																			</div> */}
 																		</div>
 																	</div>
-
-
-
-
 																	<div className="form-style wd-amenities" style={{ display: `${isToggled ? "block" : "none"}` }}>
 																		<div className="group-checkbox">
 																			<div className="text-1">{t("amenities")}:</div>
@@ -1243,31 +1037,19 @@ export default function PropertyHalfmapList() {
 																	</div>
 
 																</div>
-																{/* <div className="form-btn-fixed d-flex">
-																	<button
-																		type="submit"
-																		className="tf-btn primary"
-																		style={{ marginRight: "10px" }}
-																	>
-																		{t("findproperties")}
-																	</button>
-																	<button
-																		type="button" // Change type to "button" to prevent form submission
-																		className="tf-btn primary-1"
-																		style={{ marginLeft: "10px" }}
-																		onClick={(e) => {
-																		e.preventDefault(); // Prevent default form submission
-																		saveSearch(); // Call saveSearch function on button click
-																		}}
-																	>
-																		{t("savesearches")}
-																	</button>
-																	</div> */}
 															</div>
-
 														</div>
 													</div>
 												</div>
+											</div>
+											<div className="form-btn-fixed d-flex">
+												<button
+													type="button"
+													className="tf-btn primary clear-btn"
+													onClick = {() => handleClearAll()}
+												>
+													{t("clearAll")}
+												</button>
 											</div>
 											<div className="form-btn-fixed d-flex">
 												<button
@@ -1294,109 +1076,48 @@ export default function PropertyHalfmapList() {
 								</div>
 							)}
 							<div className="wrap-inner">
-								{/* <div className="tab-content" style={{ position: "relative", height: "0px" }}>
-								{loading ? (
-									<Preloader />
-								) : error ? (
-									<p>{error}</p>
-								) : (
-									<div className="property-sec-list">
-										{propertys.filter(property => property.status).length === 0 || showNoMore ? (
-											<div style={{ textAlign: "center" }}>
-												<img
-													src="/images/not-found/item-not-found.png"
-													alt="No projects found"
-													style={{ height: "300px" }}
-												/>
-											</div>
-										) : (
-											<>
-												{filteredProperties.length > 0 && !showNoMore && (
-													<>
-														<div className="property-blog-sec" style={{ height: "100%" }}>
-															<div
-																className="tinder-card"
-																style={{
-																	width: "100%",
-																	top: 0,
-																	display: "flex",
-																	justifyContent: "center",
-																	alignItems: "center",
-																	zIndex: 1000,
-																}}
-															>
-																<PropertyBlog data={filteredProperties[currentIndex]} slide={false} calculation={calculationStatus} />
-															</div>
-															<div className="button-container" style={{ textAlign: "center", paddingBottom: "10px", display: "flex", justifyContent: "center" }}>
-																<img
-																	src="/images/logo/like.svg"
-																	alt="dislike"
-																	onClick={handleDislike}
-																	style={{
-																		transform: "rotate(180deg)",
-																		cursor: "pointer",
-																		marginLeft: "10px",
-																		width: "100px",
-																		height: "100px",
-																	}}
-																/>
-																<img
-																	src="/images/logo/like.svg"
-																	alt="like"
-																	onClick={() => {
-																		// console.log("Button clicked", filteredProperties[currentIndex]?.id, lastPropertyId);
-
-																		if (localStorage.getItem('token')) {
-																			handleLikeClick();
-																			handleLike(
-																				filteredProperties[currentIndex]?.like,
-																				filteredProperties[currentIndex]?.id,
-																				filteredProperties[currentIndex]?.user_id
-																			);
-																		}
-																	}}
-																	style={{ width: "100px", height: "100px", cursor: "pointer" }}
-																/>
-
-															</div>
-														</div>
-														<div className="wrap-map">
-															<PropertyMap
-																topmap={false}
-																singleMap={false}
-																propertys={filteredProperties[currentIndex]}
-																slug="property"
-																lat={filteredProperties[currentIndex].latitude}
-																lng={filteredProperties[currentIndex].longitude}
-															/>
-														</div>
-													</>
-												)}
-											</>
-										)}
-									</div>
-								)}
-							</div> */}
 								<div className="tab-content">
 									<div className={(isSwitch) ? "property-sec-list hide-main-section" : "property-sec-list"}>
 										<div className="project-listing-pagination">
-											<div className="box-title-listing style-1">
-												<h5>{t("propertylisting")}</h5>
-												<div className="flex items-center cursor-pointer select-none">
-													{/* <span className="switch-text">{t('switchMapText')}</span> */}
-													{/* <Image src="/images/logo/location-solid.svg" alt="switch"></Image> */}
-													<img src="/images/logo/map-icon.png" alt="logo-footer" width={30} height={20} style={{ marginRight: "10px" }} className="map-switch-icon"></img>
-													<label className="switch">
-														<input
-															type="checkbox"
-															checked={isSwitch}
-															onChange={handleSwitchChange}
-														/>
-														<span className="slider"></span>
-													</label>
+												<div className="box-title-listing style-1">
+													<h5>{t("propertylisting")}</h5>
+													{(!isDefaultPropertyViewMobile) &&(
+														<div className="flex items-center cursor-pointer select-none">
+															{/* <span className="switch-text">{t('switchMapText')}</span> */}
+															{/* <Image src="/images/logo/location-solid.svg" alt="switch"></Image> */}
+															<img src="/images/logo/map-icon.png" alt="logo-footer" width={30} height={20} style={{ marginRight: "10px" }} className="map-switch-icon"></img>
+															<label className="switch">
+																<input
+																	type="checkbox"
+																	checked={isSwitch}
+																	onChange={handleSwitchChange}
+																/>
+																<span className="slider"></span>
+															</label>
+														</div>
+													)}
 												</div>
-											</div>
-											<div className="project-listing">
+											
+											{( isDefaultPropertyViewMobile)  && (
+												<div className="property-change-view">
+													<button 
+														className={`tf-btn primary`}
+														onClick={() => handlePropertyview()}
+														
+													>
+														Property
+													</button>
+													<button 
+														className="tf-btn primary"
+														onClick={(e) => handlePropertyMapview(e)}
+													>
+														Map
+													</button>
+												</div>
+											)}
+											<div className={`project-listing 
+												${( isPropertyViewMobile)? 'property-show-mobile' : 'property-hide-mobile'} 
+												`}>
 												{(!propertys  && loading) ? (
 													<Preloader />
 												) : error ? (
@@ -1441,17 +1162,6 @@ export default function PropertyHalfmapList() {
 																				<ul className="d-flex gap-8">
 																					<li className="flag-tag style-1">{t(property.transaction)}</li>
 																				</ul>
-																				{/* <ul className="d-flex gap-4">
-																	<li className="box-icon w-32">
-																		<span className="icon icon-arrLeftRight" />
-																	</li>
-																	<li className="box-icon w-32">
-																		<span className="icon icon-heart" />
-																	</li>
-																	<li className="box-icon w-32">
-																		<span className="icon icon-eye" />
-																	</li>
-																</ul> */}
 																			</div>
 																			<div className="left-side">
 																				<ul className="d-flex gap-8">
@@ -1528,23 +1238,25 @@ export default function PropertyHalfmapList() {
 												) }
 											</div>
 											{pagination.totalCount > pagination.itemsPerPage && (
-												<ul className="wd-navigation">
-													{console.log(pagination,'>>>>>>>>>>>>>> current')}
-													{Array.from({ length: pagination.totalPages }, (_, index) => (
-														<li key={index}>
-															<div
-																href="#"
-																className={`nav-item ${pagination.currentPage === index + 1 ? 'active' : ''}`}
-																onClick={() => handlePageChange(index + 1)}
-															>
-																{index + 1}
-															</div>
-														</li>
-													))}
-												</ul>
+												<div className={`${( isPropertyViewMobile)? 'property-show-mobile' : 'property-hide-mobile'}`}>
+													<ul className={`wd-navigation  `}>
+														{console.log(pagination,'>>>>>>>>>>>>>> current')}
+														{Array.from({ length: pagination.totalPages }, (_, index) => (
+															<li key={index}>
+																<div
+																	href="#"
+																	className={`nav-item ${pagination.currentPage === index + 1 ? 'active' : ''}`}
+																	onClick={() => handlePageChange(index + 1)}
+																>
+																	{index + 1}
+																</div>
+															</li>
+														))}
+													</ul>
+												</div>
 											)}
 										</div>
-										<div className={(isSwitch) ? "wrap-map map-section-hide" : "wrap-map"}>
+										<div className={ ` ${(isSwitch) ? "wrap-map map-section-hide" : "wrap-map" } ${isPropertyViewMap? 'property-show-mobile' : 'property-hide-mobile'} ` }>
 											<ProjectMap topmap={false} singleMap={false} propertys={propertys} slug="property" />
 										</div>
 									</div>

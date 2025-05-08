@@ -10,6 +10,7 @@ import debounce from "lodash.debounce";
 import { formatPropertyPrice } from "@/components/common/Functions";
 import { useRouter } from 'next/navigation';
 import TabNav from "@/components/elements/TabNav";
+import { useNavigate } from "react-router-dom";
 
 export default function AdvancedFilter({ sidecls, propertiesData }) {
 	const [isToggled, setToggled] = useState(false);
@@ -73,10 +74,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 		city_slug: '',
 		district_name: '',
 		neighbourhood_name: '',
-
-
 		// amenities: [],
-
 		minPrice: priceRange[0],
 		maxPrice: priceRange[1],
 		minSize: sizeRange[0],
@@ -92,7 +90,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 			[name]: value
 		}));
 	};
-
+	
 	const handleDistrictSelect = (districtId, districtName) => {
 		setSearchDistrict(districtName); // Set the selected city name in the input
 		setFormData(() => ({

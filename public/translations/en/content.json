@@ -365,5 +365,6 @@
      "confirm" :"Confirm",
      "next" : "Next",
      "previous" : "Previous",
-     "contactUser": "Contact"
+     "contactUser": "Contact",
+     "clearAll": "Clear All"
 }
