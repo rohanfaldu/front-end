@@ -773,7 +773,6 @@ export default function PropertyHalfmapList() {
 		
 		defaultData.minPrice = 0;
 		defaultData.maxPrice = 1000000;
-		defaultData.maxSize = 2000;
 		defaultData.minSize = 0;
 		defaultData.amenities_id_object_with_value = "{}";
 		defaultData.transaction = transaction;
