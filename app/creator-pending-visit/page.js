@@ -25,6 +25,7 @@ import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 dayjs.extend(utc);
 dayjs.extend(timezone);
+import { useRouter } from 'next/navigation';
 
 export default function MyProperty() {
   const [propertiesVisits, setPropertiesVisits] = useState([]); // Store all fetched properties
@@ -53,6 +54,7 @@ export default function MyProperty() {
   const { t, i18n } = useTranslation();
   const [isTab, setIsTab] = useState(1);
   const [selectedDateTime, setSelectedDateTime] = useState(dayjs());
+  const router = useRouter();
   useEffect(() => {
     // const requestData = {
 		// 		propertyId: data.id,
@@ -299,6 +301,7 @@ export default function MyProperty() {
             // // console.log(response.data);
             setIsRescheduleVisit(false);
             setError(null);
+            router.reload(); 
           }
         } catch (err) {
           setError(err.response?.data?.message || "Please log in after creating the visit.");
@@ -481,7 +484,8 @@ export default function MyProperty() {
               <div className="modal-content-alert login-alert-sec" >
                 <>
                   <div>
-                    <p>Accept the visit request as it is:</p>
+                    <span>Accept the visit request as it is: <br/>
+                    <strong  style={{ marginTop: "10px", fontWeight: "bold"  }}>{dayjs(selectedDateTime).format("YYYY-MM-DD HH:mm")}</strong></span><br/>
                     <button className="tf-btn primary" onClick={() => acceptVisitRequest()}>Accept</button>
                   </div>
 

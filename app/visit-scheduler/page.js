@@ -337,6 +337,7 @@ export default function MyProperty() {
                             <tbody>
                               {propertiesVisits.map(user => (
                                 <tr key={user.id} className="file-delete">
+                                  {console.log(user,'>>>>>>> user')}
                                   <td>{user.property.lang_translations.en_string}</td>
                                   <td>{user.property.price}</td>
                                   <td>{user.property.users.full_name}</td>
@@ -374,7 +375,7 @@ export default function MyProperty() {
                                 </td>
                                   <td style={{paddingLeft:"20px"}}>
                                     <div className="status-wrap" style={{display:"flex", justifyContent:"center", width:"130px"}}>
-                                        {(user.is_accepted == false && user.decline_permanent == false) &&
+                                        {(user.is_accepted == false && user.decline_permanent == false && user.reschedule == true) &&
                                         <>
                                           <div className="status-wrap" style={{ display: "flex", justifyContent: "center", width: "130px" }}>
                                           <div className="btn-status custom-link" style={{ backgroundColor: "green", marginRight: "10px" }} onClick={() => acceptVisit(user.id)}>
