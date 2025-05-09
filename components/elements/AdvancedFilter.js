@@ -60,8 +60,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 		itemsPerPage: variablesList.itemsPerPage,
 	});
 	// Initialize formData state
-
-	const [formData, setFormData] = useState({
+	const defaultData = {
 		title: '',
 		description: '',
 		type_id: '',
@@ -74,14 +73,15 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 		city_slug: '',
 		district_name: '',
 		neighbourhood_name: '',
-		// amenities: [],
 		minPrice: priceRange[0],
 		maxPrice: priceRange[1],
 		minSize: sizeRange[0],
 		maxSize: sizeRange[1],
 		amenities_id_object_with_value: {},
 		amenities_id_array: [],
-	});
+	};
+
+	const [formData, setFormData] = useState(defaultData);
 	const router = useRouter();
 	const handleInputChange = (e) => {
 		const { name, value } = e.target;
@@ -435,6 +435,31 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 		localStorage.setItem("transaction",i)
     };
 
+	const handleClearAll = () =>{
+		setSearchCity("")
+		setPriceRange([1000, 1000000])
+		setSizeRange([0, 2000])
+		setFormData((prevFilters) => ({
+			...prevFilters,
+			maxPrice: 1000000,
+			maxSize: 2000,		
+			minPrice: 1000,
+			minSize: 0,
+			type_id: '',
+			amenities_id_object_with_value: {},
+			amenities_id_array:[]
+		}));
+		
+		defaultData.minPrice = 0;
+		defaultData.maxPrice = 1000000;
+		defaultData.maxSize = 2000;
+		defaultData.minSize = 0;
+		defaultData.amenities_id_object_with_value = "{}";
+		defaultData.transaction = transactionData;
+
+		localStorage.setItem('propertyFilterData', JSON.stringify(defaultData));
+	}
+
 	if (!formReady) return null;
 	
 	return (
@@ -505,21 +530,6 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 												)
 											)}
 										</div>
-										{/* <div className="form-group-2 form-style">
-						<label>{t("description")}</label>
-						<div className="group-ip">
-							<input
-								type="text"
-								className="form-control"
-								placeholder={t("searchdescription")}
-								name="description"
-								title="Search for"
-								required
-								value={formData.description}
-								onChange={handleInputChange}
-							/>
-						</div>
-					</div> */}
 										<div className="form-group-3 form-style">
 											<label>{t("propertytype")}</label>
 											<div className="group-select">
@@ -550,160 +560,6 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 									<button type="button" className="tf-btn primary" onClick={passingData}>{t("findproperties")}</button>
 								</div>
 								<div className={`wd-search-form ${isToggled ? "show" : ""}`}>
-
-									<div className="grid-1 group-box">
-										<div className="group-select grid-3">
-											{/* <div className="form-style">
-						<label className="title-select">{t("city")}</label>
-						<input
-							type="text"
-							className="form-control"
-							id="city"
-							name="city"
-							value={searchCity}
-							onChange={handleInputChangeCity}
-							placeholder={t("searchCity")}
-						/>
-						{searchTerm.length > 0 && (
-							cityOptions.length > 0 && (
-								<ul className="city-dropdown form-style" style={{ marginTop: "0px"}}>
-									{cityOptions.map((city) => (
-										<li
-											key={city.id}
-											onClick={() => {
-												handleCitySelect(city.id, city.city_name);
-												setSearchTerm('');
-											}}
-											className="city-option"
-										>
-											{city.city_name}
-										</li>
-									))}
-								</ul>
-							)
-						)}
-					</div> */}
-
-											{/* {showDistrict && ( */}
-											{/* <div className="form-style">
-						<label className="title-select">{t("district")}</label>
-						<input
-							type="text"
-							className="form-control"
-							id="district"
-							name="district"
-							value={searchDistrict}
-							onChange={handleInputChangeDistrict}
-							placeholder={t("searchDistrict")}
-							disabled ={!showDistrict}
-						/>
-						{searchTermDistrict.length > 0 && districtOptions.length === 0 ? (
-							<ul className="city-dropdown form-style" style={{ marginTop: "0px" }}>
-								<li className="city-option">District not found</li>
-							</ul>
-						) : (
-							districtOptions.length > 0 && (
-								<ul className="city-dropdown form-style" style={{ marginTop: "0px" }}>
-									{districtOptions.map((city) => (
-										<li
-											key={city.id}
-											onClick={() => {
-												handleDistrictSelect(city.id, city.name);
-												setSearchTermDistrict('');
-											}}
-											className="city-option"
-										>
-											{city.name}
-										</li>
-									))}
-								</ul>
-							)
-						)}
-					</div> */}
-											{/* )} */}
-
-											{/* {showNeighbourhood && ( */}
-											{/* <div className="form-style">
-							<label className="title-select">{t("neighbourhood")}</label>
-							<input
-								type="text"
-								className="form-control"
-								id="neighbourhood"
-								name="neighbourhood"
-								value={searchNeighbourhood}
-								onChange={handleInputChangeNeighbourhood}
-								placeholder={t("searchNeighbourhood")}
-								disabled ={!showNeighbourhood}
-							/>
-							{searchTermNeighbourhood.length > 0 && neighbourhoodOptions.length === 0 ? (
-								<ul className="city-dropdown form-style" style={{ marginTop: "0px" }}>
-									<li className="city-option">Neighbourhood not found</li>
-								</ul>
-							) : (
-								neighbourhoodOptions.length > 0 && (
-									<ul className="city-dropdown form-style" style={{ marginTop: "0px" }}>
-										{neighbourhoodOptions?.map((city) => (
-											<li
-												key={city.id}
-												onClick={() => {
-													handleNeighbourhoodSelect(city.id, city.name);
-													setSearchTermNeighbourhood('');
-												}}
-												className="city-option"
-											>
-												{city.name}
-											</li>
-										))}
-									</ul>
-								)
-							)}
-						</div> */}
-											{/* )} */}
-
-										</div>
-									</div>
-
-
-									<div className="grid-1 group-box">
-										<div className="group-select grid-2">
-											{/* <div className="form-style">
-															<label className="title-select">{t("direction")}</label>
-															<select
-																className="form-control"
-																id="direction"
-																name="direction"
-																value={formData.direction} 
-																onChange={handleFilterChange}
-															>
-																<option value="">{t("selectdiretion")}</option>
-																<option value="north">North</option>
-																<option value="south">South</option>
-																<option value="east">East</option>
-																<option value="west">West</option>
-															</select>
-														</div> */}
-
-																				{/* <div className="form-style">
-															<label className="title-select">{t("developedby")}</label>
-															<select
-																className="form-control"
-																id="developer_id"
-																name="developer_id"
-																value={formData.developer_id} 
-																onChange={handleFilterChange}
-															>
-																<option value="">{t("selectdeveloper")}</option>
-																{developers.map((developer) => ( 
-																	<option key={developer.user_id} value={developer.user_id}>
-																		{developer.user_name}
-																	</option>
-																))}
-															</select>
-														</div> */}
-										</div>
-									</div>
-
-
 									<div className="grid-2 group-box group-price">
 										<div className="widget-price">
 											<label className="title-select" style={{ marginBottom: "0px" }}>{t("price")}</label>
@@ -796,45 +652,8 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 											) : null}
 										</div>
 									</div>
-
 									<div className="group-checkbox">
 										<div className="text-1">{t("amenities")}:</div>
-										{/* <div className="group-amenities mt-8 grid-6">
-															{[
-																{ id: "cb1", label: "Air Condition" },
-																{ id: "cb2", label: "Cable TV" },
-																{ id: "cb3", label: "Ceiling Height" },
-																{ id: "cb4", label: "Fireplace" },
-																{ id: "cb5", label: "Disabled Access" },
-																{ id: "cb6", label: "Elevator" },
-																{ id: "cb7", label: "Fence" },
-																{ id: "cb8", label: "Garden" },
-																{ id: "cb9", label: "Floor" },
-																{ id: "cb10", label: "Furnishing" },
-																{ id: "cb11", label: "Garage" },
-																{ id: "cb12", label: "Pet Friendly" },
-																{ id: "cb13", label: "Heating" },
-																{ id: "cb14", label: "Intercom" },
-																{ id: "cb15", label: "Parking" },
-																{ id: "cb16", label: "WiFi" },
-																{ id: "cb17", label: "Renovation" },
-																{ id: "cb18", label: "Security" },
-																{ id: "cb19", label: "Swimming Pool" },
-															].map((amenity) => (
-																<div className="box-amenities" key={amenity.id}>
-																	<fieldset className="amenities-item">
-																		<input
-																			type="checkbox"
-																			className="tf-checkbox style-1"
-																			id={amenity.id}
-																			checked={formData.amenities.includes(amenity.id)}
-																			onChange={handleCheckboxChange}
-																		/>
-																		<label htmlFor={amenity.id} className="text-cb-amenities">{amenity.label}</label>
-																	</fieldset>
-																</div>
-															))}
-														</div> */}
 										<div className="group-amenities mt-8 grid-6">
 											{amenities.map((amenity) => (
 												amenity.type === "boolean" ? (
@@ -858,12 +677,20 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 												) : null
 											))}
 										</div>
-
-
+									</div>
+									<div className="group-checkbox filter-clear-btn">
+										<div className="form-btn-fixed d-flex">
+											<button
+												type="button"
+												className="tf-btn primary clear-btn"
+												onClick = {() => handleClearAll()}
+											>
+												{t("clearAll")}
+											</button>
+										</div>
 									</div>
 								</div>
-
-								</div>
+							</div>
 						</div>
 					</div>
 				</form>

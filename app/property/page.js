@@ -201,9 +201,7 @@ export default function PropertyHalfmapList() {
 		//if (isApiCalled.current) return;
 		setLoading(true);
 		const propertyFilterData = JSON.parse(localStorage.getItem('propertyFilterData'));
-		console.log(propertyFilterData, '>>>>>>>>>> propertyFilterData');
 		const getFilterStatus = sessionStorage.getItem('filterStatus');
-		console.log(getFilterStatus, '>>>>>>>>>> getFilterStatus')
 		if (propertyFilterData && typeof propertyFilterData === 'object' && isFilterProperty) {
 			//sessionStorage.removeItem('filterStatus')
 			console.log(localStorage.getItem('transaction'),'>>>>>>>>>> transaction')

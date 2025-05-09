@@ -14045,3 +14045,8 @@ label span {
 .property-hide-mobile{
   display: none;
 }
+.filter-clear-btn{
+  float: right;
+  display: flex;
+  margin-top: 0px !important;
+}
