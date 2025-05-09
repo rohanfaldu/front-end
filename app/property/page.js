@@ -711,7 +711,10 @@ export default function PropertyHalfmapList() {
 			}
 			setError(null);
 			setLoading(false);
-
+			if(isMobile){
+				setIsPropertyViewMobile(true)
+				setIsPropertyViewMap(false)
+			}
 		}
 	};
 

@@ -243,6 +243,7 @@ export default function MyProperty() {
           window.open(whatsappUrl, "_blank");
         } 
       }
+      
   return (
     <>
       {loading ? (
@@ -372,21 +373,31 @@ export default function MyProperty() {
                                   )}
                                 </td>
                                   <td style={{paddingLeft:"20px"}}>
-                                    <div className="status-wrap" style={{display:"flex", justifyContent:"space-between", width:"130px"}}>
+                                    <div className="status-wrap" style={{display:"flex", justifyContent:"center", width:"130px"}}>
                                         {(user.is_accepted == false && user.decline_permanent == false) &&
-                                            <Link href="#" className="btn-status"  style={{backgroundColor:"#00a8c1"}} >
+                                        <>
+                                          <div className="status-wrap" style={{ display: "flex", justifyContent: "center", width: "130px" }}>
+                                          <div className="btn-status custom-link" style={{ backgroundColor: "green", marginRight: "10px" }} onClick={() => acceptVisit(user.id)}>
+                                            Accept
+                                          </div>
+                                          <div className="btn-status custom-link" style={{ backgroundColor: "red" }} onClick={() => rejectVisit(user.id)}>
+                                            Reject
+                                          </div>
+                                        </div>
+                                            {/* <Link href="#" className="btn-status"  style={{backgroundColor:"#00a8c1"}} >
                                                 Pending
-                                            </Link>
+                                            </Link> */}
+                                            </>
                                         }
                                         {(user.is_accepted == true && user.decline_permanent == false) &&
-                                            <Link href="#" className="btn-status"  style={{backgroundColor:"green"}} >
+                                            <div className="btn-status custom-link"  style={{backgroundColor:"green"}} >
                                                 Accepted
-                                            </Link>
+                                            </div>
                                         }
                                         {(user.is_accepted == false && user.decline_permanent == true) &&
-                                            <Link href="#" className="btn-status"  style={{backgroundColor:"red"}} >
+                                            <div className="btn-status custom-link"  style={{backgroundColor:"red"}} >
                                                 Rejected
-                                            </Link>
+                                            </div>
                                         }
                                     </div>
                                   </td>
