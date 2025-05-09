@@ -350,14 +350,17 @@ export default function PropertyHalfmapList() {
 		}
 
 		const checkViewport = () => {
-			setIsMobile(window.innerWidth < 768);
-			if(!isMobile){
+			const mobileView = (window.innerWidth < 769) ? true : false;
+			setIsMobile((window.innerWidth < 769) ? true : false);
+			console.log(mobileView, ' >>>>>>>>>>>>>>> isMobile')
+			if(!mobileView){
 				setSeachAccordion(true);
-				setIsDefaultPropertyViewMobile(true);
+				setIsDefaultPropertyViewMobile(false);
 				setIsPropertyViewMobile(true);
 			}else{
 				setSeachAccordion(false);
-				setIsDefaultPropertyViewMobile(false);
+				setIsDefaultPropertyViewMobile(true);
+				setIsPropertyViewMobile(true);
 			}
 		};
 	   
@@ -1254,7 +1257,7 @@ export default function PropertyHalfmapList() {
 												</div>
 											)}
 										</div>
-										<div className={ ` ${(isSwitch) ? "wrap-map map-section-hide" : "wrap-map" } ${isPropertyViewMap? 'property-show-mobile' : 'property-hide-mobile'} ` }>
+										<div className={ ` ${(isSwitch) ? "wrap-map map-section-hide" : "wrap-map" } ${( (isDefaultPropertyViewMobile)? (isPropertyViewMap )? 'property-show-mobile' : 'property-hide-mobile' : '')} ` }>
 											<ProjectMap topmap={false} singleMap={false} propertys={propertys} slug="property" />
 										</div>
 									</div>
