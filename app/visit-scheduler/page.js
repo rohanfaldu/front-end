@@ -375,6 +375,13 @@ export default function MyProperty() {
                                 </td>
                                   <td style={{paddingLeft:"20px"}}>
                                     <div className="status-wrap" style={{display:"flex", justifyContent:"center", width:"130px"}}>
+                                        {(user.is_accepted == false && user.decline_permanent == false && user.reschedule == false) &&
+                                        <>
+                                            <Link href="#" className="btn-status"  style={{backgroundColor:"#00a8c1"}} >
+                                                Pending
+                                            </Link>
+                                            </>
+                                        }
                                         {(user.is_accepted == false && user.decline_permanent == false && user.reschedule == true) &&
                                         <>
                                           <div className="status-wrap" style={{ display: "flex", justifyContent: "center", width: "130px" }}>
