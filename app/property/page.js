@@ -653,6 +653,7 @@ export default function PropertyHalfmapList() {
 		const filterationVal = (filters.transaction)? filters.transaction : transaction;
 		console.log(form,'>>>>>>>>>> event');
 		setCalculationStatus(true);
+		setSeachAccordion(false);
 		setLoading(true);
 		console.log(filters, '>>>>>>>>>>>>> Filters')
 		const selctCityId = (formData.get('city') === "") ? null :filters.city;
@@ -754,10 +755,12 @@ export default function PropertyHalfmapList() {
 		router.push(`/property/${slug}`);
 	};
 	const handlesearchAccordion = (status) =>{
+		setSeachAccordion(false);
 		const updateStatus = (status)?false:true;
 		setSeachAccordion(updateStatus);
 	}
 	const handleClearAll = () =>{
+		setSeachAccordion(false);
 		setSearchCity("")
 		setPriceRange([1000, 1000000])
 		console.log(maxsizeVal,"maxsizeVal")
