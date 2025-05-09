@@ -97,7 +97,7 @@ export default function PropertyHalfmapList() {
 		filter_latitude: addressLatLong[0],
 		filter_longitude: addressLatLong[1],
 	};
-
+	const [maxsizeVal, setMaxsizeVal] = useState(sizeRange[1]? sizeRange[1] : 2000);
 	const [filters, setFilters] = useState(defaultData);
 
 	const lang = i18n.language;
@@ -317,6 +317,7 @@ export default function PropertyHalfmapList() {
 					if (!initialMaxSize) {
 						if (maxSizeSliderRange !== null) {
 							setInitialMaxSize(maxSizeSliderRange);
+							setMaxsizeVal(maxSizeSliderRange)
 							if (params.minSize == undefined && params.maxSize == undefined) {
 								setSizeRange([0, maxSizeSliderRange])
 							}
@@ -759,11 +760,12 @@ export default function PropertyHalfmapList() {
 	const handleClearAll = () =>{
 		setSearchCity("")
 		setPriceRange([1000, 1000000])
-		setSizeRange([0, 2000])
+		console.log(maxsizeVal,"maxsizeVal")
+		setSizeRange([0, maxsizeVal])
 		setFilters((prevFilters) => ({
 			...prevFilters,
 			maxPrice: 1000000,
-			maxSize: 2000,		
+			maxSize: maxsizeVal,		
 			minPrice: 1000,
 			minSize: 0,
 			type_id: '',
@@ -776,6 +778,7 @@ export default function PropertyHalfmapList() {
 		defaultData.minSize = 0;
 		defaultData.amenities_id_object_with_value = "{}";
 		defaultData.transaction = transaction;
+		defaultData.maxSize = maxsizeVal;
 
 		localStorage.setItem('propertyFilterData', JSON.stringify(defaultData));
 	}

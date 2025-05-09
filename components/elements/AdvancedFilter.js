@@ -82,6 +82,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 	};
 
 	const [formData, setFormData] = useState(defaultData);
+	const [maxsizeVal, setMaxsizeVal] = useState(sizeRange[1]? sizeRange[1] : 2000);
 	const router = useRouter();
 	const handleInputChange = (e) => {
 		const { name, value } = e.target;
@@ -224,7 +225,9 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 				if (initialMaxSize !== maxSizeSliderRange) {
 					setInitialMaxSize(maxSizeSliderRange);
 					setSizeRange([0, maxSizeSliderRange])
+						
 				}
+			
 				setError(null);
 			}
 		} catch (err) {
@@ -385,6 +388,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 					minSize: 0, // Set minPrice
 					maxSize: maxSizeSliderRange, // Set maxPrice
 				}));
+				setMaxsizeVal(maxSizeSliderRange)
 			} else {
 				setInitialMaxSize(2000);
 				setSizeRange([0, 2000])
@@ -436,13 +440,15 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
     };
 
 	const handleClearAll = () =>{
+		console.log(defaultData,"defaultData.maxSize")
+		console.log(maxsizeVal,"maxsizeVal")
 		setSearchCity("")
 		setPriceRange([1000, 1000000])
-		setSizeRange([0, 2000])
+		setSizeRange([0, maxsizeVal])
 		setFormData((prevFilters) => ({
 			...prevFilters,
 			maxPrice: 1000000,
-			maxSize: 2000,		
+			maxSize: maxsizeVal,	
 			minPrice: 1000,
 			minSize: 0,
 			type_id: '',
@@ -455,6 +461,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 		defaultData.minSize = 0;
 		defaultData.amenities_id_object_with_value = "{}";
 		defaultData.transaction = transactionData;
+		defaultData.maxSize = maxsizeVal;
 
 		localStorage.setItem('propertyFilterData', JSON.stringify(defaultData));
 	}
