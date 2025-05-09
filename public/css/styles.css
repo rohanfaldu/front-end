@@ -14050,3 +14050,6 @@ label span {
   display: flex;
   margin-top: 0px !important;
 }
+.property-active{
+  background-color: #045c8d !important;
+}
