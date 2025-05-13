@@ -21,7 +21,7 @@ export default function MapClusterProject({ topmap, propertys, slug }) {
   // ✅ Move CenterMarker INSIDE MapClusterProject
   function CenterMarker({ property }) {
     const map = useMap(); // ✅ Now it's safe!
-
+    console.log(slug, ' >>>>> slug')
     const handleMarkerClick = () => {
       map.flyTo([property.latitude, property.longitude], map.getZoom(), {
         animate: true,
@@ -69,11 +69,17 @@ export default function MapClusterProject({ topmap, propertys, slug }) {
                       {property.title}
                     </div>
                   </div>
+                  {(slug === 'project')?(<div>
+                    <div className="price">
+                      <strong className="text-variant-1">From {property.price} DH</strong>
+                    </div>
+                  </div>):(
                   <ul className="list-info">
                     <li><span className="icon icon-bed" /> {property.bedRooms || '-'}</li>
                     <li><span className="icon icon-bathtub" /> {property.bathRooms || '-'}</li>
                     <li><span className="icon icon-ruler" /> {property.size || '-'}</li>
                   </ul>
+                  )}
                 </div>
 
               </div>

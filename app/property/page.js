@@ -78,7 +78,7 @@ export default function PropertyHalfmapList() {
 		totalPages: 1,
 		currentPage: variablesList.currentPage,
 		itemsPerPage: 10,
-		
+
 	}); // Track pagination info
 	const defaultData = {
 		title: '',
@@ -259,7 +259,7 @@ export default function PropertyHalfmapList() {
 
 
 			const getFilterData = async (page = 1,) => {
-				// console.log("Filters:", filters);
+				 console.log("Filters:", pagination);
 				const lang = i18n.language;
 				const transactionData = params.transaction;
 				const requestData = {
