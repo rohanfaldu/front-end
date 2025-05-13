@@ -13975,10 +13975,10 @@ label span {
     justify-content: center;
     align-items: center;
     display: flex;
-    max-width: 300px;
+    max-width: 400px;
     margin: 0px;
   }
-  
+
   .property-change-view {
         justify-content: start !important;
   }
