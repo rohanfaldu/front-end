@@ -13955,7 +13955,7 @@ label span {
 @media (max-width: 374px) {
   .property-sec-list .project-listing .col-md-6{
     width: 100%;
-    margin: 0 auto;
+    /* margin: 0 auto; */
     justify-content: center;
     align-items: center;
     display: flex;

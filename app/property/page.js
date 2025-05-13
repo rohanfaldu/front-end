@@ -77,7 +77,7 @@ export default function PropertyHalfmapList() {
 		totalCount: 0,
 		totalPages: 1,
 		currentPage: variablesList.currentPage,
-		itemsPerPage: 4,
+		itemsPerPage: 10,
 	}); // Track pagination info
 	const defaultData = {
 		title: '',
