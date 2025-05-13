@@ -5,7 +5,7 @@
         "scripts": {
                 "dev": "next dev --port 9000",
                 "build": "next build",
-                "start": "next start",
+                "start": "next build && next start --port 9000",
                 "lint": "next lint",
                 "sass": "sass --watch public/scss/app.scss:public/css/styles.css"
         },
