@@ -13961,6 +13961,9 @@ label span {
     display: flex;
     max-width: 300px;
   }
+  .property-change-view {
+        justify-content: start !important;
+  }
 }
 
 @media (max-width: 425px) {
@@ -13973,6 +13976,10 @@ label span {
     align-items: center;
     display: flex;
     max-width: 300px;
+    margin: 0px;
+  }
+  .property-change-view {
+        justify-content: start !important;
   }
 }
 
