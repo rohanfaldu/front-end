@@ -78,6 +78,9 @@ export default function ProjectHalfmapList() {
 	const [seachAccordion, setSeachAccordion] = useState(false);
 	const [isMobile, setIsMobile] = useState(false);
 	const lang = i18n.language;
+	const [isPropertyViewMobile, setIsPropertyViewMobile] = useState(false);
+	const [isPropertyViewMap, setIsPropertyViewMap] = useState(false);
+	const [isDefaultPropertyViewMobile, setIsDefaultPropertyViewMobile] = useState(false);
 
 	const fetchProjects = async (page = 1, updatedFilters = {}) => {
 		setLoading(true);
@@ -160,6 +163,10 @@ export default function ProjectHalfmapList() {
 			}
 			setError(null);
 			setLoading(false);
+			if(isMobile){
+				setIsPropertyViewMobile(true)
+				setIsPropertyViewMap(false)
+			}
 		}
 	};
 
@@ -204,15 +211,21 @@ export default function ProjectHalfmapList() {
 			setIsSwitch(IsSwitch);
 		}
 		const checkViewport = () => {
-			setIsMobile((window.innerWidth < 768)?true:false);
-			if(window.innerWidth < 768){
-				setSeachAccordion(false);
-			}else{
-				console.log(213);
+			const mobileView = (window.innerWidth < 769) ? true : false;
+			setIsMobile((window.innerWidth < 769) ? true : false);
+			console.log(mobileView, ' >>>>>>>>>>>>>>> isMobile')
+			if (!mobileView) {
 				setSeachAccordion(true);
+				setIsDefaultPropertyViewMobile(false);
+				setIsPropertyViewMobile(true);
+			} else {
+				setSeachAccordion(false);
+				setIsDefaultPropertyViewMobile(true);
+				setIsPropertyViewMobile(true);
 			}
 		};
 		checkViewport();
+
 	}, [pagination.currentPage, i18n.language]);
 
 	const handlePageChange = (page) => {
@@ -351,11 +364,21 @@ export default function ProjectHalfmapList() {
 		router.push(`/project/${slug}`);
 	};
 
-	const handlesearchAccordion = (status) =>{
-		const updateStatus = (status)?false:true;
+	const handlesearchAccordion = (status) => {
+		const updateStatus = (status) ? false : true;
 		setSeachAccordion(updateStatus);
 	}
-	
+
+	const handlePropertyview = () => {
+		setIsPropertyViewMobile(true)
+		setIsPropertyViewMap(false)
+	}
+	const handlePropertyMapview = (e) => {
+		setIsPropertyViewMap(true)
+		setIsPropertyViewMobile(false)
+		//setIsDefaultPropertyViewMobile(false)
+	}
+
 	return (
 		<>
 
@@ -705,20 +728,38 @@ export default function ProjectHalfmapList() {
 								<div className="project-listing-pagination">
 									<div className="box-title-listing style-1">
 										<h5>{t("projectlisting")}</h5>
-										<div className="flex items-center cursor-pointer select-none">
-											{/* <span className="switch-text">{t('switchMapText')}</span> */}
-											<img src="/images/logo/map-icon.png" alt="logo-footer" width={30} height={20} style={{ marginRight: "10px" }} className="map-switch-icon"></img>
-											<label className="switch">
-												<input
-													type="checkbox"
-													checked={isSwitch}
-													onChange={handleSwitchChange}
-												/>
-												<span className="slider"></span>
-											</label>
-										</div>
+										{(!isDefaultPropertyViewMobile) &&(
+											<div className="flex items-center cursor-pointer select-none">
+												{/* <span className="switch-text">{t('switchMapText')}</span> */}
+												<img src="/images/logo/map-icon.png" alt="logo-footer" width={30} height={20} style={{ marginRight: "10px" }} className="map-switch-icon"></img>
+												<label className="switch">
+													<input
+														type="checkbox"
+														checked={isSwitch}
+														onChange={handleSwitchChange}
+													/>
+													<span className="slider"></span>
+												</label>
+											</div>
+										)}
 									</div>
-									<div className="project-listing">
+									{(isDefaultPropertyViewMobile) && (
+										<div className="property-change-view">
+											<button
+												className={`tf-btn primary-1 ${isPropertyViewMobile ? 'property-active' : ''}`}
+												onClick={() => handlePropertyview()}
+											>
+												{t('project')}
+											</button>
+											<button
+												className={`tf-btn primary-1 ${isPropertyViewMap ? 'property-active' : ''}`}
+												onClick={(e) => handlePropertyMapview(e)}
+											>
+												{t('map')}
+											</button>
+										</div>
+									)}
+									<div className={`project-listing ${( isPropertyViewMobile)? 'property-show-mobile' : 'property-hide-mobile'} `}>
 										{loading ? (
 											<Preloader />
 										) : error ? (
@@ -820,22 +861,24 @@ export default function ProjectHalfmapList() {
 										)}
 									</div>
 									{pagination.totalCount > pagination.itemsPerPage && (
-										<ul className="wd-navigation">
-											{Array.from({ length: pagination.totalPages }, (_, index) => (
-												<li key={index}>
-													<Link
-														href="#"
-														className={`nav-item ${pagination.currentPage === index + 1 ? 'active' : ''}`}
-														onClick={() => handlePageChange(index + 1)}
-													>
-														{index + 1}
-													</Link>
-												</li>
-											))}
-										</ul>
+										<div className={`${( isPropertyViewMobile)? 'property-show-mobile' : 'property-hide-mobile'}`}>
+											<ul className="wd-navigation">
+												{Array.from({ length: pagination.totalPages }, (_, index) => (
+													<li key={index}>
+														<Link
+															href="#"
+															className={`nav-item ${pagination.currentPage === index + 1 ? 'active' : ''}`}
+															onClick={() => handlePageChange(index + 1)}
+														>
+															{index + 1}
+														</Link>
+													</li>
+												))}
+											</ul>
+										</div>
 									)}
 								</div>
-								<div className={(isSwitch) ? "wrap-map map-section-hide" : "wrap-map"}>
+								<div className={ ` ${(isSwitch) ? "wrap-map map-section-hide" : "wrap-map" } ${( (isDefaultPropertyViewMobile)? (isPropertyViewMap )? 'property-show-mobile' : 'property-hide-mobile' : '')} ` }>
 									<ProjectMap topmap={false} singleMap={false} propertys={projects} slug="project" />
 								</div>
 							</div>

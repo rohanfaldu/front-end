@@ -1113,13 +1113,13 @@ export default function PropertyHalfmapList() {
 														className={`tf-btn primary-1 ${isPropertyViewMobile ? 'property-active' : ''}`}
 														onClick={() => handlePropertyview()}
 													>
-														Property
+														{t('property')}
 													</button>
 													<button 
 														className={`tf-btn primary-1 ${isPropertyViewMap ? 'property-active' : ''}`}
 														onClick={(e) => handlePropertyMapview(e)}
 													>
-														Map
+														{t('map')}
 													</button>
 												</div>
 											)}

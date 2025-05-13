@@ -7,7 +7,7 @@ import React, { useEffect, useState } from 'react';
 import { insertData, insertImageData } from "../../components/api/Axios/Helper";
 import Preloader from "@/components/elements/Preloader";
 import variablesList from "@/components/common/Variable";
-
+import { useRouter } from 'next/navigation';
 const swiperOptions = {
 	modules: [Autoplay, Pagination, Navigation],
 	slidesPerView: 1,
@@ -79,7 +79,10 @@ export default function Testimonial1() {
 			fetchBlogDetails(pagination.currentPage);
 		}
 	}, [pagination.currentPage, i18n.language]);
-
+	const router = useRouter();
+	const handleClick = (link) => {
+		router.push(link);
+	};
 	//console.log(commentDetails, ' >>>>> commentDetails')
 	return (
 		<>
@@ -104,24 +107,26 @@ export default function Testimonial1() {
 									{commentDetails.length > 0
 										? commentDetails.map((commentData, index) => (
 											<SwiperSlide key={index}>
-												<div className="box-tes-item wow fadeIn" data-wow-delay=".2s" data-wow-duration="2000ms">
-													<ul className="list-star">
-														{Array.from({ length: commentData.rating }, (_, starIndex) => (
-															<li key={starIndex} className="icon icon-star" />
-														))}
-													</ul>
-													<p className="note body-1">
-														{commentData.comment}
-													</p>
-													<div className="box-avt d-flex align-items-center gap-12">
-														<div className="avatar avt-60 round">
-															<img
-																src={commentData.users?.image || "/images/avatar/user-image.png"}
-																alt="avatar"
-															/>
-														</div>
-														<div className="info">
-															<div className="h7 fw-7">{commentData.users?.full_name}</div>
+												<div onClick={() => handleClick(`${`property/${commentData.property.slug}`}`)} >
+													<div className="box-tes-item wow fadeIn" data-wow-delay=".2s" data-wow-duration="2000ms">
+														<ul className="list-star">
+															{Array.from({ length: commentData.rating }, (_, starIndex) => (
+																<li key={starIndex} className="icon icon-star" />
+															))}
+														</ul>
+														<p className="note body-1">
+															{commentData.comment}
+														</p>
+														<div className="box-avt d-flex align-items-center gap-12">
+															<div className="avatar avt-60 round">
+																<img
+																	src={commentData.users?.image || "/images/avatar/user-image.png"}
+																	alt="avatar"
+																/>
+															</div>
+															<div className="info">
+																<div className="h7 fw-7">{commentData.users?.full_name}</div>
+															</div>
 														</div>
 													</div>
 												</div>
