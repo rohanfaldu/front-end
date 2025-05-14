@@ -420,7 +420,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 			...formData,
 			transaction: transactionData,
 		};
-		console.log(updatedFormData, 'updatedFormData')
+		console.log(updatedFormData, '>>>>>>>>>>>>>> updatedFormData')
 		// Create queryData from the updatedFormData
 		const queryData = { ...updatedFormData };
 		queryData.amenities_id_object_with_value = JSON.stringify(updatedFormData.amenities_id_object_with_value);
@@ -464,7 +464,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 		defaultData.amenities_id_object_with_value = "{}";
 		defaultData.transaction = transactionData;
 		defaultData.maxSize = maxsizeVal;
-
+		console.log(defaultData," >>>>>>>>>>>>>>>> defaultData");
 		localStorage.setItem('propertyFilterData', JSON.stringify(defaultData));
 	}
 

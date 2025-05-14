@@ -206,7 +206,7 @@ export default function PropertyHalfmapList() {
 		const getFilterStatus = sessionStorage.getItem('filterStatus');
 		if (propertyFilterData && typeof propertyFilterData === 'object' && isFilterProperty) {
 			//sessionStorage.removeItem('filterStatus')
-			console.log(localStorage.getItem('transaction'),'>>>>>>>>>> transaction')
+			console.log(propertyFilterData,'>>>>>>>>>> propertyFilterData')
 			//setTransaction(propertyFilterData.transaction);
 			setTransaction(localStorage.getItem('transaction'));
 			setCheckURL(true);
@@ -273,10 +273,10 @@ export default function PropertyHalfmapList() {
 					district_id: params.district,
 					neighborhoods_id: params.neighbourhood,
 					type_id: params.type_id,
-					...(params.minPrice > 0 && { minPrice: params.minPrice }),
-					...(params.maxPrice > 0 && { maxPrice: params.maxPrice }),
-					...(params.minSize > 0 && { minSize: params.minSize }),
-					...(params.maxSize > 0 && { maxSize: params.maxSize }),
+					minPrice: params.minPrice,
+					maxPrice: params.maxPrice,
+					minSize: params.minSize,
+					 maxSize: params.maxSize,
 					amenities_id_array: params.amenities_id_array,
 					direction: params.direction,
 					developer_id: params.developer_id,
@@ -284,6 +284,7 @@ export default function PropertyHalfmapList() {
 					transaction: transactionData
 				};
 				 console.log(requestData, " >>>>>>>>>>>>>>>>> requestData .....................")
+				 console.log(params, " >>>>>>>>>>>>>>>>> params .....................")
 				const response = await getData("api/property", requestData, true);
 				if (response.status) {
 					const { list, totalCount, totalPages, currentPage, property_meta_details, maxPriceSliderRange, property_types, cities, maxSizeSliderRange, developers } = response.data;
