@@ -915,7 +915,7 @@ export default function PropertyHalfmapList() {
 																				<ReactSlider
 																					ariaLabelledby="slider-label"
 																					className="horizontal-slider st2"
-																					min={1000}
+																					min={0}
 																					max={initialMaxPrice}
 																					value={priceRange ?? ''}
 																					step={100}

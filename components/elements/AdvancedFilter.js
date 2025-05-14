@@ -368,7 +368,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 				setMaxPriceVal(maxPriceSliderRange)
 				setFormData((prevFilters) => ({
 					...prevFilters,
-					minPrice: 1000, // Set minPrice
+					minPrice: 0, // Set minPrice
 					maxPrice: maxPriceSliderRange, // Set maxPrice
 				}));
 			} else {
@@ -576,7 +576,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 												<ReactSlider
 													ariaLabelledby="slider-label"
 													className="horizontal-slider st2"
-													min={1000}
+													min={0}
 													max={initialMaxPrice}
 													value={priceRange}
 													step={100}
