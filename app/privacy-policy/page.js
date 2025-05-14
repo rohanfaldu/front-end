@@ -3,92 +3,92 @@ import Layout from "@/components/layout/Layout"
 import Link from "next/link"
 import { useState } from "react"
 export default function PrivacyPolicy() {
-	const [isTab, setIsTab] = useState(1)
-	const [isVisible, setIsVisible] = useState(true)
-	const handleTab = (i) => {
-		setIsTab(i)
-		setIsVisible(false)
-		setTimeout(() => {
-			setIsVisible(true)
-		}, 200)
-	}
-	return (
-		<>
+    const [isTab, setIsTab] = useState(1)
+    const [isVisible, setIsVisible] = useState(true)
+    const handleTab = (i) => {
+        setIsTab(i)
+        setIsVisible(false)
+        setTimeout(() => {
+            setIsVisible(true)
+        }, 200)
+    }
+    return (
+        <>
 
-			<Layout headerStyle={1} footerStyle={1} breadcrumbTitle="Privacy Policy">
-				<section className="flat-section">
-					<div className="container">
-						<div className="row">
-							<div className="col-lg-5">
-								<ul className="nav-tab-privacy" role="tablist">
-									{/* <li className="nav-tab-item" onClick={() => handleTab(1)}>
-										<a className={isTab == 1 ? "nav-link-item active" : "nav-link-item"} data-bs-toggle="tab">1. Terms of Service </a>
-									</li> */}
-									<li className="nav-tab-item" onClick={() => handleTab(2)}>
-										<a className={isTab == 1 ? "nav-link-item active" : "nav-link-item"} data-bs-toggle="tab">1. Privacy Policy</a>
-									</li>
-								</ul>
-							</div>
-							<div className="col-lg-7">
-								<h5 className="text-capitalize title">Privacy policy</h5>
-								<div className="tab-content content-box-privacy">
-									<div className={isTab == 1 ? "tab-pane fade show active" : "tab-pane fade"} id="terms" role="tabpanel">
-										{/* <p>Welcome to GET immofind! By downloading, accessing, or using our application (“App GET immofind”), 
-										you agree to comply with and be bound by these Terms of Service (“Terms”). If you do not agree 
-										to these Terms, please do not use our App. </p><br/>
-										<ol>
-											<li>
-												<h5>Acceptance of Terms</h5>
-												<p>By using GET immofind, you agree to these Terms and any additional terms and conditions we may 
-													provide in the future. You must be at least 18 years old to use the App.</p>
-											</li>
-											<li>
-												<h5>Description of the Service</h5>
-												<p>GET immofind is a mobile referral platform that allows users to earn rewards by referring others to partner businesses. The availability of rewards is subject to change without notice and is governed by specific referral program terms. </p>
-											</li>
-											<li>
-												<h5>User Responsibilities</h5>
-												<ul><br/>
+            <Layout headerStyle={1} footerStyle={1} breadcrumbTitle="Privacy Policy">
+                <section className="flat-section">
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-lg-5">
+                                <ul className="nav-tab-privacy" role="tablist">
+                                    {/* <li className="nav-tab-item" onClick={() => handleTab(1)}>
+                                        <a className={isTab == 1 ? "nav-link-item active" : "nav-link-item"} data-bs-toggle="tab">1. Terms of Service </a>
+                                    </li> */}
+                                    <li className="nav-tab-item" onClick={() => handleTab(2)}>
+                                        <a className={isTab == 1 ? "nav-link-item active" : "nav-link-item"} data-bs-toggle="tab">1. Privacy Policy</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div className="col-lg-7">
+                                <h5 className="text-capitalize title">Privacy policy</h5>
+                                <div className="tab-content content-box-privacy">
+                                    <div className={isTab == 1 ? "tab-pane fade show active" : "tab-pane fade"} id="terms" role="tabpanel">
+                                        {/* <p>Welcome to GET immofind! By downloading, accessing, or using our application (“App GET immofind”), 
+                                        you agree to comply with and be bound by these Terms of Service (“Terms”). If you do not agree 
+                                        to these Terms, please do not use our App. </p><br/>
+                                        <ol>
+                                            <li>
+                                                <h5>Acceptance of Terms</h5>
+                                                <p>By using GET immofind, you agree to these Terms and any additional terms and conditions we may 
+                                                    provide in the future. You must be at least 18 years old to use the App.</p>
+                                            </li>
+                                            <li>
+                                                <h5>Description of the Service</h5>
+                                                <p>GET immofind is a mobile referral platform that allows users to earn rewards by referring others to partner businesses. The availability of rewards is subject to change without notice and is governed by specific referral program terms. </p>
+                                            </li>
+                                            <li>
+                                                <h5>User Responsibilities</h5>
+                                                <ul><br/>
 
-												<li> Provide accurate, up-to-date information during registration.</li> 
-												
-												<li>Use the App in compliance with all applicable laws and regulations.</li> 
-												<li>Not engage in fraudulent or unethical practices, including creating fake accounts, exploiting bugs, or sharing false referrals. </li> </ul>
+                                                <li> Provide accurate, up-to-date information during registration.</li> 
+                                                
+                                                <li>Use the App in compliance with all applicable laws and regulations.</li> 
+                                                <li>Not engage in fraudulent or unethical practices, including creating fake accounts, exploiting bugs, or sharing false referrals. </li> </ul>
 
-											</li><br/>
+                                            </li><br/>
 
-											<li>
-												<h5>Reward System</h5>
-												<ul><br/>
+                                            <li>
+                                                <h5>Reward System</h5>
+                                                <ul><br/>
 
-													<li>Rewards are issued in accordance with the terms of specific referral campaigns.</li> 
-													
-													<li>GET immofind reserves the right to withhold or revoke rewards in cases of suspected 
-														fraud or misuse.</li> 
-													<li>Rewards are non-transferable and cannot be exchanged, unless explicitly 
-														stated.</li>
-												</ul>
+                                                    <li>Rewards are issued in accordance with the terms of specific referral campaigns.</li> 
+                                                    
+                                                    <li>GET immofind reserves the right to withhold or revoke rewards in cases of suspected 
+                                                        fraud or misuse.</li> 
+                                                    <li>Rewards are non-transferable and cannot be exchanged, unless explicitly 
+                                                        stated.</li>
+                                                </ul>
 
-											</li><br/>
-											<li> <h5>Intellectual Property </h5>
-												<p>All content, trademarks, and materials within the App are the property of GET immofind or its 
-												licensors. You may not copy, modify, or distribute any App content without our explicit 
-												permission.</p>
-											</li><br/>
-											<li> <h5>Termination </h5>
-												<p>We may suspend or terminate your account at any time for violating these Terms or engaging in 
-													fraudulent activity.</p>
-											</li>
-											<li> <h5>Limitation of Liability  </h5>
-												<p>GET immofind is not liable for indirect, incidental, or consequential damages resulting from your use 
-													of the App. </p>
-											</li><br/>
-									
-											<li> <h5>Changes to Terms</h5>
-												<p>We may update these Terms from time to time. Continued use of the App constitutes acceptance of the revised Terms. For questions, contact us at immofindmaroc@gmail.com. </p>
-											</li>
-										</ol> */}
-										<p>Last updated: February 20, 2025</p>
+                                            </li><br/>
+                                            <li> <h5>Intellectual Property </h5>
+                                                <p>All content, trademarks, and materials within the App are the property of GET immofind or its 
+                                                licensors. You may not copy, modify, or distribute any App content without our explicit 
+                                                permission.</p>
+                                            </li><br/>
+                                            <li> <h5>Termination </h5>
+                                                <p>We may suspend or terminate your account at any time for violating these Terms or engaging in 
+                                                    fraudulent activity.</p>
+                                            </li>
+                                            <li> <h5>Limitation of Liability  </h5>
+                                                <p>GET immofind is not liable for indirect, incidental, or consequential damages resulting from your use 
+                                                    of the App. </p>
+                                            </li><br/>
+                                    
+                                            <li> <h5>Changes to Terms</h5>
+                                                <p>We may update these Terms from time to time. Continued use of the App constitutes acceptance of the revised Terms. For questions, contact us at immofindmaroc@gmail.com. </p>
+                                            </li>
+                                        </ol> */}
+                                        <p>Last updated: February 20, 2025</p>
                             <p>This Privacy Policy describes Our policies and procedures on the collection, use and
                                 disclosure of Your information when You use the Service and tells You about Your privacy
                                 rights and how the law protects You.</p>
@@ -96,7 +96,7 @@ export default function PrivacyPolicy() {
                                 agree to the collection and use of information in accordance with this Privacy Policy.
                             </p>
 
-							<h3>Interpretation and Definitions</h3>
+                            <h3>Interpretation and Definitions</h3>
 
                                     <h5>Interpretation</h5>
                                     <p>The words of which the initial letter is capitalized have meanings defined under
@@ -106,7 +106,7 @@ export default function PrivacyPolicy() {
                                     <h5>Definitions</h5>
                                     <p>For the purposes of this Privacy Policy:</p>
 
-									<ul>
+                                    <ul>
                                         <li><strong>Account</strong> means a unique account created for You to access
                                             our Service or parts of our Service.</li>
                                         <li><strong>Affiliate</strong> means an entity that controls, is controlled by
@@ -146,20 +146,20 @@ export default function PrivacyPolicy() {
                                             accessing or using the Service, as applicable.</li>
                                     </ul>
 
-									<h3>Collecting and Using Your Personal Data</h3>
+                                    <h3>Collecting and Using Your Personal Data</h3>
 
 <h5>Types of Data Collected</h5>
 
 <h6>Personal Data</h6>
 <p>While using Our Service, We may ask You to provide Us with certain personally
-	identifiable information that can be used to contact or identify You. Personally
-	identifiable information may include, but is not limited to:</p>
+    identifiable information that can be used to contact or identify You. Personally
+    identifiable information may include, but is not limited to:</p>
 <ul>
-	<li>Email address</li>
-	<li>First name and last name</li>
-	<li>Phone number</li>
-	<li>Address, State, Province, ZIP/Postal code, City</li>
-	<li>Usage Data</li>
+    <li>Email address</li>
+    <li>First name and last name</li>
+    <li>Phone number</li>
+    <li>Address, State, Province, ZIP/Postal code, City</li>
+    <li>Usage Data</li>
 </ul>
 
 <h6>Usage Data</h6>
@@ -212,7 +212,7 @@ export default function PrivacyPolicy() {
                                     <p>You can enable or disable access to this information at any time, through Your
                                         Device settings.</p>
 
-										<h6>Tracking Technologies and Cookies</h6>
+                                        <h6>Tracking Technologies and Cookies</h6>
                                     <p>We use Cookies and similar tracking technologies to track the activity on Our
                                         Service and store certain information. Tracking technologies used are beacons,
                                         tags, and scripts to collect and track information and to improve and analyze
@@ -276,7 +276,7 @@ export default function PrivacyPolicy() {
                                     </p>
 
 
-									<h5>Use of Your Personal Data</h5>
+                                    <h5>Use of Your Personal Data</h5>
                                     <p>The Company may use Personal Data for the following purposes:</p>
                                     <ul>
                                         <li>To provide and maintain our Service, including to monitor the usage of our
@@ -311,7 +311,7 @@ export default function PrivacyPolicy() {
                                             services, marketing and your experience.</li>
                                     </ul>
 
-									<p>We may share Your personal information in the following situations:</p>
+                                    <p>We may share Your personal information in the following situations:</p>
                                     <ul>
                                         <li>With Service Providers: We may share Your personal information with Service
                                             Providers to monitor and analyze the use of our Service, to contact You.
@@ -353,7 +353,7 @@ export default function PrivacyPolicy() {
                                         Service, or We are legally obligated to retain this data for longer time
                                         periods.</p>
 
-										<h5>Transfer of Your Personal Data</h5>
+                                        <h5>Transfer of Your Personal Data</h5>
                                     <p>Your information, including Personal Data, is processed at the Company's
                                         operating offices and in any other places where the parties involved in the
                                         processing are located. It means that this information may be transferred to —
@@ -409,7 +409,7 @@ export default function PrivacyPolicy() {
                                         <li>Protect against legal liability</li>
                                     </ul>
 
-									<h5>Security of Your Personal Data</h5>
+                                    <h5>Security of Your Personal Data</h5>
                                     <p>The security of Your Personal Data is important to Us, but remember that no
                                         method of transmission over the Internet, or method of electronic storage is
                                         100% secure. While We strive to use commercially acceptable means to protect
@@ -449,78 +449,78 @@ export default function PrivacyPolicy() {
                                     <li>By email: immofindmaroc@gmail.com</li>
 
                                 </ul>
-									</div>
-									{/* <div className={isTab == 2 ? "tab-pane fade show active" : "tab-pane fade"} id="limitations" role="tabpanel">
-										<p>
-											Your privacy is important to us. This Privacy Policy explains how GET immofind (“we,” “our,” or “us”) 
-											collects, uses, and shares your information when you use our App </p><br/>
-											<ol>
-											<li>  <h5>Information We Collect </h5>
-												<ul>
-													<li>Personal Information: Name, email address, phone number, and payment 
-														details provided during registration. </li>
-														<li>Usage Data: Information about how you interact with the App, including device 
-															information and referral activity.</li>
-															<li>Location Data (if enabled): To personalize services and offers. </li>
-												</ul>
-											</li><br/>
-											<li> <h5>How We Use Your Information </h5>
-												<ul><br/>
-													<dt>We use the information we collect to: </dt><br/>
-												<li>Operate, improve, and personalize the App. </li>
-												<li>Process referrals and rewards.</li>
-												<li>Communicate updates, promotional offers, and changes to our services. </li>
-												<li>Ensure compliance with our Terms of Service. </li>
-											</ul>
-											</li>
-											<br/>
-											<li> <h5>Sharing Your Information</h5> 
-												<ul><br/>
-													<dt>We may share your information with: </dt><br/>
-												<li>Partner Businesses: To process your referrals and rewards. </li>
-												<li>Service Providers: For analytics, payment processing, and App functionality. </li>
-												<li>Communicate updates, promotional offers, and changes to our services. </li>
-												
-											</ul>
-											</li><br/>
-											<li> <h5>Data Security</h5>
-												<p>We take reasonable measures to protect your data. However, no method of electronic 
-													transmission or storage is 100% secure.</p>
-											</li>
-											<br/>
-											<li>  <h5>Your Rights</h5>
-												<ul><br/>
-													<dt>Depending on your jurisdiction, you may have the right to:</dt><br/>
-												<li>Access, correct, or delete your data.  </li>
-												<li>Withdraw consent for data processing.  </li>
-												<li>Opt-out of marketing communications. </li>
-												
-											</ul>
-											</li><br/>
-											<li> <h5>Cookies and Tracking</h5> 
-												<p>We may use cookies and similar technologies to improve your user experience. You can manage 
-													cookies through your device settings. </p>
-											</li><br/>
-											<li>  <h5>Third-Party Links</h5>
-												<p>Our App may contain links to third-party websites or services. We are not responsible for their 
-													privacy practices.  </p>
-											</li><br/>
-											<li>  <h5>Changes to this Policy </h5>
-												<p>We may update this Privacy Policy periodically. We will notify you of significant changes via the 
-													App or email.   </p>
-											</li><br/>
-											<li> <h5>Contact Us</h5>
-												<p>If you have questions or concerns about this Privacy Policy, contact us at immofindmaroc@gmail.com.</p>
-											</li><br/>
-										</ol>
-									</div> */}
-								</div>
-							</div>
-						</div>
-					</div>
-				</section>
+                                    </div>
+                                    {/* <div className={isTab == 2 ? "tab-pane fade show active" : "tab-pane fade"} id="limitations" role="tabpanel">
+                                        <p>
+                                            Your privacy is important to us. This Privacy Policy explains how GET immofind (“we,” “our,” or “us”) 
+                                            collects, uses, and shares your information when you use our App </p><br/>
+                                            <ol>
+                                            <li>  <h5>Information We Collect </h5>
+                                                <ul>
+                                                    <li>Personal Information: Name, email address, phone number, and payment 
+                                                        details provided during registration. </li>
+                                                        <li>Usage Data: Information about how you interact with the App, including device 
+                                                            information and referral activity.</li>
+                                                            <li>Location Data (if enabled): To personalize services and offers. </li>
+                                                </ul>
+                                            </li><br/>
+                                            <li> <h5>How We Use Your Information </h5>
+                                                <ul><br/>
+                                                    <dt>We use the information we collect to: </dt><br/>
+                                                <li>Operate, improve, and personalize the App. </li>
+                                                <li>Process referrals and rewards.</li>
+                                                <li>Communicate updates, promotional offers, and changes to our services. </li>
+                                                <li>Ensure compliance with our Terms of Service. </li>
+                                            </ul>
+                                            </li>
+                                            <br/>
+                                            <li> <h5>Sharing Your Information</h5> 
+                                                <ul><br/>
+                                                    <dt>We may share your information with: </dt><br/>
+                                                <li>Partner Businesses: To process your referrals and rewards. </li>
+                                                <li>Service Providers: For analytics, payment processing, and App functionality. </li>
+                                                <li>Communicate updates, promotional offers, and changes to our services. </li>
+                                                
+                                            </ul>
+                                            </li><br/>
+                                            <li> <h5>Data Security</h5>
+                                                <p>We take reasonable measures to protect your data. However, no method of electronic 
+                                                    transmission or storage is 100% secure.</p>
+                                            </li>
+                                            <br/>
+                                            <li>  <h5>Your Rights</h5>
+                                                <ul><br/>
+                                                    <dt>Depending on your jurisdiction, you may have the right to:</dt><br/>
+                                                <li>Access, correct, or delete your data.  </li>
+                                                <li>Withdraw consent for data processing.  </li>
+                                                <li>Opt-out of marketing communications. </li>
+                                                
+                                            </ul>
+                                            </li><br/>
+                                            <li> <h5>Cookies and Tracking</h5> 
+                                                <p>We may use cookies and similar technologies to improve your user experience. You can manage 
+                                                    cookies through your device settings. </p>
+                                            </li><br/>
+                                            <li>  <h5>Third-Party Links</h5>
+                                                <p>Our App may contain links to third-party websites or services. We are not responsible for their 
+                                                    privacy practices.  </p>
+                                            </li><br/>
+                                            <li>  <h5>Changes to this Policy </h5>
+                                                <p>We may update this Privacy Policy periodically. We will notify you of significant changes via the 
+                                                    App or email.   </p>
+                                            </li><br/>
+                                            <li> <h5>Contact Us</h5>
+                                                <p>If you have questions or concerns about this Privacy Policy, contact us at immofindmaroc@gmail.com.</p>
+                                            </li><br/>
+                                        </ol>
+                                    </div> */}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
 
-			</Layout>
-		</>
-	)
+            </Layout>
+        </>
+    )
 }

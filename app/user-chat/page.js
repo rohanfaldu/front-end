@@ -238,7 +238,7 @@ export default function Chat() {
           <Preloader />
         }
         {!loading &&
-          <div className="containerr">
+          <div className="">
             <div className="link back-btn chat-back">
               <button
                 className="form-wg tf-btn primary"

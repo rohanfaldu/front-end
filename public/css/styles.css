@@ -7923,6 +7923,11 @@ label {
 
 @media (max-width: 768px) {
 
+  /* .discussions{
+    position: relative;
+    width: 100%;
+    border-top: 1px solid #8080807a;
+  } */
   /* Target mobile devices */
   .wrap-inner-2 .col-md-6 {
     flex: 0 0 auto;
@@ -12999,7 +13004,7 @@ footer {
 
 .chat {
   width: calc(65% - 0px);
-  height: 525px;
+  height: 100%;
 }
 
 .header-chat {
@@ -13036,9 +13041,13 @@ footer {
   padding: 25px 35px;
   /* margin-top: 80px; */
   padding-bottom: 50px;
-  height: 525px;
+  height: 100%;
   overflow-x: hidden;
   border-left: 1px solid #e4e4e4;
+      max-height: 700px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #888 #f1f1f1;
 }
 
 .chat .messages-chat .message {
@@ -13100,8 +13109,8 @@ footer {
 
 .footer-chat {
   width: 100%;
-  max-width: 800px;
-  position: static;
+  /* min-width: 800px; */
+  position: fixed;
   height: 80px;
   display: flex;
   align-items: center;
@@ -13109,11 +13118,11 @@ footer {
   background-color: #ffffff;
   border-top: 2px solid #EEE;
   border-left: 1px solid #e4e4e4;
-
+padding-left: 30px;
 }
 
 .chat .footer-chat .icon {
-  margin-left: 30px;
+  /* margin-left: 30px; */
   color: #C0C0C0;
   font-size: 14pt;
 }
@@ -13188,6 +13197,7 @@ footer {
   transform: translateY(-10px);
   pointer-events: none;
   position: absolute;
+  height: auto;
   /* Remove from normal layout */
 }
 

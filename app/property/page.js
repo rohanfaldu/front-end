@@ -787,8 +787,11 @@ export default function PropertyHalfmapList() {
 		defaultData.amenities_id_object_with_value = "{}";
 		defaultData.transaction = transaction;
 		defaultData.maxSize = maxsizeVal;
-		handleSubmit(pagination.currentPage);
+	
+		
 		localStorage.setItem('propertyFilterData', JSON.stringify(defaultData));
+			handleSubmit(pagination.currentPage);
+		router.push('/property');
 	}
 
 	const handlePropertyview = () => {
