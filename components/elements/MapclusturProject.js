@@ -91,24 +91,29 @@ export default function MapClusterProject({ topmap, propertys, slug }) {
   }
 
   return (
-    <MapContainer
-      style={{ height: topmap ? "460px" : "100%", width: "100%", zIndex: 0 }}
-      center={[32.1854916, -7.3880943]}
-      zoom={6}
-      maxZoom={18}
-      scrollWheelZoom={true}
-      dragging={true}
-      doubleClickZoom={true}
-      whenCreated={(map) => {
-        map.dragging.enable();
-        map.scrollWheelZoom.enable(); // bonus: make scroll zoom smooth
-      }}
-    >
-      <TileLayer url="https://{s}.tile.osm.org/{z}/{x}/{y}.png" />
-      
-      {propertys.map((property, index) => (
-        <CenterMarker key={index} property={property} />
-      ))}
-    </MapContainer>
+    <div style={{ height: '100vh' }}>
+      <MapContainer
+        style={{ height: topmap ? "460px" : "100%", width: "100%", zIndex: 0 }}
+        center={[32.1854916, -7.3880943]}
+        zoom={6}
+        maxZoom={18}
+        scrollWheelZoom={true}
+        dragging={true}
+        doubleClickZoom={true}
+        whenCreated={(map) => {
+          map.dragging.enable();
+          map.scrollWheelZoom.enable(); // bonus: make scroll zoom smooth
+        }}
+      >
+        <TileLayer
+  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+/>
+        
+        {propertys.map((property, index) => (
+          <CenterMarker key={index} property={property} />
+        ))}
+      </MapContainer>
+    </div>
   );
 }
