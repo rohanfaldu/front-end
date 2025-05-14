@@ -378,7 +378,7 @@ export default function Chat() {
                         ))}
                     </div>
 
-                    <div className="footer-chat" style={{ position: "absolute", width: "-webkit-fill-available" }}>
+                    <div className="footer-chat" style={{ position: "fixed", width: "-webkit-fill-available" }}>
                         <i
                             className="icon fa fa-smile-o clickable"
                             style={{ fontSize: "25pt", cursor: "pointer" }}
