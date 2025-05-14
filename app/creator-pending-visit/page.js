@@ -505,16 +505,16 @@ export default function MyProperty() {
               <div className="modal-content-alert login-alert-sec" >
                 <div className="close-modal icon-close2 contact-close-popup" onClick={closeModal}></div>
                 <>
-                
                   <div>
-                    <span>Accept the visit request as it is: <br/>
-                    <strong  style={{ marginTop: "10px", fontWeight: "bold"  }}>{dayjs(selectedDateTime).format("YYYY-MM-DD HH:mm")}</strong></span><br/>
-                    <button className="tf-btn primary" onClick={() => acceptVisitRequest()}>Rejected</button>
+                    <span>Reject the visit request :
+                    {/* <strong  style={{ marginTop: "10px", fontWeight: "bold"  }}>{dayjs(selectedDateTime).format("YYYY-MM-DD HH:mm")}</strong> */}
+                    </span><br/>
+                    <button className="tf-btn primary" style={{ marginTop: "10px"}} onClick={() => acceptVisitRequest()}>Rejected</button>
                   </div>
-
+                  <hr />
                   <div>
-                    <p>Or<br />Reschedule the visit request:</p>
-                    <button className="tf-btn primary" onClick={() => rescheduleVisitRequest()}>Reschedule</button>
+                    <span>Reschedule the visit request:</span>
+                    <button className="tf-btn primary" style={{ marginTop: "10px"}} onClick={() => rescheduleVisitRequest()}>Reschedule</button>
                   </div>
                 </>
               </div>
