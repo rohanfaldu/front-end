@@ -83,6 +83,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 
 	const [formData, setFormData] = useState(defaultData);
 	const [maxsizeVal, setMaxsizeVal] = useState(sizeRange[1]? sizeRange[1] : 2000);
+	const [maxPriceVal, setMaxPriceVal] = useState(priceRange[1]? priceRange[1] : 10000000);
 	const router = useRouter();
 	const handleInputChange = (e) => {
 		const { name, value } = e.target;
@@ -219,7 +220,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 				// console.log(property_types,"property_types")
 				if (initialMaxPrice !== maxPriceSliderRange) {
 					setInitialMaxPrice(maxPriceSliderRange);
-					setPriceRange([1000, maxPriceSliderRange]);
+					setPriceRange([0, maxPriceSliderRange]);
 				}
 
 				if (initialMaxSize !== maxSizeSliderRange) {
@@ -363,19 +364,20 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 			// console.log(maxPriceSliderRange,"maxPriceSliderRange")
 			if (maxPriceSliderRange !== null) {
 				setInitialMaxPrice(maxPriceSliderRange);
-				setPriceRange([1000, maxPriceSliderRange]);
+				setPriceRange([0, maxPriceSliderRange]);
+				setMaxPriceVal(maxPriceSliderRange)
 				setFormData((prevFilters) => ({
 					...prevFilters,
 					minPrice: 1000, // Set minPrice
 					maxPrice: maxPriceSliderRange, // Set maxPrice
 				}));
 			} else {
-				setInitialMaxPrice(300000);
-				setPriceRange([1000, 300000]);
+				setInitialMaxPrice(10000000);
+				setPriceRange([0, 10000000]);
 				setFormData((prevFilters) => ({
 					...prevFilters,
 					minPrice: 0, // Set minPrice
-					maxPrice: 300000, // Set maxPrice
+					maxPrice: 10000000, // Set maxPrice
 				}));
 			}
 
@@ -443,13 +445,13 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 		console.log(defaultData,"defaultData.maxSize")
 		console.log(maxsizeVal,"maxsizeVal")
 		setSearchCity("")
-		setPriceRange([1000, 1000000])
+		setPriceRange([0, maxPriceVal])
 		setSizeRange([0, maxsizeVal])
 		setFormData((prevFilters) => ({
 			...prevFilters,
-			maxPrice: 1000000,
+			maxPrice: maxPriceVal,
 			maxSize: maxsizeVal,	
-			minPrice: 1000,
+			minPrice: 0,
 			minSize: 0,
 			type_id: '',
 			amenities_id_object_with_value: {},
@@ -457,7 +459,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 		}));
 		
 		defaultData.minPrice = 0;
-		defaultData.maxPrice = 1000000;
+		defaultData.maxPrice = maxPriceVal;
 		defaultData.minSize = 0;
 		defaultData.amenities_id_object_with_value = "{}";
 		defaultData.transaction = transactionData;

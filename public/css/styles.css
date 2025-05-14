@@ -14070,3 +14070,11 @@ label span {
   background-color: #045c8d !important;
   color: #FFF !important;
 }
+.contact-close-popup{
+  float: right;
+  cursor: pointer;
+}
+.price .map-section{
+  font-size: 17px;
+  font-weight: 500;
+}

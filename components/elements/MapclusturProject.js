@@ -71,7 +71,7 @@ export default function MapClusterProject({ topmap, propertys, slug }) {
                   </div>
                   {(slug === 'project')?(<div>
                     <div className="price">
-                      <strong className="text-variant-1">From {property.price} DH</strong>
+                      <strong className="text-variant-1 map-section">From {property.price} DH</strong>
                     </div>
                   </div>):(
                   <ul className="list-info">

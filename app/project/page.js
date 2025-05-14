@@ -163,7 +163,7 @@ export default function ProjectHalfmapList() {
 			}
 			setError(null);
 			setLoading(false);
-			if(isMobile){
+			if (isMobile) {
 				setIsPropertyViewMobile(true)
 				setIsPropertyViewMap(false)
 			}
@@ -379,6 +379,7 @@ export default function ProjectHalfmapList() {
 		//setIsDefaultPropertyViewMobile(false)
 	}
 
+	
 	return (
 		<>
 
@@ -728,7 +729,7 @@ export default function ProjectHalfmapList() {
 								<div className="project-listing-pagination">
 									<div className="box-title-listing style-1">
 										<h5>{t("projectlisting")}</h5>
-										{(!isDefaultPropertyViewMobile) &&(
+										{(!isDefaultPropertyViewMobile) && (
 											<div className="flex items-center cursor-pointer select-none">
 												{/* <span className="switch-text">{t('switchMapText')}</span> */}
 												<img src="/images/logo/map-icon.png" alt="logo-footer" width={30} height={20} style={{ marginRight: "10px" }} className="map-switch-icon"></img>
@@ -759,7 +760,7 @@ export default function ProjectHalfmapList() {
 											</button>
 										</div>
 									)}
-									<div className={`project-listing ${( isPropertyViewMobile)? 'property-show-mobile' : 'property-hide-mobile'} `}>
+									<div className={`project-listing ${(isPropertyViewMobile) ? 'property-show-mobile' : 'property-hide-mobile'} `}>
 										{loading ? (
 											<Preloader />
 										) : error ? (
@@ -775,11 +776,22 @@ export default function ProjectHalfmapList() {
 														<div className="homeya-box">
 															<div className="archive-top">
 																<div
-																	onClick={() => handleClick(project.slug)}
+																	// onClick={() => handleClick(project.slug)}
 																	className="images-group"
 																>
 
 																	<div className="images-style">
+																		{/* <SwiperSlide
+																			key={index}
+																			onClick={() => handleClick(property.slug)} // <-- FIX: now it's a function
+																			style={{ cursor: "pointer" }} // <-- Make it look clickable
+																		>
+																			<img
+																				src={item}
+																				alt="img-property"
+																				style={{ width: "100%", borderRadius: "8px", minHeight: "300px", maxHeight: "300px" }}
+																			/>
+																		</SwiperSlide> */}
 																		<Swiper
 																			modules={[Navigation]}
 																			slidesPerView={1}
@@ -789,13 +801,25 @@ export default function ProjectHalfmapList() {
 																		>
 																			{(project.picture.length > 0 ? project.picture : ["/images/banner/no-banner.png"]).map(
 																				(item, index) => (
-																					<SwiperSlide key={index}>
-																						<img src={item} alt="img-property" style={{ width: "100%", borderRadius: "8px", minHeight: "300px", maxHeight: " 300px" }} />
+																					<SwiperSlide
+																						key={index}
+																						onClick={() => handleClick(project.slug)} // <-- FIX: now it's a function
+																						style={{ cursor: "pointer" }} // <-- Make it look clickable
+																					>
+																						<img
+																							src={item}
+																							alt="img-property"
+																							style={{ width: "100%", borderRadius: "8px", minHeight: "300px", maxHeight: "300px" }}
+																						/>
 																					</SwiperSlide>
+																					// <SwiperSlide key={index}>
+																					// 	<img src={item} alt="img-property" style={{ width: "100%", borderRadius: "8px", minHeight: "300px", maxHeight: " 300px" }} />
+																					// </SwiperSlide>
 																				)
 																			)}
 																		</Swiper>
 																	</div>
+																	
 																	<div className="top">
 																		<ul className="d-flex gap-8">
 																			{project.isFeatured && (
@@ -803,21 +827,11 @@ export default function ProjectHalfmapList() {
 																			)}
 																			{/* <li className="flag-tag style-1">{project.status || 'For Sale'}</li> */}
 																		</ul>
-																		{/* <ul className="d-flex gap-4">
-																		<li className="box-icon w-32">
-																			<span className="icon icon-arrLeftRight" />
-																		</li>
-																		<li className="box-icon w-32">
-																			<span className="icon icon-heart" />
-																		</li>
-																		<li className="box-icon w-32">
-																			<span className="icon icon-eye" />
-																		</li>
-																	</ul> */}
+
 																	</div>
 																	<div className="bottom">
 																		<span className="flag-tag style-2">
-																			{/* {project.meta_details?.propertyType || 'Studio'} */}
+
 																		</span>
 																	</div>
 																</div>
@@ -861,7 +875,7 @@ export default function ProjectHalfmapList() {
 										)}
 									</div>
 									{pagination.totalCount > pagination.itemsPerPage && (
-										<div className={`${( isPropertyViewMobile)? 'property-show-mobile' : 'property-hide-mobile'}`}>
+										<div className={`${(isPropertyViewMobile) ? 'property-show-mobile' : 'property-hide-mobile'}`}>
 											<ul className="wd-navigation">
 												{Array.from({ length: pagination.totalPages }, (_, index) => (
 													<li key={index}>
@@ -878,7 +892,7 @@ export default function ProjectHalfmapList() {
 										</div>
 									)}
 								</div>
-								<div className={ ` ${(isSwitch) ? "wrap-map map-section-hide" : "wrap-map" } ${( (isDefaultPropertyViewMobile)? (isPropertyViewMap )? 'property-show-mobile' : 'property-hide-mobile' : '')} ` }>
+								<div className={` ${(isSwitch) ? "wrap-map map-section-hide" : "wrap-map"} ${((isDefaultPropertyViewMobile) ? (isPropertyViewMap) ? 'property-show-mobile' : 'property-hide-mobile' : '')} `}>
 									<ProjectMap topmap={false} singleMap={false} propertys={projects} slug="project" />
 								</div>
 							</div>

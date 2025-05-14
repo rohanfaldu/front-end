@@ -105,18 +105,40 @@ export default function MyProperty() {
       const requestData = {
         visitId: id,
       };
-      const response = await insertData('api/visit/accept-pending-Visit', requestData, true); // Ensure data is passed
+      const response = await insertData('api/visit/reject-pending-Visit', requestData, true); // Ensure data is passed
       if (response.status) {
         fetchData(); // Refresh data
-        setIsAcceptVisit(false);
+          setIsAcceptVisit(false);
       } else {
+          console.log(3)
         setError(response.data.message || 'An error occurred'); // Handle error
       }
     } catch (err) {
+        console.log(4)
       setError(err.response?.message || 'An error occurred'); // Handle error
     }
   }
   const acceptVisit = async (id) => {
+    try {
+      const requestData = {
+        visitId: id,
+      };
+      console.log('Here');
+      const response = await insertData('api/visit/accept-pending-Visit', requestData, true); // Ensure data is passed
+           console.log('response', response);
+      if (response.status) {
+        fetchData();// Refresh data
+        setIsAcceptVisit(false);
+      } else {
+        console.log(1)
+        setError(response.data.message || 'An error occurred'); // Handle error
+      }
+    } catch (err) {
+      console.log(2)
+      setError(err.response?.message || 'An error occurred'); // Handle error
+    }
+  };
+  const rejectVisit = async (id) => {
     try {
       const requestData = {
         visitId: id,
@@ -132,21 +154,18 @@ export default function MyProperty() {
     }
     setIsAcceptVisit(true);
     setIsVisitUserId(id);
-  };
-  const rejectVisit = async (id) => {
-    try {
-      const requestData = {
-        visitId: id,
-      };
-      const response = await insertData('api/visit/reject-pending-Visit', requestData, true); // Ensure data is passed
-      if (response.status) {
-        fetchData(); // Refresh data
-      } else {
-        setError(response.data.message || 'An error occurred'); // Handle error
-      }
-    } catch (err) {
-      setError(err.response?.message || 'An error occurred'); // Handle error
-    }
+    //   const requestData = {
+    //     visitId: id,
+    //   };
+    //   const response = await insertData('api/visit/reject-pending-Visit', requestData, true); // Ensure data is passed
+    //   if (response.status) {
+    //     fetchData(); // Refresh data
+    //   } else {
+    //     setError(response.data.message || 'An error occurred'); // Handle error
+    //   }
+    // } catch (err) {
+    //   setError(err.response?.message || 'An error occurred'); // Handle error
+    // }
   };
 
   const exportToExcel = async () => {
@@ -299,6 +318,7 @@ export default function MyProperty() {
           const response = await insertData("api/visit/visit-update-schedule", requestData, true);
           if (response.status) {
             // // console.log(response.data);
+            fetchData();
             setIsRescheduleVisit(false);
             setError(null);
             router.reload(); 
@@ -313,6 +333,7 @@ export default function MyProperty() {
   const closeModal = () => {
 		// // console.log("Closing Modal"); // Debugging
 		setIsRescheduleVisit(false);
+    setIsAcceptVisit(false);
 	};
   
   return (
@@ -482,11 +503,13 @@ export default function MyProperty() {
           {isAcceptVisit && (
             <div className="modal" style={{ display: 'block', position: 'fixed', zIndex: 1000, top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
               <div className="modal-content-alert login-alert-sec" >
+                <div className="close-modal icon-close2 contact-close-popup" onClick={closeModal}></div>
                 <>
+                
                   <div>
                     <span>Accept the visit request as it is: <br/>
                     <strong  style={{ marginTop: "10px", fontWeight: "bold"  }}>{dayjs(selectedDateTime).format("YYYY-MM-DD HH:mm")}</strong></span><br/>
-                    <button className="tf-btn primary" onClick={() => acceptVisitRequest()}>Accept</button>
+                    <button className="tf-btn primary" onClick={() => acceptVisitRequest()}>Rejected</button>
                   </div>
 
                   <div>
@@ -547,7 +570,7 @@ export default function MyProperty() {
                       </div>
 
                       {/* Error Message */}
-                      {error && <div style={{ color: "red", marginTop: "10px" }}>{error}</div>}
+                      {/* {error && <div style={{ color: "red", marginTop: "10px" }}>{error}</div>} */}
                     </div>
                   </section>
                 </>

@@ -36,7 +36,7 @@ export default function PropertyHalfmapList() {
 	const [maxPriceSliderRange, setMaxPriceSliderRange] = useState(0); // Dynamic slider range
 	const [calculationStatus, setCalculationStatus] = useState(false);
 	const [isLiked, setIsLiked] = useState(false);
-	const [priceRange, setPriceRange] = useState([1000, 1000000]); // Selected range
+	const [priceRange, setPriceRange] = useState([0, 10000000]); // Selected range
 	const [sizeRange, setSizeRange] = useState([0, 2000]); // Selected range
 	const [isTab, setIsTab] = useState(2)
 	const handleTab = (i) => {
@@ -98,6 +98,7 @@ export default function PropertyHalfmapList() {
 		filter_latitude: addressLatLong[0],
 		filter_longitude: addressLatLong[1],
 	};
+	const [maxPriceVal, setMaxPriceVal] = useState(priceRange[1]? priceRange[1] : 10000000);
 	const [maxsizeVal, setMaxsizeVal] = useState(sizeRange[1]? sizeRange[1] : 2000);
 	const [filters, setFilters] = useState(defaultData);
 
@@ -244,7 +245,7 @@ export default function PropertyHalfmapList() {
 			// console.log(params.maxPrice, "/////////////")
 			if (params.maxSize == "null" && params.maxPrice == "null") {
 				console.log(2)
-				setPriceRange([0, 300000]);
+				setPriceRange([0, 10000000]);
 				setSizeRange([0, 2000]);
 			} else {
 				console.log(1);
@@ -302,9 +303,10 @@ export default function PropertyHalfmapList() {
 						if (maxPriceSliderRange !== null) {
 							setInitialMaxPrice(maxPriceSliderRange);
 							setMaxPriceSliderRange(maxPriceSliderRange);
+							setMaxPriceVal(maxPriceSliderRange);
 							if (params.minPrice == undefined && params.maxPrice == undefined) {
 								console.log(3);
-								setPriceRange([1000, maxPriceSliderRange]);
+								setPriceRange([0, maxPriceSliderRange]);
 							}
 						} else {
 							console.log(4);
@@ -542,7 +544,7 @@ export default function PropertyHalfmapList() {
 					setInitialMaxPrice(maxPriceSliderRange);
 					setMaxPriceSliderRange(maxPriceSliderRange);
 					console.log(5);
-					setPriceRange([1000, maxPriceSliderRange]);
+					setPriceRange([0, maxPriceSliderRange]);
 				}
 
 				if (initialMaxSize !== maxSizeSliderRange) {
@@ -763,14 +765,15 @@ export default function PropertyHalfmapList() {
 	}
 	const handleClearAll = () =>{
 		setSearchCity("")
-		setPriceRange([1000, 1000000])
+		setPriceRange([0, maxPriceVal])
+		console.log(maxPriceVal,"maxPriceVal")
 		console.log(maxsizeVal,"maxsizeVal")
 		setSizeRange([0, maxsizeVal])
 		setFilters((prevFilters) => ({
 			...prevFilters,
-			maxPrice: 1000000,
+			maxPrice: maxPriceVal,
 			maxSize: maxsizeVal,		
-			minPrice: 1000,
+			minPrice: 0,
 			minSize: 0,
 			type_id: '',
 			amenities_id_object_with_value: {},
@@ -778,7 +781,7 @@ export default function PropertyHalfmapList() {
 		}));
 		
 		defaultData.minPrice = 0;
-		defaultData.maxPrice = 1000000;
+		defaultData.maxPrice = maxPriceVal;
 		defaultData.minSize = 0;
 		defaultData.amenities_id_object_with_value = "{}";
 		defaultData.transaction = transaction;
