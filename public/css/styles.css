@@ -11858,8 +11858,9 @@ tr {
   }
   .project-listing-pagination{
     margin: 0px;
-    padding: 10px !important;
+    padding: 0px !important;
   }
+  
   .items-center .switch, .items-center .map-switch-icon{
     display: none;
   }
@@ -13980,18 +13981,26 @@ label span {
   .flat-title-page .link.back-btn{ padding: 0px 0px 30px; }
   .cover-set-image{ padding-top: 30px; }
   .property-sec-list .project-listing .col-md-6{
-    width: 100%;
+    width: auto;
     /* margin: 0 auto; */
     justify-content: center;
     align-items: center;
     display: flex;
-    max-width: 400px;
+    /* max-width: 400px; */
     margin: 0px;
+            padding-right: 0px;
   }
-
+  .meta-list .filteration{
+    margin-left: 0 !important;
+    margin-right: 20px;
+  }
   .property-change-view {
         justify-content: start !important;
   }
+  
+.truncate-text {
+    width: 225px !important;
+}
 }
 
 .clearfix .main .container{

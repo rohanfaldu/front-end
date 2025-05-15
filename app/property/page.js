@@ -386,7 +386,7 @@ export default function PropertyHalfmapList() {
 			const requestData = {
 				page,
 				lang,
-				limit: pagination.itemsPerPage,
+				limit: 100,
 				city_name: value,
 			};
 			const response = await getData("api/city/getallcitydistrictneighborhoods", requestData, true);
