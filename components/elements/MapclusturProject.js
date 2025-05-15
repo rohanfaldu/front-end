@@ -92,7 +92,11 @@ export default function MapClusterProject({ topmap, propertys, slug }) {
 
   return (
     <MapContainer
-      style={{ height: topmap ? "460px" : "100%", width: "100%", zIndex: 0 }}
+      sstyle={{
+  height: topmap ? "460px" : "calc(100dvh - 0px)",
+  width: "100%",
+  zIndex: 0,
+}}
       center={[32.1854916, -7.3880943]}
       zoom={6}
       maxZoom={18}
@@ -104,10 +108,8 @@ export default function MapClusterProject({ topmap, propertys, slug }) {
         map.scrollWheelZoom.enable(); // bonus: make scroll zoom smooth
       }}
     >
-      <TileLayer
-  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-/>
+      <TileLayer url="https://{s}.tile.osm.org/{z}/{x}/{y}.png" />
+      
       {propertys.map((property, index) => (
         <CenterMarker key={index} property={property} />
       ))}
