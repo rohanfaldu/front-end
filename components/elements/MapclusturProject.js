@@ -104,8 +104,10 @@ export default function MapClusterProject({ topmap, propertys, slug }) {
         map.scrollWheelZoom.enable(); // bonus: make scroll zoom smooth
       }}
     >
-      <TileLayer url="https://{s}.tile.osm.org/{z}/{x}/{y}.png" />
-      
+      <TileLayer
+  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+/>
       {propertys.map((property, index) => (
         <CenterMarker key={index} property={property} />
       ))}
