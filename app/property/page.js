@@ -206,7 +206,7 @@ export default function PropertyHalfmapList() {
 		const getFilterStatus = sessionStorage.getItem('filterStatus');
 		if (propertyFilterData && typeof propertyFilterData === 'object' && isFilterProperty) {
 			//sessionStorage.removeItem('filterStatus')
-			console.log(propertyFilterData,'>>>>>>>>>> propertyFilterData')
+			// console.log(propertyFilterData,'>>>>>>>>>> propertyFilterData')
 			//setTransaction(propertyFilterData.transaction);
 			setTransaction(localStorage.getItem('transaction'));
 			setCheckURL(true);
@@ -234,8 +234,8 @@ export default function PropertyHalfmapList() {
 				transaction: propertyFilterData.transaction || null,
 			};
 
-			console.log("Extracted Parameters:", params);
-			console.log("Extracted Parameters:", params.transaction);
+			// console.log("Extracted Parameters:", params);
+			// console.log("Extracted Parameters:", params.transaction);
 
 			setFilters(() => ({
 				...params,
@@ -244,12 +244,12 @@ export default function PropertyHalfmapList() {
 			// console.log(params.minPrice, "/////////////")
 			// console.log(params.maxPrice, "/////////////")
 			if (params.maxSize == "null" && params.maxPrice == "null") {
-				console.log(2)
+				// console.log(2)
 				setPriceRange([0, 10000000]);
 				setSizeRange([0, 2000]);
 			} else {
-				console.log(1);
-				console.log(params,">>>>>>>>>>>>> params");
+				// console.log(1);
+				// console.log(params,">>>>>>>>>>>>> params");
 				setPriceRange([params.minPrice, params.maxPrice]);
 				setSizeRange([params.minSize, params.maxSize]);
 			}
@@ -260,7 +260,7 @@ export default function PropertyHalfmapList() {
 
 
 			const getFilterData = async (page = 1,) => {
-				 console.log("Filters:", pagination);
+				//  console.log("Filters:", pagination);
 				const lang = i18n.language;
 				const transactionData = params.transaction;
 				const requestData = {
@@ -283,8 +283,8 @@ export default function PropertyHalfmapList() {
 					amenities_id_object_with_value: params.amenities_id_object_with_value,
 					transaction: transactionData
 				};
-				 console.log(requestData, " >>>>>>>>>>>>>>>>> requestData .....................")
-				 console.log(params, " >>>>>>>>>>>>>>>>> params .....................")
+				//  console.log(requestData, " >>>>>>>>>>>>>>>>> requestData .....................")
+				//  console.log(params, " >>>>>>>>>>>>>>>>> params .....................")
 				const response = await getData("api/property", requestData, true);
 				if (response.status) {
 					const { list, totalCount, totalPages, currentPage, property_meta_details, maxPriceSliderRange, property_types, cities, maxSizeSliderRange, developers } = response.data;
@@ -306,11 +306,11 @@ export default function PropertyHalfmapList() {
 							setMaxPriceSliderRange(maxPriceSliderRange);
 							setMaxPriceVal(maxPriceSliderRange);
 							if (params.minPrice == undefined && params.maxPrice == undefined) {
-								console.log(3);
+								// console.log(3);
 								setPriceRange([0, maxPriceSliderRange]);
 							}
 						} else {
-							console.log(4);
+							// console.log(4);
 							setInitialMaxPrice(300000);
 							setMaxPriceSliderRange(300000);
 							setPriceRange([0, 300000]);
@@ -345,7 +345,7 @@ export default function PropertyHalfmapList() {
 				}
 			};
 			getFilterData(pagination.currentPage);
-			console.log(transaction,'>>>>>>>> transaction Lod');
+			// console.log(transaction,'>>>>>>>> transaction Lod');
 			//isApiCalled.current = true;
 		} else {
 			setIsFilterProperty(false)
@@ -357,7 +357,7 @@ export default function PropertyHalfmapList() {
 		const checkViewport = () => {
 			const mobileView = (window.innerWidth < 769) ? true : false;
 			setIsMobile((window.innerWidth < 769) ? true : false);
-			console.log(mobileView, ' >>>>>>>>>>>>>>> isMobile')
+			// console.log(mobileView, ' >>>>>>>>>>>>>>> isMobile')
 			if(!mobileView){
 				setSeachAccordion(true);
 				setIsDefaultPropertyViewMobile(false);
@@ -373,7 +373,7 @@ export default function PropertyHalfmapList() {
 	}, [params, pagination.currentPage, i18n.language]);
 	
 	
-	console.log(isDefaultPropertyViewMobile, "///////////// isDefaultPropertyViewMobile ////////////")
+	// console.log(isDefaultPropertyViewMobile, "///////////// isDefaultPropertyViewMobile ////////////")
 	// console.log(priceRange, ' >>>>>>>>>>>> Price')
 
 	const fetchCityOptions = debounce(async (value, page = 1) => {
@@ -544,7 +544,7 @@ export default function PropertyHalfmapList() {
 				if (initialMaxPrice !== maxPriceSliderRange) {
 					setInitialMaxPrice(maxPriceSliderRange);
 					setMaxPriceSliderRange(maxPriceSliderRange);
-					console.log(5);
+					// console.log(5);
 					setPriceRange([0, maxPriceSliderRange]);
 				}
 
@@ -622,7 +622,7 @@ export default function PropertyHalfmapList() {
 
 	const handlePageChange = (page) => {
 		setIsFilterProperty(false)
-		console.log(pagination,'>>>>>>>>> pagination');
+		// console.log(pagination,'>>>>>>>>> pagination');
 		//sessionStorage.removeItem('filterStatus')
 		setPagination({ ...pagination, currentPage: page });
 	};
@@ -655,13 +655,13 @@ export default function PropertyHalfmapList() {
 
 		const formData = new FormData(form);
 		const filterationVal = (filters.transaction)? filters.transaction : transaction;
-		console.log(form,'>>>>>>>>>> event');
+		// console.log(form,'>>>>>>>>>> event');
 		setCalculationStatus(true);
 		if(isMobile){
 			setSeachAccordion(false);
 		}
 		setLoading(true);
-		console.log(filters, '>>>>>>>>>>>>> Filters')
+		// console.log(filters, '>>>>>>>>>>>>> Filters')
 		const selctCityId = (formData.get('city') === "") ? null :filters.city;
 		const lang = i18n.language;
 		const requestData = {
@@ -690,7 +690,7 @@ export default function PropertyHalfmapList() {
 		setPriceRange([requestData.minPrice, requestData.maxPrice]);
 		setSizeRange([requestData.minSize, requestData.maxSize]);
 
-		console.log('requestData', requestData, '>>>>>>>>>> After')
+		// console.log('requestData', requestData, '>>>>>>>>>> After')
 		const response = await getData("api/property", requestData, true);
 		if (response.status) {
 			const { list, totalCount, totalPages, currentPage, property_meta_details, maxPriceSliderRange, property_types, cities, maxSizeSliderRange } = response.data;
@@ -708,7 +708,7 @@ export default function PropertyHalfmapList() {
 			if (!initialMaxPrice) {
 				setInitialMaxPrice(maxPriceSliderRange);
 				setMaxPriceSliderRange(maxPriceSliderRange);
-				console.log(6);
+				// console.log(6);
 				//setPriceRange([filters.minPrice, filters.maxPrice]);
 			}
 
@@ -760,6 +760,14 @@ export default function PropertyHalfmapList() {
 		localStorage.setItem('switchState', JSON.stringify(isSwitch));
 		router.push(`/property/${slug}`);
 	};
+
+	//  <a
+    //   href={`/property/${slug}`}
+    //   onClick={handleNavigateWithStorage('switchState', isSwitch, `/property/${slug}`)}
+    // >
+    //   Go to Property
+    // </a>
+
 	const handlesearchAccordion = (status) =>{
 		const updateStatus = (status)?false:true;
 		setSeachAccordion(updateStatus);
@@ -767,8 +775,8 @@ export default function PropertyHalfmapList() {
 	const handleClearAll = () =>{
 		setSearchCity("")
 		setPriceRange([0, maxPriceVal])
-		console.log(maxPriceVal,"maxPriceVal")
-		console.log(maxsizeVal,"maxsizeVal")
+		// console.log(maxPriceVal,"maxPriceVal")
+		// console.log(maxsizeVal,"maxsizeVal")
 		setSizeRange([0, maxsizeVal])
 		setFilters((prevFilters) => ({
 			...prevFilters,
@@ -803,6 +811,8 @@ export default function PropertyHalfmapList() {
 		setIsPropertyViewMobile(false)
 		//setIsDefaultPropertyViewMobile(false)
 	}
+	console.log(filteredProperties, '>>>>>>>>>>> filteredProperties data');
+	console.log(propertys, '>>>>>>>>>>>> propertys length');
 	return (
 		<>
 			{(!propertys && loading) ?
@@ -1256,7 +1266,7 @@ export default function PropertyHalfmapList() {
 											{pagination.totalCount > pagination.itemsPerPage && (
 												<div className={`${( isPropertyViewMobile)? 'property-show-mobile' : 'property-hide-mobile'}`}>
 													<ul className={`wd-navigation  `}>
-														{console.log(pagination,'>>>>>>>>>>>>>> current')}
+														{/* {console.log(pagination,'>>>>>>>>>>>>>> current')} */}
 														{Array.from({ length: pagination.totalPages }, (_, index) => (
 															<li key={index}>
 																<div

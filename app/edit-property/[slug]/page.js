@@ -61,7 +61,7 @@ export default function EditProperty({ params }) {
         description_en: Yup.string().required("Description is required"),
         description_fr: Yup.string().required("Description is required"),
         price: Yup.string().required("Price is required"),
-        // vr_link: Yup.string().url("Invalid URL").nullable(),
+        vr_link: Yup.string().url("Invalid URL").nullable(),
         picture_img: Yup.array().min(3, "At least three image is required").required("Image is required"),
         // credit: Yup.string().required("Credit is required"),
         state_id: Yup.string().required("State is required"),
