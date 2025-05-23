@@ -14097,3 +14097,9 @@ label span {
   font-size: 17px;
   font-weight: 500;
 }
+
+.sidebar-sudtom-tab{
+  font-weight: 500;
+  font-family: Josefin Sans, sans-serif;
+  padding: 7px 0 !important;
+}

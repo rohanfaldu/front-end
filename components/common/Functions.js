@@ -49,3 +49,15 @@ export function formatPropertyPrice(amount){
   const number = parseFloat(amount.toString().replace(/[^\d]/g, ''));
   return new Intl.NumberFormat('fr-FR').format(number);
 };
+
+export function navigateTo(router, path) {
+  router.push(path);
+}
+
+export const DEBUG_MODE = true;
+
+export function debugLog(text, ...args) {
+  if (DEBUG_MODE) {
+    console.log(text, ...args);
+  }
+}
