@@ -98,8 +98,8 @@ export default function PropertyHalfmapList() {
 		filter_latitude: addressLatLong[0],
 		filter_longitude: addressLatLong[1],
 	};
-	const [maxPriceVal, setMaxPriceVal] = useState(priceRange[1]? priceRange[1] : 10000000);
-	const [maxsizeVal, setMaxsizeVal] = useState(sizeRange[1]? sizeRange[1] : 2000);
+	const [maxPriceVal, setMaxPriceVal] = useState(priceRange[1] ? priceRange[1] : 10000000);
+	const [maxsizeVal, setMaxsizeVal] = useState(sizeRange[1] ? sizeRange[1] : 2000);
 	const [filters, setFilters] = useState(defaultData);
 
 	const lang = i18n.language;
@@ -167,7 +167,7 @@ export default function PropertyHalfmapList() {
 	const [showNoMore, setShowNoMore] = useState(false);
 	const [seachAccordion, setSeachAccordion] = useState(false);
 	const [isMobile, setIsMobile] = useState(false);
-	
+
 	const handleDislike = () => {
 		if (currentIndex < filteredProperties.length - 1) {
 			setCurrentIndex((prevIndex) => prevIndex + 1);
@@ -253,7 +253,7 @@ export default function PropertyHalfmapList() {
 				setPriceRange([params.minPrice, params.maxPrice]);
 				setSizeRange([params.minSize, params.maxSize]);
 			}
-				
+
 			handleCitySelect(params.city, params.city_name, params.city_slug);
 			handleDistrictSelect(params.district, params.district_name);
 			handleNeighbourhoodSelect(params.neighbourhood, params.neighbourhood_name);
@@ -276,7 +276,7 @@ export default function PropertyHalfmapList() {
 					minPrice: params.minPrice,
 					maxPrice: params.maxPrice,
 					minSize: params.minSize,
-					 maxSize: params.maxSize,
+					maxSize: params.maxSize,
 					amenities_id_array: params.amenities_id_array,
 					direction: params.direction,
 					developer_id: params.developer_id,
@@ -358,21 +358,21 @@ export default function PropertyHalfmapList() {
 			const mobileView = (window.innerWidth < 769) ? true : false;
 			setIsMobile((window.innerWidth < 769) ? true : false);
 			// console.log(mobileView, ' >>>>>>>>>>>>>>> isMobile')
-			if(!mobileView){
+			if (!mobileView) {
 				setSeachAccordion(true);
 				setIsDefaultPropertyViewMobile(false);
 				setIsPropertyViewMobile(true);
-			}else{
+			} else {
 				setSeachAccordion(false);
 				setIsDefaultPropertyViewMobile(true);
 				setIsPropertyViewMobile(true);
 			}
 		};
-	   
+
 		checkViewport();
 	}, [params, pagination.currentPage, i18n.language]);
-	
-	
+
+
 	// console.log(isDefaultPropertyViewMobile, "///////////// isDefaultPropertyViewMobile ////////////")
 	// console.log(priceRange, ' >>>>>>>>>>>> Price')
 
@@ -651,18 +651,18 @@ export default function PropertyHalfmapList() {
 	const handleSubmit = async (event, page = pagination.currentPage) => {
 
 		const form = event.target;
-		const pageNumber = (form)? 1 : pagination.currentPage;
+		const pageNumber = (form) ? 1 : pagination.currentPage;
 
 		const formData = new FormData(form);
-		const filterationVal = (filters.transaction)? filters.transaction : transaction;
+		const filterationVal = (filters.transaction) ? filters.transaction : transaction;
 		// console.log(form,'>>>>>>>>>> event');
 		setCalculationStatus(true);
-		if(isMobile){
+		if (isMobile) {
 			setSeachAccordion(false);
 		}
 		setLoading(true);
 		// console.log(filters, '>>>>>>>>>>>>> Filters')
-		const selctCityId = (formData.get('city') === "") ? null :filters.city;
+		const selctCityId = (formData.get('city') === "") ? null : filters.city;
 		const lang = i18n.language;
 		const requestData = {
 			page: pageNumber,
@@ -719,7 +719,7 @@ export default function PropertyHalfmapList() {
 			}
 			setError(null);
 			setLoading(false);
-			if(isMobile){
+			if (isMobile) {
 				setIsPropertyViewMobile(true)
 				setIsPropertyViewMap(false)
 			}
@@ -762,17 +762,17 @@ export default function PropertyHalfmapList() {
 	};
 
 	//  <a
-    //   href={`/property/${slug}`}
-    //   onClick={handleNavigateWithStorage('switchState', isSwitch, `/property/${slug}`)}
-    // >
-    //   Go to Property
-    // </a>
+	//   href={`/property/${slug}`}
+	//   onClick={handleNavigateWithStorage('switchState', isSwitch, `/property/${slug}`)}
+	// >
+	//   Go to Property
+	// </a>
 
-	const handlesearchAccordion = (status) =>{
-		const updateStatus = (status)?false:true;
+	const handlesearchAccordion = (status) => {
+		const updateStatus = (status) ? false : true;
 		setSeachAccordion(updateStatus);
 	}
-	const handleClearAll = () =>{
+	const handleClearAll = () => {
 		setSearchCity("")
 		setPriceRange([0, maxPriceVal])
 		// console.log(maxPriceVal,"maxPriceVal")
@@ -781,24 +781,24 @@ export default function PropertyHalfmapList() {
 		setFilters((prevFilters) => ({
 			...prevFilters,
 			maxPrice: maxPriceVal,
-			maxSize: maxsizeVal,		
+			maxSize: maxsizeVal,
 			minPrice: 0,
 			minSize: 0,
 			type_id: '',
 			amenities_id_object_with_value: {},
-			amenities_id_array:[]
+			amenities_id_array: []
 		}));
-		
+
 		defaultData.minPrice = 0;
 		defaultData.maxPrice = maxPriceVal;
 		defaultData.minSize = 0;
 		defaultData.amenities_id_object_with_value = "{}";
 		defaultData.transaction = transaction;
 		defaultData.maxSize = maxsizeVal;
-	
-		
+
+
 		localStorage.setItem('propertyFilterData', JSON.stringify(defaultData));
-			handleSubmit(pagination.currentPage);
+		handleSubmit(pagination.currentPage);
 		router.push('/property');
 	}
 
@@ -811,11 +811,26 @@ export default function PropertyHalfmapList() {
 		setIsPropertyViewMobile(false)
 		//setIsDefaultPropertyViewMobile(false)
 	}
-	console.log(filteredProperties, '>>>>>>>>>>> filteredProperties data');
-	console.log(propertys, '>>>>>>>>>>>> propertys length');
+
+	const useDelayedLoading = (delay = 2000) => {
+		const [isDelayComplete, setIsDelayComplete] = useState(false);
+
+		useEffect(() => {
+			const timer = setTimeout(() => {
+				setIsDelayComplete(true);
+			}, delay);
+
+			return () => clearTimeout(timer);
+		}, [delay]);
+
+		return isDelayComplete;
+	};
+
+	const isDelayComplete = useDelayedLoading(2000);
+	const shouldShowContent = !loading && isDelayComplete;
 	return (
 		<>
-			{(!propertys && loading) ?
+			{(!shouldShowContent) ?
 				<Preloader /> :
 				<>
 					<Layout headerStyle={1} footerStyle={1}>
@@ -823,7 +838,7 @@ export default function PropertyHalfmapList() {
 							{isMobile && (
 								<div className="accordion-section">
 									<button
-										onClick={() =>handlesearchAccordion(seachAccordion)}
+										onClick={() => handlesearchAccordion(seachAccordion)}
 										className="accordion-button"
 									>
 										<span className="h7 title fw-7">{t("search")}</span>
@@ -883,7 +898,7 @@ export default function PropertyHalfmapList() {
 																			}}
 																			placeholder={t("searchCity")}
 																		/>
-																		
+
 																		{(searchTerm.length > 0 || isFocused) && (
 																			cityOptions.length > 0 && (
 																				<ul className="city-dropdown form-style" style={{ marginTop: "0px", width: "100%", position: "relative" }}>
@@ -1073,7 +1088,7 @@ export default function PropertyHalfmapList() {
 												<button
 													type="button"
 													className="tf-btn primary clear-btn"
-													onClick = {() => handleClearAll()}
+													onClick={() => handleClearAll()}
 												>
 													{t("clearAll")}
 												</button>
@@ -1106,34 +1121,34 @@ export default function PropertyHalfmapList() {
 								<div className="tab-content">
 									<div className={(isSwitch) ? "property-sec-list hide-main-section" : "property-sec-list"}>
 										<div className="project-listing-pagination">
-												<div className="box-title-listing style-1">
-													<h5>{t("propertylisting")}</h5>
-													{(!isDefaultPropertyViewMobile) &&(
-														<div className="flex items-center cursor-pointer select-none">
-															{/* <span className="switch-text">{t('switchMapText')}</span> */}
-															{/* <Image src="/images/logo/location-solid.svg" alt="switch"></Image> */}
-															<img src="/images/logo/map-icon.png" alt="logo-footer" width={30} height={20} style={{ marginRight: "10px" }} className="map-switch-icon"></img>
-															<label className="switch">
-																<input
-																	type="checkbox"
-																	checked={isSwitch}
-																	onChange={handleSwitchChange}
-																/>
-																<span className="slider"></span>
-															</label>
-														</div>
-													)}
-												</div>
-											
-											{( isDefaultPropertyViewMobile)  && (
+											<div className="box-title-listing style-1">
+												<h5>{t("propertylisting")}</h5>
+												{(!isDefaultPropertyViewMobile) && (
+													<div className="flex items-center cursor-pointer select-none">
+														{/* <span className="switch-text">{t('switchMapText')}</span> */}
+														{/* <Image src="/images/logo/location-solid.svg" alt="switch"></Image> */}
+														<img src="/images/logo/map-icon.png" alt="logo-footer" width={30} height={20} style={{ marginRight: "10px" }} className="map-switch-icon"></img>
+														<label className="switch">
+															<input
+																type="checkbox"
+																checked={isSwitch}
+																onChange={handleSwitchChange}
+															/>
+															<span className="slider"></span>
+														</label>
+													</div>
+												)}
+											</div>
+
+											{(isDefaultPropertyViewMobile) && (
 												<div className="property-change-view">
-													<button 
+													<button
 														className={`tf-btn primary-1 ${isPropertyViewMobile ? 'property-active' : ''}`}
 														onClick={() => handlePropertyview()}
 													>
 														{t('property')}
 													</button>
-													<button 
+													<button
 														className={`tf-btn primary-1 ${isPropertyViewMap ? 'property-active' : ''}`}
 														onClick={(e) => handlePropertyMapview(e)}
 													>
@@ -1142,13 +1157,13 @@ export default function PropertyHalfmapList() {
 												</div>
 											)}
 											<div className={`project-listing 
-												${( isPropertyViewMobile)? 'property-show-mobile' : 'property-hide-mobile'} 
+												${(isPropertyViewMobile) ? 'property-show-mobile' : 'property-hide-mobile'} 
 												`}>
-												{(!propertys  && loading) ? (
+												{(!propertys && loading) ? (
 													<Preloader />
 												) : error ? (
 													<p>{error}</p>
-												) : propertys.length > 0 ?(
+												) : propertys.length > 0 ? (
 
 													<div className="row">
 														{propertys.map((property) => (
@@ -1243,8 +1258,8 @@ export default function PropertyHalfmapList() {
 																				<span>{property.user_name}</span>
 																			</div>
 																			<div className="d-flex align-items-center">
-																			<h6>{formatPropertyPrice(property.price)} {property.currency}</h6>
-																			<span className="text-variant-1"></span>
+																				<h6>{formatPropertyPrice(property.price)} {property.currency}</h6>
+																				<span className="text-variant-1"></span>
 																			</div>
 																		</div>
 																	</div>
@@ -1261,10 +1276,10 @@ export default function PropertyHalfmapList() {
 															style={{ height: "300px" }}
 														/>
 													</div>
-												) }
+												)}
 											</div>
 											{pagination.totalCount > pagination.itemsPerPage && (
-												<div className={`${( isPropertyViewMobile)? 'property-show-mobile' : 'property-hide-mobile'}`}>
+												<div className={`${(isPropertyViewMobile) ? 'property-show-mobile' : 'property-hide-mobile'}`}>
 													<ul className={`wd-navigation  `}>
 														{/* {console.log(pagination,'>>>>>>>>>>>>>> current')} */}
 														{Array.from({ length: pagination.totalPages }, (_, index) => (
@@ -1282,7 +1297,7 @@ export default function PropertyHalfmapList() {
 												</div>
 											)}
 										</div>
-										<div className={ ` ${(isSwitch) ? "wrap-map map-section-hide" : "wrap-map" } ${( (isDefaultPropertyViewMobile)? (isPropertyViewMap )? 'property-show-mobile' : 'property-hide-mobile' : '')} ` }>
+										<div className={` ${(isSwitch) ? "wrap-map map-section-hide" : "wrap-map"} ${((isDefaultPropertyViewMobile) ? (isPropertyViewMap) ? 'property-show-mobile' : 'property-hide-mobile' : '')} `}>
 											<ProjectMap topmap={false} singleMap={false} propertys={propertys} slug="property" />
 										</div>
 									</div>

@@ -7967,7 +7967,12 @@ label {
   .search-text{
     display: none;
   }
-
+  .truncate-text{
+    max-width: 70% !important;
+  }
+  .meta-list .filteration{
+    margin: 0px !important;
+  }
 }
 
 @media (max-width: 1024px) {
@@ -13975,6 +13980,10 @@ label span {
   .property-change-view {
         justify-content: start !important;
   }
+  .wrapper-layout-3 .wrap-inner {
+    margin: 0px auto;
+    padding: 0PX;
+}
 }
 
 @media (max-width: 425px) {
@@ -13987,8 +13996,8 @@ label span {
     align-items: center;
     display: flex;
     /* max-width: 400px; */
-    margin: 0px;
-            padding-right: 0px;
+    margin: 0px auto;
+            padding: 0px;
   }
   .meta-list .filteration{
     margin-left: 0 !important;
@@ -13998,9 +14007,17 @@ label span {
         justify-content: start !important;
   }
   
-.truncate-text {
-    width: 225px !important;
-}
+  .truncate-text {
+      width: 225px !important;
+  }
+  .property-sec-list .box-title-listing, .property-sec-list .property-change-view{
+    justify-content: center !important;
+  }
+  .property-sec-list .project-listing .row{
+        display: contents;
+    position: relative;
+    margin: 0 auto;
+  }
 }
 
 .clearfix .main .container{

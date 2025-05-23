@@ -21,7 +21,7 @@ export default function MapClusterProject({ topmap, propertys, slug }) {
   // ✅ Move CenterMarker INSIDE MapClusterProject
   function CenterMarker({ property }) {
     const map = useMap(); // ✅ Now it's safe!
-    console.log(slug, ' >>>>> slug')
+    //console.log(slug, ' >>>>> slug')
     const handleMarkerClick = () => {
       map.flyTo([property.latitude, property.longitude], map.getZoom(), {
         animate: true,

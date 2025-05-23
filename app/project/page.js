@@ -213,7 +213,7 @@ export default function ProjectHalfmapList() {
 		const checkViewport = () => {
 			const mobileView = (window.innerWidth < 769) ? true : false;
 			setIsMobile((window.innerWidth < 769) ? true : false);
-			console.log(mobileView, ' >>>>>>>>>>>>>>> isMobile')
+			//console.log(mobileView, ' >>>>>>>>>>>>>>> isMobile')
 			if (!mobileView) {
 				setSeachAccordion(true);
 				setIsDefaultPropertyViewMobile(false);
