@@ -71,22 +71,10 @@ export default function CreateProject() {
                 if (stateList.length === 0) {
                     const stateObj = {};
                     const getStateInfo = await insertData('api/state', { page: 1, limit: 1000 }, true);
-                    // console.log(getStateInfo.data.states[0].id);
                     if (getStateInfo) {
                         setStateList(getStateInfo.data.states);
                     }
                 }
-
-                // if(cityList.length === 0){
-                //     const stateObj = {};
-                //     const getCityInfo = await insertData('api/city', stateObj, true);
-                //     // console.log('getCityInfo');
-                //     // console.log(getCityInfo);
-
-                //     if(getCityInfo) {
-                //         setCityList(getCityInfo.data);
-                //     }
-                // }
                 if (projectOfNumberListing.length === 0 && projectOfBooleanListing.length === 0) {
                     const stateObj = {};
                     const getProjectListingInfo = await insertData('api/project-type-listings', stateObj, true);
@@ -111,7 +99,6 @@ export default function CreateProject() {
                     setUserId(capitalizedString)
                 }
                 if (currencyList.length === 0) {
-                    // // console.log(1);
                     const currencyObj = {};
                     const getCurrencyInfo = await insertData('api/currency/get', currencyObj, true);
 
@@ -124,10 +111,8 @@ export default function CreateProject() {
             }
         };
         fetchData();
-        // console.log(stateList);
-    },[]);
+    }, []);
     const handleStateChange = async (stateId) => {
-        // console.log('State ID:', stateId);
 
         setCityList([]);
         setDistrictList([]);
@@ -143,7 +128,6 @@ export default function CreateProject() {
             const cityObj = { state_id: stateId, lang: "en" };
             const getCityInfo = await insertData('api/city/getbystate', cityObj, true);
             if (getCityInfo.status) {
-                // console.log(getCityInfo.data.cities);
                 setCityList(getCityInfo.data.cities);
             }
         }
@@ -151,7 +135,6 @@ export default function CreateProject() {
     };
     const handleCityChange = async (cityId) => {
         const selectedCites = cityList.find((cities) => cities.id === cityId);
-        // console.log('selectedState ID:', selectedCites.latitude);
         const { latitude, longitude } = selectedCites;
         setPropertyMapCoords({
             latitude: latitude,
@@ -178,9 +161,7 @@ export default function CreateProject() {
     };
 
     const handleDistrictChange = async (DistrictId) => {
-        // console.log('District ID:', DistrictId);
         const selectedDistricts = districtList.find((districts) => districts.id === DistrictId);
-        // console.log('selectedState ID:', selectedDistricts.latitude);
         const { latitude, longitude } = selectedDistricts;
         setPropertyMapCoords({
             latitude: latitude,
@@ -220,10 +201,8 @@ export default function CreateProject() {
     };
 
     const handleNeighborhoodChange = async (NeighborhoodId) => {
-        // console.log('NeighborhoodId ID:', NeighborhoodId);
         const selecteNeighborhood = neighborhoodList.find((neighborhoods) => neighborhoods.id === NeighborhoodId);
         if (selecteNeighborhood) {
-            // console.log('selectedNeighborhood ID:', selecteNeighborhood.latitude);
             const { latitude, longitude } = selecteNeighborhood;
             setPropertyMapCoords({
                 latitude: latitude,
@@ -258,17 +237,6 @@ export default function CreateProject() {
     };
     // Handle form submission
     const handleSubmit = async (values, { resetForm, setErrors }) => {
-        // // console.log(values);
-        // if (isVideoUpload && !values.video) {
-        //     alert("Please upload a video file.");
-        //     return false;
-        // }
-
-        // if (!isVideoUpload && !values.video_link) {
-        //     alert("Please enter a YouTube video link.");
-        //     return false;
-        // }
-
         const selectedAmenities = projectOfBooleanListing
             .filter((project) => checkedItems[project.key])
             .map((project) => ({ project_type_listing_id: project.id, value: "true" }));
@@ -285,13 +253,9 @@ export default function CreateProject() {
         }
 
         try {
-            //setErrorMessage('');
-            //setLoading(true);
+
             setSucessMessage("Processing .........")
-            // console.log(values);
-            // const checkData = { email_address: values.email, phone_number: parseInt(values.phone,10) }
-            // const getUserInfo = await insertData('auth/check/user', checkData, false);
-            // if(getUserInfo.status === false) {
+
             /********* upload image ***********/
             const uploadImageObj = Array.isArray(values.picture_img) ? values.picture_img : [values.picture_img];
             const videoObj = values.video ? [values.video] : [];
@@ -324,9 +288,6 @@ export default function CreateProject() {
                     iconUrl = uploadImageIconUrl.files[0].url; // Use the first file's URL
                 }
 
-                // console.log("Project Data:", { imageUrls, videoUrl, iconUrl });
-
-                // Default video URL if not uploaded
                 // Validate YouTube URL if a link is provided
                 if (values.video_link && !validateYouTubeURL(values.video_link)) {
                     setErrors({ serverError: "Please upload a valid YouTube video link like https://www.youtube.com/watch?v=YOUR_VIDEO_ID." });
@@ -337,11 +298,6 @@ export default function CreateProject() {
                 // Use the provided video link if no video was uploaded
                 videoUrl = videoUrl || values.video_link;
 
-                // console.log('values');
-                // console.log(values);
-
-                // console.log('values');
-                // console.log(values);
                 /********* create user ***********/
                 const projectData = {
 
@@ -369,32 +325,24 @@ export default function CreateProject() {
                 const createUserInfo = await insertData("api/projects/create", projectData, true);
 
                 if (createUserInfo.status) {
-                    //setSucessMessage(true);
                     setSucessMessage(createUserInfo.message || "Project created successfully.");
-                    //setShowErrorPopup(true);
                     resetForm();
                     router.push("/project-listing");
                 } else {
-                    // setLoading(false);
                     setErrors({ serverError: createUserInfo.message || "Failed to create project." });
                     setShowErrorPopup(true);
                 }
 
             } else {
-                //setLoading(false);
                 setErrors({ serverError: "File upload failed." });
                 setShowErrorPopup(true);
             }
         } catch (error) {
-            //setLoading(false);
             setErrors({ serverError: error.message || "An unexpected error occurred." });
             setShowErrorPopup(true);
         } finally {
             setLoading(false); // Stop loader
         }
-        // }else{
-        //     setErrorMessage(getUserInfo.message);
-        // }
     };
 
     const handleCheckboxChange = (key) => {
@@ -411,11 +359,9 @@ export default function CreateProject() {
         setIsVideoUpload(isUpload);
 
         if (!isUpload) {
-            // Switching to YouTube Link
             setVideoPreview(null); // Clear video preview
             setFieldValue("video", null); // Clear Formik video field
         } else if (isUpload) {
-
             setFieldValue("video_link", null);
             setVideoLink(null); // Update YouTube link manually
 
@@ -423,12 +369,9 @@ export default function CreateProject() {
         const selectedRadioId = event.target.id
         setSelectedRadio(selectedRadioId)
     }
-    // console.log(checkedItems);
     const messageClass = (sucessMessage) ? "message success" : "message error";
     return (
         <>
-
-            {/* <DeleteFile /> */}
             {loading ? (
                 <Preloader />
             ) : (
@@ -458,57 +401,28 @@ export default function CreateProject() {
                             {({ errors, touched, handleChange, handleBlur, setFieldValue, values }) => (
                                 <Form>
                                     <div>
-                                        {/* <div className="widget-box-2">
-                                    <h6 className="title">Upload Agency User Image</h6>
-                                    <div className="box-uploadfile text-center">
-                                        <label className="uploadfile">
-                                        <span className="icon icon-img-2" />
-                                        <div className="btn-upload">
-                                            <span className="tf-btn primary">Choose Image</span>
-                                            <input
-                                                type="file"
-                                                className="ip-file"
-                                                onChange={(event) => {
-                                                    const file = event.currentTarget.files[0];
-                                                    setFieldValue("image", file);
-                                                    setFilePreview(URL.createObjectURL(file));
-                                                }}
-                                            />
-                                        </div>
-                                        {filePreview && ( <img src={filePreview} alt="Preview" style={{ width: "100px", marginTop: "10px" }} /> )}
-                                        <p className="file-name fw-5"> Or drop image here to upload </p>
-                                        </label>
-                                        {errors.image && touched.image && (
-                                        <div className="error">{errors.image}</div>
-                                        )}
-                                    </div>
-                                </div> */}
                                         <div className="widget-box-2">
                                             <h6 className="title">Project Information</h6>
                                             <div className="box grid-2 gap-30">
                                                 <fieldset className="box box-fieldset">
                                                     <label htmlFor="title">Title English:<span>*</span></label>
                                                     <Field type="text" id="title_en" name="title_en" className="form-control style-1" />
-                                                    {/* <ErrorMessage name="title_en" component="div" className="error" /> */}
                                                 </fieldset>
                                                 <fieldset className="box box-fieldset">
                                                     <label htmlFor="title">Title French:<span>*</span></label>
                                                     <Field type="text" id="title_fr" name="title_fr" className="form-control style-1" />
-                                                    {/* <ErrorMessage name="title_fr" component="div" className="error" /> */}
                                                 </fieldset>
                                             </div>
                                             <div className="grid-1 box gap-30">
                                                 <fieldset className="box-fieldset">
                                                     <label htmlFor="description">Description English:<span>*</span></label>
                                                     <Field type="textarea" as="textarea" id="description_en" name="description_en" className="textarea-tinymce" />
-                                                    {/* <ErrorMessage name="description_en" component="div" className="error" /> */}
                                                 </fieldset>
                                             </div>
                                             <div className="grid-1 box gap-30">
                                                 <fieldset className="box-fieldset">
                                                     <label htmlFor="description">Description French:<span>*</span></label>
                                                     <Field type="textarea" as="textarea" id="description_fr" name="description_fr" className="textarea-tinymce" />
-                                                    {/* <ErrorMessage name="description_fr" component="div" className="error" /> */}
                                                 </fieldset>
                                             </div>
                                         </div>
@@ -525,7 +439,6 @@ export default function CreateProject() {
                                                                 const selectedState = e.target.value;
                                                                 setCurrencyCode(selectedState);
                                                                 setFieldValue("currency_id", selectedState);
-                                                                //handleCityChange(selectedState);
                                                             }}
                                                         >
                                                             <option value="">Select Currency</option>
@@ -541,21 +454,10 @@ export default function CreateProject() {
                                                         <Field type="text" id="price" name="price" className="form-control style-1" />
                                                     </div>
                                                 </fieldset>
-                                                {/* <fieldset className="box box-fieldset">
-                                            <label htmlFor="desc">Price:<span>*</span></label>
-                                            <Field type="number" id="price" name="price" className="box-fieldset" />
-                                            <ErrorMessage name="price" component="div" className="error" />
-                                        </fieldset> */}
                                                 <fieldset className="box box-fieldset">
                                                     <label htmlFor="desc">VR Link:</label>
                                                     <Field type="text" name="vr_link" className="box-fieldset" />
-                                                    {/* <ErrorMessage name="vr_link" component="div" className="error" /> */}
                                                 </fieldset>
-                                                {/*<fieldset className="box box-fieldset">
-                                            <label htmlFor="desc">Link UUID:<span>*</span></label>
-                                            <Field type="text"  name="link_uuid" className="box-fieldset" />
-                                            <ErrorMessage name="link_uuid" component="div" className="error" />
-                                        </fieldset>*/}
                                             </div>
                                             <div className="box grid-3 gap-30">
                                                 {projectOfNumberListing && projectOfNumberListing.length > 0 ? (
@@ -569,7 +471,6 @@ export default function CreateProject() {
                                                                 className="box-fieldset"
                                                                 onChange={(e) => handleNumberChange(project.id, e.target.value)}
                                                             />
-                                                            {/* <ErrorMessage name={project.key} component="div" className="error" /> */}
                                                         </fieldset>
                                                     ))
                                                 ) : (
@@ -594,19 +495,19 @@ export default function CreateProject() {
                                                                             onChange={(event) => {
                                                                                 let newImageList = [...field.value]; // Retain previously selected files
                                                                                 let newPreviews = [...filePreviews]; // Retain previous previews
-                                                                            
+
                                                                                 const files = Array.from(event.target.files); // Convert to an array
-                                                                            
+
                                                                                 files.forEach((file) => {
                                                                                     if (file.size < 150000) {
                                                                                         alert(`Please upload files above the size of 150KB`);
                                                                                     } else {
                                                                                         const img = new Image();
                                                                                         const reader = new FileReader();
-                                                                            
+
                                                                                         reader.onload = (e) => {
                                                                                             img.src = e.target.result;
-                                                                            
+
                                                                                             img.onload = () => {
                                                                                                 if (img.height <= 800 || img.width <= 1100) {
                                                                                                     alert('Please upload images with a maximum height of 800px and a maximum width of 1100px.');
@@ -614,12 +515,12 @@ export default function CreateProject() {
                                                                                                     newPreviews.push(URL.createObjectURL(file)); // Add preview
                                                                                                     newImageList.push(file); // Add valid file
                                                                                                 }
-                                                                            
+
                                                                                                 setFilePreviews(newPreviews);
                                                                                                 form.setFieldValue(field.name, newImageList);
                                                                                             };
                                                                                         };
-                                                                            
+
                                                                                         reader.readAsDataURL(file);
                                                                                     }
                                                                                 });
@@ -628,12 +529,7 @@ export default function CreateProject() {
                                                                         />
                                                                     </label>
                                                                 </div>
-
-
                                                                 <p className="file-name fw-5">Or drop images here to upload</p>
-
-                                                                {/* Error Message */}
-                                                                {/* <ErrorMessage name="picture_img" component="div" className="error" /> */}
                                                             </div>
                                                         )}
                                                     />
@@ -687,11 +583,6 @@ export default function CreateProject() {
                                                                             onChange={(event) => {
                                                                                 const file = event.target.files[0]; // Get the first file
                                                                                 if (file) {
-                                                                                    // Perform size validation
-                                                                                    // if (file.size < 1000) {
-                                                                                    // alert(`Please upload a file above the size of 1KB`);
-                                                                                    // return;
-                                                                                    // }
 
                                                                                     const img = new Image();
                                                                                     const reader = new FileReader();
@@ -705,15 +596,7 @@ export default function CreateProject() {
 
                                                                                             setFieldValue("icon", file); // Set the file in Formik state
                                                                                             setIconPreview(URL.createObjectURL(file)); // Generate a preview URL
-                                                                                            // Perform dimension validation
-                                                                                            // if (imageHeight > 200 || imageWidth > 200) {
-                                                                                            // alert(
-                                                                                            //     "Please upload an image with a maximum height and width of 200px."
-                                                                                            // );
-                                                                                            // } else {
-                                                                                            // setFieldValue("icon", file); // Set the file in Formik state
-                                                                                            // setIconPreview(URL.createObjectURL(file)); // Generate a preview URL
-                                                                                            // }
+
                                                                                         };
                                                                                     };
 
@@ -810,10 +693,8 @@ export default function CreateProject() {
                                                                 </video>
                                                             )}
                                                             <p className="file-name fw-5">Or drop video here to upload</p>
-                                                            {/* <ErrorMessage name="video" component="div" className="error" /> */}
                                                         </div>
                                                     ) : (
-                                                        // YouTube Link Input Field
                                                         <div>
                                                             <label htmlFor="video_link">YouTube Link:</label>
                                                             <Field
@@ -822,7 +703,6 @@ export default function CreateProject() {
                                                                 className="form-control"
                                                                 placeholder="https://www.youtube.com/watch?v=QgAQcrvHsHQ"
                                                             />
-                                                            {/* <ErrorMessage name="video_link" component="div" className="error" /> */}
                                                         </div>
                                                     )}
                                                 </fieldset>
@@ -849,7 +729,6 @@ export default function CreateProject() {
                                                             <></>
                                                         )}
                                                     </Field>
-                                                    {/* <ErrorMessage name="state_id" component="div" className="error" /> */}
                                                 </fieldset>
                                                 <fieldset className="box box-fieldset">
                                                     <label htmlFor="desc">Cities:</label>
@@ -871,7 +750,6 @@ export default function CreateProject() {
                                                             <></>
                                                         )}
                                                     </Field>
-                                                    {/* <ErrorMessage name="city_id" component="div" className="error" /> */}
                                                 </fieldset>
                                                 <fieldset className="box box-fieldset">
                                                     <label htmlFor="desc">District:</label>
@@ -891,7 +769,6 @@ export default function CreateProject() {
                                                             <></>
                                                         )}
                                                     </Field>
-                                                    {/* <ErrorMessage name="districts_id" component="div" className="error" /> */}
                                                 </fieldset>
                                                 <fieldset className="box box-fieldset">
                                                     <label htmlFor="desc">Neighborhood:</label>
@@ -911,15 +788,9 @@ export default function CreateProject() {
                                                             <></>
                                                         )}
                                                     </Field>
-                                                    {/* <ErrorMessage name="neighborhood_id" component="div" className="error" /> */}
                                                 </fieldset>
                                             </div>
                                             <div className="box box-fieldset">
-                                                {/* <label htmlFor="location">Address:<span>*</span></label>
-                                        <div className="box-ip">
-                                            <input type="text" className="form-control style-1" name="address" />
-                                            <Link href="#" className="btn-location"><i className="icon icon-location" /></Link>
-                                        </div> */}
                                                 <PropertyMapMarker
                                                     latitude={propertyMapCoords.latitude}
                                                     longitude={propertyMapCoords.longitude}
@@ -928,7 +799,6 @@ export default function CreateProject() {
                                                         setFieldValue('address', newAddress);
                                                         setFieldValue('latitude', newLocation.lat);
                                                         setFieldValue('longitude', newLocation.lng);
-                                                        //handleAddressSelect(newAddress, newLocation);
                                                     }
                                                     }
                                                 />
@@ -948,7 +818,6 @@ export default function CreateProject() {
                                                                     onChange={() => handleCheckboxChange(project.key)}
                                                                 />
                                                                 <label for="cb1" className="text-cb-amenities">{project.name}</label>
-                                                                {/* <ErrorMessage name={project.key} component="div" className="error" /> */}
                                                             </fieldset>
                                                         ))
                                                     ) : (

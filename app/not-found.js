@@ -6,10 +6,15 @@ import Preloader from "@/components/elements/Preloader";
 import React, { useEffect, useState } from 'react';
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
+import { navigateTo } from '@/components/common/Functions';
+import { useRouter } from 'next/navigation';
+
 
 export default function NotFound() {
     const [loading, setLoading] = useState(true);
     const { t } = useTranslation();
+    const router = useRouter();
+
     useEffect(() => {
         // Simulate a delay to mimic loading (e.g., fetching data)
         const timer = setTimeout(() => {
@@ -28,9 +33,9 @@ export default function NotFound() {
                     <div className="error-container">
                         <h1>{t("error404")}</h1>
                         <p>{t("Oops!Thepageyouarelookingfordoesnotexist.")}</p>
-                        <Link href="/" className="back-to-home">
-                            {t("GoBacktoHome")}
-                        </Link>
+                        <div className="back-to-home custom-link" onClick={() => navigateTo(router, '/')}>
+							{t("GoBacktoHome")}
+						</div>
                     </div>
                 </div>
             </Layout>

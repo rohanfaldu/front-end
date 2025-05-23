@@ -200,39 +200,39 @@ export default function developerListing() {
     setSearchCity(cityName); // Set the selected city name in the input
     handleFilterChange({ target: { name: 'city', value: cityId } }); // Call filter change with selected city ID
   };
-  const handlesearchAccordion = (status) =>{
-		const updateStatus = (status)?false:true;
-		setSeachAccordion(updateStatus);
-	}
-	const router = useRouter();
+  const handlesearchAccordion = (status) => {
+    const updateStatus = (status) ? false : true;
+    setSeachAccordion(updateStatus);
+  }
+  const router = useRouter();
   const handleClick = (slug) => {
-		router.push(slug);
-	};
+    router.push(slug);
+  };
 
   return (
     <>
 
       <Layout headerStyle={1} footerStyle={1}>
         <section className="wrapper-layout-3 developer user-inner-sec">
-        {isMobile && (
-						<div className="accordion-section">
-							<button
-								onClick={() => handlesearchAccordion(seachAccordion)}
-								className="accordion-button"
-							>
-								<span className="h7 title fw-7">{t("search")}</span>
-								<span className="arrow-icon">
-									<img
-										src="/images/avatar/down-arrow.svg"
-										alt="Arrow Icon"
-										className={seachAccordion ? 'rotated' : ''}
-										width="20"
-										height="20"
-									/>
-								</span>
-							</button>
-						</div>
-					)}
+          {isMobile && (
+            <div className="accordion-section">
+              <button
+                onClick={() => handlesearchAccordion(seachAccordion)}
+                className="accordion-button"
+              >
+                <span className="h7 title fw-7">{t("search")}</span>
+                <span className="arrow-icon">
+                  <img
+                    src="/images/avatar/down-arrow.svg"
+                    alt="Arrow Icon"
+                    className={seachAccordion ? 'rotated' : ''}
+                    width="20"
+                    height="20"
+                  />
+                </span>
+              </button>
+            </div>
+          )}
           {seachAccordion && (
             <div className="wrap-sidebar">
               <div className="flat-tab flat-tab-form widget-filter-search">
@@ -331,12 +331,6 @@ export default function developerListing() {
                                 alt={developerUserData.name}
                               />
                             </div>
-
-                            {/* <div className="bottom">
-                              <span className="flag-tag style-2">
-                                 {agencyUserData.meta_details?.propertyType || 'Studio'} 
-                              </span>
-                            </div> */}
                           </div>
                           <div className="content user-listing-sec">
                             <div className="h7 text-capitalize fw-7">
@@ -384,38 +378,8 @@ export default function developerListing() {
                                 ) : ''}
                               </ul>
                             </div>
-                            {/* <ul className="meta-list">
-															<li className="item">
-																<i className="icon icon-bed" />
-																<span>{agencyUserData.meta_details?.bedrooms || 0}</span>
-															</li>
-															<li className="item">
-																<i className="icon icon-bathtub" />
-																<span>{agencyUserData.meta_details?.bathrooms || 0}</span>
-															</li>
-															<li className="item">
-																<i className="icon icon-ruler" />
-																<span>
-																	{agencyUserData.meta_details?.size || '0'} SqFT
-																</span>
-															</li>
-														</ul> */}
                           </div>
                         </div>
-                        {/* <div className="archive-bottom d-flex justify-content-between align-items-center">
-													<div className="d-flex gap-8 align-items-center">
-														<div className="avatar avt-40 round">
-															<img
-																src={agencyUserData.user_image || '/images/avatar/user-image.png'}
-																alt={agencyUserData.agent?.name || 'Agent'}
-															/>
-														</div>
-														<span>{agencyUserData.user_name || 'Unknown Agent'}</span>
-													</div>
-													<div className="d-flex align-items-center">
-														<h6>{t('from')} {agencyUserData.price || '0.00'} {agencyUserData.currency || 'USD'} </h6>
-													</div>
-												</div> */}
                       </div>
                     </div>
                   ))}
@@ -426,21 +390,18 @@ export default function developerListing() {
               <ul className="wd-navigation">
                 {Array.from({ length: pagination.totalPages }, (_, index) => (
                   <li key={index}>
-                    <Link
-                      href="#"
+                    <div
                       className={`nav-item ${pagination.currentPage === index + 1 ? 'active' : ''}`}
                       onClick={() => handlePageChange(index + 1)}
+                      style={{ cursor: 'pointer' }}
                     >
                       {index + 1}
-                    </Link>
+                    </div>
                   </li>
                 ))}
               </ul>
             )}
           </div >
-          {/* <div className="wrap-map">
-						<PropertyMap topmap={false} singleMap={false} propertys={agencyList} />
-					</div> */}
         </section >
 
       </Layout >

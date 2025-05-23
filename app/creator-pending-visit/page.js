@@ -57,11 +57,11 @@ export default function MyProperty() {
   const router = useRouter();
   useEffect(() => {
     // const requestData = {
-		// 		propertyId: data.id,
-		// 		dateAndTime: formattedDateTime,
-		// 		visitType: isTab === 1 ? "Physical" : "Virtual",
-		// 		property_publisher_id: data.user_id
-		// 	};
+    // 		propertyId: data.id,
+    // 		dateAndTime: formattedDateTime,
+    // 		visitType: isTab === 1 ? "Physical" : "Virtual",
+    // 		property_publisher_id: data.user_id
+    // 	};
     fetchData(); // Fetch data on component mount
   }, []);
   const formattedStartDate = startDate ? `${startDate}T00:00:00.000Z` : null;
@@ -75,8 +75,8 @@ export default function MyProperty() {
         startDate: formattedStartDate,
         endDate: formattedEndDate,
       };
-      
-      
+
+
       const getUserInfo = await insertData('api/visit/get-pending-visit-schedule-creators', requestData, true); // Ensure data is passed
       setPropertiesVisits(getUserInfo.data.list); // Save all properties
       const { totalCount, totalPages, currentPage } = response.data;
@@ -108,13 +108,13 @@ export default function MyProperty() {
       const response = await insertData('api/visit/reject-pending-Visit', requestData, true); // Ensure data is passed
       if (response.status) {
         fetchData(); // Refresh data
-          setIsAcceptVisit(false);
+        setIsAcceptVisit(false);
       } else {
-          console.log(3)
+        console.log(3)
         setError(response.data.message || 'An error occurred'); // Handle error
       }
     } catch (err) {
-        console.log(4)
+      console.log(4)
       setError(err.response?.message || 'An error occurred'); // Handle error
     }
   }
@@ -125,7 +125,7 @@ export default function MyProperty() {
       };
       console.log('Here');
       const response = await insertData('api/visit/accept-pending-Visit', requestData, true); // Ensure data is passed
-           console.log('response', response);
+      console.log('response', response);
       if (response.status) {
         fetchData();// Refresh data
         setIsAcceptVisit(false);
@@ -145,7 +145,7 @@ export default function MyProperty() {
       };
       const response = await insertData('api/visit/get-visit-user-detail', requestData, true); // Ensure data is passed
       if (response.status) {
-         setSelectedDateTime(dayjs(response.data.scheduled_date));
+        setSelectedDateTime(dayjs(response.data.scheduled_date));
       } else {
         console.log(response.data.message || 'An error occurred'); // Handle error
       }
@@ -299,43 +299,43 @@ export default function MyProperty() {
   };
 
   const handleTab = (i) => {
-		setIsTab(i);
-	};
+    setIsTab(i);
+  };
 
   const visitSchedule = async () => {
     if (!selectedDateTime) return;
-    
-        setLoading(true);
-        try {
-          const formattedDateTime = dayjs(selectedDateTime).toISOString();
 
-          const requestData = {
-            id: isVisitUserId,
-            dateAndTime: formattedDateTime,
-            visitType: isTab === 1 ? "Physical" : "Virtual",
-          };
-    
-          const response = await insertData("api/visit/visit-update-schedule", requestData, true);
-          if (response.status) {
-            // // console.log(response.data);
-            fetchData();
-            setIsRescheduleVisit(false);
-            setError(null);
-            router.reload(); 
-          }
-        } catch (err) {
-          setError(err.response?.data?.message || "Please log in after creating the visit.");
-        } finally {
-          setLoading(false);
-        }
+    setLoading(true);
+    try {
+      const formattedDateTime = dayjs(selectedDateTime).toISOString();
+
+      const requestData = {
+        id: isVisitUserId,
+        dateAndTime: formattedDateTime,
+        visitType: isTab === 1 ? "Physical" : "Virtual",
+      };
+
+      const response = await insertData("api/visit/visit-update-schedule", requestData, true);
+      if (response.status) {
+        // // console.log(response.data);
+        fetchData();
+        setIsRescheduleVisit(false);
+        setError(null);
+        router.reload();
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || "Please log in after creating the visit.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   const closeModal = () => {
-		// // console.log("Closing Modal"); // Debugging
-		setIsRescheduleVisit(false);
+    // // console.log("Closing Modal"); // Debugging
+    setIsRescheduleVisit(false);
     setIsAcceptVisit(false);
-	};
-  
+  };
+
   return (
     <>
       {loading ? (
@@ -348,15 +348,15 @@ export default function MyProperty() {
 
               <div className="widget-box-2 wd-listing">
                 <div className="top d-flex align-items-center" style={{ marginBottom: "20px" }}>
-                  <Link href="/visit-schedule">
-                    <button className="tf-btn secondary" style={{ marginRight: "20px" }}>Scheduled Visits</button>
-                  </Link>
+                  <div className="tf-btn secondary" style={{ marginRight: "20px" }} onClick={() => router.push('/visit-schedule')}>
+                    Scheduled Visits
+                  </div>
                   <div>
                     <button className="tf-btn primary" style={{ marginRight: "20px" }}>Pending Visits</button>
                   </div>
-                  <Link href="/creator-rejected-visit">
-                    <button className="tf-btn secondary">Rejected Visits</button>
-                  </Link>
+                  <div className="tf-btn secondary" onClick={() => router.push('/creator-rejected-visit')}>
+                    Rejected Visits
+                  </div>
                 </div>
                 <div className="top d-flex justify-content-between align-items-center">
                   <h6 className="title">Property Pending visit Scheduled Listing</h6>
@@ -445,12 +445,22 @@ export default function MyProperty() {
                                 <td>{user.visit_type}</td>
                                 <td style={{ paddingLeft: "20px" }}>
                                   <div className="status-wrap" style={{ display: "flex", justifyContent: "space-between", width: "130px" }}>
-                                    <Link href="#" className="btn-status" style={{ backgroundColor: "green" }} onClick={() => acceptVisit(user.id)}>
+                                    <div
+                                      className="btn-status custom-link"
+                                      style={{ backgroundColor: "green" }}
+                                      onClick={() => acceptVisit(user.id)}
+                                    >
                                       Accept
-                                    </Link>
-                                    <Link href="#" className="btn-status" style={{ backgroundColor: "red" }} onClick={() => rejectVisit(user.id)}>
+                                    </div>
+
+                                    <div
+                                      className="btn-status custom-link"
+                                      style={{ backgroundColor: "red"}}
+                                      onClick={() => rejectVisit(user.id)}
+                                    >
                                       Reject
-                                    </Link>
+                                    </div>
+
                                   </div>
                                 </td>
                               </tr>
@@ -461,13 +471,13 @@ export default function MyProperty() {
                       <ul className="wd-navigation">
                         {[...Array(Math.ceil(propertiesVisits.length / itemsPerPage))].map((_, index) => (
                           <li key={index}>
-                            <Link
-                              href="#"
-                              className={`nav-item ${currentPage === index + 1 ? 'active' : ''}`}
-                              onClick={() => setCurrentPage(index + 1)}
-                            >
-                              {index + 1}
-                            </Link>
+                            <div
+                            className={`nav-item ${pagination.currentPage === index + 1 ? 'active' : ''}`}
+                            onClick={() => setCurrentPage(index + 1)} href="#"
+                            style={{ cursor: 'pointer' }}
+                          >
+                            {index + 1}
+                          </div>
                           </li>
                         ))}
                       </ul>
@@ -507,14 +517,14 @@ export default function MyProperty() {
                 <>
                   <div>
                     <span>Reject the visit request :
-                    {/* <strong  style={{ marginTop: "10px", fontWeight: "bold"  }}>{dayjs(selectedDateTime).format("YYYY-MM-DD HH:mm")}</strong> */}
-                    </span><br/>
-                    <button className="tf-btn primary" style={{ marginTop: "10px"}} onClick={() => acceptVisitRequest()}>Rejected</button>
+                      {/* <strong  style={{ marginTop: "10px", fontWeight: "bold"  }}>{dayjs(selectedDateTime).format("YYYY-MM-DD HH:mm")}</strong> */}
+                    </span><br />
+                    <button className="tf-btn primary" style={{ marginTop: "10px" }} onClick={() => acceptVisitRequest()}>Rejected</button>
                   </div>
                   <hr />
                   <div>
                     <span>Reschedule the visit request:</span>
-                    <button className="tf-btn primary" style={{ marginTop: "10px"}} onClick={() => rescheduleVisitRequest()}>Reschedule</button>
+                    <button className="tf-btn primary" style={{ marginTop: "10px" }} onClick={() => rescheduleVisitRequest()}>Reschedule</button>
                   </div>
                 </>
               </div>
@@ -568,9 +578,6 @@ export default function MyProperty() {
                           {t("cancel")}
                         </button>
                       </div>
-
-                      {/* Error Message */}
-                      {/* {error && <div style={{ color: "red", marginTop: "10px" }}>{error}</div>} */}
                     </div>
                   </section>
                 </>

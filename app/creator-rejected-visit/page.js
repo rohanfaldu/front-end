@@ -14,8 +14,10 @@ import ExcelJS from "exceljs";
 import { saveAs } from "file-saver";
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import { useRef } from "react"; 
+import { useRef } from "react";
 import variablesList from "@/components/common/Variable";
+import { navigateTo } from '@/components/common/Functions';
+import { useRouter } from 'next/navigation';
 
 export default function MyProperty() {
   const [propertiesVisits, setPropertiesVisits] = useState([]); // Store all fetched properties
@@ -33,15 +35,16 @@ export default function MyProperty() {
     totalPages: 0,
     currentPage: variablesList.currentPage,
     itemsPerPage: variablesList.itemsPerPage,
-});
-    const startDateRef = useRef(null);
-    const endDateRef = useRef(null);
-  
-    const [startDate, setStartDate] = useState("");
-    const [endDate, setEndDate] = useState("");
+  });
+  const startDateRef = useRef(null);
+  const endDateRef = useRef(null);
+
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const router = useRouter();
 
   useEffect(() => {
-    
+
 
     fetchData(); // Fetch data on component mount
   }, []);
@@ -51,24 +54,24 @@ export default function MyProperty() {
 
   const fetchData = async (page = 1) => {
     try {
-        const requestData = {
-            page,
-            limit: pagination.itemsPerPage,
-            startDate: formattedStartDate,
-            endDate: formattedEndDate, 
-        };
+      const requestData = {
+        page,
+        limit: pagination.itemsPerPage,
+        startDate: formattedStartDate,
+        endDate: formattedEndDate,
+      };
 
-        const getUserInfo = await insertData('api/visit/get-rejected-visit-schedule-creators', requestData, true); // Ensure data is passed
-        setPropertiesVisits(getUserInfo.data.list); // Save all properties
-        const { totalCount, totalPages, currentPage } = response.data;
-        setPagination({
-            ...pagination,
-            totalCount,
-            totalPages,
-            currentPage,
-          });
-        setLoading(false); // Stop loading
-        setError(null); // Clear errors
+      const getUserInfo = await insertData('api/visit/get-rejected-visit-schedule-creators', requestData, true); // Ensure data is passed
+      setPropertiesVisits(getUserInfo.data.list); // Save all properties
+      const { totalCount, totalPages, currentPage } = response.data;
+      setPagination({
+        ...pagination,
+        totalCount,
+        totalPages,
+        currentPage,
+      });
+      setLoading(false); // Stop loading
+      setError(null); // Clear errors
     } catch (err) {
       setError(err.response?.message || 'An error occurred'); // Handle error
       setLoading(false); // Stop loading
@@ -84,11 +87,11 @@ export default function MyProperty() {
       if (response.status) {
         fetchData(); // Refresh data
       } else {
-          setError(response.data.message || 'An error occurred'); // Handle error
+        setError(response.data.message || 'An error occurred'); // Handle error
       }
     } catch (err) {
       setError(err.response?.message || 'An error occurred'); // Handle error
-      }
+    }
   };
   const rejectVisit = async (id) => {
     try {
@@ -99,143 +102,143 @@ export default function MyProperty() {
       if (response.status) {
         fetchData(); // Refresh data
       } else {
-          setError(response.data.message || 'An error occurred'); // Handle error
+        setError(response.data.message || 'An error occurred'); // Handle error
       }
     } catch (err) {
       setError(err.response?.message || 'An error occurred'); // Handle error
-      }
+    }
   };
 
   const exportToExcel = async () => {
-      try {
-        // console.log("Exporting to Excel...");
-    
-        if (!propertiesVisits || propertiesVisits.length === 0) {
-          alert("No data to export");
-          return;
-        }
-    
-        // Ensure properties data exists
-        // console.log("Properties:", propertiesVisits);
-    
-        // Create a new workbook instance
-        const workbook = new ExcelJS.Workbook();
-        const worksheet = workbook.addWorksheet("Property Comments");
-    
-        // Define columns
-        worksheet.columns = [
-          { header: "Title", key: "title", width: 50 },
-          { header: "Visitor Email / Phone", key: "visitor_email_phone", width: 20 },
-          { header: "Visitor Name", key: "visitor_name", width: 20 },
-          { header: "Visit Date", key: "visit_date", width: 20 },
-          { header: "Visit Type", key: "visit_type", width: 20 },
-        ];
-    
-        // Apply bold font to the header row
-        worksheet.getRow(1).font = { bold: true };
-    
-        // Add data to worksheet
-        propertiesVisits.forEach((p) => {
-          worksheet.addRow({
-            title: p?.property.lang_translations.en_string || "N/A",
-            visitor_email_phone: `${p?.users.email_address || "N/A"} / ${p?.users.mobile_number || "N/A"}`,
-            visitor_name: p?.users.full_name || "N/A",
-            visit_date: p?.scheduled_date 
-            ? new Date(p.scheduled_date).toLocaleString('en-US', { 
-                year: 'numeric', 
-                month: '2-digit', 
-                day: '2-digit', 
-                hour: '2-digit', 
-                minute: '2-digit', 
-                second: '2-digit', 
-                hour12: true 
-            }) 
-            : "N/A",
-            visit_type: p?.visit_type || "N/A"
-          });
-        });
-    
-        // Apply border to all cells
-        worksheet.eachRow((row) => {
-          row.eachCell((cell) => {
-            cell.alignment = { horizontal: "center", vertical: "middle" };
-            cell.border = {
-              top: { style: "thin" },
-              left: { style: "thin" },
-              bottom: { style: "thin" },
-              right: { style: "thin" },
-            };
-          });
-        });
-    
-        // Write to buffer and save the file
-        const buffer = await workbook.xlsx.writeBuffer();
-        saveAs(new Blob([buffer]), "property_visit_rejected.xlsx");
-    
-        // console.log("Excel file exported successfully!");
-      } catch (error) {
-        console.error("Excel export error:", error);
-        alert("Error exporting to Excel: " + error.message);
-      }
-    };
-  
-  
-      const exportToPDF = () => {
-      if (propertiesVisits.length === 0) {
+    try {
+      // console.log("Exporting to Excel...");
+
+      if (!propertiesVisits || propertiesVisits.length === 0) {
         alert("No data to export");
         return;
       }
-  
-      const doc = new jsPDF();
-  
-      // Table data
-      const tableBody = propertiesVisits.map((property) => [
-        property?.property?.lang_translations?.en_string || "N/A",
-        [property?.users?.email_address, property?.users?.mobile_number]
-            .filter(Boolean)
-            .join(" / ") || "N/A",
-        property?.users?.full_name || "N/A",
-        property?.scheduled_date 
-            ? new Date(property.scheduled_date).toLocaleString('en-US', { 
-                year: 'numeric', 
-                month: '2-digit', 
-                day: '2-digit', 
-                hour: '2-digit', 
-                minute: '2-digit', 
-                second: '2-digit', 
-                hour12: true 
-            }) 
+
+      // Ensure properties data exists
+      // console.log("Properties:", propertiesVisits);
+
+      // Create a new workbook instance
+      const workbook = new ExcelJS.Workbook();
+      const worksheet = workbook.addWorksheet("Property Comments");
+
+      // Define columns
+      worksheet.columns = [
+        { header: "Title", key: "title", width: 50 },
+        { header: "Visitor Email / Phone", key: "visitor_email_phone", width: 20 },
+        { header: "Visitor Name", key: "visitor_name", width: 20 },
+        { header: "Visit Date", key: "visit_date", width: 20 },
+        { header: "Visit Type", key: "visit_type", width: 20 },
+      ];
+
+      // Apply bold font to the header row
+      worksheet.getRow(1).font = { bold: true };
+
+      // Add data to worksheet
+      propertiesVisits.forEach((p) => {
+        worksheet.addRow({
+          title: p?.property.lang_translations.en_string || "N/A",
+          visitor_email_phone: `${p?.users.email_address || "N/A"} / ${p?.users.mobile_number || "N/A"}`,
+          visitor_name: p?.users.full_name || "N/A",
+          visit_date: p?.scheduled_date
+            ? new Date(p.scheduled_date).toLocaleString('en-US', {
+              year: 'numeric',
+              month: '2-digit',
+              day: '2-digit',
+              hour: '2-digit',
+              minute: '2-digit',
+              second: '2-digit',
+              hour12: true
+            })
             : "N/A",
-        property?.visit_type || "N/A",
-    ]);
-    
-      // Generate table
-      autoTable(doc, {
-        head: [["Title", "Visitor Email / Phone", "Visitor Name", "Visit Date", "Visit Type"]],
-        body: tableBody,
-        columnStyles: {
-          0: { cellWidth: 30 },
-          1: { cellWidth: 50 },
-          2: { cellWidth: 20 },
-          4: { cellWidth: 30 },
-          4: { cellWidth: 30 },
-        },
-        styles: { fontSize: 10, cellPadding: 5 },
-        didDrawCell: (data) => {
-          if (data.column.index === 3 && propertiesVisits[data.row.index]?.users?.image) {
-            const imgUrl = propertiesVisits[data.row.index].users.image;
-            const x = data.cell.x + 5;
-            const y = data.cell.y + 3;
-            const width = 20;
-            const height = 20;
-            doc.addImage(imgUrl, "JPEG", x, y, width, height);
-          }
-        },
+          visit_type: p?.visit_type || "N/A"
+        });
       });
-  
-      doc.save("property_visit_rejected.pdf");
-      };
-  
+
+      // Apply border to all cells
+      worksheet.eachRow((row) => {
+        row.eachCell((cell) => {
+          cell.alignment = { horizontal: "center", vertical: "middle" };
+          cell.border = {
+            top: { style: "thin" },
+            left: { style: "thin" },
+            bottom: { style: "thin" },
+            right: { style: "thin" },
+          };
+        });
+      });
+
+      // Write to buffer and save the file
+      const buffer = await workbook.xlsx.writeBuffer();
+      saveAs(new Blob([buffer]), "property_visit_rejected.xlsx");
+
+      // console.log("Excel file exported successfully!");
+    } catch (error) {
+      console.error("Excel export error:", error);
+      alert("Error exporting to Excel: " + error.message);
+    }
+  };
+
+
+  const exportToPDF = () => {
+    if (propertiesVisits.length === 0) {
+      alert("No data to export");
+      return;
+    }
+
+    const doc = new jsPDF();
+
+    // Table data
+    const tableBody = propertiesVisits.map((property) => [
+      property?.property?.lang_translations?.en_string || "N/A",
+      [property?.users?.email_address, property?.users?.mobile_number]
+        .filter(Boolean)
+        .join(" / ") || "N/A",
+      property?.users?.full_name || "N/A",
+      property?.scheduled_date
+        ? new Date(property.scheduled_date).toLocaleString('en-US', {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: true
+        })
+        : "N/A",
+      property?.visit_type || "N/A",
+    ]);
+
+    // Generate table
+    autoTable(doc, {
+      head: [["Title", "Visitor Email / Phone", "Visitor Name", "Visit Date", "Visit Type"]],
+      body: tableBody,
+      columnStyles: {
+        0: { cellWidth: 30 },
+        1: { cellWidth: 50 },
+        2: { cellWidth: 20 },
+        4: { cellWidth: 30 },
+        4: { cellWidth: 30 },
+      },
+      styles: { fontSize: 10, cellPadding: 5 },
+      didDrawCell: (data) => {
+        if (data.column.index === 3 && propertiesVisits[data.row.index]?.users?.image) {
+          const imgUrl = propertiesVisits[data.row.index].users.image;
+          const x = data.cell.x + 5;
+          const y = data.cell.y + 3;
+          const width = 20;
+          const height = 20;
+          doc.addImage(imgUrl, "JPEG", x, y, width, height);
+        }
+      },
+    });
+
+    doc.save("property_visit_rejected.pdf");
+  };
+
 
   return (
     <>
@@ -248,16 +251,16 @@ export default function MyProperty() {
             <div className="wrap-dashboard-content">
 
               <div className="widget-box-2 wd-listing">
-              <div className="top d-flex align-items-center" style={{marginBottom: "20px"}}>
-                      <Link href="/visit-schedule">
-                        <button className="tf-btn secondary" style={{ marginRight: "20px" }}>Scheduled Visits</button>
-                      </Link>
-                      <Link href="/creator-pending-visit">
-                        <button className="tf-btn secondary" style={{ marginRight: "20px" }}>Pending Visits</button>
-                      </Link>
-                      <div>
-                        <button className="tf-btn primary">Rejected Visits</button>
-                      </div>
+                <div className="top d-flex align-items-center" style={{ marginBottom: "20px" }}>
+                   <div className="tf-btn secondary" style={{ marginRight: "20px" }} onClick={() => router.push('/visit-schedule')}>
+                    Scheduled Visits
+                  </div>
+                  <div className="tf-btn secondary" style={{ marginRight: "20px"}} onClick={() => router.push('/creator-pending-visit')}>
+                    Pending Visits
+                  </div>
+                  <div>
+                    <button className="tf-btn primary">Rejected Visits</button>
+                  </div>
                 </div>
                 <div className="top d-flex justify-content-between align-items-center">
                   <h6 className="title">Property Pending visit Scheduled Listing</h6>
@@ -271,130 +274,131 @@ export default function MyProperty() {
 
                 <div className="top d-flex justify-content-between align-items-center mt-3">
 
-                    <div style={{ display: "flex", flexDirection: "column", flex: 1, marginRight: "40px" }}>
-                      <label htmlFor="start-date" style={{ marginBottom: "5px", fontWeight: "bold" }}>Start Date</label>
-                      <input
-                        type="date"
-                        id="start-date"
-                        ref={startDateRef}
-                        value={startDate}
-                        onChange={(e) => setStartDate(e.target.value)}
-                        onClick={() => startDateRef.current.showPicker()}
-                        style={{ padding: "5px", cursor: "pointer", width: "100%" }}
-                      />
-                    </div>
-
-                  {/* End Date */}
-                    <div style={{ display: "flex", flexDirection: "column", flex: 1, marginRight: "40px" }}>
-                      <label htmlFor="end-date" style={{ marginBottom: "5px", fontWeight: "bold" }}>End Date</label>
-                      <input
-                        type="date"
-                        id="end-date"
-                        ref={endDateRef}
-                        value={endDate}
-                        onChange={(e) => setEndDate(e.target.value)}
-                        onClick={() => endDateRef.current.showPicker()}
-                        style={{ padding: "5px", cursor: "pointer", width: "100%" }}
-                      />
-                    </div>
-
-                  {/* Button */}
-                    <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
-                      <label style={{ visibility: "hidden", marginBottom: "5px" }}>Filter</label>
-                      <button 
-                        onClick={() => fetchData()} 
-                        className="tf-btn primary" 
-                        style={{ width: "100%" }}
-                      >
-                        Filter Date Range
-                      </button>
-                    </div>
+                  <div style={{ display: "flex", flexDirection: "column", flex: 1, marginRight: "40px" }}>
+                    <label htmlFor="start-date" style={{ marginBottom: "5px", fontWeight: "bold" }}>Start Date</label>
+                    <input
+                      type="date"
+                      id="start-date"
+                      ref={startDateRef}
+                      value={startDate}
+                      onChange={(e) => setStartDate(e.target.value)}
+                      onClick={() => startDateRef.current.showPicker()}
+                      style={{ padding: "5px", cursor: "pointer", width: "100%" }}
+                    />
                   </div>
 
-                  {(propertiesVisits.length > 0)?
-                    <>
-                      <div className="wrap-table">
-                        <div className="table-responsive">
-                          <table>
-                            <thead>
-                              <tr>
-                                <th>Property Title</th>
-                                <th>Visitor Name</th>
-                                <th>Visitor Email / Phone</th>
-                                <th>Visit Date</th>
-                                <th>Visit Type</th>
-                                <th>Status</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {propertiesVisits.map(user => (
-                                <tr key={user.id} className="file-delete">
-                                  <td>{user.property.lang_translations.en_string}</td>
-                                  <td>{user.users.full_name}</td>
-                                  <td>
-                                    <span>{user.users.email_address} <br/>{user.users.mobile_number}</span>
-                                    </td>
-                                  <td>{new Date(user.scheduled_date).toLocaleString('en-US', { 
-                                        year: 'numeric', 
-                                        month: '2-digit', 
-                                        day: '2-digit', 
-                                        hour: '2-digit', 
-                                        minute: '2-digit', 
-                                        second: '2-digit', 
-                                        hour12: true 
-                                        })}</td>
-                                  <td>{user.visit_type}</td>
-                                  <td style={{paddingLeft:"20px"}}>
-                                    <div className="status-wrap" style={{display:"flex", justifyContent:"space-between", width:"130px"}}>
-                                        <Link href="#" className="btn-status"  style={{backgroundColor:"red"}} >
-                                            Rejected
-                                        </Link>
-                                    </div>
-                                  </td>
-                                </tr>
-                              ))}
-                            </tbody>
-                          </table>
-                        </div>
-                        <ul className="wd-navigation">
-                          {[...Array(Math.ceil(propertiesVisits.length / itemsPerPage))].map((_, index) => (
-                            <li key={index}>
-                              <Link
-                                href="#"
-                                className={`nav-item ${currentPage === index + 1 ? 'active' : ''}`}
-                                onClick={() => setCurrentPage(index + 1)}
-                              >
-                                {index + 1}
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
+                  {/* End Date */}
+                  <div style={{ display: "flex", flexDirection: "column", flex: 1, marginRight: "40px" }}>
+                    <label htmlFor="end-date" style={{ marginBottom: "5px", fontWeight: "bold" }}>End Date</label>
+                    <input
+                      type="date"
+                      id="end-date"
+                      ref={endDateRef}
+                      value={endDate}
+                      onChange={(e) => setEndDate(e.target.value)}
+                      onClick={() => endDateRef.current.showPicker()}
+                      style={{ padding: "5px", cursor: "pointer", width: "100%" }}
+                    />
+                  </div>
 
-                      </div>
-                    </>:<>
-                      <div className="wrap-table">
-                        <div className="table-responsive">
-                          <table>
-                            <thead>
-                              <tr>
-                                <th>Image</th>
-                                <th>Name</th>
-                                <th>Email Address / Phone Number</th>
-                                <th>Date Published</th>
-                                <th>Status</th>
-                                <th>Action</th>
+                  {/* Button */}
+                  <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
+                    <label style={{ visibility: "hidden", marginBottom: "5px" }}>Filter</label>
+                    <button
+                      onClick={() => fetchData()}
+                      className="tf-btn primary"
+                      style={{ width: "100%" }}
+                    >
+                      Filter Date Range
+                    </button>
+                  </div>
+                </div>
+
+                {(propertiesVisits.length > 0) ?
+                  <>
+                    <div className="wrap-table">
+                      <div className="table-responsive">
+                        <table>
+                          <thead>
+                            <tr>
+                              <th>Property Title</th>
+                              <th>Visitor Name</th>
+                              <th>Visitor Email / Phone</th>
+                              <th>Visit Date</th>
+                              <th>Visit Type</th>
+                              <th>Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {propertiesVisits.map(user => (
+                              <tr key={user.id} className="file-delete">
+                                <td>{user.property.lang_translations.en_string}</td>
+                                <td>{user.users.full_name}</td>
+                                <td>
+                                  <span>{user.users.email_address} <br />{user.users.mobile_number}</span>
+                                </td>
+                                <td>{new Date(user.scheduled_date).toLocaleString('en-US', {
+                                  year: 'numeric',
+                                  month: '2-digit',
+                                  day: '2-digit',
+                                  hour: '2-digit',
+                                  minute: '2-digit',
+                                  second: '2-digit',
+                                  hour12: true
+                                })}</td>
+                                <td>{user.visit_type}</td>
+                                <td style={{ paddingLeft: "20px" }}>
+                                  <div className="status-wrap custom-link" style={{ display: "flex", justifyContent: "space-between", width: "130px" }}>
+                                    <span className="btn-status" style={{ backgroundColor: "red" }}>
+                                      Rejected
+                                    </span>
+
+                                  </div>
+                                </td>
                               </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td>No Record Found</td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
+                            ))}
+                          </tbody>
+                        </table>
                       </div>
-                    </>
-                  }
+                      <ul className="wd-navigation">
+                        {[...Array(Math.ceil(propertiesVisits.length / itemsPerPage))].map((_, index) => (
+                          <li key={index}>
+                            <div
+                              className={`nav-item ${pagination.currentPage === index + 1 ? 'active' : ''}`} href="#"
+                              onClick={() => setCurrentPage(index + 1)}
+                              style={{ cursor: 'pointer' }}
+                            >
+                              {index + 1}
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+
+                    </div>
+                  </> : <>
+                    <div className="wrap-table">
+                      <div className="table-responsive">
+                        <table>
+                          <thead>
+                            <tr>
+                              <th>Image</th>
+                              <th>Name</th>
+                              <th>Email Address / Phone Number</th>
+                              <th>Date Published</th>
+                              <th>Status</th>
+                              <th>Action</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>No Record Found</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </>
+                }
               </div>
             </div>
           </LayoutAdmin>

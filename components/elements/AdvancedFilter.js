@@ -125,7 +125,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 
 
 	const handleCitySelect = (cityId, cityName, slug) => {
-		// console.log(cityName);
+		// // console.log(cityName);
 		setFormData(() => ({
 			...formData,
 			city_name: cityName,
@@ -193,7 +193,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 	};
 
 	const fetchPropertys = async (page = 1, updatedFilters = {}) => {
-		// console.log("hit fetchPropertys");
+		// // console.log("hit fetchPropertys");
 		try {
 			const lang = i18n.language;
 			const requestData = {
@@ -202,9 +202,9 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 				limit: pagination.itemsPerPage,
 				transaction: transaction
 			};
-			// console.log(requestData,";;;;;;;;;;;;;;;;;;;;")
+			// // console.log(requestData,";;;;;;;;;;;;;;;;;;;;")
 			const response = await getData("api/property", requestData, true);
-			// console.log('response: ', response);
+			// // console.log('response: ', response);
 			if (response.status) {
 				const { list, totalCount, totalPages, currentPage, property_meta_details, maxPriceSliderRange, property_types, cities, maxSizeSliderRange, developers } = response.data;
 				setPropertys(list);
@@ -217,7 +217,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 				setAmenities(property_meta_details);
 				setDevelopers(developers);
 				setpropertyType(property_types);
-				// console.log(property_types,"property_types")
+				// // console.log(property_types,"property_types")
 				if (initialMaxPrice !== maxPriceSliderRange) {
 					setInitialMaxPrice(maxPriceSliderRange);
 					setPriceRange([0, maxPriceSliderRange]);
@@ -282,7 +282,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 			};
 			const response = await getData("api/city/getallcitydistrictneighborhoods", requestData, true);
 			setCityOptions(response.data.list);
-			//console.log(cityOptions, '>>>>>>>>>>>>>>>> cityOptions')
+			//// console.log(cityOptions, '>>>>>>>>>>>>>>>> cityOptions')
 		} catch (error) {
 			console.error("Error fetching cities:", error);
 		}
@@ -360,8 +360,8 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 			setAmenities(property_meta_details);
 			setDevelopers(developers);
 			setpropertyType(property_types);
-			// console.log(property_types,"property_types")
-			// console.log(maxPriceSliderRange,"maxPriceSliderRange")
+			// // console.log(property_types,"property_types")
+			// // console.log(maxPriceSliderRange,"maxPriceSliderRange")
 			if (maxPriceSliderRange !== null) {
 				setInitialMaxPrice(maxPriceSliderRange);
 				setPriceRange([0, maxPriceSliderRange]);
@@ -420,14 +420,14 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 			...formData,
 			transaction: transactionData,
 		};
-		console.log(updatedFormData, '>>>>>>>>>>>>>> updatedFormData')
+		// console.log(updatedFormData, '>>>>>>>>>>>>>> updatedFormData')
 		// Create queryData from the updatedFormData
 		const queryData = { ...updatedFormData };
 		queryData.amenities_id_object_with_value = JSON.stringify(updatedFormData.amenities_id_object_with_value);
-		console.log(queryData,)
+		// console.log(queryData,)
 		// Generate the query string
 		const queryString = new URLSearchParams(queryData).toString();
-		// console.log('queryString: ', queryString);
+		// // console.log('queryString: ', queryString);
 		sessionStorage.setItem('filterStatus', true);
 		// Update the URL
 		// window.location.href = `/property?${queryString}`;
@@ -442,8 +442,8 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
     };
 
 	const handleClearAll = () =>{
-		console.log(defaultData,"defaultData.maxSize")
-		console.log(maxsizeVal,"maxsizeVal")
+		// console.log(defaultData,"defaultData.maxSize")
+		// console.log(maxsizeVal,"maxsizeVal")
 		setSearchCity("")
 		setPriceRange([0, maxPriceVal])
 		setSizeRange([0, maxsizeVal])
@@ -464,7 +464,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 		defaultData.amenities_id_object_with_value = "{}";
 		defaultData.transaction = transactionData;
 		defaultData.maxSize = maxsizeVal;
-		console.log(defaultData," >>>>>>>>>>>>>>>> defaultData");
+		// console.log(defaultData," >>>>>>>>>>>>>>>> defaultData");
 		localStorage.setItem('propertyFilterData', JSON.stringify(defaultData));
 	}
 
@@ -572,7 +572,7 @@ export default function AdvancedFilter({ sidecls, propertiesData }) {
 										<div className="widget-price">
 											<label className="title-select" style={{ marginBottom: "0px" }}>{t("price")}</label>
 											<div className="group-form">
-												{/* { // console.log(priceRange, ' >>>>>> priceRange')} */}
+												{/* { // // console.log(priceRange, ' >>>>>> priceRange')} */}
 												<ReactSlider
 													ariaLabelledby="slider-label"
 													className="horizontal-slider st2"

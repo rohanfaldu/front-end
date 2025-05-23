@@ -7,6 +7,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { insertData, insertImageData } from "../../components/api/Axios/Helper";
 import Preloader from "@/components/elements/Preloader";
 import variablesList from "@/components/common/Variable";
+import { navigateTo } from '@/components/common/Functions';
 
 export default function Blog() {
 	const [loading, setLoading] = useState(true);
@@ -18,14 +19,14 @@ export default function Blog() {
 		currentPage: variablesList.currentPage,
 		itemsPerPage: variablesList.itemsPerPage,
 	});
-	// Fetch data on component mount
+	const router = useRouter();
 
 	const fetchBlogDetails = async (page) => {
 		try {
 			setLoading(true);
 			const lang = i18n.language;
 			const response = await insertData(`api/blog/getall`, { page, lang, limit: pagination.itemsPerPage }, false);
-	
+
 			if (response.status) {
 				const { totalCount, totalPages, blogs } = response.data; // REMOVE currentPage here
 				setBlogDetails(blogs);
@@ -44,7 +45,7 @@ export default function Blog() {
 			setLoading(false);
 		}
 	};
-	
+
 	useEffect(() => {
 		if (i18n.isInitialized) {
 			fetchBlogDetails(pagination.currentPage);
@@ -54,8 +55,6 @@ export default function Blog() {
 	const handlePageChange = (page) => {
 		console.log(page, '>>>>>> page');
 		setPagination((prev) => ({ ...prev, currentPage: page }));
-		//fetchBlogDetails(page);
-		// handleSubmit(page)
 	};
 
 	const formatDate = (dateString) => {
@@ -86,73 +85,37 @@ export default function Blog() {
 											{
 												blogDetails.map((blogData) => (
 													<div className="box col-lg-4 col-md-6">
-														<Link href={`/blog/${blogData.slug}`} className="flat-blog-item hover-img wow fadeIn" data-wow-delay=".2s" data-wow-duration="2000ms">
+														<div className="flat-blog-item hover-img wow fadeIn custom-link" data-wow-delay=".2s" data-wow-duration="2000ms"
+															onClick={() => navigateTo(router, `/blog/${blogData.slug}`)}>
 															<div className="img-style">
 																<img src={blogData.image} alt="img-blog" className="blog-listing-img" />
 																<span className="date-post">{formatDate(blogData.created_at)}</span>
 															</div>
 															<div className="content-box">
 																<div className="post-author">
-																	{/* <span className="fw-6">{t("esther")}</span> */}
-																	{/* <span>{t("furniture")}</span> */}
 																</div>
 																<h6 className="title">{blogData.title}</h6>
-																{/* <p className="description">{t("decs")}</p> */}
 															</div>
-														</Link>
+														</div>
 													</div>
 												))
 											}
-
-											{/* <div className="box col-lg-4 col-md-6">
-												<Link href="/blog-detail" className="flat-blog-item hover-img wow fadeIn" data-wow-delay=".4s" data-wow-duration="2000ms">
-													<div className="img-style">
-														<img src="/images/blog/blog-2.jpg" alt="img-blog" />
-														<span className="date-post">{t("date1")}</span>
-													</div>
-													<div className="content-box">
-														<div className="post-author">
-															<span className="fw-6">{t("angle")}</span>
-															<span>{t("interior")}</span>
-														</div>
-														<h6 className="title">{t("maindecs1")}</h6>
-														<p className="description">{t("decs1")}</p>
-													</div>
-												</Link>
-											</div>
-											<div className="box col-lg-4 col-md-6">
-												<Link href="/blog-detail" className="flat-blog-item hover-img wow fadeIn" data-wow-delay=".6s" data-wow-duration="2000ms">
-													<div className="img-style">
-														<img src="/images/blog/blog-3.jpg" alt="img-blog" />
-														<span className="date-post">{t("date2")}</span>
-													</div>
-													<div className="content-box">
-														<div className="post-author">
-															<span className="fw-6">{t("colleen")}</span>
-															<span>{t("Architectur")}</span>
-														</div>
-														<h6 className="title">{t("maindecs2")}</h6>
-														<p className="description">{t("decs1")}</p>
-													</div>
-												</Link>
-											</div> */}
 										</div>
-										{pagination.totalCount > pagination.itemsPerPage && (
-											<ul className="wd-navigation">
-												{console.log(pagination.totalPages)}
-												{Array.from({ length: pagination.totalPages }, (_, index) => (
-													<li key={index}>
-														<Link
-															href="#" data-id={index}
-															className={`nav-item ${pagination.currentPage === index + 1 ? 'active' : ''}`}
-															onClick={() => handlePageChange(index + 1)}
-														>
-															{index + 1}
-														</Link>
-													</li>
-												))}
-											</ul>
-										)}
+										{
+											pagination.totalCount > pagination.itemsPerPage && (
+												<ul className="wd-navigation">
+													{console.log(pagination.totalPages)}
+													{Array.from({ length: pagination.totalPages }, (_, index) => (
+														<li key={index}>
+															<div className={`nav-item ${pagination.currentPage === index + 1 ? 'active' : ''}`} onClick={() => handlePageChange(index + 1)} href="#"
+																style={{ cursor: 'pointer' }} data-id={index}>
+																{index + 1}
+															</div>
+														</li>
+													))}
+												</ul>
+											)
+										}
 									</div>
 								</section>
 							</Layout>

@@ -11,7 +11,7 @@ import ExcelJS from "exceljs";
 import { saveAs } from "file-saver";
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import { useRef } from "react"; 
+import { useRef } from "react";
 export default function PropertyViewedListing({ params }) {
   const { id } = params;
   const [properties, setProperties] = useState([]);
@@ -38,7 +38,7 @@ export default function PropertyViewedListing({ params }) {
   const fetchProperties = async (page = 1, id) => {
     setLoading(true);
     try {
-      
+
       const requestData = {
         page,
         limit: pagination.itemsPerPage,
@@ -72,19 +72,19 @@ export default function PropertyViewedListing({ params }) {
   const exportToExcel = async () => {
     try {
       // console.log("Exporting to Excel...");
-  
+
       if (!properties || properties.length === 0) {
         alert("No data to export");
         return;
       }
-  
+
       // Ensure properties data exists
       // console.log("Properties:", properties);
-  
+
       // Create a new workbook instance
       const workbook = new ExcelJS.Workbook();
       const worksheet = workbook.addWorksheet("Property Comments");
-  
+
       // Define columns
       worksheet.columns = [
         { header: "Name", key: "name", width: 20 },
@@ -93,10 +93,10 @@ export default function PropertyViewedListing({ params }) {
         { header: "Comment", key: "comment", width: 30 },
         { header: "Rating", key: "rating", width: 10 },
       ];
-  
+
       // Apply bold font to the header row
       worksheet.getRow(1).font = { bold: true };
-  
+
       // Add data to worksheet
       properties.forEach((p) => {
         worksheet.addRow({
@@ -107,7 +107,7 @@ export default function PropertyViewedListing({ params }) {
           rating: p?.rating?.toString() || "N/A",
         });
       });
-  
+
       // Apply border to all cells
       worksheet.eachRow((row) => {
         row.eachCell((cell) => {
@@ -120,11 +120,11 @@ export default function PropertyViewedListing({ params }) {
           };
         });
       });
-  
+
       // Write to buffer and save the file
       const buffer = await workbook.xlsx.writeBuffer();
       saveAs(new Blob([buffer]), "property_comment_engagements.xlsx");
-  
+
       // console.log("Excel file exported successfully!");
     } catch (error) {
       console.error("Excel export error:", error);
@@ -137,18 +137,18 @@ export default function PropertyViewedListing({ params }) {
       alert("No data to export");
       return;
     }
-  
+
     const doc = new jsPDF();
-  
+
     // Add Watermark (Faded Text)
     // const pageWidth = doc.internal.pageSize.getWidth();
     // const pageHeight = doc.internal.pageSize.getHeight();
-  
+
     // // Apply watermark in the center
     // doc.setTextColor(200, 200, 200); // Light gray color
     // doc.setFontSize(50);
     // doc.text("Immofind", pageWidth / 2, pageHeight / 2, { align: "center", angle: 45 });
-  
+
     autoTable(doc, {
       head: [["Name", "Email", "Mobile", "Comment", "Rating"]],
       body: properties.map((property) => [
@@ -159,11 +159,11 @@ export default function PropertyViewedListing({ params }) {
         property?.rating || "N/A",
       ]),
     });
-  
+
     doc.save("property_comment_engagements.pdf");
   };
-  
-  
+
+
   return (
     <>
       {loading ? (
@@ -177,51 +177,51 @@ export default function PropertyViewedListing({ params }) {
                 <div className="top d-flex justify-content-between align-items-center">
                   <h6 className="title">Selected Property Comment Engagements</h6>
                   <div>
-                    <button onClick={exportToExcel} className="tf-btn primary" style={{marginRight: "20px"}}>Export Excel</button>
+                    <button onClick={exportToExcel} className="tf-btn primary" style={{ marginRight: "20px" }}>Export Excel</button>
                     <button onClick={exportToPDF} className="tf-btn secondary">Export PDF</button>
                   </div>
                 </div>
                 <div className="top d-flex justify-content-between align-items-center mt-3">
 
-                <div style={{ display: "flex", flexDirection: "column", flex: 1, marginRight: "40px" }}>
-                  <label htmlFor="start-date" style={{ marginBottom: "5px", fontWeight: "bold" }}>Start Date</label>
-                  <input
-                    type="date"
-                    id="start-date"
-                    ref={startDateRef}
-                    value={startDate}
-                    onChange={(e) => setStartDate(e.target.value)}
-                    onClick={() => startDateRef.current.showPicker()}
-                    style={{ padding: "5px", cursor: "pointer", width: "100%" }}
-                  />
-                </div>
+                  <div style={{ display: "flex", flexDirection: "column", flex: 1, marginRight: "40px" }}>
+                    <label htmlFor="start-date" style={{ marginBottom: "5px", fontWeight: "bold" }}>Start Date</label>
+                    <input
+                      type="date"
+                      id="start-date"
+                      ref={startDateRef}
+                      value={startDate}
+                      onChange={(e) => setStartDate(e.target.value)}
+                      onClick={() => startDateRef.current.showPicker()}
+                      style={{ padding: "5px", cursor: "pointer", width: "100%" }}
+                    />
+                  </div>
 
-                {/* End Date */}
-                <div style={{ display: "flex", flexDirection: "column", flex: 1, marginRight: "40px" }}>
-                  <label htmlFor="end-date" style={{ marginBottom: "5px", fontWeight: "bold" }}>End Date</label>
-                  <input
-                    type="date"
-                    id="end-date"
-                    ref={endDateRef}
-                    value={endDate}
-                    onChange={(e) => setEndDate(e.target.value)}
-                    onClick={() => endDateRef.current.showPicker()}
-                    style={{ padding: "5px", cursor: "pointer", width: "100%" }}
-                  />
-                </div>
+                  {/* End Date */}
+                  <div style={{ display: "flex", flexDirection: "column", flex: 1, marginRight: "40px" }}>
+                    <label htmlFor="end-date" style={{ marginBottom: "5px", fontWeight: "bold" }}>End Date</label>
+                    <input
+                      type="date"
+                      id="end-date"
+                      ref={endDateRef}
+                      value={endDate}
+                      onChange={(e) => setEndDate(e.target.value)}
+                      onClick={() => endDateRef.current.showPicker()}
+                      style={{ padding: "5px", cursor: "pointer", width: "100%" }}
+                    />
+                  </div>
 
-                {/* Button */}
-                <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
-                  <label style={{ visibility: "hidden", marginBottom: "5px" }}>Filter</label>
-                  <button 
-                    onClick={() => fetchProperties(1, id)} 
-                    className="tf-btn primary" 
-                    style={{ width: "100%" }}
-                  >
-                    Filter Date Range
-                  </button>
+                  {/* Button */}
+                  <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
+                    <label style={{ visibility: "hidden", marginBottom: "5px" }}>Filter</label>
+                    <button
+                      onClick={() => fetchProperties(1, id)}
+                      className="tf-btn primary"
+                      style={{ width: "100%" }}
+                    >
+                      Filter Date Range
+                    </button>
+                  </div>
                 </div>
-              </div>
 
                 {properties?.length > 0 ? (
                   <div className="wrap-table">
@@ -254,16 +254,16 @@ export default function PropertyViewedListing({ params }) {
                     <ul className="wd-navigation">
                       {Array.from({ length: pagination.totalPages }, (_, index) => (
                         <li key={index}>
-                          <Link
-                            href="#"
+                          <div
                             className={`nav-item ${pagination.currentPage === index + 1 ? 'active' : ''}`}
-                            onClick={(e) => {
+                             onClick={(e) => {
                               e.preventDefault();
                               handlePageChange(index + 1);
                             }}
+                            style={{ cursor: 'pointer' }}
                           >
                             {index + 1}
-                          </Link>
+                          </div>
                         </li>
                       ))}
                     </ul>

@@ -14,6 +14,7 @@ import Preloader from "@/components/elements/Preloader";
 import variablesList from "@/components/common/Variable";
 import debounce from "lodash.debounce";
 import { useRouter } from 'next/navigation';
+import { navigateTo } from '@/components/common/Functions';
 
 export default function AgencyListing() {
 	const [isToggled, setToggled] = useState(false)
@@ -209,7 +210,6 @@ export default function AgencyListing() {
 								<div className="tab-content">
 									<div className="tab-pane fade active show" role="tabpanel">
 										<div className="form-sl">
-											{/* <form method="post" onSubmit={(e) => { e.preventDefault(); applyFilters(); }}> */}
 											<form method="post" onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
 												<div className="wd-filter-select">
 													<div className="inner-group inner-filter">
@@ -254,10 +254,6 @@ export default function AgencyListing() {
 																)
 															)}
 														</div>
-
-														{/* <div className="form-btn-fixed">
-														<button className="tf-btn primary" href="#">{t("findagency")}</button>
-													</div> */}
 													</div>
 													<div className="form-btn-fixed d-flex" >
 														<button
@@ -303,22 +299,9 @@ export default function AgencyListing() {
 															/>
 														</div>
 														<div className="top">
-
-															{/* <ul className="d-flex gap-4">
-																<li className="box-icon w-32">
-																	<span className="icon icon-arrLeftRight" />
-																</li>
-																<li className="box-icon w-32">
-																	<span className="icon icon-heart" />
-																</li>
-																<li className="box-icon w-32">
-																	<span className="icon icon-eye" />
-																</li>
-															</ul> */}
 														</div>
 														<div className="bottom">
 															<span className="flag-tag style-2">
-																{/* {agencyUserData.meta_details?.propertyType || 'Studio'} */}
 															</span>
 														</div>
 													</div>
@@ -368,38 +351,8 @@ export default function AgencyListing() {
 																) : ''}
 															</ul>
 														</div>
-														{/* <ul className="meta-list">
-															<li className="item">
-																<i className="icon icon-bed" />
-																<span>{agencyUserData.meta_details?.bedrooms || 0}</span>
-															</li>
-															<li className="item">
-																<i className="icon icon-bathtub" />
-																<span>{agencyUserData.meta_details?.bathrooms || 0}</span>
-															</li>
-															<li className="item">
-																<i className="icon icon-ruler" />
-																<span>
-																	{agencyUserData.meta_details?.size || '0'} SqFT
-																</span>
-															</li>
-														</ul> */}
 													</div>
 												</div>
-												{/* <div className="archive-bottom d-flex justify-content-between align-items-center">
-													<div className="d-flex gap-8 align-items-center">
-														<div className="avatar avt-40 round">
-															<img
-																src={agencyUserData.user_image || '/images/avatar/user-image.png'}
-																alt={agencyUserData.agent?.name || 'Agent'}
-															/>
-														</div>
-														<span>{agencyUserData.user_name || 'Unknown Agent'}</span>
-													</div>
-													<div className="d-flex align-items-center">
-														<h6>{t('from')} {agencyUserData.price || '0.00'} {agencyUserData.currency || 'USD'} </h6>
-													</div>
-												</div> */}
 											</div>
 										</div>
 									))}
@@ -410,13 +363,10 @@ export default function AgencyListing() {
 							<ul className="wd-navigation">
 								{Array.from({ length: pagination.totalPages }, (_, index) => (
 									<li key={index}>
-										<Link
-											href="#"
-											className={`nav-item ${pagination.currentPage === index + 1 ? 'active' : ''}`}
-											onClick={() => handlePageChange(index + 1)}
-										>
+										<div className={`nav-item ${pagination.currentPage === index + 1 ? 'active' : ''}`} onClick={() => handlePageChange(index + 1)} href="#"
+											style={{ cursor: 'pointer' }}>
 											{index + 1}
-										</Link>
+										</div>
 									</li>
 								))}
 							</ul>

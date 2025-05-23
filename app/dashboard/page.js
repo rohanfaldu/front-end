@@ -19,25 +19,30 @@ import LeadChart from "@/components/elements/LeadChart"
 import CallChart from "@/components/elements/CallChart"
 import MessageChart from "@/components/elements/MessageChart"
 import ContactChart from "@/components/elements/ContactChat"
+import { navigateTo } from '@/components/common/Functions';
+import { useRouter } from 'next/navigation';
+
+
 export default function Dashboard() {
 	const [startDate, setStartDate] = useState(new Date())
 	const [endDate, setEndDate] = useState(new Date())
 	const [loading, setLoading] = useState(true);
 	const [dashboardData, setDashboardData] = useState([]);
 	const [userType, setUserType] = useState('')
+	const router = useRouter();
 
 	useEffect(() => {
-        const fetchData = async () => {
+		const fetchData = async () => {
 			try {
-				if(dashboardData.length === 0){
+				if (dashboardData.length === 0) {
 					const geDashboardInfo = await insertData('api/dashboard/list', {}, true);
 					setDashboardData(geDashboardInfo);
 					setLoading(false);
 				}
-				if( localStorage.getItem('isLoggedIn') ){
-                    const userDetail = JSON.parse(localStorage.getItem('user'));
+				if (localStorage.getItem('isLoggedIn')) {
+					const userDetail = JSON.parse(localStorage.getItem('user'));
 					setUserType(userDetail.roles.name);
-                }
+				}
 			} catch (error) {
 				console.error('Error fetching data:', error);
 			}
@@ -50,30 +55,30 @@ export default function Dashboard() {
 			{
 				loading ? (
 					<Preloader />
-			  	) : (
+				) : (
 					<>
 						<DeleteFile />
 						<LayoutAdmin>
-							{userType !== "user"? 
+							{userType !== "user" ?
 								<>
 									<div>
 										<div className="flat-counter-v2 tf-counter">
-										{userType == "developer"? 
-											<div className="counter-box">
-												<div className="box-icon w-68 round">
-													<span className="icon icon-clock-countdown" />
-												</div>
-												<Link href={`/project-listing`} className="item">
-													<div className="content-box">
-														<div className="title-count">Total Projecs</div>
-														<div className="d-flex align-items-end">
-															<h6 className="number" data-speed={2000} data-to={dashboardData?.data?.project_count}><CountetNumber count={dashboardData?.data?.project_count} /></h6>
+											{userType == "developer" ?
+												<div className="item custom-link" onClick={() => router.push('/project-listing')}>
+													<div className="counter-box">
+														<div className="box-icon w-68 round">
+															<span className="icon icon-clock-countdown" />
+														</div>
+														<div className="content-box">
+															<div className="title-count">Total Projecs</div>
+															<div className="d-flex align-items-end">
+																<h6 className="number" data-speed={2000} data-to={dashboardData?.data?.project_count}><CountetNumber count={dashboardData?.data?.project_count} /></h6>
+															</div>
 														</div>
 													</div>
-												</Link>
-											</div>
-											: ''}
-											<Link href={`/property-listing`} className="item">
+												</div>
+												: ''}
+											<div className="item custom-link" onClick={() => router.push('/property-listing')}>
 												<div className="counter-box">
 													<div className="box-icon w-68 round">
 														<span className="icon icon-bookmark" />
@@ -85,9 +90,9 @@ export default function Dashboard() {
 														</div>
 													</div>
 												</div>
-											</Link>
-											<Link href={`/property-listing/like`} className="item">
-												<div className="counter-box" style={{cursor: 'pointer'}}>
+											</div>
+											<div className="item custom-link" onClick={() => router.push('/property-listing/like')}>
+												<div className="counter-box" style={{ cursor: 'pointer' }}>
 													<div className="box-icon w-68 round">
 														<span className="icon icon-bookmark" />
 													</div>
@@ -98,9 +103,9 @@ export default function Dashboard() {
 														</div>
 													</div>
 												</div>
-											</Link>
-											<Link href={`/property-listing/view`} className="item">
-												<div className="counter-box" style={{cursor: 'pointer'}}>
+											</div>
+											<div className="item custom-link" onClick={() => router.push('/property-listing/view')}>
+												<div className="counter-box" style={{ cursor: 'pointer' }}>
 													<div className="box-icon w-68 round">
 														<span className="icon icon-bookmark" />
 													</div>
@@ -111,116 +116,117 @@ export default function Dashboard() {
 														</div>
 													</div>
 												</div>
-											</Link>
-											<Link href={`/property-listing/comment`} className="item">
-												<div className="counter-box" style={{cursor: 'pointer'}}>
-													<div className="box-icon w-68 round">
-														<span className="icon icon-bookmark" />
-													</div>
-													<div className="content-box">
-														<div className="title-count">Total Properties Comments</div>
-														<div className="d-flex align-items-end">
-															<h6 className="number" data-speed={2000} data-to={dashboardData?.data?.property_comment_count}><CountetNumber count={dashboardData?.data?.property_comment_count} /></h6>
-														</div>
-													</div>
+											</div>
+											<div className="item custom-link" onClick={() => router.push('/property-listing/comment')}>
+											<div className="counter-box" style={{ cursor: 'pointer' }}>
+												<div className="box-icon w-68 round">
+													<span className="icon icon-bookmark" />
 												</div>
-											</Link>
-										</div>
-
-										<div className="wrapper-content row">
-											<div className="col-xl-12">
-												
-												<div className="widget-box-2 wd-chart">
-													<h6 className="title">Property Likes Engagement</h6>
-													
-													<div className="chart-box">
-														<LikeChart />
+												<div className="content-box">
+													<div className="title-count">Total Properties Comments</div>
+													<div className="d-flex align-items-end">
+														<h6 className="number" data-speed={2000} data-to={dashboardData?.data?.property_comment_count}><CountetNumber count={dashboardData?.data?.property_comment_count} /></h6>
 													</div>
 												</div>
 											</div>
 										</div>
-										<div className="wrapper-content row" style={{marginTop: '20px'}}>
-											<div className="col-xl-12">
-												
-												<div className="widget-box-2 wd-chart">
-													<h6 className="title">Lead to Visit Conversion Rate</h6>
-													
-													<div className="chart-box">
-														<LeadChart />
-													</div>
-												</div>
-											</div>
-										</div>
-										<div className="wrapper-content row" style={{marginTop: '20px'}}>
-											<div className="col-xl-12">
-												
-												<div className="widget-box-2 wd-chart">
-													<h6 className="title">Property Comments Engagement</h6>
-													
-													<div className="chart-box">
-														<CommentChart />
-													</div>
-												</div>
-											</div>
-										</div>
-										<div className="wrapper-content row" style={{marginTop: '20px'}}>
-											<div className="col-xl-12">
-												
-												<div className="widget-box-2 wd-chart">
-													<h6 className="title">Call Conversion Rate</h6>
-													
-													<div className="chart-box">
-														<CallChart />
-													</div>
-												</div>
-											</div>
-										</div>
-										<div className="wrapper-content row" style={{marginTop: '20px'}}>
-											<div className="col-xl-12">
-												
-												<div className="widget-box-2 wd-chart">
-													<h6 className="title">Property Views Engagement</h6>
-													
-													<div className="chart-box">
-														<ViewChart />
-													</div>
-												</div>
-											</div>
-										</div>
-										<div className="wrapper-content row" style={{marginTop: '20px'}}>
-											<div className="col-xl-12">
-												
-												<div className="widget-box-2 wd-chart">
-													<h6 className="title">Message Conversion Rate</h6>
-													
-													<div className="chart-box">
-														<MessageChart />
-													</div>
-												</div>
-											</div>
-										</div>
-										<div className="wrapper-content row" style={{marginTop: '20px'}}>
-											<div className="col-xl-12">
-												
-												<div className="widget-box-2 wd-chart">
-													<h6 className="title">Property Contacts Engagement</h6>
-													
-													<div className="chart-box">
-														<ContactChart />
-													</div>
-												</div>
-											</div>
-										</div>
-
 									</div>
-								</> 
-							: 
-								<></>
+
+									<div className="wrapper-content row">
+										<div className="col-xl-12">
+
+											<div className="widget-box-2 wd-chart">
+												<h6 className="title">Property Likes Engagement</h6>
+
+												<div className="chart-box">
+													<LikeChart />
+												</div>
+											</div>
+										</div>
+									</div>
+									<div className="wrapper-content row" style={{ marginTop: '20px' }}>
+										<div className="col-xl-12">
+
+											<div className="widget-box-2 wd-chart">
+												<h6 className="title">Lead to Visit Conversion Rate</h6>
+
+												<div className="chart-box">
+													<LeadChart />
+												</div>
+											</div>
+										</div>
+									</div>
+									<div className="wrapper-content row" style={{ marginTop: '20px' }}>
+										<div className="col-xl-12">
+
+											<div className="widget-box-2 wd-chart">
+												<h6 className="title">Property Comments Engagement</h6>
+
+												<div className="chart-box">
+													<CommentChart />
+												</div>
+											</div>
+										</div>
+									</div>
+									<div className="wrapper-content row" style={{ marginTop: '20px' }}>
+										<div className="col-xl-12">
+
+											<div className="widget-box-2 wd-chart">
+												<h6 className="title">Call Conversion Rate</h6>
+
+												<div className="chart-box">
+													<CallChart />
+												</div>
+											</div>
+										</div>
+									</div>
+									<div className="wrapper-content row" style={{ marginTop: '20px' }}>
+										<div className="col-xl-12">
+
+											<div className="widget-box-2 wd-chart">
+												<h6 className="title">Property Views Engagement</h6>
+
+												<div className="chart-box">
+													<ViewChart />
+												</div>
+											</div>
+										</div>
+									</div>
+									<div className="wrapper-content row" style={{ marginTop: '20px' }}>
+										<div className="col-xl-12">
+
+											<div className="widget-box-2 wd-chart">
+												<h6 className="title">Message Conversion Rate</h6>
+
+												<div className="chart-box">
+													<MessageChart />
+												</div>
+											</div>
+										</div>
+									</div>
+									<div className="wrapper-content row" style={{ marginTop: '20px' }}>
+										<div className="col-xl-12">
+
+											<div className="widget-box-2 wd-chart">
+												<h6 className="title">Property Contacts Engagement</h6>
+
+												<div className="chart-box">
+													<ContactChart />
+												</div>
+											</div>
+										</div>
+									</div>
+
+								</div>
+						</>
+						:
+						<></>
 							}
-						</LayoutAdmin >
-					</>
-				)
-			}
+					</LayoutAdmin >
+
+		</>
+	)
+}
 		</>
 	)
 }	
