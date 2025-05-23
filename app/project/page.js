@@ -18,6 +18,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import { useRouter } from 'next/navigation';
 import { formatPropertyPrice } from "@/components/common/Functions";
+import { navigateTo } from '@/components/common/Functions';
 
 export default function ProjectHalfmapList() {
 	const [isToggled, setToggled] = useState(false)
@@ -39,6 +40,7 @@ export default function ProjectHalfmapList() {
 	const [searchTermNeighbourhood, setSearchTermNeighbourhood] = useState('');
 	const [searchNeighbourhood, setSearchNeighbourhood] = useState('');
 	const [isSwitch, setIsSwitch] = useState(false);
+	const router = useRouter();
 
 	const [searchCity, setSearchCity] = useState('');
 	const [cityOptions, setCityOptions] = useState([]);
@@ -86,7 +88,6 @@ export default function ProjectHalfmapList() {
 		setLoading(true);
 		try {
 			const lang = i18n.language;
-			// Set the filters to the updated filters, defaulting to empty values if not provided
 			const requestData = {
 				page,
 				lang,
@@ -127,7 +128,6 @@ export default function ProjectHalfmapList() {
 
 
 	const handleSubmit = async (page = pagination.currentPage) => {
-		// // console.log("Filters:", filters);
 		setLoading(true);
 
 		const lang = i18n.language;
@@ -205,7 +205,6 @@ export default function ProjectHalfmapList() {
 	useEffect(() => {
 		handleSubmit(pagination.currentPage);
 		const getSwitch = localStorage.getItem('switchProjectState');
-		// console.log(getSwitch, '>>>>> Switch');
 		if (getSwitch !== null) {
 			const IsSwitch = JSON.parse(getSwitch);
 			setIsSwitch(IsSwitch);
@@ -213,7 +212,6 @@ export default function ProjectHalfmapList() {
 		const checkViewport = () => {
 			const mobileView = (window.innerWidth < 769) ? true : false;
 			setIsMobile((window.innerWidth < 769) ? true : false);
-			//console.log(mobileView, ' >>>>>>>>>>>>>>> isMobile')
 			if (!mobileView) {
 				setSeachAccordion(true);
 				setIsDefaultPropertyViewMobile(false);
@@ -230,7 +228,6 @@ export default function ProjectHalfmapList() {
 
 	const handlePageChange = (page) => {
 		setPagination({ ...pagination, currentPage: page });
-		// handleSubmit(page)
 	};
 
 	const handlePriceChange = (newRange) => {
@@ -325,7 +322,6 @@ export default function ProjectHalfmapList() {
 	}
 
 	const handleCitySelect = (cityId, cityName, slug) => {
-		// // console.log(latitude, longitude);
 		setSearchCity(cityName); // Set the selected city name in the input
 		handleFilterChange({ target: { name: 'city', value: cityId } }); // Call filter change with selected city ID
 	};
@@ -355,10 +351,6 @@ export default function ProjectHalfmapList() {
 		localStorage.setItem('switchProjectState', e.target.checked);
 		setIsSwitch(e.target.checked);
 	}
-	// // console.log(isSwitch, ">>> isSwitch");
-
-	const router = useRouter();
-
 	const handleClick = (slug) => {
 		localStorage.setItem('switchProjectState', JSON.stringify(isSwitch));
 		router.push(`/project/${slug}`);
@@ -376,13 +368,10 @@ export default function ProjectHalfmapList() {
 	const handlePropertyMapview = (e) => {
 		setIsPropertyViewMap(true)
 		setIsPropertyViewMobile(false)
-		//setIsDefaultPropertyViewMobile(false)
 	}
 
-	
 	return (
 		<>
-
 			<Layout headerStyle={1} footerStyle={1}>
 				<section className="wrapper-layout-3 project-sec">
 					{isMobile && (
@@ -413,7 +402,6 @@ export default function ProjectHalfmapList() {
 									<div className="tab-content">
 										<div className="tab-pane fade active show" role="tabpanel">
 											<div className="form-sl">
-												{/* <form method="post" onSubmit={(e) => { e.preventDefault(); applyFilters(); }}> */}
 												<div className="wd-filter-select">
 													<div className="inner-group inner-filter">
 														<div className="form-style">
@@ -440,9 +428,7 @@ export default function ProjectHalfmapList() {
 																onChange={handleInputChange}
 																onFocus={() => {
 																	setIsFocused(true);
-																	// If no search term, we'll still show predefined cities
 																	if (!searchCity || searchCity.length === 0) {
-																		// You can set predefined cities here or use existing cityOptions state
 																		setCityOptions([
 																			{ id: 1, name: "Casablanca", slug: "casablanca" },
 																			{ id: 2, name: "Rabat", slug: "rabat" },
@@ -454,7 +440,6 @@ export default function ProjectHalfmapList() {
 																	}
 																}}
 																onBlur={() => {
-																	// Small delay to allow item selection before hiding dropdown
 																	setTimeout(() => setIsFocused(false), 200);
 																}}
 																placeholder={t("searchCity")}
@@ -479,83 +464,6 @@ export default function ProjectHalfmapList() {
 																)
 															)}
 														</div>
-
-														{/* <div className="form-style">
-															<label className="title-select">{t("district")}</label>
-															<input
-																type="text"
-																className="form-control"
-																id="district"
-																name="district"
-																value={searchDistrict}
-																onChange={handleInputChangeDistrict}
-																placeholder={t("searchDistrict")}
-																disabled={!showDistrict}
-															/>
-
-
-															{searchTermDistrict.length > 0 && districtOptions.length === 0 ? (
-																<ul className="city-dropdown form-style" style={{ marginTop: "0px" }}>
-																	<li className="city-option">District not found</li>
-																</ul>
-															) : (
-																districtOptions.length > 0 && (
-																	<ul className="city-dropdown form-style" style={{ marginTop: "0px" }}>
-																		{districtOptions.map((city) => (
-																			<li
-																				key={city.id}
-																				onClick={() => {
-																					handleDistrictSelect(city.id, city.name, city.latitude, city.longitude); // Pass city name to the function
-																					setSearchTermDistrict('');
-																				}}
-																				className="city-option"
-																			>
-																				{city.name}
-																			</li>
-																		))}
-																	</ul>
-																)
-															)}
-
-														</div>
-
-														<div className="form-style">
-															<label className="title-select">{t("neighbourhood")}</label>
-															<input
-																type="text"
-																className="form-control"
-																id="neighbourhood"
-																name="neighbourhood"
-																value={searchNeighbourhood}
-																onChange={handleInputChangeNeighbourhood}
-																placeholder={t("searchNeighbourhood")}
-																disabled={!showNeighbourhood}
-															/>
-
-															{searchTermNeighbourhood.length > 0 && neighbourhoodOptions.length === 0 ? (
-																<ul className="city-dropdown form-style" style={{ marginTop: "0px" }}>
-																	<li className="city-option">Neighbourhood not found</li>
-																</ul>
-															) : (
-																neighbourhoodOptions.length > 0 && (
-																	<ul className="city-dropdown form-style" style={{ marginTop: "0px" }}>
-																		{neighbourhoodOptions?.map((city) => (
-																			<li
-																				key={city.id}
-																				onClick={() => {
-																					handleNeighbourhoodSelect(city.id, city.name, city.latitude, city.longitude);
-																					setSearchTermNeighbourhood('');
-																				}}
-																				className="city-option"
-																			>
-																				{city.name}
-																			</li>
-																		))}
-																	</ul>
-																)
-															)}
-														</div> */}
-
 														<div className="form-style widget-price">
 															<div className="group-form">
 																<ReactSlider
@@ -585,69 +493,7 @@ export default function ProjectHalfmapList() {
 																<span className="text-advanced">{t("showadvance")}</span>
 															</a>
 														</div>
-														{/* <div className="form-style wd-amenities" style={{ display: `${isToggled ? "block" : "none"}` }}>
-															<div className="group-checkbox">
-																<div className="text-1">Amenities:</div>
-																<div className="group-amenities">
-																	{amenities
-																		.sort((a, b) => (a.type === "number" ? -1 : 1))
-																		.map((amenity) => (
-																			<fieldset className="amenities-item" key={amenity.id}>
-																				{amenity.type === "number" ? (
-																					
-																					<>
-																						<label
-																							htmlFor={`amenity-${amenity.id}`}
-																							className="text-cb-amenities"
-																						>
-																							{amenity.name}
-																						</label>
-																						<input
-																							type="number"
-																							className="form-control style-1"
-																							id={`amenity-${amenity.id}`}
-																							value={filters[amenity.id] || ""} // Show current value or empty
-																							onChange={(e) =>
-																								setFilters({ ...filters, [amenity.id]: e.target.value })
-																							} 
-																							placeholder={`Enter ${amenity.name}`}
-																						/>
-																					</>
-																				) : amenity.type === "boolean" ? (
-																					
-																					<>
-																						<input
-																							type="checkbox"
-																							className="tf-checkbox style-1"
-																							id={`amenity-${amenity.id}`}
-																							checked={filters.amenities_id.includes(amenity.id)} // Check if selected
-																							onChange={(e) => {
-																								const updatedAmenities = e.target.checked
-																									? [...filters.amenities_id, amenity.id] // Add
-																									: filters.amenities_id.filter((id) => id !== amenity.id); // Remove
-																								setFilters({ ...filters, amenities_id: updatedAmenities }); // Update filters
-																							}}
-																						/>
-																						<label
-																							htmlFor={`amenity-${amenity.id}`}
-																							className="text-cb-amenities"
-																						>
-																							{amenity.name}
-																						</label>
-																					</>
-																				) : null}
-																			</fieldset>
-																		))}
-																</div>
-															</div>
-														</div> */}
-
-
-
-														<div
-															className="form-style wd-amenities"
-															style={{ display: `${isToggled ? "block" : "none"}` }}
-														>
+														<div className="form-style wd-amenities" style={{ display: `${isToggled ? "block" : "none"}` }}>
 															<div className="group-checkbox">
 																<div className="group-amenities">
 																	{amenities && amenities.length > 0 ? (
@@ -671,10 +517,6 @@ export default function ProjectHalfmapList() {
 																</div>
 															</div>
 														</div>
-
-
-
-
 														<div className="form-style wd-amenities" style={{ display: `${isToggled ? "block" : "none"}` }}>
 															<div className="group-checkbox">
 																<div className="text-1">{t("amenities")}:</div>
@@ -731,7 +573,6 @@ export default function ProjectHalfmapList() {
 										<h5>{t("projectlisting")}</h5>
 										{(!isDefaultPropertyViewMobile) && (
 											<div className="flex items-center cursor-pointer select-none">
-												{/* <span className="switch-text">{t('switchMapText')}</span> */}
 												<img src="/images/logo/map-icon.png" alt="logo-footer" width={30} height={20} style={{ marginRight: "10px" }} className="map-switch-icon"></img>
 												<label className="switch">
 													<input
@@ -775,23 +616,8 @@ export default function ProjectHalfmapList() {
 													<div className={(isSwitch) ? "col-md-6 property-inner-sec" : "col-md-6"} key={project.id}>
 														<div className="homeya-box">
 															<div className="archive-top">
-																<div
-																	// onClick={() => handleClick(project.slug)}
-																	className="images-group"
-																>
-
+																<div className="images-group">
 																	<div className="images-style">
-																		{/* <SwiperSlide
-																			key={index}
-																			onClick={() => handleClick(property.slug)} // <-- FIX: now it's a function
-																			style={{ cursor: "pointer" }} // <-- Make it look clickable
-																		>
-																			<img
-																				src={item}
-																				alt="img-property"
-																				style={{ width: "100%", borderRadius: "8px", minHeight: "300px", maxHeight: "300px" }}
-																			/>
-																		</SwiperSlide> */}
 																		<Swiper
 																			modules={[Navigation]}
 																			slidesPerView={1}
@@ -812,37 +638,29 @@ export default function ProjectHalfmapList() {
 																							style={{ width: "100%", borderRadius: "8px", minHeight: "300px", maxHeight: "300px" }}
 																						/>
 																					</SwiperSlide>
-																					// <SwiperSlide key={index}>
-																					// 	<img src={item} alt="img-property" style={{ width: "100%", borderRadius: "8px", minHeight: "300px", maxHeight: " 300px" }} />
-																					// </SwiperSlide>
 																				)
 																			)}
 																		</Swiper>
 																	</div>
-																	
+
 																	<div className="top">
 																		<ul className="d-flex gap-8">
 																			{project.isFeatured && (
 																				<li className="flag-tag success">Featured</li>
 																			)}
-																			{/* <li className="flag-tag style-1">{project.status || 'For Sale'}</li> */}
 																		</ul>
-
 																	</div>
 																	<div className="bottom">
 																		<span className="flag-tag style-2">
-
 																		</span>
 																	</div>
 																</div>
 																<div className="content">
-																	<div className="h7 text-capitalize fw-7 truncate-text">
-																		<Link
-																			href={`/project/${project.slug}`}// Pass ID as query param
-																			className="link"
-																		>
+																	<div className="h7 text-capitalize fw-7 truncate-text">																		
+																		<div className="link custom-link"
+																			onClick={() => navigateTo(router, `/project/${project.slug}`)}>
 																			{project.title}
-																		</Link>
+																		</div>
 																	</div>
 																	<div className="desc">
 																		<i className="fs-16 icon icon-mapPin" />
@@ -879,13 +697,10 @@ export default function ProjectHalfmapList() {
 											<ul className="wd-navigation">
 												{Array.from({ length: pagination.totalPages }, (_, index) => (
 													<li key={index}>
-														<Link
-															href="#"
-															className={`nav-item ${pagination.currentPage === index + 1 ? 'active' : ''}`}
-															onClick={() => handlePageChange(index + 1)}
-														>
+														<div className={`nav-item ${pagination.currentPage === index + 1 ? 'active' : ''}`} onClick={() => handlePageChange(index + 1)} href="#"
+															style={{ cursor: 'pointer' }} data-id={index}>
 															{index + 1}
-														</Link>
+														</div>
 													</li>
 												))}
 											</ul>

@@ -164,9 +164,18 @@ export default function ProjectDetailsView({ params }) {
 	const modalSwiperRef = useRef(null);
 	const [isModelOpen, setIsModelOpen] = useState(false);
 	const [contactInfo, setContactInfo] = useState(false);
-	const [currentImage, setCurrentImage] = useState(null); 
+	const [currentImage, setCurrentImage] = useState(null);
 	const [iscontactUser, setIscontactUser] = useState(false);
 	const [contactUserDetails, setContactUserDetails] = useState({});
+	const [isLogin, setLogin] = useState(false)
+	const [showLoginModal, setShowLoginModal] = useState(false)
+
+
+	const handleLogin = () => {
+		setLogin(!isLogin)
+		!isLogin ? document.body.classList.add("modal-open") : document.body.classList.remove("modal-open")
+	}
+
 	const fetchProjectsDetails = async () => {
 		setLoading(true); // Start loading
 		try {
@@ -174,9 +183,7 @@ export default function ProjectDetailsView({ params }) {
 				project_slug: slug
 			};
 
-			// API call
 			const response = await getData("api/projects/getbyid", requestData, true);
-			// console.log('API Response:', response);
 
 			if (response.status) {
 				setProjectDetails(response.data);
@@ -193,16 +200,11 @@ export default function ProjectDetailsView({ params }) {
 		}
 	};
 	const router = useRouter();
-	// Fetch data on component mount
 	useEffect(() => {
 		fetchProjectsDetails();
 	}, []);
 
-	// Translation hook
 	const { t, i18n } = useTranslation();
-
-	// console.log('Project Details:', projectDetails);
-	// console.log('>>>>>>properties', properties);
 
 	if (loading) {
 		return (
@@ -216,19 +218,14 @@ export default function ProjectDetailsView({ params }) {
 	const handleAccordion = (key) => {
 		setIsAccordion(prevState => prevState === key ? null : key)
 	}
-	// console.log(projectDetails.video);
 
 	if ((projectDetails.video !== null) && (!projectDetails.video.endsWith(".mp4")) && (videoUrl === "")) {
 		const urlParams = new URLSearchParams(new URL(projectDetails.video).search);
 		const videoId = urlParams.get('v');
 		setVideoUrl('https://www.youtube.com/embed/' + videoId);
 	}
-	// console.log('video');
-	// console.log(videoUrl);
 
 	const openPopup = (image) => {
-		// console.log('image');
-		// console.log(image);
 		setCurrentImage(image);
 		setCurrentImageIndex(image);
 		setIsOpen(true);
@@ -252,18 +249,16 @@ export default function ProjectDetailsView({ params }) {
 
 	const closeModal = () => {
 		setIsModelOpen(false);
-		//setShowLoginModal(true);
 	};
 	const handelContactClick = () => {
 		setContactUserDetails({
-            user_name: projectDetails?.user_name,
-            email_address: projectDetails?.user_email_address,
-            country_code: projectDetails?.user_country_code,
-            mobile_number: projectDetails?.user_mobile_number,
-            image: projectDetails?.user_image && projectDetails.user_image !== '' ? projectDetails.user_image : '/images/avatar/user-image.png',
-        })
-        //setContactInfo(true)
-        setIscontactUser(true)
+			user_name: projectDetails?.user_name,
+			email_address: projectDetails?.user_email_address,
+			country_code: projectDetails?.user_country_code,
+			mobile_number: projectDetails?.user_mobile_number,
+			image: projectDetails?.user_image && projectDetails.user_image !== '' ? projectDetails.user_image : '/images/avatar/user-image.png',
+		})
+		setIscontactUser(true)
 	}
 	return (
 		<>
@@ -342,18 +337,8 @@ export default function ProjectDetailsView({ params }) {
 										<span className="icon icon-arr-r" />
 									</div>
 								</div>
-							)}
-							{/* <div className="icon-box">
-                  				<Link href="#" className="item"><span className="icon icon-map-trifold"></span></Link>
-								  {properties.picture.length > 0 && properties.picture.map((item, index) => (
-										<Link  href={item} className="item active" data-fancybox="gallery">
-										<span className="icon icon-images"></span>
-									</Link>
-								))}
-								
-							</div> */}
+							)}						
 						</div>
-						{/* <img src={properties.picture?properties.picture:"/images/banner/banner-property-1.jpg"} alt="img-property" className="property-image" /> */}
 					</section>
 					<section className="flat-section pt-0 flat-property-detail">
 						<div className="container">
@@ -367,27 +352,9 @@ export default function ProjectDetailsView({ params }) {
 									</h4>
 									<div className="box-price d-flex align-items-center">
 										<h4>{t('from')} {formatPropertyPrice(projectDetails.price || '0')} {projectDetails.currency || 'USD'} </h4>
-										{/* <span className="body-1 text-variant-1">/month</span> */}
 									</div>
 								</div>
-								<div className="content-bottom">
-									{/* <div className="info-box">
-										<div className="label">{t("feature")}</div>
-										<ul className="meta">
-											<li className="meta-item"><span className="icon icon-bed" /> - </li>
-											<li className="meta-item"><span className="icon icon-bathtub" /> -</li>
-											<li className="meta-item"><span className="icon icon-ruler" /> -</li>
-										</ul>
-									</div> */}
-									{/* <div className="info-box">
-										<div className="label">LOCATION:</div>
-										<p className="meta-item"><span className="icon icon-mapPin" /> 8 Broadway, Brooklyn, New York</p>
-									</div> */}
-									{/* <ul className="icon-box">
-                                        <li><Link href="#" className="item"><span className="icon icon-arrLeftRight" /> </Link></li>
-                                        <li><Link href="#" className="item"><span className="icon icon-share" /></Link></li>
-                                        <li><Link href="#" className="item"><span className="icon icon-heart" /></Link></li>
-                                    </ul> */}
+								<div className="content-bottom">								
 								</div>
 							</div>
 							<div className="row">
@@ -398,64 +365,11 @@ export default function ProjectDetailsView({ params }) {
 											? projectDetails?.description_en // Show English title if lang = 'en'
 											: projectDetails?.description_fr // Show French title if lang = 'fr'
 										}
-									</div>
-									{/* <div className="single-property-element single-property-overview">
-										{projectDetails?.meta_details?.length > 0 && (
-											(() => {
-												// Filter only number type
-												const numberFeatures = projectDetails.meta_details.filter(
-													(projectDetail) => projectDetail.type === "number"
-												);
-
-												if (numberFeatures.length > 0) {
-													return (
-														<div className="h7 title fw-7">{t("overview")}</div>
-													);
-												}
-												return null; // Return nothing if no number features are found
-											})()
-										)}
-
-										<ul className="info-box">
-											{projectDetails?.meta_details?.length > 0 &&
-												projectDetails.meta_details
-													.filter((item) => item.type === "number") // Filter items where type is "number"
-													.map((item, index) =>
-														item.value !== "0" ? ( // Check if value is not "0"
-															<li className="item" key={index}>
-																<Link href="#" className="box-icon w-52">
-																	<img src={item.icon} alt="icon" width="25" />
-																</Link>
-																<div className="content">
-																	<span className="label">{item.name}:</span>
-																	<span>{item.value}</span>
-																</div>
-															</li>
-														) : null
-													)}
-										</ul>
-									</div> */}
+									</div>									
 									{projectDetails.video !== null ? (
 										<div className="single-property-element single-property-video">
 											<div className="h7 title fw-7">{t("video")}</div>
-											<div className="img-video">
-												{/* <img src="/images/banner/img-video.jpg" alt="img-video" /> */}
-												{/* {(projectDetails?.video.endsWith(".mp4") ?
-													<video height="500" controls>
-														<source src={projectDetails?.video} type="video/mp4" />
-														Your browser does not support the video tag.
-													</video>
-
-													:
-													<iframe height="500" width="100%"
-														src={videoUrl}
-														title="Immofind"
-														frameborder="0"
-														allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-														referrerpolicy="strict-origin-when-cross-origin"
-														allowfullscreen>
-													</iframe>
-												)} */}
+											<div className="img-video">												
 												{projectDetails?.video ? (
 													projectDetails.video.endsWith(".mp4") ? (
 														<video height="500" width="100%" controls>
@@ -481,90 +395,10 @@ export default function ProjectDetailsView({ params }) {
 												) : (
 													<p>No video available</p>
 												)}
-
-												{/* <Video type="youtube" link={properties.video} /> <Video type="mp4" link={properties.video} /> */}
-												{/* <Video type="youtube" link="http://localhost:7000/uploads/big_buck_bunny_720p_2mb.mp4" /> */}
 											</div>
 										</div>
 									) : (<></>)}
 
-									{/* <div className="single-property-element single-property-info">
-										<div className="h7 title fw-7">Property Details</div>
-										<div className="row">
-											<div className="col-md-6">
-												<div className="inner-box">
-													<span className="label">Property ID:</span>
-													<div className="content fw-7">AVT1020</div>
-												</div>
-											</div>
-											<div className="col-md-6">
-												<div className="inner-box">
-													<span className="label">Bedrooms:</span>
-													<div className="content fw-7">4</div>
-												</div>
-											</div>
-											<div className="col-md-6">
-												<div className="inner-box">
-													<span className="label">Price:</span>
-													<div className="content fw-7">$250,00<span className="caption-1 fw-4 text-variant-1">/month</span></div>
-												</div>
-											</div>
-											<div className="col-md-6">
-												<div className="inner-box">
-													<span className="label">Bedrooms:</span>
-													<div className="content fw-7">1</div>
-												</div>
-											</div>
-											<div className="col-md-6">
-												<div className="inner-box">
-													<span className="label">Property Size:</span>
-													<div className="content fw-7">1200 SqMeter</div>
-												</div>
-											</div>
-											<div className="col-md-6">
-												<div className="inner-box">
-													<span className="label">Bathsrooms:</span>
-													<div className="content fw-7">1</div>
-												</div>
-											</div>
-											<div className="col-md-6">
-												<div className="inner-box">
-													<span className="label">Year built:</span>
-													<div className="content fw-7">2023 - 12 - 11</div>
-												</div>
-											</div>
-											<div className="col-md-6">
-												<div className="inner-box">
-													<span className="label">Bathsrooms:</span>
-													<div className="content fw-7">3</div>
-												</div>
-											</div>
-											<div className="col-md-6">
-												<div className="inner-box">
-													<span className="label">Property Type:</span>
-													<div className="content fw-7">House, Apartment</div>
-												</div>
-											</div>
-											<div className="col-md-6">
-												<div className="inner-box">
-													<span className="label">Garage:</span>
-													<div className="content fw-7">1</div>
-												</div>
-											</div>
-											<div className="col-md-6">
-												<div className="inner-box">
-													<span className="label">Property Status:</span>
-													<div className="content fw-7">For Rent</div>
-												</div>
-											</div>
-											<div className="col-md-6">
-												<div className="inner-box">
-													<span className="label">Garage Size:</span>
-													<div className="content fw-7">1200 SqMeter</div>
-												</div>
-											</div>
-										</div>
-									</div> */}
 									{projectDetails?.meta_details?.length > 0 && (
 										(() => {
 											// Filter only boolean type with value "1"
@@ -600,13 +434,7 @@ export default function ProjectDetailsView({ params }) {
 										<div className="single-property-element single-property-feature">
 											<div className="h7 title fw-7">{t("otherInformation")}</div>
 											<div className="wrap-feature">
-												<div className="box-feature">
-													{/* <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>   
-														<div style={{ fontWeight: 'bold' }}>VR Link : </div>
-														<a href={projectDetails.vr_link} target="_blank" rel="noopener noreferrer">
-															{projectDetails.vr_link}
-														</a>
-													</div> */}
+												<div className="box-feature">												
 													<button
 														className="form-wg tf-btn primary"
 														name="button"
@@ -622,7 +450,6 @@ export default function ProjectDetailsView({ params }) {
 									)}
 									<div className="single-property-element single-property-map">
 										<div className="h7 title fw-7">{t("map")}</div>
-										{/* <MapMarker latitude={projectDetails?.latitude} longitude={projectDetails?.longitude} zoom={18} /> */}
 
 										<MapContainer
 											center={[projectDetails.latitude, projectDetails.longitude]}
@@ -656,332 +483,14 @@ export default function ProjectDetailsView({ params }) {
 
 											</li>
 										</ul>
-
-
 									</div>
-									{/* <div className="single-property-element single-property-floor">
-										<div className="h7 title fw-7">Floor plans</div>
-										<ul className="box-floor" id="parent-floor">
-											<li className="floor-item" onClick={() => handleAccordion(1)}>
-												<div className={`${isAccordion == 1 ? "floor-header" : "floor-header collapsed"}`}>
-													<div className="inner-left">
-														<i className="icon icon-arr-r" />
-														<span className="fw-7">First Floor</span>
-													</div>
-													<ul className="inner-right">
-														<li className="d-flex align-items-center gap-8">
-															<i className="icon icon-bed" />
-															2 Bedroom
-														</li>
-														<li className="d-flex align-items-center gap-8">
-															<i className="icon icon-bathtub" />
-															2 Bathroom
-														</li>
-													</ul>
-												</div>
-												<div id="floor-one" className={`${isAccordion == 1 ? "collapse show" : "collapse"}`} data-bs-parent="#parent-floor">
-													<div className="faq-body">
-														<div className="box-img">
-															<img src="/images/banner/floor.png" alt="img-floor" />
-														</div>
-													</div>
-												</div>
-											</li>
-											<li className="floor-item" onClick={() => handleAccordion(2)}>
-												<div className={`${isAccordion == 2 ? "floor-header" : "floor-header collapsed"}`}>
-													<div className="inner-left">
-														<i className="icon icon-arr-r" />
-														<span className="fw-7">Second Floor</span>
-													</div>
-													<ul className="inner-right">
-														<li className="d-flex align-items-center gap-8">
-															<i className="icon icon-bed" />
-															2 Bedroom
-														</li>
-														<li className="d-flex align-items-center gap-8">
-															<i className="icon icon-bathtub" />
-															2 Bathroom
-														</li>
-													</ul>
-												</div>
-												<div id="floor-two" className={`${isAccordion == 2 ? "collapse show" : "collapse"}`} data-bs-parent="#parent-floor">
-													<div className="faq-body">
-														<div className="box-img">
-															<img src="/images/banner/floor.png" alt="img-floor" />
-														</div>
-													</div>
-												</div>
-											</li>
-										</ul>
-									</div>
-									<div className="single-property-element single-property-attachments">
-										<div className="h7 title fw-7">File Attachments</div>
-										<div className="row">
-											<div className="col-sm-6">
-												<Link href="#" target="_blank" className="attachments-item">
-													<div className="box-icon w-60">
-														<img src="/images/home/file-1.png" alt="file" />
-													</div>
-													<span>Villa-Document.pdf</span>
-													<i className="icon icon-download" />
-												</Link>
-											</div>
-											<div className="col-sm-6">
-												<Link href="#" target="_blank" className="attachments-item">
-													<div className="box-icon w-60">
-														<img src="/images/home/file-2.png" alt="file" />
-													</div>
-													<span>Villa-Document.pdf</span>
-													<i className="icon icon-download" />
-												</Link>
-											</div>
-										</div>
-									</div> */}
-									{/* <div className="single-property-element single-property-explore">
-										<div className="h7 title fw-7">Explore Property</div>
-										<div className="box-img">
-											<img src="/images/banner/img-explore.jpg" alt="img" />
-											<div className="box-icon w-80">
-												<span className="icon icon-360" />
-											</div>
-										</div>
-									</div>
-									<div className="single-property-element single-property-loan">
-										<div className="h7 title fw-7">Loan Calculator</div>
-										<form action="#" className="box-loan-calc">
-											<div className="box-top">
-												<div className="item-calc">
-													<label htmlFor="loan1" className="label">Total Amount:</label>
-													<input type="number" id="loan1" placeholder="10,000" className="form-control" />
-												</div>
-												<div className="item-calc">
-													<label htmlFor="loan1" className="label">Down Payment:</label>
-													<input type="number" id="loan1" placeholder={3000} className="form-control" />
-												</div>
-												<div className="item-calc">
-													<label htmlFor="loan1" className="label">Amortization Period (months):</label>
-													<input type="number" id="loan1" placeholder={12} className="form-control" />
-												</div>
-												<div className="item-calc">
-													<label htmlFor="loan1" className="label">Interest rate (%):</label>
-													<input type="number" id="loan1" placeholder={5} className="form-control" />
-												</div>
-											</div>
-											<div className="box-bottom">
-												<button className="tf-btn primary">Calculator</button>
-												<div className="d-flex gap-4">
-													<span className="h7 fw-7">Monthly Payment:</span>
-													<span className="result h7 fw-7">$599.25</span>
-												</div>
-											</div>
-										</form>
-									</div> */}
-									{/* <div className="single-property-element single-property-nearby">
-										<div className="h7 title fw-7">What’s nearby?</div>
-										<p className="body-2">Explore nearby amenities to precisely locate your property and identify surrounding conveniences, providing a comprehensive overview of the living environment and the property's convenience.</p>
-										<div className="grid-2 box-nearby">
-											<ul className="box-left">
-												<li className="item-nearby">
-													<span className="label">School:</span>
-													<span className="fw-7">0.7 km</span>
-												</li>
-												<li className="item-nearby">
-													<span className="label">University:</span>
-													<span className="fw-7">1.3 km</span>
-												</li>
-												<li className="item-nearby">
-													<span className="label">Grocery center:</span>
-													<span className="fw-7">0.6 km</span>
-												</li>
-												<li className="item-nearby">
-													<span className="label">Market:</span>
-													<span className="fw-7">1.1 km</span>
-												</li>
-											</ul>
-											<ul className="box-right">
-												<li className="item-nearby">
-													<span className="label">Hospital:</span>
-													<span className="fw-7">0.4 km</span>
-												</li>
-												<li className="item-nearby">
-													<span className="label">Metro station:</span>
-													<span className="fw-7">1.8 km</span>
-												</li>
-												<li className="item-nearby">
-													<span className="label">Gym, wellness:</span>
-													<span className="fw-7">1.3 km</span>
-												</li>
-												<li className="item-nearby">
-													<span className="label">River:</span>
-													<span className="fw-7">2.1 km</span>
-												</li>
-											</ul>
-										</div>
-									</div> */}
+									
 									<div className="single-property-element single-wrapper-review">
 										<div className="box-title-review d-flex justify-content-between align-items-center flex-wrap gap-20">
 											<div className="h7 fw-7">{t("guestreviews")}</div>
 											<Link href="#" className="tf-btn">{t("viewallreviews")}</Link>
 										</div>
-										<hr></hr>
-										{/* <div className="wrap-review">
-											<ul className="box-review">
-												<li className="list-review-item">
-													<div className="avatar avt-60 round">
-														<img src="/images/avatar/avt-2.jpg" alt="avatar" />
-													</div>
-													<div className="content">
-														<div className="name h7 fw-7 text-black">Viola Lucas
-															<svg width={16} height={16} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-																<path fillRule="evenodd" clipRule="evenodd" d="M0 8C0 12.4112 3.5888 16 8 16C12.4112 16 16 12.4112 16 8C16 3.5888 12.4112 0 8 0C3.5888 0 0 3.5888 0 8ZM12.1657 6.56569C12.4781 6.25327 12.4781 5.74673 12.1657 5.43431C11.8533 5.1219 11.3467 5.1219 11.0343 5.43431L7.2 9.26863L5.36569 7.43431C5.05327 7.12189 4.54673 7.12189 4.23431 7.43431C3.9219 7.74673 3.9219 8.25327 4.23431 8.56569L6.63432 10.9657C6.94673 11.2781 7.45327 11.2781 7.76569 10.9657L12.1657 6.56569Z" fill="#198754" />
-															</svg>
-														</div>
-														<span className="mt-4 d-inline-block  date body-3 text-variant-2">August 13,
-															2023</span>
-														<ul className="mt-8 list-star">
-															<li className="icon-star" />
-															<li className="icon-star" />
-															<li className="icon-star" />
-															<li className="icon-star" />
-															<li className="icon-star" />
-														</ul>
-														<p className="mt-12 body-2 text-black">It's really easy to use and it is
-															exactly what I am looking for. A lot of good looking templates &amp;
-															it's highly customizable. Live support is helpful, solved my issue
-															in no time.</p>
-														<ul className="box-img-review">
-															<li>
-																<Link href="#" className="img-review">
-																	<img src="/images/blog/review1.jpg" alt="img-review" />
-																</Link>
-															</li>
-															<li>
-																<Link href="#" className="img-review">
-																	<img src="/images/blog/review2.jpg" alt="img-review" />
-																</Link>
-															</li>
-															<li>
-																<Link href="#" className="img-review">
-																	<img src="/images/blog/review3.jpg" alt="img-review" />
-																</Link>
-															</li>
-															<li>
-																<Link href="#" className="img-review">
-																	<img src="/images/blog/review4.jpg" alt="img-review" />
-																</Link>
-															</li>
-															<li>
-																<Link href="#" className="img-review">
-																	<span className="fw-7">+12</span>
-																</Link>
-															</li>
-														</ul>
-													</div>
-												</li>
-												<li className="list-review-item">
-													<div className="avatar avt-60 round">
-														<img src="/images/avatar/avt-3.jpg" alt="avatar" />
-													</div>
-													<div className="content">
-														<div className="name h7 fw-7 text-black">Viola Lucas
-															<svg width={16} height={16} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-																<path fillRule="evenodd" clipRule="evenodd" d="M0 8C0 12.4112 3.5888 16 8 16C12.4112 16 16 12.4112 16 8C16 3.5888 12.4112 0 8 0C3.5888 0 0 3.5888 0 8ZM12.1657 6.56569C12.4781 6.25327 12.4781 5.74673 12.1657 5.43431C11.8533 5.1219 11.3467 5.1219 11.0343 5.43431L7.2 9.26863L5.36569 7.43431C5.05327 7.12189 4.54673 7.12189 4.23431 7.43431C3.9219 7.74673 3.9219 8.25327 4.23431 8.56569L6.63432 10.9657C6.94673 11.2781 7.45327 11.2781 7.76569 10.9657L12.1657 6.56569Z" fill="#198754" />
-															</svg>
-														</div>
-														<span className="mt-4 d-inline-block  date body-3 text-variant-2">August 13,
-															2023</span>
-														<ul className="mt-8 list-star">
-															<li className="icon-star" />
-															<li className="icon-star" />
-															<li className="icon-star" />
-															<li className="icon-star" />
-															<li className="icon-star" />
-														</ul>
-														<p className="mt-12 body-2 text-black">It's really easy to use and it is
-															exactly what I am looking for. A lot of good looking templates &amp;
-															it's highly customizable. Live support is helpful, solved my issue
-															in no time.</p>
-													</div>
-												</li>
-												<li className="list-review-item">
-													<div className="avatar avt-60 round">
-														<img src="/images/avatar/avt-4.jpg" alt="avatar" />
-													</div>
-													<div className="content">
-														<div className="name h7 fw-7 text-black">Darlene Robertson
-															<svg width={16} height={16} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-																<path fillRule="evenodd" clipRule="evenodd" d="M0 8C0 12.4112 3.5888 16 8 16C12.4112 16 16 12.4112 16 8C16 3.5888 12.4112 0 8 0C3.5888 0 0 3.5888 0 8ZM12.1657 6.56569C12.4781 6.25327 12.4781 5.74673 12.1657 5.43431C11.8533 5.1219 11.3467 5.1219 11.0343 5.43431L7.2 9.26863L5.36569 7.43431C5.05327 7.12189 4.54673 7.12189 4.23431 7.43431C3.9219 7.74673 3.9219 8.25327 4.23431 8.56569L6.63432 10.9657C6.94673 11.2781 7.45327 11.2781 7.76569 10.9657L12.1657 6.56569Z" fill="#198754" />
-															</svg>
-														</div>
-														<span className="mt-4 d-inline-block  date body-3 text-variant-2">August 13, 2023</span>
-														<ul className="mt-8 list-star">
-															<li className="icon-star" />
-															<li className="icon-star" />
-															<li className="icon-star" />
-															<li className="icon-star" />
-															<li className="icon-star" />
-														</ul>
-														<p className="mt-12 body-2 text-black">It's really easy to use and it is
-															exactly what I am looking for. A lot of good looking templates &amp;
-															it's highly customizable. Live support is helpful, solved my issue
-															in no time.</p>
-													</div>
-												</li>
-												<li className="list-review-item">
-													<div className="avatar avt-60 round">
-														<img src="/images/avatar/avt-2.jpg" alt="avatar" />
-													</div>
-													<div className="content">
-														<div className="name h7 fw-7 text-black">Viola Lucas
-															<svg width={16} height={16} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-																<path fillRule="evenodd" clipRule="evenodd" d="M0 8C0 12.4112 3.5888 16 8 16C12.4112 16 16 12.4112 16 8C16 3.5888 12.4112 0 8 0C3.5888 0 0 3.5888 0 8ZM12.1657 6.56569C12.4781 6.25327 12.4781 5.74673 12.1657 5.43431C11.8533 5.1219 11.3467 5.1219 11.0343 5.43431L7.2 9.26863L5.36569 7.43431C5.05327 7.12189 4.54673 7.12189 4.23431 7.43431C3.9219 7.74673 3.9219 8.25327 4.23431 8.56569L6.63432 10.9657C6.94673 11.2781 7.45327 11.2781 7.76569 10.9657L12.1657 6.56569Z" fill="#198754" />
-															</svg>
-														</div>
-														<span className="mt-4 d-inline-block  date body-3 text-variant-2">August 13,
-															2023</span>
-														<ul className="mt-8 list-star">
-															<li className="icon-star" />
-															<li className="icon-star" />
-															<li className="icon-star" />
-															<li className="icon-star" />
-															<li className="icon-star" />
-														</ul>
-														<p className="mt-12 body-2 text-black">It's really easy to use and it is
-															exactly what I am looking for. A lot of good looking templates &amp;
-															it's highly customizable. Live support is helpful, solved my issue
-															in no time.</p>
-														<ul className="box-img-review">
-															<li>
-																<Link href="#" className="img-review">
-																	<img src="/images/blog/review1.jpg" alt="img-review" />
-																</Link>
-															</li>
-															<li>
-																<Link href="#" className="img-review">
-																	<img src="/images/blog/review2.jpg" alt="img-review" />
-																</Link>
-															</li>
-															<li>
-																<Link href="#" className="img-review">
-																	<img src="/images/blog/review3.jpg" alt="img-review" />
-																</Link>
-															</li>
-															<li>
-																<Link href="#" className="img-review">
-																	<img src="/images/blog/review4.jpg" alt="img-review" />
-																</Link>
-															</li>
-															<li>
-																<Link href="#" className="img-review">
-																	<span className="fw-7">+12</span>
-																</Link>
-															</li>
-														</ul>
-														<Link href="#" className="view-question">See more answered questions (719)</Link>
-													</div>
-												</li>
-											</ul>
-										</div> */}
+										<hr></hr>								
 
 										<div className="wrap-form-comment">
 											<div className="h7">{t("leaveareply")}</div>
@@ -997,11 +506,7 @@ export default function ProjectDetailsView({ params }) {
 																<label className="sub-ip">{t("email")}</label>
 																<input type="email" className="form-control" name="email" placeholder={t("youremail")} required />
 															</fieldset>
-														</div>
-														{/* <fieldset className="form-wg d-flex align-items-center gap-8">
-															<input type="checkbox" className="tf-checkbox" id="cb-ip" />
-															<label htmlFor="cb-ip" className="text-black text-checkbox">{t("text")}</label>
-														</fieldset> */}
+														</div>														
 														<fieldset className="form-wg">
 															<label className="sub-ip">{t("review")}</label>
 															<textarea id="comment-message" name="message" rows={4} tabIndex={4} placeholder={t("writecomment")} aria-required="true" defaultValue={""} />
@@ -1031,242 +536,12 @@ export default function ProjectDetailsView({ params }) {
 												</Link>
 												{!iscontactUser && (<button className="form-wg tf-btn primary float-right" onClick={() => handelContactClick()} >{t('contactUser')}</button>)}
 												{contactInfo ? (
-													<></>
-													// <div className="info">
-													// 	<Link href={`/developer/${projectDetails?.developer_slug}`} className="images-group"><div className="text-1 name">{projectDetails?.user_name}</div></Link>
-													// 	<br /><span>{projectDetails?.user_email_address}</span>
-													// </div>
+													<></>												
 												) : ''}
 
-											</div>
-											{/* <form action="#" className="contact-form">
-												<div className="ip-group">
-													<label htmlFor="fullname">Full Name:</label>
-													<input type="text" placeholder="Jony Dane" className="form-control" />
-												</div>
-												<div className="ip-group">
-													<label htmlFor="phone">Phone Number:</label>
-													<input type="text" placeholder="ex 0123456789" className="form-control" />
-												</div>
-												<div className="ip-group">
-													<label htmlFor="email">Email Address:</label>
-													<input type="text" placeholder="themesflat@gmail.com" className="form-control" />
-												</div>
-												<div className="ip-group">
-													<label htmlFor="message">Your Message:</label>
-													<textarea id="comment-message" name="message" rows={4} tabIndex={4} placeholder="Message" aria-required="true" defaultValue={""} />
-												</div>
-												<button className="tf-btn primary w-100">Send Message</button>
-											</form> */}
+											</div>											
 										</div>
-										{/* <div className="flat-tab flat-tab-form widget-filter-search widget-box bg-surface">
-											<div className="h7 title fw-7">Search</div>
-											<ul className="nav-tab-form" role="tablist">
-												<TabNav />
-											</ul>
-											<div className="tab-content">
-												<div className="tab-pane fade active show" role="tabpanel">
-													<div className="form-sl">
-														<form method="post">
-															<div className="wd-filter-select">
-																<div className="inner-group inner-filter">
-																	<div className="form-style">
-																		<label className="title-select">Keyword</label>
-																		<input type="text" className="form-control" placeholder="Search Keyword." name="s" title="Search for" required />
-																	</div>
-																	<div className="form-style">
-																		<label className="title-select">Location</label>
-																		<div className="group-ip ip-icon">
-																			<input type="text" className="form-control" placeholder="Search Location" name="s" title="Search for" required />
-																			<Link href="#" className="icon-right icon-location" />
-																		</div>
-																	</div>
-																	<div className="form-style">
-																		<label className="title-select">Type</label>
-																		<div className="group-select">
-																			<select className="nice-select">
-
-																				<option data-value className="option selected">All</option>
-																				<option data-value="villa" className="option">Villa</option>
-																				<option data-value="studio" className="option">Studio</option>
-																				<option data-value="office" className="option">Office</option>
-
-																			</select>
-																		</div>
-																	</div>
-																	<div className="form-style box-select">
-																		<label className="title-select">Rooms</label>
-																		<select className="nice-select">
-
-																			<option data-value={2} className="option">1</option>
-																			<option data-value={2} className="option selected">2</option>
-																			<option data-value={3} className="option">3</option>
-																			<option data-value={4} className="option">4</option>
-																			<option data-value={5} className="option">5</option>
-																			<option data-value={6} className="option">6</option>
-																			<option data-value={7} className="option">7</option>
-																			<option data-value={8} className="option">8</option>
-																			<option data-value={9} className="option">9</option>
-																			<option data-value={10} className="option">10</option>
-
-																		</select>
-																	</div>
-																	<div className="form-style box-select">
-																		<label className="title-select">Bathrooms</label>
-																		<select className="nice-select">
-
-																			<option data-value="all" className="option">All</option>
-																			<option data-value={1} className="option">1</option>
-																			<option data-value={2} className="option">2</option>
-																			<option data-value={3} className="option">3</option>
-																			<option data-value={4} className="option selected">4</option>
-																			<option data-value={5} className="option">5</option>
-																			<option data-value={6} className="option">6</option>
-																			<option data-value={7} className="option">7</option>
-																			<option data-value={8} className="option">8</option>
-																			<option data-value={9} className="option">9</option>
-																			<option data-value={10} className="option">10</option>
-																		</select>
-																	</div>
-																	<div className="form-style box-select">
-																		<label className="title-select">Bedrooms</label>
-																		<select className="nice-select">
-
-																			<option data-value={1} className="option">All</option>
-																			<option data-value={1} className="option">1</option>
-																			<option data-value={2} className="option">2</option>
-																			<option data-value={3} className="option">3</option>
-																			<option data-value={4} className="option selected">4</option>
-																			<option data-value={5} className="option">5</option>
-																			<option data-value={6} className="option">6</option>
-																			<option data-value={7} className="option">7</option>
-																			<option data-value={8} className="option">8</option>
-																			<option data-value={9} className="option">9</option>
-																			<option data-value={10} className="option">10</option>
-																		</select>
-																	</div>
-																	<div className="form-style widget-price">
-																		<RangeSlider />
-																	</div>
-																	<div className="form-style widget-price wd-price-2">
-																		<RangeSlider />
-																	</div>
-																	<SidebarFilter />
-																	<div className="form-style">
-																		<button type="submit" className="tf-btn primary" href="#">Find Properties</button>
-																	</div>
-																</div>
-															</div>
-														</form>
-													</div>
-												</div>
-											</div>
-										</div> */}
-										{/* <div className="widget-box bg-surface box-latest-property bg-white">
-											<div className="h7 fw-7 title">Latest Propeties</div>
-											<ul>
-												<li className="latest-property-item">
-													<Link href="/property-details-v1" className="images-style">
-														<img src="/images/home/house-sm-3.jpg" alt="img" />
-													</Link>
-													<div className="content">
-														<div className="h7 text-capitalize fw-7"><Link href="/property-details-v1" className="link">Casa Lomas de Mach...</Link></div>
-														<ul className="meta-list">
-															<li className="item">
-																<span>Bed:</span>
-																<span className="fw-7">4</span>
-															</li>
-															<li className="item">
-																<span>Bath:</span>
-																<span className="fw-7">2</span>
-															</li>
-															<li className="item">
-																<span className="fw-7">600 SqFT</span>
-															</li>
-														</ul>
-														<div className="d-flex align-items-center">
-															<div className="h7 fw-7">$5050,00</div>
-															<span className="text-variant-1">/SqFT</span>
-														</div>
-													</div>
-												</li>
-												<li className="latest-property-item">
-													<Link href="/property-details-v1" className="images-style">
-														<img src="/images/home/house-sm-9.jpg" alt="img" />
-													</Link>
-													<div className="content">
-														<div className="h7 text-capitalize fw-7"><Link href="/property-details-v1" className="link">Lakeview Haven...</Link></div>
-														<ul className="meta-list">
-															<li className="item">
-																<span>Bed:</span>
-																<span className="fw-7">4</span>
-															</li>
-															<li className="item">
-																<span>Bath:</span>
-																<span className="fw-7">2</span>
-															</li>
-															<li className="item">
-																<span className="fw-7">600 SqFT</span>
-															</li>
-														</ul>
-														<div className="d-flex align-items-center">
-															<div className="h7 fw-7">$5050,00</div>
-															<span className="text-variant-1">/SqFT</span>
-														</div>
-													</div>
-												</li>
-												<li className="latest-property-item">
-													<Link href="/property-details-v1" className="images-style">
-														<img src="/images/home/house-sm-1.jpg" alt="img" />
-													</Link>
-													<div className="content">
-														<div className="h7 text-capitalize fw-7"><Link href="/property-details-v1" className="link">Sunset Heights Estate</Link></div>
-														<ul className="meta-list">
-															<li className="item">
-																<span>Bed:</span>
-																<span className="fw-7">4</span>
-															</li>
-															<li className="item">
-																<span>Bath:</span>
-																<span className="fw-7">2</span>
-															</li>
-															<li className="item">
-																<span className="fw-7">600 SqFT</span>
-															</li>
-														</ul>
-														<div className="d-flex align-items-center">
-															<div className="h7 fw-7">$5050,00</div>
-															<span className="text-variant-1">/SqFT</span>
-														</div>
-													</div>
-												</li>
-												<li className="latest-property-item">
-													<Link href="/property-details-v1" className="images-style">
-														<img src="/images/home/house-sm-4.jpg" alt="img" />
-													</Link>
-													<div className="content">
-														<div className="h7 text-capitalize fw-7"><Link href="/property-details-v1" className="link">de Machalí Machas...</Link></div>
-														<ul className="meta-list">
-															<li className="item">
-																<span>Bed:</span>
-																<span className="fw-7">4</span>
-															</li>
-															<li className="item">
-																<span>Bath:</span>
-																<span className="fw-7">2</span>
-															</li>
-															<li className="item">
-																<span className="fw-7">600 SqFT</span>
-															</li>
-														</ul>
-														<div className="d-flex align-items-center">
-															<div className="h7 fw-7">$5050,00</div>
-															<span className="text-variant-1">/SqFT</span>
-														</div>
-													</div>
-												</li>
-											</ul>
-										</div> */}
+										
 										<div className="widget-box single-property-whychoose bg-surface">
 											<div className="h7 title fw-7">{t("whychooseus")}</div>
 											<ul className="box-whychoose">
@@ -1301,7 +576,6 @@ export default function ProjectDetailsView({ params }) {
 									<h4 className="mt-4">{t("themostrecentestate")}</h4>
 								</div>
 							)}
-							{/* { console.log(properties,' >>>>>>>>> properties') } */}
 							<div className="swiper tf-latest-property" data-preview-lg={3} data-preview-md={2} data-preview-sm={2} data-space={30} data-loop="true">
 								<Swiper {...swiperOptions2} className="swiper-wrapper">
 									{properties.map((property) => (
@@ -1311,27 +585,7 @@ export default function ProjectDetailsView({ params }) {
 													<Link href={`/property/${property.slug}`} className="images-group">
 														<div className="images-style">
 															<img src={property.picture[0] || "/images/banner/no-banner.png"} alt={property.title} />
-														</div>
-														{/* <div className="top">
-															<ul className="d-flex gap-8">
-																<li className="flag-tag success">Featured</li>
-																<li className="flag-tag style-1">For Sale</li>
-															</ul>
-															<ul className="d-flex gap-4">
-																<li className="box-icon w-32">
-																	<span className="icon icon-arrLeftRight" />
-																</li>
-																<li className="box-icon w-32">
-																	<span className="icon icon-heart" />
-																</li>
-																<li className="box-icon w-32">
-																	<span className="icon icon-eye" />
-																</li>
-															</ul>
-														</div> */}
-														{/* <div className="bottom">
-															<span className="flag-tag style-2">House</span>
-														</div> */}
+														</div>														
 													</Link>
 													<div className="content">
 														<div className="h7 text-capitalize fw-7">
@@ -1380,13 +634,7 @@ export default function ProjectDetailsView({ params }) {
 									))}
 
 								</Swiper>
-							</div>
-							{/* <div className="center-align">
-								<a href={'/property'} className="form-wg tf-btn primary">
-									<span>Back</span>
-								</a>
-							</div> */}
-
+							</div>				
 						</div>
 					</section>
 				</div >
@@ -1404,7 +652,7 @@ export default function ProjectDetailsView({ params }) {
 							<h4>{t('loginAlert')}</h4>
 							<p>{t('loginText')}</p>
 							<div className="modal-buttons">
-								<button className="tf-btn primary" onClick={() => {
+								<button className="tf-btn primary" onClick={() => {{}
 									closeModal();
 									setLogin(true)
 								}}>{t("login")}</button>
@@ -1414,7 +662,9 @@ export default function ProjectDetailsView({ params }) {
 					</div>
 				</div>
 			)}
-			 <ContactPopup contactModelPopup={iscontactUser} contactDetail={contactUserDetails} onClose={() => setIscontactUser(false)}/>
+			<ContactPopup contactModelPopup={iscontactUser} contactDetail={contactUserDetails} onClose={() => setIscontactUser(false)} />
+			{showLoginModal && <ModalLoginLike isLogin={isLogin} handleLogin={handleLogin} />}
+
 		</>
 	)
 }

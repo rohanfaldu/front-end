@@ -131,8 +131,7 @@ export default function AgencyDetail({ params }) {
             const requestData = {
                 developer_slug: id
             };
-            // console.log(234)
-            // API call
+
             const response = await insertData(`api/developer/getbyid`, requestData, false);
 
             if (response.status) {
@@ -143,18 +142,15 @@ export default function AgencyDetail({ params }) {
                 setError("No project details found.");
             }
         } catch (err) {
-            // Handle API errors
             setError(err.response?.data?.message || "An error occurred");
         } finally {
             setLoading(false); // Stop loading
         }
     };
-    // Fetch data on component mount
     useEffect(() => {
         fetchDeveloperDetails();
     }, []);
 
-    // Translation hook
     const { t, i18n } = useTranslation();
 
     const handelContactClick = () => {
@@ -198,7 +194,6 @@ export default function AgencyDetail({ params }) {
 
                                         <div className="single-property-element single-property-map">
                                             <div className="h7 title fw-7">{t("map")}</div>
-                                            {/* <MapMarker latitude={developerDetails.latitude} longitude={developerDetails.longitude} zoom={18} /> */}
                                             <MapContainer
                                                 center={[developerDetails.latitude, developerDetails.longitude]}
                                                 zoom={12}
@@ -238,15 +233,7 @@ export default function AgencyDetail({ params }) {
                                                             <span className="label"><Link target="_blank" href={developerDetails.facebook_link} className="link">Facebook</Link></span>
                                                         </div>
                                                     </li>
-                                                ) : ''}
-                                                {/* {developerDetails.twitter_link  ? (
-                                                    <li className="item">
-                                                        <Link target="_blank" href={developerDetails.twitter_link} className="box-icon w-52"><i className="icon icon-twitter" /></Link>
-                                                        <div className="content">
-                                                            <span className="label">Twitter</span>
-                                                        </div>
-                                                    </li>
-                                                ) : ''} */}
+                                                ) : ''}                                           
                                                 {developerDetails.youtube_link ? (
                                                     <li className="item">
                                                         <Link target="_blank" href={developerDetails.youtube_link} className="box-icon w-52"><i className="icon icon-youtube" /></Link>
@@ -254,15 +241,7 @@ export default function AgencyDetail({ params }) {
                                                             <span className="label"><Link target="_blank" href={developerDetails.youtube_link} className="link">Youtube</Link></span>
                                                         </div>
                                                     </li>
-                                                ) : ''}
-                                                {/* {developerDetails.pinterest_link  ? (
-                                                    <li className="item">
-                                                        <Link target="_blank" href={developerDetails.pinterest_link} className="box-icon w-52"><i className="icon icon-pinterest" /></Link>
-                                                        <div className="content">
-                                                            <span className="label">pinterest</span>
-                                                        </div>
-                                                    </li>
-                                                ) : ''} */}
+                                                ) : ''}                                             
                                                 {developerDetails.linkedin_link ? (
                                                     <li className="item">
                                                         <Link target="_blank" href={developerDetails.linkedin_link} className="box-icon w-52"><i className="icon icon-linkedin" /></Link>
@@ -285,7 +264,6 @@ export default function AgencyDetail({ params }) {
                                     <div className="col-lg-4">
                                         <div className="widget-sidebar fixed-sidebar wrapper-sidebar-right">
                                             <div className="widget-box single-property-contact bg-surface">
-                                                {/* <div className="h7 title fw-7">Contact Sellers</div> */}
                                                 <div className="box-avatar">
                                                     <div className="avatar avt-100 round">
                                                         <img
@@ -296,13 +274,7 @@ export default function AgencyDetail({ params }) {
                                                         />
                                                     </div>
                                                     {!iscontactUser && (<button className="form-wg tf-btn primary float-right" onClick={() => handelContactClick()} >{t('contactUser')}</button>)}
-                                                    {contactInfo ? (<></>
-                                                        // <div className="info">
-                                                        //     <div className="text-1 name">{developerDetails?.user_name}</div>
-                                                        //     <span className="truncate-text">{developerDetails?.user_email_adress}</span><br />
-
-                                                        //     <span>{developerDetails?.user_country_code} {developerDetails?.user_mobile_number}</span>
-                                                        // </div>
+                                                    {contactInfo ? (<></>                                                     
                                                     ) : ''}
                                                 </div>
                                             </div>

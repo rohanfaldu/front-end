@@ -16,7 +16,6 @@ export default function TabNav({ transaction }) {
     useEffect(() => {
         setIsTab(localStorage.getItem("transaction") === "rental" ? 1 : 2);
     })
-    //console.log(localStorage.getItem("transaction") ,'>>>>>>>>>>>>>>>>>>> Current transaction type');
     return (
         <>
             <li className="nav-tab-item" onClick={() => handleTab(1)}>

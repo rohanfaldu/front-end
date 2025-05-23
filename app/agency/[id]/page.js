@@ -132,10 +132,8 @@ export default function AgencyDetail({ params }) {
 		setLoading(true); // Start loading
 		try {
 			const requestData = {};
-			// console.log(234)
-			// API call
+
 			const response = await insertData(`api/agencies/${id}`, requestData, false);
-			// console.log('API Response:', response);
 
 			if (response.status) {
 				setAgencyDetails(response.data);
@@ -146,25 +144,17 @@ export default function AgencyDetail({ params }) {
 				setError("No project details found.");
 			}
 
-			// const getPropertyObj = {page: 1, limit: 5, searchTerm: "", status: ""};
-			// const propertyResponse = await insertData(`api/property/agent-developer`, getPropertyObj, true);
-			// if(propertyResponse.status && propertiesList.length === 0){
-			// 	setPropertiesList(propertyResponse.data.list);
-			// }
 		} catch (err) {
-			// Handle API errors
 			setError(err.response?.data?.message || "An error occurred");
 		} finally {
 			setLoading(false); // Stop loading
 		}
 	};
 
-	// Fetch data on component mount
 	useEffect(() => {
 		fetchAgencyDetails();
 	}, []);
 
-	// Translation hook
 	const { t, i18n } = useTranslation();
 
 	const handelContactClick = () => {
@@ -175,7 +165,6 @@ export default function AgencyDetail({ params }) {
             mobile_number: agencyDetails?.user_mobile_number,
             image: agencyDetails?.image && agencyDetails.image !== '' ? agencyDetails.image : '/images/avatar/user-image.png',
         })
-        //setContactInfo(true)
         setIscontactUser(true)
     }
 	
@@ -186,18 +175,6 @@ export default function AgencyDetail({ params }) {
 				:
 				<Layout headerStyle={1} footerStyle={1} breadcrumbTitle={agencyDetails}>
 					<div>
-						{/* <section className="flat-section flat-banner-about">
-						<div className="container">
-							<div className="row">
-								<div className="col-md-5">
-									<h3>{t("welcometothe")} <br /> {t("immofind")} </h3>
-								</div>
-								<div className="col-md-7 hover-btn-view">
-									<p className="body-2 text-variant-1"> {agencyDetails?.description} </p>									
-								</div>
-							</div>
-						</div>
-					</section> */}
 						<section className="flat-section pt-10 flat-property-detail">
 							<div className="container">
 
@@ -220,7 +197,6 @@ export default function AgencyDetail({ params }) {
 										</div>
 										<div className="single-property-element single-property-map">
 											<div className="h7 title fw-7">{t("map")}</div>
-											{/* <MapMarker latitude={agencyDetails.latitude} longitude={agencyDetails.longitude} zoom={18} /> */}
 											<MapContainer
 												center={[agencyDetails.latitude, agencyDetails.longitude]}
 												zoom={12}
@@ -259,15 +235,7 @@ export default function AgencyDetail({ params }) {
 															<span className="label"><Link target="_blank" href={agencyDetails.facebook_link} className="link">Facebook</Link></span>
 														</div>
 													</li>
-												) : ''}
-												{/* {agencyDetails.twitter_link  ? (
-													<li className="item">
-														<Link target="_blank" href={agencyDetails.twitter_link} className="box-icon w-52"><i className="icon icon-twitter" /></Link>
-														<div className="content">
-															<span className="label">Twitter</span>
-														</div>
-													</li>
-												) : ''} */}
+												) : ''}											
 												{agencyDetails.youtube_link  ? (
 													<li className="item">
 														<Link target="_blank" href={agencyDetails.youtube_link} className="box-icon w-52"><i className="icon icon-youtube" /></Link>
@@ -275,15 +243,7 @@ export default function AgencyDetail({ params }) {
 															<span className="label"><Link target="_blank" href={agencyDetails.youtube_link} className="link">Youtube</Link></span>
 														</div>
 													</li>
-												) : ''}
-												{/* {agencyDetails.pinterest_link  ? (
-													<li className="item">
-														<Link target="_blank" href={agencyDetails.pinterest_link} className="box-icon w-52"><i className="icon icon-pinterest" /></Link>
-														<div className="content">
-															<span className="label">pinterest</span>
-														</div>
-													</li>
-												) : ''} */}
+												) : ''}											
 												{agencyDetails.linkedin_link  ? (
 													<li className="item">
 														<Link target="_blank" href={agencyDetails.linkedin_link} className="box-icon w-52"><i className="icon icon-linkedin" /></Link>
@@ -302,57 +262,10 @@ export default function AgencyDetail({ params }) {
 												) : ''}
 											</ul>
 										</div>
-
-										{/* <div className="single-property-element single-property-info">
-											<div className="h7 title fw-7">{t("otherDetail")}</div>
-											<div className="row">
-												{agencyDetails?.credit !== null ? (
-													<div className="col-md-12">
-														<div className="inner-box">
-															<span className="label">{t("credit")}:</span>
-															<div className="content fw-7">{agencyDetails?.credit}</div>
-														</div>
-													</div>
-												) : ''}
-												{agencyDetails?.whatsup_number !== null ? (
-													<div className="col-md-12">
-														<div className="inner-box">
-															<span className="label">{t("whatsupNumber")}:</span>
-															<div className="content fw-7">{agencyDetails?.whatsup_number}</div>
-														</div>
-													</div>
-												) : ''}
-												{agencyDetails?.tax_number !== null ? (
-													<div className="col-md-12">
-														<div className="inner-box">
-															<span className="label">{t("taxNumber")}:</span>
-															<div className="content fw-7">{agencyDetails?.tax_number}</div>
-														</div>
-													</div>
-												) : ''}
-												{agencyDetails?.tax_number !== null ? (
-													<div className="col-md-12">
-														<div className="inner-box">
-															<span className="label">{t("licenseNumber")}:</span>
-															<div className="content fw-7">{agencyDetails?.license_number}</div>
-														</div>
-													</div>
-												) : ''}
-												{agencyDetails?.service_area !== null ? (
-													<div className="col-md-12">
-														<div className="inner-box">
-															<span className="label">{t("serviceArea")}:</span>
-															<div className="content fw-7">{agencyDetails?.service_area}</div>
-														</div>
-													</div>
-												) : ''}
-											</div>
-										</div> */}
 									</div>
 									<div className="col-lg-4">
 										<div className="widget-sidebar fixed-sidebar wrapper-sidebar-right">
 											<div className="widget-box single-property-contact bg-surface">
-												{/* <div className="h7 title fw-7">Contact Sellers</div> */}
 												<div className="box-avatar">
 													<div className="avatar avt-100 round">
 														<img
@@ -364,12 +277,7 @@ export default function AgencyDetail({ params }) {
 													</div>
 													{!iscontactUser && (<button className="form-wg tf-btn primary float-right" onClick={() => handelContactClick()} >{t('contactUser')}</button>)}
 													{contactInfo ? (
-														<></>
-														// <div className="info">
-														// 	<div className="text-1 name">{agencyDetails?.user_name}</div>
-														// 	<span className="truncate-text">{agencyDetails?.user_email_adress}</span><br />
-														// 	<span>{agencyDetails?.user_country_code} {agencyDetails?.user_mobile_number}</span>
-														// </div>
+														<></>														
 													) : ''}
 												</div>
 											</div>

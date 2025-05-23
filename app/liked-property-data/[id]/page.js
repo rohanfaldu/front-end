@@ -308,13 +308,10 @@ const exportToPDF = () => {
                       <ul className="wd-navigation">
                         {Array.from({ length: pagination.totalPages }, (_, index) => (
                           <li key={index}>
-                            <Link
-                              href="#"
-                              className={`nav-item ${pagination.currentPage === index + 1 ? 'active' : ''}`}
-                              onClick={() => handlePageChange(index + 1)}
-                            >
-                              {index + 1}
-                            </Link>
+                            <div className={`nav-item ${pagination.currentPage === index + 1 ? 'active' : ''}`} onClick={() => handlePageChange(index + 1)} href="#"
+																style={{ cursor: 'pointer' }} data-id={index}>
+																{index + 1}
+															</div>
                           </li>
                         ))}
                       </ul>

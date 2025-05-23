@@ -911,7 +911,7 @@ export default function PropertyDetailsV1({ params }) {
 					<div className="modal-content-alert login-alert-sec" >
 						<>
 							<img
-								src="/images/logo/logo.svg" // Replace with your actual image path
+								src="/images/logo/logo.svg"
 								alt="Logo"
 								style={{ width: '150px', marginBottom: '15px' }}
 							/><br></br>
