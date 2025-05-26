@@ -222,7 +222,7 @@ export default function ModalLogin({ isLogin, handleLogin, isRegister, handleReg
 					if(response.data.data.userProfile.role_id == 'c326e1e2-6f82-4af4-ba25-06029eba658f'){
 						window.location.reload();
 					}else{
-						window.location.href = '/dashboard';
+						router.push('/dashboard');
 					}
 				} else {
 					setErrorMessage(response.data.message);
