@@ -117,6 +117,8 @@ import PropertyData from "@/components/sections/PropertyData";
 import ContactPopup from "@/components/elements/ContactPopup";
 export default function AgencyDetail({ params }) {
 	const { id } = params;
+	const { t, i18n } = useTranslation();
+	const lang = i18n.language;
 	// console.log(id, ">>>>>>>>>>>>>> SLUG");
 	const searchParams = useSearchParams();
 	const projectId = searchParams.get("id");
@@ -155,19 +157,19 @@ export default function AgencyDetail({ params }) {
 		fetchAgencyDetails();
 	}, []);
 
-	const { t, i18n } = useTranslation();
+
 
 	const handelContactClick = () => {
-        setContactUserDetails({
-            user_name: agencyDetails?.user_name,
-            email_address: agencyDetails?.user_email_adress,
-            country_code: agencyDetails?.user_country_code,
-            mobile_number: agencyDetails?.user_mobile_number,
-            image: agencyDetails?.image && agencyDetails.image !== '' ? agencyDetails.image : '/images/avatar/user-image.png',
-        })
-        setIscontactUser(true)
-    }
-	
+		setContactUserDetails({
+			user_name: agencyDetails?.user_name,
+			email_address: agencyDetails?.user_email_adress,
+			country_code: agencyDetails?.user_country_code,
+			mobile_number: agencyDetails?.user_mobile_number,
+			image: agencyDetails?.image && agencyDetails.image !== '' ? agencyDetails.image : '/images/avatar/user-image.png',
+		})
+		setIscontactUser(true)
+	}
+
 	return (
 		<>
 			{loading ?
@@ -191,7 +193,7 @@ export default function AgencyDetail({ params }) {
 											{agencyDetails.description !== "" ? (
 												<>
 													<div className="h7 title fw-7">{t("description")}</div>
-													<p className="body-2 text-variant-1">{agencyDetails.description}</p>
+													<p className="body-2 text-variant-1">{(lang === "fr") ? agencyDetails.description_fr : agencyDetails.description}</p>
 												</>
 											) : ''}
 										</div>
@@ -225,43 +227,45 @@ export default function AgencyDetail({ params }) {
 												</li>
 											</ul>
 										</div>
-										<div className="single-property-element single-property-overview">
-											<div className="h7 title fw-7">{t("socialinformation")}</div>
-											<ul className="info-box">
-												{agencyDetails.facebook_link  ? (
-													<li className="item">
-														<Link target="_blank" href={agencyDetails.facebook_link} className="box-icon w-52"><i className="icon icon-facebook" /></Link>
-														<div className="content">
-															<span className="label"><Link target="_blank" href={agencyDetails.facebook_link} className="link">Facebook</Link></span>
-														</div>
-													</li>
-												) : ''}											
-												{agencyDetails.youtube_link  ? (
-													<li className="item">
-														<Link target="_blank" href={agencyDetails.youtube_link} className="box-icon w-52"><i className="icon icon-youtube" /></Link>
-														<div className="content">
-															<span className="label"><Link target="_blank" href={agencyDetails.youtube_link} className="link">Youtube</Link></span>
-														</div>
-													</li>
-												) : ''}											
-												{agencyDetails.linkedin_link  ? (
-													<li className="item">
-														<Link target="_blank" href={agencyDetails.linkedin_link} className="box-icon w-52"><i className="icon icon-linkedin" /></Link>
-														<div className="content">
-															<span className="label"><Link target="_blank" href={agencyDetails.linkedin_link} className="link">linkedin</Link></span>
-														</div>
-													</li>
-												) : ''}
-												{agencyDetails.instagram_link  ? (
-													<li className="item">
-														<Link target="_blank" href={agencyDetails.instagram_link} className="box-icon w-52"><i className="icon icon-instagram" /></Link>
-														<div className="content">
-															<span className="label"><Link target="_blank" href={agencyDetails.instagram_link} className="link">Instagram</Link></span>
-														</div>
-													</li>
-												) : ''}
-											</ul>
-										</div>
+										{((agencyDetails.facebook_link) || (agencyDetails.youtube_link) || (agencyDetails.twitter_link) || (agencyDetails.pinterest_link) || (agencyDetails.instagram_link)) && (
+											<div className="single-property-element single-property-overview">
+												<div className="h7 title fw-7">{t("socialinformation")}</div>
+												<ul className="info-box">
+													{agencyDetails.facebook_link ? (
+														<li className="item">
+															<Link target="_blank" href={agencyDetails.facebook_link} className="box-icon w-52"><i className="icon icon-facebook" /></Link>
+															<div className="content">
+																<span className="label"><Link target="_blank" href={agencyDetails.facebook_link} className="link">Facebook</Link></span>
+															</div>
+														</li>
+													) : ''}
+													{agencyDetails.youtube_link ? (
+														<li className="item">
+															<Link target="_blank" href={agencyDetails.youtube_link} className="box-icon w-52"><i className="icon icon-youtube" /></Link>
+															<div className="content">
+																<span className="label"><Link target="_blank" href={agencyDetails.youtube_link} className="link">Youtube</Link></span>
+															</div>
+														</li>
+													) : ''}
+													{agencyDetails.linkedin_link ? (
+														<li className="item">
+															<Link target="_blank" href={agencyDetails.linkedin_link} className="box-icon w-52"><i className="icon icon-linkedin" /></Link>
+															<div className="content">
+																<span className="label"><Link target="_blank" href={agencyDetails.linkedin_link} className="link">linkedin</Link></span>
+															</div>
+														</li>
+													) : ''}
+													{agencyDetails.instagram_link ? (
+														<li className="item">
+															<Link target="_blank" href={agencyDetails.instagram_link} className="box-icon w-52"><i className="icon icon-instagram" /></Link>
+															<div className="content">
+																<span className="label"><Link target="_blank" href={agencyDetails.instagram_link} className="link">Instagram</Link></span>
+															</div>
+														</li>
+													) : ''}
+												</ul>
+											</div>
+										)}
 									</div>
 									<div className="col-lg-4">
 										<div className="widget-sidebar fixed-sidebar wrapper-sidebar-right">
@@ -277,7 +281,7 @@ export default function AgencyDetail({ params }) {
 													</div>
 													{!iscontactUser && (<button className="form-wg tf-btn primary float-right" onClick={() => handelContactClick()} >{t('contactUser')}</button>)}
 													{contactInfo ? (
-														<></>														
+														<></>
 													) : ''}
 												</div>
 											</div>
@@ -321,7 +325,7 @@ export default function AgencyDetail({ params }) {
 										{propertiesList.map((property) => (
 											<SwiperSlide>
 												<PropertyData data={property} slide={true} />
-												
+
 											</SwiperSlide>
 										))}
 
@@ -333,7 +337,7 @@ export default function AgencyDetail({ params }) {
 
 				</Layout >
 			}
-			 <ContactPopup contactModelPopup={iscontactUser} contactDetail={contactUserDetails} onClose={() => setIscontactUser(false)}/>
+			<ContactPopup contactModelPopup={iscontactUser} contactDetail={contactUserDetails} onClose={() => setIscontactUser(false)} />
 		</>
 	)
 }

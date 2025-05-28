@@ -115,6 +115,8 @@ import { useTranslation } from "react-i18next";
 import { useSearchParams } from "next/navigation";
 export default function AgencyDetail({ params }) {
     const { id } = params;
+    const { t, i18n } = useTranslation();
+    const lang = i18n.language;
     const searchParams = useSearchParams();
     const projectId = searchParams.get("id");
     const [isAccordion, setIsAccordion] = useState(1)
@@ -150,9 +152,6 @@ export default function AgencyDetail({ params }) {
     useEffect(() => {
         fetchDeveloperDetails();
     }, []);
-
-    const { t, i18n } = useTranslation();
-
     const handelContactClick = () => {
         setContactUserDetails({
             user_name: developerDetails?.user_name,
@@ -164,6 +163,7 @@ export default function AgencyDetail({ params }) {
         setContactInfo(true)
         setIscontactUser(true)
     }
+    console.log(developerDetails, "developerDetails");
     return (
         <>
             {loading ?
@@ -176,8 +176,9 @@ export default function AgencyDetail({ params }) {
 
                                 <div className="row">
                                     <div className="col-lg-8">
+                                        {((developerDetails.agency_name !== undefined) || (developerDetails.description !== "")) && (
                                         <div className="single-property-element single-property-desc">
-                                            {developerDetails.agency_name !== null ? (
+                                            {developerDetails.agency_name !== developerDetails.agency_name ? (
                                                 <div className="content-top d-flex justify-content-between align-items-center">
                                                     <div className="box-name">
                                                         <a className="flag-tag primary" href="#">{developerDetails?.agency_name}</a>
@@ -187,10 +188,11 @@ export default function AgencyDetail({ params }) {
                                             {developerDetails.description !== "" ? (
                                                 <>
                                                     <div className="h7 title fw-7">{t("description")}</div>
-                                                    <p className="body-2 text-variant-1">{developerDetails.description}</p>
+                                                    <p className="body-2 text-variant-1">{(lang === "fr") ? developerDetails.description_fr : developerDetails.description}</p>
                                                 </>
                                             ) : ''}
                                         </div>
+                                        )}
 
                                         <div className="single-property-element single-property-map">
                                             <div className="h7 title fw-7">{t("map")}</div>
@@ -223,6 +225,7 @@ export default function AgencyDetail({ params }) {
                                                 </li>
                                             </ul>
                                         </div>
+                                        { ((developerDetails.facebook_link) || (developerDetails.youtube_link) || (developerDetails.twitter_link) || (developerDetails.pinterest_link) || (developerDetails.instagram_link)) && (
                                         <div className="single-property-element single-property-overview">
                                             <div className="h7 title fw-7">{t("socialinformation")}</div>
                                             <ul className="info-box">
@@ -260,6 +263,7 @@ export default function AgencyDetail({ params }) {
                                                 ) : ''}
                                             </ul>
                                         </div>
+                                        )}
                                     </div>
                                     <div className="col-lg-4">
                                         <div className="widget-sidebar fixed-sidebar wrapper-sidebar-right">
@@ -307,12 +311,14 @@ export default function AgencyDetail({ params }) {
                         </section >
                         <section className="flat-latest-property">
                             <div className="container">
-                                {propertiesList.length > 0 && ( // Render title only if properties.length > 0
+                            {console.log(propertiesList,'>> propertiesList')}
+                                {propertiesList != "" && ( // Render title only if properties.length > 0
                                     <div className="box-title">
                                         <div className="text-subtitle text-primary">{t("featureproperties")}</div>
                                         <h4 className="mt-4">{t("themostrecentproject")}</h4>
                                     </div>
                                 )}
+                                {propertiesList != "" && (
                                 <div className="swiper tf-latest-property" data-preview-lg={3} data-preview-md={2} data-preview-sm={2} data-space={30} data-loop="true">
                                     <Swiper {...swiperOptions2} className="swiper-wrapper">
                                         {propertiesList.map((property) => (
@@ -324,6 +330,7 @@ export default function AgencyDetail({ params }) {
 
                                     </Swiper>
                                 </div>
+                                )}
                             </div>
                         </section>
                     </div>

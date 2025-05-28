@@ -13775,6 +13775,11 @@ label span {
     width: 100%;
 }
 
+.developer .homeya-box .archive-top .content, .agency .homeya-box .archive-top .content{
+  display: block;
+  align-items: center;
+    min-height: 135px;  
+}
 .user-social-icons .info-box .item .box-icon .icon {
   font-size: 20px;
   color: #00a8c1;
@@ -13789,6 +13794,7 @@ label span {
     flex-wrap: wrap;
     column-gap: 10px;
     row-gap: 15px;
+    justify-content: center;
 }
 /* .user-social-icons .info-box .item .box-icon {
   border-radius: 40px;
@@ -13799,7 +13805,7 @@ label span {
   height: 30px;
 }
 .user-inner-sec .homeya-box .user-listing-sec .text-capitalize, .homeya-box .desc{
-  /* justify-content: center; */
+  justify-content: center;
   align-items: center;
   display: flex;
   position: relative;
@@ -13814,7 +13820,7 @@ label span {
   margin: 0px;
 }
 .user-inner-sec .homeya-box .content.user-listing-sec .desc  {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   justify-content: center;
 }
 .user-inner-sec .homeya-box .content.user-listing-sec {
@@ -13851,7 +13857,7 @@ label span {
 .user-inner-sec .images-style img {
   max-height: 0px;
   min-height: 100%;
-  object-fit: cover;
+  object-fit: fill;
   display: block;
   transition: all 0.4s ease;
   -webkit-transition: all 0.3s ease;
