@@ -13805,10 +13805,16 @@ label span {
   height: 30px;
 }
 .user-inner-sec .homeya-box .user-listing-sec .text-capitalize, .homeya-box .desc{
-  justify-content: center;
+
   align-items: center;
   display: flex;
   position: relative;
+}
+.developer .user-inner-sec .homeya-box .user-listing-sec .text-capitalize, 
+.developer .homeya-box .desc,
+.agency .user-inner-sec .homeya-box .user-listing-sec .text-capitalize, 
+.agency .homeya-box .desc{
+  justify-content: center;
 }
 .user-inner-sec .homeya-box .content .desc {
   display: flex;
