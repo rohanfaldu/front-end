@@ -1,7 +1,6 @@
 export const createEventManager = () => {
     const events = new Map();
     let frame;
-
     const processEvents = () => {
         events.forEach((handler, event) => {
             handler();
