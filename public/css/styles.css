@@ -13810,11 +13810,9 @@ label span {
   display: flex;
   position: relative;
 }
-.developer .user-inner-sec .homeya-box .user-listing-sec .text-capitalize, 
-.developer .homeya-box .desc,
-.agency .user-inner-sec .homeya-box .user-listing-sec .text-capitalize, 
-.agency .homeya-box .desc{
-  justify-content: center;
+.developer .homeya-box .user-listing-sec .text-capitalize,
+.agency .homeya-box .user-listing-sec .text-capitalize{
+  justify-content: center !important;
 }
 .user-inner-sec .homeya-box .content .desc {
   display: flex;
