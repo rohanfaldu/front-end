@@ -351,14 +351,15 @@ export default function Dashboard() {
 											</div>
 										</div>
 									</div>
-								</div>
+								</div>	
+								{console.log(dashboardData?.data?.visit, ' >>>>>>>>>>>>> Visit data')}
 
 								<div className="lead-section">
 									<div className="lead-visit-container">
 										<div className="lead-visit-container-info">
 											<h6>Staticis</h6>
 											<h3>Lead to Visit Conversion Rate</h3>
-											<DualLineChart />
+											<DualLineChart chartData={dashboardData?.data?.visit} />
 										</div>
 									</div>
 									<div className="lead-inner-content">

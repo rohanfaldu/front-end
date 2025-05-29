@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import * as Chart from 'chart.js';
 
-const DualLineChart = () => {
+const DualLineChart = ({ chartData }) => {
   const canvasRef = useRef(null);
   const chartRef = useRef(null);
 
@@ -16,11 +16,11 @@ const DualLineChart = () => {
     chartRef.current = new Chart.Chart(ctx, {
       type: 'line',
       data: {
-        labels: ['15 Jan', '30 Jan', '15 Feb', '28 Feb', '15 Mar', '30 Mar'],
+        labels: chartData.labels || [],
         datasets: [
           {
             label: 'Series 1',
-            data: [80, 70, 50, 150, 130, 60],
+            data: chartData.data || [],
             borderColor: '#FFB1B7',
             backgroundColor: '#FFB1B7',
             borderWidth: 3,
@@ -33,7 +33,7 @@ const DualLineChart = () => {
           },
           {
             label: 'Series 2',
-            data: [60, 80, 50, 60, 70, 40],
+            data: [1, 6, 2, 0, 5, 3, 7],
             borderColor: '#70B6C1',
             backgroundColor: '#70B6C1',
             borderWidth: 3,
@@ -72,7 +72,7 @@ const DualLineChart = () => {
           },
           y: {
             min: 0,
-            max: 200,
+            max: 10,
             grid: {
               color: '#f0f0f0',
               lineWidth: 1

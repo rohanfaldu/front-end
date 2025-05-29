@@ -2,31 +2,31 @@
 
 import DeleteFile from "@/components/elements/DeleteFile";
 import LayoutAdmin from "@/components/layout/LayoutAdmin";
-import Link from "next/link";
+import CommonTable from "@/components/common/CommonTable";
 import { insertData, deletedData } from "../../components/api/Axios/Helper";
 import Preloader from "@/components/elements/Preloader";
-import React, { useEffect, useState } from 'react';
-import Image from 'next/image';
-import EditIcon from "../../public/images/favicon/edit.png";
-import DeleteIcon from "../../public/images/favicon/delete.png";
-import ViewIcon from "../../public/images/favicon/view.png";
+import React, { useState, useEffect } from 'react';
 import variablesList from "@/components/common/Variable";
+
 export default function ProjectListing() {
-  const [properties, setProperties] = useState([]); // Store properties for the current page
-  const [loading, setLoading] = useState(true); // Manage loading state
-  const [error, setError] = useState(null); // Manage error state
-  const [searchTerm, setSearchTerm] = useState(''); // Store search input
-  const [statusFilter, setStatusFilter] = useState(''); // Store selected status filter
-  const [pagination, setPagination] = useState({
-      totalCount: 0,
-      totalPages: 0,
-      currentPage: variablesList.currentPage,
-      itemsPerPage: variablesList.itemsPerPage,
-  }); // Track pagination info
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [deleteProjectId, setDeleteProjectId] = useState('');
-  const fetchProperties = async (page = variablesList.currentPage, term = '', status = '') => {
+  const [properties, setProperties] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [statusFilter, setStatusFilter] = useState('');
+  const [pagination, setPagination] = useState({
+    currentPage: variablesList.currentPage || 1,
+    totalPages: 1,
+    totalCount: 0,
+    itemsPerPage: 1
+  });
+
+  const fetchProperties = async (page = 1, term = '', status = '') => {
     setLoading(true);
+    setError(null);
+    
     try {
       const requestData = {
         page,
@@ -36,20 +36,33 @@ export default function ProjectListing() {
         status,
       };
 
+      console.log('Fetching properties with:', requestData);
+      
       const response = await insertData("api/projects/developer", requestData, true);
-      if (response.status) {
-        const { list, totalCount, totalPages, currentPage } = response.data;
+      
+      console.log('API Response:', response);
+      
+      if (response && response.status) {
+        const { list = [], totalCount = 0, totalPages = 1, currentPage = 1 } = response.data || {};
+        
+        console.log('Setting properties:', list);
+        
         setProperties(list);
-        setPagination({
-          ...pagination,
+        setPagination(prev => ({
+          ...prev,
           totalCount,
           totalPages,
           currentPage,
-        });
-        setError(null);
+        }));
+      } else {
+        console.error('API response indicates failure:', response);
+        setError(response?.message || "Failed to fetch data");
+        setProperties([]);
       }
     } catch (err) {
-      setError(err.response?.data?.message || "An error occurred");
+      console.error('Fetch error:', err);
+      setError(err.response?.data?.message || err.message || "An error occurred");
+      setProperties([]);
     } finally {
       setLoading(false);
     }
@@ -57,188 +70,180 @@ export default function ProjectListing() {
 
   useEffect(() => {
     fetchProperties(pagination.currentPage, searchTerm, statusFilter);
+  }, []); // Only run on mount
+
+  // Separate effect for pagination, search, and filter changes
+  useEffect(() => {
+    if (pagination.currentPage > 1 || searchTerm || statusFilter) {
+      fetchProperties(pagination.currentPage, searchTerm, statusFilter);
+    }
   }, [pagination.currentPage, searchTerm, statusFilter]);
 
-  const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
-    setPagination({ ...pagination, currentPage: 1 }); // Reset to first page on search
-  };
+  const handleDelete = async (item) => {
+    if (!item || !item.id) {
+      alert('Invalid item selected for deletion');
+      return false;
+    }
 
-  const handleStatusChange = (e) => {
-    setStatusFilter(e.target.value);
-    setPagination({ ...pagination, currentPage: 1 }); // Reset to first page on filter
-  };
+    // Show confirmation dialog
+    if (!confirm(`Are you sure you want to delete "${item.title || 'this item'}"?`)) {
+      return false;
+    }
 
-  const handleDelete = async () => {
-    // console.log(deleteProjectId, '>>>>>>> Delete id New');
     try {
-
-      // console.log(deleteProjectId, '>>>>>>> Delete id Here');
-      const response = await deletedData(`api/projects/${deleteProjectId}`, { propertyId: deleteProjectId });
-      // console.log(response);
-      setIsModalOpen(false);
-      if (response.status) {
-        fetchProperties(pagination.currentPage, searchTerm, statusFilter);
+      const response = await deletedData(`api/projects/${item.id}`, { propertyId: item.id });
+      if (response && response.status) {
+        // Refresh the data after deletion
+        await fetchProperties(pagination.currentPage, searchTerm, statusFilter);
+        return true;
       } else {
-        alert(response.message);
+        alert(response?.message || "Failed to delete item");
+        return false;
       }
     } catch (err) {
-      setError(err.response?.data?.message || "An error occurred");
+      console.error('Delete error:', err);
+      alert(err.response?.data?.message || err.message || "An error occurred during deletion");
+      return false;
     }
   };
 
-  const handleView = (slug) => {
-    const URL = `${process.env.NEXT_PUBLIC_SITE_URL}/project/${slug}`;
-      window.open(URL, '_blank')
+  const handleView = (item) => {
+    if (!item || !item.slug) {
+      alert('Invalid item - cannot view');
+      return;
+    }
+    const URL = `${process.env.NEXT_PUBLIC_SITE_URL}/project/${item.slug}`;
+    window.open(URL, '_blank');
+  };
+
+  const handleEdit = (item) => {
+    if (!item || !item.slug) {
+      alert('Invalid item - cannot edit');
+      return;
+    }
+    window.location.href = `/edit-project/${item.slug}`;
+  };
+
+  const handleSearch = (term) => {
+    console.log('Search term:', term);
+    setSearchTerm(term);
+    setPagination(prev => ({
+      ...prev,
+      currentPage: 1 // Reset to first page when searching
+    }));
+  };
+
+  const handleFilter = (status) => {
+    console.log('Filter status:', status);
+    setStatusFilter(status);
+    setPagination(prev => ({
+      ...prev,
+      currentPage: 1 // Reset to first page when filtering
+    }));
   };
 
   const handlePageChange = (page) => {
-    setPagination({ ...pagination, currentPage: page });
+    console.log('Page change:', page);
+    if (page >= 1 && page <= pagination.totalPages) {
+      setPagination(prev => ({
+        ...prev,
+        currentPage: page
+      }));
+    }
   };
 
-  const openModal = (id) => {
-    setIsModalOpen(true);
-    setDeleteProjectId(id);
-  };
+  const columns = [
+    {
+      key: 'user_image',
+      header: 'Image',
+      type: 'image'
+    },
+    {
+      key: 'title',
+      header: 'Title'
+    },
+    {
+      key: 'user_name',
+      header: 'User name'
+    },
+    {
+      key: 'created_at',
+      header: 'Date Published',
+      type: 'date'
+    },
+    {
+      key: 'status',
+      header: 'Status',
+      type: 'status'
+    },
+    {
+      key: 'actions',
+      header: 'Action',
+      type: 'actions'
+    }
+  ];
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
+  console.log('Current state:', {
+    properties: properties,
+    loading: loading,
+    error: error,
+    pagination: pagination
+  });
+
+  // Show error state
+  if (error && !loading) {
+    return (
+      <LayoutAdmin>
+        <div className="wrap-dashboard-content">
+          <div className="widget-box-2 wd-listing">
+            <div className="p-6 text-center">
+              <div className="text-red-600 mb-4">Error: {error}</div>
+              <button 
+                onClick={() => fetchProperties(1, '', '')}
+                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+              >
+                Retry
+              </button>
+            </div>
+          </div>
+        </div>
+      </LayoutAdmin>
+    );
+  }
+
   return (
     <>
-      {loading ? (
-        <Preloader />
-      ) : (
-        <>
-          <DeleteFile />
-          <LayoutAdmin>
-            <div className="wrap-dashboard-content">
-              <div className="widget-box-2 wd-listing">
-                <div className="top d-flex justify-content-between align-items-center">
-                  <h6 className="title">Project Listing</h6>
-                  <Link className="remove-file tf-btn primary" href="/create-project">Add Project</Link>
-                </div>
-                {properties.length > 0 ? (
-                  <>
-                    <div className="wrap-table">
-                      <div className="table-responsive">
-                        <table>
-                          <thead>
-                            <tr>
-                                <th>Image</th>
-                                <th>Title</th>
-                                <th>User name</th>
-                                <th>Date Published</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {properties.map((property) => (
-                              <tr key={property.id} className="file-delete">
-                              <td>
-                                <div className="listing-box">
-                                  <div className="images">
-                                    <img src={property.picture[0] || '/images/avatar/user-image.png'} alt="images" />
-                                  </div>
-                                </div>
-                              </td>
-                              <td>{property.title}</td>
-                              <td>
-                                {property.user_name}
-                              </td>
-                              <td>{new Date(property.created_at).toLocaleDateString()}</td>
-                              <td>
-                                <div className="status-wrap">
-                                  <Link href="#" className="btn-status">{property.status? 'Active':'Inactive'}</Link>
-                                </div>
-                              </td>
-                              <td>
-                                <ul className="list-action">
-                                    
-                                  <li className="edit">
-                                    <Link href={`/edit-project/${property.slug}`} className="item">
-                                      <Image
-                                        src={EditIcon} // Imported image object or static path
-                                        alt="Edit icon"
-                                        width={25}
-                                        height={25}
-                                      />
-                                    </Link>
-                                  </li>
-                                  <li className="delete">
-                                    <a className="remove-file item" onClick={() => openModal(property.id)}>
-                                      <Image
-                                          src={DeleteIcon} // Imported image object or static path
-                                          alt="Delete icon"
-                                          width={25}
-                                          height={25}
-                                        />
-                                    </a>
-                                  </li>
-                                  <li className="delete">
-                                    <a
-                                      className="remove-file item"
-                                      onClick={() => handleView(property.slug)}
-                                      style={{ border: 'none', background: 'transparent', padding: 0 }}
-                                      target="_blank"
-                                      rel="noopener noreferrer"
-                                    >
-                                      <Image
-                                        src={ViewIcon} // Imported image object or static path
-                                        alt="View icon"
-                                        width={25}
-                                        height={25}
-                                      />
-                                    </a>
-                                  </li>
-
-                                </ul>
-                              </td>
-                            </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      </div>
-                      <ul className="wd-navigation">
-                        {Array.from({ length: pagination.totalPages }, (_, index) => (
-                          <li key={index}>
-                            <Link
-                              href="#"
-                              className={`nav-item ${pagination.currentPage === index + 1 ? 'active' : ''}`}
-                              onClick={() => handlePageChange(index + 1)}
-                            >
-                              {index + 1}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    {isModalOpen && (
-                      <div className="custom-modal">
-                      <div className="custom-modal-content">
-                        <>
-   
-                          <h2>Delete Item</h2>
-                          <p>Are you sure you want to delete this item?</p>
-                          <div>
-                            <button className="tf-btn primary " onClick={handleDelete}>Yes, Delete</button>
-                            <button className="tf-btn primary" onClick={closeModal}>Cancel</button>
-                          </div>
-                        </>
-                        
-                      </div>
-                      </div>
-                    )}
-                  </>
-                ) : (
-                  <div>No records found</div>
-                )}
-              </div>
-            </div>
-          </LayoutAdmin>
-        </>
-      )}
+      <DeleteFile />
+      <LayoutAdmin>
+        <div className="wrap-dashboard-content">
+          <div className="listing-data-sec">
+            <CommonTable
+              title="Project Listing"
+              data={properties || []} // Ensure data is always an array
+              loading={loading}
+              columns={columns}
+              searchable={true}
+              filterable={true}
+              pagination={pagination}
+              onSearch={handleSearch}
+              onFilter={handleFilter}
+              onPageChange={handlePageChange}
+              onEdit={handleEdit}
+              onView={handleView}
+              onDelete={handleDelete}
+              addButtonText="Add Project"
+              SubText="Project List"
+              addButtonLink="/create-project"
+              filterOptions={[
+                { value: '', label: 'All' }, // Added 'All' option
+                { value: 'active', label: 'Active' },
+                { value: 'inactive', label: 'Inactive' }
+              ]}
+              emptyMessage={loading ? "Loading..." : "No projects found"}
+            />
+          </div>
+        </div>
+      </LayoutAdmin>
     </>
   );
 }
