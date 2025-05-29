@@ -35,7 +35,7 @@ const MultiGroupChart = ({ data }) => {
           borderSkipped: false
         },
         {
-          label: 'Chat',
+          label: 'chat',
           data: data?.daily?.chat || [],
           backgroundColor: '#FFB1B7',
           borderRadius: 20,
@@ -61,7 +61,7 @@ const MultiGroupChart = ({ data }) => {
           borderSkipped: false
         },
         {
-          label: 'Chat',
+          label: 'chat',
           data: data?.weekly?.chat || [],
           backgroundColor: '#FFB1B7',
           borderRadius: 20,
@@ -87,7 +87,7 @@ const MultiGroupChart = ({ data }) => {
           borderSkipped: false
         },
         {
-          label: 'Chat',
+          label: 'chat',
           data: data?.monthly?.chat || [],
           backgroundColor: '#FFB1B7',
           borderRadius: 20,
@@ -109,11 +109,11 @@ const MultiGroupChart = ({ data }) => {
     },
     scales: {
       x: {
-        stacked: true,
+        stacked: false,
         grid: { display: false }
       },
       y: {
-        stacked: true,
+        stacked: false,
         beginAtZero: true,
         grid: {
           color: 'rgba(0,0,0,0.1)'
@@ -143,6 +143,35 @@ const MultiGroupChart = ({ data }) => {
       }
     };
   }, [timeFilter, data]);
+
+//   useEffect(() => {
+//   const ctx = chartRef.current?.getContext('2d');
+//   if (!ctx) return;
+
+//   const currentData = rawData[timeFilter];
+
+//   if (!currentData || currentData.labels.length === 0 || currentData.datasets.every(ds => ds.data.length === 0)) {
+//     return;  // Skip if no data
+//   }
+
+//   if (chartInstance.current) {
+//     chartInstance.current.destroy();
+//   }
+
+//   chartInstance.current = new ChartJS(ctx, {
+//     type: 'bar',
+//     data: currentData,
+//     options: chartOptions
+//   });
+
+//   return () => {
+//     if (chartInstance.current) {
+//       chartInstance.current.destroy();
+//       chartInstance.current = null;
+//     }
+//   };
+// }, [timeFilter, data]);
+
 
   return (
     <div className="mb-12">

@@ -49,7 +49,7 @@ const SemicircularProgressChart = () => {
             display: false
           },
           tooltip: {
-            enabled: false
+            enabled: true
           }
         },
         animation: {
@@ -67,9 +67,9 @@ const SemicircularProgressChart = () => {
           // Draw the main percentage text
           ctx.save();
           ctx.textAlign = 'center';
-          ctx.textBaseline = 'middle';
+          ctx.textBaseline = 'top';
           ctx.fillStyle = '#2d3748';
-          ctx.font = 'bold 48px Arial';
+          ctx.font = 'bold 40px Arial';
           ctx.fillText(`${percentage}%`, centerX, centerY - 20);
 
           // Draw the "Converted" label
@@ -98,8 +98,8 @@ const SemicircularProgressChart = () => {
           console.log(lineStartX,' >> lineStartX >>', lineStartY,'>>> lineStartY >>>', lineEndX, ' >>> lineEndX >>', lineEndY, '>>>> lineEndY >>>' )
           // Draw the "/" divider line
           ctx.beginPath();
-          ctx.moveTo(230,100);
-          ctx.lineTo(250,74);
+          // ctx.moveTo(230,100);
+          // ctx.lineTo(250,74);
           ctx.strokeStyle = '#004169';
           ctx.lineWidth = 10;
           ctx.lineCap = 'round';
@@ -119,10 +119,10 @@ const SemicircularProgressChart = () => {
 
 
   return (
-    <div className="w-full h-80 p-8 bg-white flex items-center justify-center">
+    <div className="w-full h-80 p-8 bg-white flex items-center justify-center inner-section">
       <div className="w-72 h-72">
         <div className="semicirclechart">
-          <canvas ref={canvasRef} />
+          <canvas ref={canvasRef}/>
         </div>
       </div>
     </div>

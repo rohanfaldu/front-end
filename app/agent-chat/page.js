@@ -37,7 +37,7 @@ export default function Chat() {
     if (!chatDocId) return null;
     
     try {
-      const chatCollectionRef = collection(db, "chat_new", chatDocId, "chat");
+      const chatCollectionRef = collection(db, "test_chat_new", chatDocId, "chat");
       // Create a query to order messages by datetime
       const q = query(chatCollectionRef, orderBy("datetime"));
       
@@ -98,7 +98,7 @@ export default function Chat() {
       };
       
       // Add the message to the Firestore collection
-      const chatCollectionRef = collection(db, "chat_new", chatDocId, "chat");
+      const chatCollectionRef = collection(db, "test_chat_new", chatDocId, "chat");
       await addDoc(chatCollectionRef, newMessage);
       
       // Clear the input field
@@ -182,7 +182,7 @@ export default function Chat() {
           return;
         }
   
-        let chatCollectionRef = collection(db, "chat_new");
+        let chatCollectionRef = collection(db, "test_chat_new");
         let q;
   
         if (userRole === "developer") {
@@ -208,7 +208,7 @@ export default function Chat() {
         // Fetch the latest message for each chat
         const recordsWithLastMessages = await Promise.all(chatRecords.map(async (chat) => {
           // Reference the messages subcollection for this chat
-          const messagesRef = collection(db, `chat_new/${chat.id}/chat`);
+          const messagesRef = collection(db, `test_chat_new/${chat.id}/chat`);
           // Query to get the latest message (ordered by datetime)
           const messagesQuery = query(messagesRef, orderBy("datetime", "desc"), limit(1));
           const messageSnapshot = await getDocs(messagesQuery);

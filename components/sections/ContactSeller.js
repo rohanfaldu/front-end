@@ -14,6 +14,8 @@ import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import { getDoc, doc, setDoc, collection, } from "firebase/firestore";
 import { db } from '@/components/layout/firebaseConfig';
+import { Timestamp } from 'firebase/firestore';
+
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
@@ -111,7 +113,7 @@ export default function ContactSeller({ data, login }) {
 		try {
 			const documentId = `${data.user_id}_${data.id}_${localStorage.getItem("user_id")}`;
 
-			const docRef = doc(db, "chat_new", documentId);
+			const docRef = doc(db, "test_chat_new", documentId);
 			const docSnap = await getDoc(docRef);
 			if (!docSnap.exists()) {
 				if (data.user_role === 'developer') {
@@ -128,7 +130,8 @@ export default function ContactSeller({ data, login }) {
 						property_image: data.picture[0] || "",
 						user_id: localStorage.getItem("user_id"),
 						user_name: localStorage.getItem("user_name") || "",
-						user_image: localStorage.getItem("user_image") || ""
+						user_image: localStorage.getItem("user_image") || "",
+						last_activity: Timestamp.now()
 					});
 				} else if (data.user_role === 'agency') {
 					await setDoc(docRef, {
@@ -144,7 +147,8 @@ export default function ContactSeller({ data, login }) {
 						property_image: data.picture[0] || "",
 						user_id: localStorage.getItem("user_id"),
 						user_name: localStorage.getItem("user_name") || "",
-						user_image: localStorage.getItem("user_image") || ""
+						user_image: localStorage.getItem("user_image") || "",
+						last_activity: Timestamp.now()
 					});
 				}
 
@@ -305,11 +309,11 @@ export default function ContactSeller({ data, login }) {
 					</div>
 				</div>
 			)}
-			{isLogin? 
+			{isLogin ?
 				<>
 					<ModalLogin isLogin={isLogin} handleLogin={handleLogin} isRegister={isRegister} handleRegister={handleRegister} handleForgotPassword={handleForgotPassword} />
 				</>
-			: null }
+				: null}
 		</>
 	);
 }
