@@ -4,6 +4,9 @@
 import { DM_Sans, Josefin_Sans } from 'next/font/google'
 import { useTranslation } from 'react-i18next';
 import "./i18n";
+import { useEffect } from 'react';
+import { usePathname } from 'next/navigation';
+import { initGA, logPageView, trackPerformance } from '../utils/analytics';
 
 const dm = DM_Sans({
     weight: ['400', '500', '700'],
@@ -24,7 +27,20 @@ export const revalidate = 60
 
 export default function RootLayout({ children }) {
     const { i18n } = useTranslation();
+      const pathname = usePathname();
     
+    useEffect(() => {
+        // Initialize GA4 when component mounts
+        initGA();
+    }, []);
+    
+    useEffect(() => {
+        // Log page view when pathname changes
+        if (pathname) {
+            logPageView(pathname);
+        }
+    }, [pathname]);
+         
     return (
         <html lang={i18n.language || "fr"}>
             <head>
@@ -48,7 +64,5 @@ export default function RootLayout({ children }) {
 }
 
 export function reportWebVitals(metric) {
-    if (metric.label === 'web-vital') {
-        // console.log(metric)
-    }
+    trackPerformance(metric);
 }
