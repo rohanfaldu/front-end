@@ -16,11 +16,11 @@ const DualLineChart = ({ chartData }) => {
     chartRef.current = new Chart.Chart(ctx, {
       type: 'line',
       data: {
-        labels: chartData.labels || [],
+        labels: chartData.visit.labels || [],
         datasets: [
           {
-            label: 'Series 1',
-            data: chartData.data || [],
+            label: 'Visit',
+            data: chartData.visit.visitData || [],
             borderColor: '#FFB1B7',
             backgroundColor: '#FFB1B7',
             borderWidth: 3,
@@ -32,8 +32,8 @@ const DualLineChart = ({ chartData }) => {
             pointHoverRadius: 8,
           },
           {
-            label: 'Series 2',
-            data: [1, 6, 2, 0, 5, 3, 7],
+            label: 'Chat',
+            data: chartData.chat.data || [],
             borderColor: '#70B6C1',
             backgroundColor: '#70B6C1',
             borderWidth: 3,

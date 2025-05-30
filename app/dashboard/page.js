@@ -315,7 +315,7 @@ export default function Dashboard() {
 										<div className="bar-chart-container">
 											{/* < MultiGroupChart data={dashboardData?.data?.likeChartData} /> */}
 											<MultiGroupChart
-												data={dashboardData?.data?.chartResponseData}
+												data={dashboardData?.data?.chart_response_data}
 											/>
 
 										</div>
@@ -359,7 +359,7 @@ export default function Dashboard() {
 										<div className="lead-visit-container-info">
 											<h6>Staticis</h6>
 											<h3>Lead to Visit Conversion Rate</h3>
-											<DualLineChart chartData={dashboardData?.data?.visit} />
+											<DualLineChart chartData={dashboardData?.data?.lead_info} />
 										</div>
 									</div>
 									<div className="lead-inner-content">
@@ -367,14 +367,14 @@ export default function Dashboard() {
 											<div className="total-lead-info">
 												<div className="total-lead-container-inner">
 													<h6>Total Leads</h6>
-													<h3>32,000</h3>
+													<h3>{dashboardData?.data?.property_visit_count}</h3>
 												</div>
 												<div className="total-lead-container-outer">
 													<h6>Converted Lead</h6>
-													<h3>7,600</h3>
+													<h3>{dashboardData?.data?.property_chat_count}</h3>
 												</div>
 											</div>
-											< SemicircularProgressChart />
+											< SemicircularProgressChart percetage={dashboardData?.data?.conversation_rate} totalLead={dashboardData?.data?.property_visit_count} totalChat={dashboardData?.data?.property_chat_count}/>
 										</div>
 									</div>
 								</div>

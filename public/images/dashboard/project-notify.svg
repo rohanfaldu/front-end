@@ -1,0 +1,13 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Base Project Document/Folders -->
+  <rect x="4" y="12" width="56" height="40" rx="4" ry="4" stroke="black" stroke-width="2" fill="none"/>
+  <rect x="10" y="18" width="12" height="4" fill="black"/>
+  <rect x="10" y="26" width="32" height="2" fill="black"/>
+  <rect x="10" y="32" width="32" height="2" fill="black"/>
+
+  <!-- Buildings/Skyscrapers inside the document -->
+  <rect x="20" y="36" width="4" height="8" fill="black"/>
+  <rect x="26" y="32" width="4" height="12" fill="black"/>
+  <rect x="32" y="28" width="4" height="16" fill="black"/>
+  <rect x="38" y="34" width="4" height="10" fill="black"/>
+</svg>

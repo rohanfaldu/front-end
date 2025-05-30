@@ -14,10 +14,10 @@ Chart.Chart.register(
   Chart.Legend
 );
 
-const SemicircularProgressChart = () => {
+const SemicircularProgressChart = ({ percetage = 0, totalLead = 0, totalChat = 0 }) => {
   const canvasRef = useRef(null);
   const chartRef = useRef(null);
-
+  console.log(percetage, " >>>>>>>>>>>> percetage");
   useEffect(() => {
     const ctx = canvasRef.current.getContext('2d');
 
@@ -26,8 +26,8 @@ const SemicircularProgressChart = () => {
       chartRef.current.destroy();
     }
 
-    const percentage = 72;
-    const converted = 24400;
+    const percentage = Number(percetage.toFixed(2));;
+    const converted = (totalLead - totalChat);
 
     chartRef.current = new Chart.Chart(ctx, {
       type: 'doughnut',
@@ -36,7 +36,7 @@ const SemicircularProgressChart = () => {
           data: [percentage, 100 - percentage],
           backgroundColor: ['#5fb3b3', '#e6f0ff'],
           borderWidth: 0,
-          cutout: '75%',
+          cutout: percetage + '%',
           circumference: 180,
           rotation: 270
         }]

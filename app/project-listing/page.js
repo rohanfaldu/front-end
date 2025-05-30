@@ -74,7 +74,7 @@ export default function ProjectListing() {
 
   // Separate effect for pagination, search, and filter changes
   useEffect(() => {
-    if (pagination.currentPage > 1 || searchTerm || statusFilter) {
+    if (pagination.currentPage >= 1 || searchTerm || statusFilter) {
       fetchProperties(pagination.currentPage, searchTerm, statusFilter);
     }
   }, [pagination.currentPage, searchTerm, statusFilter]);
@@ -145,10 +145,13 @@ export default function ProjectListing() {
   const handlePageChange = (page) => {
     console.log('Page change:', page);
     if (page >= 1 && page <= pagination.totalPages) {
+      console.log(1);
       setPagination(prev => ({
         ...prev,
         currentPage: page
       }));
+    }else {
+      console.log(2);
     }
   };
 

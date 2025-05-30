@@ -61,3 +61,46 @@ export function debugLog(text, ...args) {
     console.log(text, ...args);
   }
 }
+
+const getColorFromName = (name) => {
+  const colors = ['#2d6a4f', '#1d3557', '#6a4c93', '#ff6b6b', '#4a90e2'];
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) {
+    hash = name.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  const index = Math.abs(hash % colors.length);
+  return colors[index];
+};
+
+export function InitialAvatar ({ fullName }){
+  const initial = fullName ? fullName.charAt(0).toLowerCase() : '?';
+  const bgColor = getColorFromName(fullName || '');
+
+  return (
+    <div
+      style={{
+        width: '40px',
+        height: '40px',
+        borderRadius: '4px',
+        backgroundColor: bgColor,
+        color: 'white',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontWeight: 'bold',
+        textTransform: 'lowercase',
+      }}
+    >
+      {initial}
+    </div>
+  );
+};
+
+export function checkImageUrl(url) {
+  return fetch(url, { method: 'HEAD' })
+    .then(response => response.ok)
+    .catch(error => {
+      console.error('Image URL check failed:', error);
+      return false;
+    });
+}

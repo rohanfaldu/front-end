@@ -11,7 +11,7 @@ import { db } from '@/components/layout/firebaseConfig';
 import Preloader from '@/components/elements/Preloader';
 import { useRouter } from 'next/navigation';
 import { useTranslation } from "react-i18next";
-
+import { InitialAvatar, checkImageUrl } from "@/components/common/Functions.js";
 export default function Chat() {
   const [showPicker, setShowPicker] = useState(false);
   const [message, setMessage] = useState("");
@@ -21,16 +21,24 @@ export default function Chat() {
   const [chatmessages, setChatmessages] = useState([]);
   const [receiverId, setReceiverId] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [agentImage, setAgentImage] = useState();
+  const [agentImage, setAgentImage] = useState("");
+  const [showChatList, setShowChatList] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
+  
   const handleEmojiClick = (emojiObject) => {
     setMessage(prev => prev + emojiObject.emoji);
     setShowPicker(false);
   };
+  
   const router = useRouter();
   const [activeUser, setActiveUser] = useState(null);
   const [chatWithName, setChatWithName] = useState("");
   const { t, i18n } = useTranslation();
 
+  const handleBackToChats = () => {
+    setShowChatList(true);
+    setActiveUser(null);
+  };
 
   const handleSendMessage = async () => {
     if (!message.trim() || !activeUser) return;
@@ -39,11 +47,9 @@ export default function Chat() {
 
     try {
       const userId = localStorage.getItem("user_id");
-      // Find the receiver ID from the active chat record
       const activeChat = allRecord.find(chat => chat.id === activeUser);
       const receiverId = activeChat?.developer_id || activeChat?.agency_id;
 
-      // Create a new message object
       const newMessage = {
         chat: message.trim(),
         datetime: serverTimestamp(),
@@ -51,15 +57,10 @@ export default function Chat() {
         to: receiverId
       };
 
-      // Add the message to the Firestore collection
       const chatCollectionRef = collection(db, "test_chat_new", activeUser, "chat");
       await addDoc(chatCollectionRef, newMessage);
 
-      // Clear the input field
       setMessage("");
-
-      // We don't need to fetch messages here anymore since we have a real-time listener
-
     } catch (error) {
       console.error("Error sending message:", error);
     } finally {
@@ -73,41 +74,33 @@ export default function Chat() {
     }
   };
 
-
   const getMessageWithAgent = async (id, name, image) => {
     setActiveUser(id);
     setChatWithName(name);
     setAgentImage(image);
-    // console.log("SelectedImage:", image);
-    // Set up real-time listener for the selected chat
+    setShowChatList(false);
     setupChatListener(id);
   };
 
-  // This function sets up a real-time listener for chat messages
   const setupChatListener = (chatId) => {
     if (!chatId) return;
 
     try {
       const chatCollectionRef = collection(db, "test_chat_new", chatId, "chat");
-      // Create a query that orders messages by datetime
       const q = query(chatCollectionRef, orderBy("datetime"));
 
-      // Set up the real-time listener
       const unsubscribe = onSnapshot(q, (snapshot) => {
         const chatMessages = snapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data()
         }));
 
-        // Format and update messages
         const formattedMessages = formatMessages(chatMessages);
         setChatmessages(formattedMessages);
-        // console.log("Real-time chat messages updated:", chatMessages);
       }, (error) => {
         console.error("Error in real-time listener:", error);
       });
 
-      // Clean up the listener when component unmounts or chat changes
       return () => unsubscribe();
     } catch (error) {
       console.error("Error setting up chat listener:", error);
@@ -120,7 +113,6 @@ export default function Chat() {
     let currentGroup = [];
 
     chatmessages.forEach((msg) => {
-      // Check if datetime is a Firestore timestamp object
       if (msg.datetime && typeof msg.datetime.seconds === 'number') {
         const currentTimestamp = new Date(msg.datetime.seconds * 1000)
           .toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
@@ -144,6 +136,36 @@ export default function Chat() {
     return groupedMessages;
   };
 
+  const formatTime = (timestamp) => {
+    if (!timestamp) return "";
+    const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+    const now = new Date();
+    const diffTime = Math.abs(now - date);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    
+    if (diffDays === 1) return "Yesterday";
+    if (diffDays < 7) return date.toLocaleDateString('en-US', { weekday: 'long' });
+    return date.toLocaleDateString();
+  };
+
+  const formatMessageTime = (timestamp) => {
+    if (!timestamp) return "";
+    const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+    const now = new Date();
+    const diffHours = Math.abs(now - date) / (1000 * 60 * 60);
+    
+    if (diffHours < 24) {
+      return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    }
+    return date.toLocaleDateString();
+  };
+
+  const filteredRecords = allRecord.filter(user => 
+    user.property_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    user.developer_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    user.agency_name?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   useEffect(() => {
     async function fetchChatData() {
       try {
@@ -165,23 +187,18 @@ export default function Chat() {
             return;
           }
 
-          // Get basic chat info
           const chatRecords = querySnapshot.docs.map((doc) => ({
             id: doc.id,
             ...doc.data(),
           }));
 
-          // Fetch the latest message for each chat
           const recordsWithLastMessages = await Promise.all(chatRecords.map(async (chat) => {
-            // Reference the messages subcollection for this chat
             const messagesRef = collection(db, `test_chat_new/${chat.id}/chat`);
-            // Query to get the latest message (ordered by datetime)
             const messagesQuery = query(messagesRef, orderBy("datetime", "desc"), limit(1));
             const messageSnapshot = await getDocs(messagesQuery);
 
             if (!messageSnapshot.empty) {
               const latestMessage = messageSnapshot.docs[0].data();
-              // Update the lastMessage field with the actual last message
               return {
                 ...chat,
                 lastMessage: {
@@ -191,23 +208,10 @@ export default function Chat() {
               };
             }
 
-            return chat; // Return original chat if no messages found
+            return chat;
           }));
 
           setAllRecord(recordsWithLastMessages);
-
-          // If there are chats, automatically select the first one
-          if (recordsWithLastMessages.length > 0) {
-            getMessageWithAgent(
-              recordsWithLastMessages[0].id,
-              recordsWithLastMessages[0].agency_name !== ''
-                ? recordsWithLastMessages[0].agency_name
-                : recordsWithLastMessages[0].developer_name,
-              recordsWithLastMessages[0].agency_image !== ''
-                ? recordsWithLastMessages[0].agency_image
-                : recordsWithLastMessages[0].developer_image
-            );
-          }
           setLoading(false);
         }
       } catch (error) {
@@ -217,143 +221,236 @@ export default function Chat() {
 
     fetchChatData();
 
-    // Clean up any listeners when component unmounts
     return () => {
-      // If we had stored the unsubscribe function, we would call it here
+      // Cleanup listeners
     };
   }, []);
 
-  // Effect to set up or clean up chat listener when activeUser changes
   useEffect(() => {
     if (activeUser) {
       return setupChatListener(activeUser);
     }
   }, [activeUser]);
 
-
+  console.log('Validate URl:', checkImageUrl(agentImage));
+  console.log('Current state:', agentImage);
   return (
     <>
       <ChatAdmin>
-        {loading &&
-          <Preloader />
-        }
-        {!loading &&
-          <div className="">
-            <div className="link back-btn chat-back">
-              <button
-                className="form-wg tf-btn primary"
-                type="button"
-                style={{ margin: "10px" }}
-                onClick={() => router.back()}
-              >
-                <span style={{ color: "#fff" }}>&lt; {t('back')}</span>
-              </button>
-            </div>
-            <div className="row">
-              <section className="discussions" style={{ position: "relative" }}>
-                {allRecord.map((user) => (
-                  <div
-                    key={user.id}
-                    className={`discussion ${activeUser === user.id ? "message-active" : ""}`}
-                    onClick={() => getMessageWithAgent(user.id, user.agency_name !== '' ? user.agency_name : user.developer_name, user.agency_image !== '' ? user.agency_image : user.developer_image)}
-                  >
-                    <div
-                      className="photo"
-                      style={{ backgroundImage: `url('${user.property_image}')` }}
-                    >
-                      <div className="online"></div>
-                    </div>
-                    <div className="desc-contact-2">
-                      <p className="name">{user.property_name}</p>
-                      {user.developer_name !== '' &&
-                        <p className="name">{user.developer_name}</p>
-                      }
-                      {user.agency_name !== '' &&
-                        <p className="name">{user.agency_name}</p>
-                      }
-                      <p className="message">{user.lastMessage?.text || "No messages yet"}</p>
-                    </div>
-                    <div className="timer">{user.lastMessage?.timestamp ? new Date(user.lastMessage.timestamp.toDate()).toLocaleDateString() : "No date"}</div>
-                  </div>
-                ))}
-              </section>
-              <section className="chat">
-                <div className="header-chat">
-                  {/* <i className="icon fa fa-user-o" aria-hidden="true"></i> */}
-                  <img
-                    src={agentImage} style={{ width: "40px", height: "40px", borderRadius: "50%", objectFit: "cover", marginLeft: "30px" }}
-                  />
-                  <p className="name">{chatWithName}</p>
-                  {/* <i className="icon clickable fa fa-ellipsis-h right" aria-hidden="true"></i> */}
+        {loading && <Preloader />}
+        {!loading && (
+          <div className="modern-chat-container">
+            {/* Chat List Sidebar */}
+            <div className={`chat-sidebar ${showChatList ? 'show' : 'hide-mobile'}`}>
+              {/* Header */}
+              <div className="sidebar-header">
+                <div className="header-title">
+                  <h2>Messages</h2>
+                  <span className="message-count">{allRecord.length}</span>
                 </div>
-                <div className="messages-chat">
-                  {chatmessages.map((group, index) => (
-                    <div key={index}>
-                      {group.messages.map((msg, idx) => (
-                        <div key={msg.id}>
-                          {msg.from !== localStorage.getItem("user_id") && (
-                            <div className="message">
-                              {/* {(idx === 0 || (idx > 0 && group.messages[idx - 1].from !== localStorage.getItem("user_id"))) && (
-                                <div className="photo"
-                                  style={{
-                                    backgroundImage: "url('https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80')",
-                                  }}>
-                                  <div className="online"></div>
-                                </div>
-                              )} */}
-                              <p className="text">{msg.chat}</p>
-                            </div>
-                          )}
-
-                          {msg.from === localStorage.getItem("user_id") && (
-                            <div className="message text-only">
-                              <div className="response">
-                                <p className="text"> {msg.chat}</p>
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      ))}
-                      <p className={group.messages[0].from === localStorage.getItem("user_id") ? "response-time time" : "time"}>{group.timestamp}</p>
-                    </div>
-                  ))}
+                <div className="header-actions">
+                  <button className="header-btn">
+                    <i className="fa fa-bars"></i>
+                  </button>
                 </div>
+              </div>
 
-
-                <div className="footer-chat" style={{width: "-webkit-fill-available" }}>
-                  <i
-                    className="icon fa fa-smile-o clickable"
-                    style={{ fontSize: "25pt", cursor: "pointer" }}
-                    onClick={() => setShowPicker(prev => !prev)}
-                    aria-hidden="true"
-                  ></i>
-                  {showPicker && (
-                    <div style={{ position: "absolute", bottom: "50px", left: "10px", zIndex: 1000 }}>
-                      <EmojiPicker onEmojiClick={handleEmojiClick} />
-                    </div>
-                  )}
+              {/* Search */}
+              <div className="search-container">
+                <div className="search-input-wrapper">
+                  {/* <i className="fa fa-search search-icon"></i> */}
                   <input
                     type="text"
-                    className="write-message"
-                    placeholder="Type your message here"
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    onKeyPress={handleKeyPress}
-                    style={{ width: "85%" }}
-                    disabled={!activeUser || isLoading}
+                    placeholder="Search"
+                    className="search-input"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
                   />
-
-                  <i
-                    className={`icon send fa fa-paper-plane-o clickable ${isLoading ? 'disabled' : ''}`}
-                    aria-hidden="true"
-                    onClick={handleSendMessage}
-                    style={{ cursor: activeUser && !isLoading ? 'pointer' : 'not-allowed', opacity: activeUser && !isLoading ? 1 : 0.5 }}
-                  ></i>
                 </div>
-              </section>
+              </div>
+
+              {/* Chat List */}
+              <div className="chat-list">
+                {filteredRecords.map((user) => (
+                  <div
+                    key={user.id}
+                    className={`chat-item ${activeUser === user.id ? "active" : ""}`}
+                    onClick={() => getMessageWithAgent(
+                      user.id,
+                      user.agency_name !== '' ? user.agency_name : user.developer_name,
+                      user.agency_image !== '' ? user.agency_image : user.developer_image
+                    )}
+                  >
+                    <div className="chat-avatar">
+                      <img
+                        src={user.property_image || '/default-avatar.png'}
+                        alt="Avatar"
+                        className="avatar-image"
+                      />
+                      <div className="online-status">
+                        <img src="/images/chat/chat-online.svg" alt="chat-Online" />
+                      </div>
+                    </div>
+                    
+                    <div className="chat-content">
+                      <div className="chat-header">
+                        <h4 className="chat-name">
+                          {user.agency_name !== '' ? user.agency_name : user.developer_name}
+                        </h4>
+                        <span className="chat-time">
+                          {formatTime(user.lastMessage?.timestamp)}
+                        </span>
+                      </div>
+                      <div className="chat-preview">
+                        <p className="property-title">{user.property_name}</p>
+                        <p className="last-message-text">
+                          {user.lastMessage?.text || "No messages yet"}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Bottom Actions */}
+              {/* <div className="sidebar-footer">
+                <button className="footer-btn" onClick={() => router.back()}>
+                  <i className="fa fa-sign-out"></i>
+                  <span>LogOut</span>
+                </button>
+                <button className="footer-btn">
+                  <i className="fa fa-cog"></i>
+                  <span>Settings</span>
+                </button>
+              </div> */}
+            </div>
+
+            {/* Chat Area */}
+            <div className={`chat-main ${!showChatList ? 'show-mobile' : ''}`}>
+              {activeUser ? (
+                <>
+                  {/* Chat Header */}
+                  <div className="chat-header">
+                    <button 
+                      className="mobile-back"
+                      onClick={handleBackToChats}
+                    >
+                      <i className="fa fa-arrow-left"></i>
+                    </button>
+                    
+                    <div className="chat-user user-bar-sec">
+                      <img
+                        src={agentImage || '/default-avatar.png'}
+                        alt="User"
+                        className="user-avatar"
+                      />
+                      <div className="user-info">
+                        <h3 className="user-name">{chatWithName}</h3>
+                        <span className="user-status">Active Yesterday ago</span>
+                      </div>
+                    </div>
+
+                    {/* <div className="chat-actions">
+                      <button className="action-btn">
+                        <i className="fa fa-phone"></i>
+                      </button>
+                      <button className="action-btn">
+                        <i className="fa fa-video-camera"></i>
+                      </button>
+                      <button className="action-btn">
+                        <i className="fa fa-info-circle"></i>
+                      </button>
+                      <button className="action-btn">
+                        <i className="fa fa-ellipsis-h"></i>
+                      </button>
+                    </div> */}
+                  </div>
+
+                  {/* Messages */}
+                  <div className="messages-area">
+                    {chatmessages.map((group, index) => (
+                      <div key={index} className="message-group">
+                        {group.messages.map((msg, idx) => (
+                          <div key={msg.id} className={`message ${msg.from === localStorage.getItem("user_id") ? 'sent' : 'received'}`}>
+                            {msg.from !== localStorage.getItem("user_id") && (
+                              <>
+                              {console.log(chatWithName, "chatWithName")}
+                              <InitialAvatar fullName={chatWithName} />
+                              </>
+                            )}
+                            <div className="message-bubble">
+                              <p>{msg.chat}</p>
+                            </div>
+                            {msg.from === localStorage.getItem("user_id") && (
+                              <img
+                                src="/user-avatar.png"
+                                alt="You"
+                                className="message-avatar"
+                              />
+                            )}
+                          </div>
+                        ))}
+                        <div className="message-time">
+                          <span>{group.timestamp}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Message Input */}
+                  <div className="message-input-area">
+                    <div className="input-container">
+                      <button className="input-action" onClick={() => setShowPicker(!showPicker)}>
+                        <i className="fa fa-smile-o"></i>
+                      </button>
+                      <button className="input-action">
+                        <i className="fa fa-paperclip"></i>
+                      </button>
+                      <button className="input-action">
+                        <i className="fa fa-user"></i>
+                      </button>
+                      <button className="input-action">
+                        <i className="fa fa-microphone"></i>
+                      </button>
+                      
+                      <input
+                        type="text"
+                        placeholder="Your Message..."
+                        className="message-input"
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        onKeyPress={handleKeyPress}
+                        disabled={!activeUser || isLoading}
+                      />
+                      
+                      <button 
+                        className="send-button"
+                        onClick={handleSendMessage}
+                        disabled={!activeUser || isLoading}
+                      >
+                        <i className="fa fa-paper-plane"></i>
+                      </button>
+                    </div>
+
+                    {showPicker && (
+                      <div className="emoji-picker">
+                        <EmojiPicker onEmojiClick={handleEmojiClick} />
+                      </div>
+                    )}
+                  </div>
+                </>
+              ) : (
+                <div className="no-chat">
+                  <div className="no-chat-content">
+                    <i className="fa fa-comments-o"></i>
+                    <h3>Select a chat to start messaging</h3>
+                    <p>Choose from your existing conversations or start a new one</p>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
-        }
+        )}
       </ChatAdmin>
     </>
   );

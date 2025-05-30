@@ -15,6 +15,7 @@ import timezone from "dayjs/plugin/timezone";
 import { getDoc, doc, setDoc, collection, } from "firebase/firestore";
 import { db } from '@/components/layout/firebaseConfig';
 import { Timestamp } from 'firebase/firestore';
+import { useRouter } from 'next/navigation';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -31,7 +32,7 @@ export default function ContactSeller({ data, login }) {
 	const [isLogin, setLogin] = useState(false);
 	const [isRegister, setRegister] = useState(false);
 	const [isForgotPassword, setForgotPassword] = useState(false);
-
+	const router = useRouter();
 	const handleLogin = () => {
 		document.body.classList.remove("mobile-menu-visible");
 		setLogin(!isLogin)
@@ -110,6 +111,7 @@ export default function ContactSeller({ data, login }) {
 
 
 	const checkAndCreateChatDocument = async () => {
+		console.log('Here 1')
 		try {
 			const documentId = `${data.user_id}_${data.id}_${localStorage.getItem("user_id")}`;
 
@@ -156,11 +158,33 @@ export default function ContactSeller({ data, login }) {
 				const chatCollectionRef = collection(docRef, "chat");
 				const blankDocRef = doc(chatCollectionRef); // Firestore will generate a random ID
 				await setDoc(blankDocRef, {}); // Creates an empty document
-				window.location.href = "/user-chat";
+				const chatRequestData = {
+					property_id: data.id,
+					user_id: localStorage.getItem("user_id"),
+				};
+
+				const response = await insertData("api/chat/create", chatRequestData, true);
+				console.log(response, " >>>> response");
+	
+				router.push(`/user-chat`);
+				//window.location.href = "/user-chat";
 				return documentId;
 			} else {
 				// // console.log("Chat document already exists with ID:", documentId);
-				window.location.href = "/user-chat";
+				//window.location.href = "/user-chat";
+
+
+				const chatRequestData = {
+					property_id: data.id,
+					user_id: localStorage.getItem("user_id"),
+				};
+
+				const response = await insertData("api/chat/create", chatRequestData, true);
+				console.log(response, " >>>> response");
+	
+
+				
+				router.push(`/user-chat`);
 				return documentId;
 			}
 		} catch (error) {
@@ -177,6 +201,7 @@ export default function ContactSeller({ data, login }) {
 			setIsContactModelOpen(true);
 			return;
 		} else {
+			console.log('Here');
 			checkAndCreateChatDocument()
 				.then(documentId => {
 					// // console.log("Chat document ID:", documentId);
@@ -211,7 +236,7 @@ export default function ContactSeller({ data, login }) {
 										style={{ marginTop: "10px", width: "205px" }}
 										onClick={handleContactClick}
 									>
-										<span style={{ color: "#fff" }}>{t("contact")}</span>
+										<span style={{ color: "#fff" }}>23{t("contact")}</span>
 									</button>
 								</div>
 							</div>
