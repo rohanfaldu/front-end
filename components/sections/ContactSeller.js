@@ -236,7 +236,7 @@ export default function ContactSeller({ data, login }) {
 										style={{ marginTop: "10px", width: "205px" }}
 										onClick={handleContactClick}
 									>
-										<span style={{ color: "#fff" }}>23{t("contact")}</span>
+										<span style={{ color: "#fff" }}>{t("contact")}</span>
 									</button>
 								</div>
 							</div>

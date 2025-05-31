@@ -24,12 +24,13 @@ export default function Chat() {
   const [agentImage, setAgentImage] = useState("");
   const [showChatList, setShowChatList] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
-  
+  const [propertyName, setPropertyName] = useState("");
+
   const handleEmojiClick = (emojiObject) => {
     setMessage(prev => prev + emojiObject.emoji);
     setShowPicker(false);
   };
-  
+
   const router = useRouter();
   const [activeUser, setActiveUser] = useState(null);
   const [chatWithName, setChatWithName] = useState("");
@@ -74,12 +75,13 @@ export default function Chat() {
     }
   };
 
-  const getMessageWithAgent = async (id, name, image) => {
+  const getMessageWithAgent = async (id, name, image, propertyName) => {
     setActiveUser(id);
     setChatWithName(name);
     setAgentImage(image);
     setShowChatList(false);
     setupChatListener(id);
+    setPropertyName(propertyName);
   };
 
   const setupChatListener = (chatId) => {
@@ -142,7 +144,7 @@ export default function Chat() {
     const now = new Date();
     const diffTime = Math.abs(now - date);
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    
+
     if (diffDays === 1) return "Yesterday";
     if (diffDays < 7) return date.toLocaleDateString('en-US', { weekday: 'long' });
     return date.toLocaleDateString();
@@ -153,14 +155,14 @@ export default function Chat() {
     const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
     const now = new Date();
     const diffHours = Math.abs(now - date) / (1000 * 60 * 60);
-    
+
     if (diffHours < 24) {
       return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
     }
     return date.toLocaleDateString();
   };
 
-  const filteredRecords = allRecord.filter(user => 
+  const filteredRecords = allRecord.filter(user =>
     user.property_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     user.developer_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     user.agency_name?.toLowerCase().includes(searchTerm.toLowerCase())
@@ -232,8 +234,8 @@ export default function Chat() {
     }
   }, [activeUser]);
 
-  console.log('Validate URl:', checkImageUrl(agentImage));
-  console.log('Current state:', agentImage);
+  // console.log('Validate URl:', checkImageUrl(agentImage));
+  // console.log('Current state:', agentImage);
   return (
     <>
       <ChatAdmin>
@@ -271,6 +273,7 @@ export default function Chat() {
 
               {/* Chat List */}
               <div className="chat-list">
+                {console.log(filteredRecords, "filteredRecords")}
                 {filteredRecords.map((user) => (
                   <div
                     key={user.id}
@@ -278,20 +281,27 @@ export default function Chat() {
                     onClick={() => getMessageWithAgent(
                       user.id,
                       user.agency_name !== '' ? user.agency_name : user.developer_name,
-                      user.agency_image !== '' ? user.agency_image : user.developer_image
+                      user.agency_image !== '' ? user.agency_image : user.developer_image,
+                      user.property_name !== '' ? user.property_name : ""
                     )}
                   >
                     <div className="chat-avatar">
-                      <img
-                        src={user.property_image || '/default-avatar.png'}
-                        alt="Avatar"
-                        className="avatar-image"
-                      />
+                      {(user.agency_image || user.developer_image) && (
+                        <img
+                          src={user.agency_image !== '' && user.developer_image === ''
+                            ? user.agency_image
+                            : user.developer_image !== '' && user.agency_image === ''
+                              ? user.developer_image
+                              : null}
+                          alt="Avatar"
+                          className="avatar-image"
+                        />
+                      )}
                       <div className="online-status">
                         <img src="/images/chat/chat-online.svg" alt="chat-Online" />
                       </div>
                     </div>
-                    
+
                     <div className="chat-content">
                       <div className="chat-header">
                         <h4 className="chat-name">
@@ -331,13 +341,13 @@ export default function Chat() {
                 <>
                   {/* Chat Header */}
                   <div className="chat-header">
-                    <button 
+                    <button
                       className="mobile-back"
                       onClick={handleBackToChats}
                     >
                       <i className="fa fa-arrow-left"></i>
                     </button>
-                    
+
                     <div className="chat-user user-bar-sec">
                       <img
                         src={agentImage || '/default-avatar.png'}
@@ -345,8 +355,13 @@ export default function Chat() {
                         className="user-avatar"
                       />
                       <div className="user-info">
-                        <h3 className="user-name">{chatWithName}</h3>
-                        <span className="user-status">Active Yesterday ago</span>
+                        <div className="user-name-sec">
+                           <h3 className="user-name">{chatWithName}</h3>
+                          <p className="property-title">{propertyName}</p>
+                        </div>
+                        <div className="user-status-sec">
+                          {/* <span className="user-status">Active Yesterday ago</span> */}
+                        </div>
                       </div>
                     </div>
 
@@ -372,21 +387,17 @@ export default function Chat() {
                       <div key={index} className="message-group">
                         {group.messages.map((msg, idx) => (
                           <div key={msg.id} className={`message ${msg.from === localStorage.getItem("user_id") ? 'sent' : 'received'}`}>
+
                             {msg.from !== localStorage.getItem("user_id") && (
                               <>
-                              {console.log(chatWithName, "chatWithName")}
-                              <InitialAvatar fullName={chatWithName} />
+                                <InitialAvatar fullName={chatWithName} />
                               </>
                             )}
                             <div className="message-bubble">
                               <p>{msg.chat}</p>
                             </div>
                             {msg.from === localStorage.getItem("user_id") && (
-                              <img
-                                src="/user-avatar.png"
-                                alt="You"
-                                className="message-avatar"
-                              />
+                              <img src={agentImage} alt="You" className="message-avatar" />
                             )}
                           </div>
                         ))}
@@ -403,7 +414,7 @@ export default function Chat() {
                       <button className="input-action" onClick={() => setShowPicker(!showPicker)}>
                         <i className="fa fa-smile-o"></i>
                       </button>
-                      <button className="input-action">
+                      {/* <button className="input-action">
                         <i className="fa fa-paperclip"></i>
                       </button>
                       <button className="input-action">
@@ -411,8 +422,8 @@ export default function Chat() {
                       </button>
                       <button className="input-action">
                         <i className="fa fa-microphone"></i>
-                      </button>
-                      
+                      </button> */}
+
                       <input
                         type="text"
                         placeholder="Your Message..."
@@ -422,8 +433,8 @@ export default function Chat() {
                         onKeyPress={handleKeyPress}
                         disabled={!activeUser || isLoading}
                       />
-                      
-                      <button 
+
+                      <button
                         className="send-button"
                         onClick={handleSendMessage}
                         disabled={!activeUser || isLoading}

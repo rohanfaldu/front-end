@@ -36,7 +36,7 @@ const SemicircularProgressChart = ({ percetage = 0, totalLead = 0, totalChat = 0
           data: [percentage, 100 - percentage],
           backgroundColor: ['#5fb3b3', '#e6f0ff'],
           borderWidth: 0,
-          cutout: percetage + '%',
+          cutout: '75%',
           circumference: 180,
           rotation: 270
         }]

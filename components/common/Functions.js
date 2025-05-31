@@ -78,18 +78,8 @@ export function InitialAvatar ({ fullName }){
 
   return (
     <div
-      style={{
-        width: '40px',
-        height: '40px',
-        borderRadius: '4px',
-        backgroundColor: bgColor,
-        color: 'white',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        fontWeight: 'bold',
-        textTransform: 'lowercase',
-      }}
+      className="user-name-avatar"
+      style={{ backgroundColor: bgColor }}
     >
       {initial}
     </div>
@@ -97,10 +87,11 @@ export function InitialAvatar ({ fullName }){
 };
 
 export function checkImageUrl(url) {
-  return fetch(url, { method: 'HEAD' })
-    .then(response => response.ok)
-    .catch(error => {
-      console.error('Image URL check failed:', error);
-      return false;
+    const isValid = new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => resolve(true);
+      img.onerror = () => resolve(false);
+      img.src = url;
     });
+    return (isValid)? true : false;
 }

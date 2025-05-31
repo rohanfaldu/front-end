@@ -249,7 +249,7 @@ input[type=url],
 input[type=search],
 input[type=tel],
 input[type=color] {
-  font-family: "DM Sans", sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   border: 1px solid #e4e4e4;
   outline: 0;
   -webkit-box-shadow: none;
@@ -362,7 +362,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "DM Sans", sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   font-weight: 600;
   text-rendering: optimizeLegibility;
   color: #161e2d;
@@ -432,7 +432,7 @@ a:hover {
 }
 
 label {
-  font-family: "DM Sans", sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   font-weight: 600;
 }
 
@@ -449,7 +449,7 @@ label {
 }
 
 .h7 {
-  font-family: "DM Sans", sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   font-size: 20px;
   line-height: 28px;
   font-weight: 600;
@@ -499,7 +499,7 @@ label {
 }
 
 .text-subheading {
-  font-family: "DM Sans", sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   font-size: 12px;
   line-height: 19px;
   font-weight: 600;
@@ -508,7 +508,7 @@ label {
 }
 
 .text-subtitle {
-  font-family: "DM Sans", sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   font-size: 14px;
   line-height: 24px;
   font-weight: 600;
@@ -715,7 +715,7 @@ label {
 }
 
 .header-account ul li a {
-  font-family: "DM Sans", sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   color: #161e2d;
   font-weight: 600;
 }
@@ -1023,7 +1023,7 @@ label {
 }
 
 .main-header .main-menu .navigation>li>a {
-  font-family: "DM Sans", sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   position: relative;
   display: block;
   text-align: center;
@@ -1196,7 +1196,7 @@ label {
 }
 
 .main-header .main-menu .navigation>li>ul>li>a {
-  font-family: "DM Sans", sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   position: relative;
   padding: 16px 24px;
   display: block;
@@ -1710,7 +1710,7 @@ label {
 }
 
 .mobile-menu .navigation li>a {
-  font-family: "DM Sans", sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   position: relative;
   display: block;
   font-weight: 600;
@@ -1835,7 +1835,7 @@ label {
 
 .mobile-menu .login-box a,
 .mobile-menu .login-box span {
-  font-family: "DM Sans", sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   font-weight: 600;
 }
 
@@ -2025,7 +2025,7 @@ label {
 }
 
 .canvas-menu .menu-outer .nav-link {
-  font-family: "DM Sans", sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   padding: 10px 0px;
   font-size: 16px;
   line-height: 26px;
@@ -2078,7 +2078,7 @@ label {
 .canvas-menu .menu-outer .sub-nav-menu .sub-nav-link {
   padding: 7px 0px;
   display: block;
-  font-family: "DM Sans", sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   font-weight: 500;
   color: #5c6368;
 }
@@ -2202,7 +2202,7 @@ label {
 }
 
 .footer .wd-social span {
-  font-family: "DM Sans", sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   font-weight: 600;
   font-size: 14px;
   line-height: 24px;
@@ -2385,7 +2385,7 @@ label {
 }
 
 .nav-tab-recommended .nav-link-item {
-  font-family: "DM Sans", sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   font-size: 16px;
   line-height: 26px;
   font-weight: 600;
@@ -2908,7 +2908,7 @@ label {
 
 /*------------ button ---------------- */
 .tf-btn {
-  font-family: "DM Sans", sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   font-size: 16px;
   line-height: 26px;
   font-weight: 700;
@@ -3001,7 +3001,7 @@ label {
   font-size: 16px;
   line-height: 26px;
   font-weight: 600;
-  font-family: "DM Sans", sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   color: #161e2d;
   position: relative;
 }
@@ -3432,7 +3432,7 @@ label {
 }
 
 .wd-find-select .inner-group .form-style .nice-select {
-  font-family: "DM Sans", sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   color: #161e2d;
   font-weight: 600;
   font-size: 18px;
@@ -3471,7 +3471,7 @@ label {
   flex-direction: column;
   align-items: center;
   color: #161e2d;
-  font-family: "DM Sans", sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   font-weight: 600;
 }
 
@@ -3619,7 +3619,7 @@ label {
   margin-bottom: 4px;
   font-size: 16px;
   line-height: 24px;
-  font-family: "DM Sans", sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   font-weight: 600; 
   color: #161e2d;
 }
@@ -3635,7 +3635,7 @@ label {
 }
 
 .wd-search-form .group-checkbox .amenities-item .text-cb-amenities {
-  font-family: "DM Sans", sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   font-weight: 600; 
   color: #161e2d;
   cursor: pointer;
@@ -4379,7 +4379,7 @@ label {
 
 .offcanvas.canvas-menu .off-canvas-body .login-box a,
 .offcanvas.canvas-menu .off-canvas-body .login-box span {
-  font-family: "DM Sans", sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   font-weight: 600;
 }
 
@@ -4976,7 +4976,7 @@ label {
   left: 0;
   bottom: 0;
   display: inline-block;
-  font-family: "DM Sans", sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   padding: 6px 12px;
   background-color: #00a8c1;
   color: #ffffff;
@@ -5061,7 +5061,7 @@ label {
 }
 
 .post-author span {
-  font-family: "DM Sans", sans-serif;
+  font-family: "Josefin Sans", sans-serif;
 }
 
 .post-author span:not(:first-child) {
@@ -5167,7 +5167,7 @@ label {
   letter-spacing: 0.8px;
   text-transform: uppercase;
   color: #5c6368;
-  font-family: "DM Sans", sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   font-weight: 600;
 }
 
@@ -5249,7 +5249,7 @@ label {
   position: relative;
   font-size: 12px;
   line-height: 19px;
-  font-family: "DM Sans", sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   text-transform: uppercase;
   font-weight: 600;
   color: #5c6368;
@@ -5386,7 +5386,7 @@ label {
   font-size: 12px;
   line-height: 19px;
   letter-spacing: 0.8px;
-  font-family: "DM Sans", sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   font-weight: 600;
 }
 
@@ -5778,7 +5778,7 @@ label {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-family: "DM Sans", sans-serif;
+  font-family: "Josefin Sans", sans-serif;
 }
 
 .homeya-box .content .meta-list .item .icon {
@@ -6494,7 +6494,7 @@ label {
 }
 
 .wrap-service-v2 .list-view li {
-  font-family: "DM Sans", sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -6696,13 +6696,13 @@ label {
 .wrap-counter .counter-box .number {
   font-size: 64px;
   line-height: 66px;
-  font-family: "DM Sans", sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   color: #00a8c1;
   font-weight: 600;
 }
 
 .wrap-counter .counter-box .title-count {
-  font-family: "DM Sans", sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   font-size: 24px;
   line-height: 30px;
   font-weight: 700;
@@ -7805,7 +7805,7 @@ label {
 
 .wrapper-layout .wrap-left .title {
   font-weight: 600;
-  font-family: "DM Sans", sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   margin-bottom: 20px;
 }
 
@@ -9244,7 +9244,7 @@ label {
   text-transform: uppercase;
   letter-spacing: 0.8px;
   font-weight: 600;
-  font-family: "DM Sans", sans-serif;
+  font-family: "Josefin Sans", sans-serif;
 }
 
 .check-icon {
@@ -13874,7 +13874,7 @@ label span {
 } */
 
 .cust-menu-link {
-  font-family: "DM Sans", sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   position: relative;
   display: block;
   font-weight: 600;
@@ -14346,7 +14346,7 @@ label span {
 
 /**************** ChAT *******************/
 
-.modern-chat-container { display: flex; height: 100vh; background: #f0f2f5; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+.modern-chat-container { display: flex; height: 80vh; background: #f0f2f5; font-family:"DM Sans", sans-serif, 'Segoe UI', Roboto, sans-serif; }
 .chat-sidebar { width: 380px; background: white; border-right: 1px solid #e4e6ea; display: flex; flex-direction: column; height: 100vh; }
 .sidebar-header { padding: 20px; display: flex; justify-content: space-between; align-items: center; }
 .header-title { display: flex; align-items: center; gap: 8px; }
@@ -14369,12 +14369,12 @@ label span {
 .online-status { position: absolute; bottom: 20px; right: 5px; width: 15px; height: 15px; }
 .online-status img {border: 2px solid #fff; vertical-align: middle; border-radius: 50%; }
 .chat-content { flex: 1; min-width: 0; }
-.chat-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px; }
+.chat-header { display: flex; justify-content: space-between; align-items: flex-start; }
 .chat-name { margin: 0; font-size: 16px; font-weight: 700; color: #050505; line-height: 1; }
 .chat-time { font-size: 12px; color: #65676b; flex-shrink: 0; margin-left: 8px; font-weight: 400; }
 .chat-preview { display: flex; flex-direction: column; gap: 2px; }
 .property-title { margin: 0; font-size: 14px; color: #65676b; font-weight: 400; line-height: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } 
-.last-message-text { margin: 0; font-size: 13px; color: #65676b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.3; }
+.last-message-text { margin: 0; font-size: 12px; color: #00a8c1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.3; }
 .sidebar-footer { padding: 16px 20px; border-top: 1px solid #e4e6ea; display: flex; flex-direction: column; gap: 0; }
 .footer-btn { display: flex; align-items: center; gap: 12px; padding: 12px 0; background: none; border: none; cursor: pointer; color: #65676b; font-size: 15px; text-align: left; transition: all 0.2s ease; font-weight: 400; }
 .footer-btn:hover { color: #050505; }
@@ -14390,7 +14390,7 @@ label span {
 .chat-actions { display: flex; gap: 4px; }
 .action-btn { background: none; border: none; padding: 8px; cursor: pointer; color: #00a8c1; border-radius: 50%; font-size: 16px; transition: all 0.2s ease; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; }
 .action-btn:hover { background: rgba(24, 119, 242, 0.1); }
-.messages-area { flex: 1; padding: 16px 20px; overflow-y: auto; background: white; }
+.messages-area { flex: 1; padding: 16px 20px; overflow-y: auto; background: #f7f7f7; }
 .message-group { margin-bottom: 16px; }
 .message { display: flex; align-items: flex-end; gap: 8px; margin-bottom: 4px; }
 .message.sent { justify-content: flex-end; }
@@ -14415,12 +14415,11 @@ label span {
 .no-chat-content i { font-size: 64px; margin-bottom: 20px; opacity: 0.3; color: #65676b; }
 .no-chat-content h3 { margin: 0 0 8px 0; font-size: 20px; font-weight: 400; color: #050505; }
 .no-chat-content p { margin: 0; font-size: 14px; color: #65676b; }
-.emoji-picker { position: absolute; bottom: 70px; left: 20px; z-index: 1000; }
+.emoji-picker { position: absolute; top: 60px;  z-index: 1000; }
 .user-bar-sec{ padding: 20px; border-bottom: 1px solid #e4e4e4; }
 .main-content-inner{ padding: 40px 15px !important; background-color: #f7f7f7; }
-.modern-chat-container{border-radius: 20px;
-  overflow: hidden;
-  border: 1px solid #e4e4e4;}
+.modern-chat-container{border-radius: 20px; overflow: hidden; border: 1px solid #e4e4e4;}
+.user-name-avatar{ width: 28px; height: 28px; border-radius: 4px; background-color: var(--bg-color); color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; text-transform: lowercase; border-radius: 50%; }
 @media (max-width: 768px) { 
   .modern-chat-container { position: relative; } 
   .chat-sidebar { position: absolute; left: 0; top: 0; width: 100%; z-index: 10; transform: translateX(-100%); transition: transform 0.3s ease; } 

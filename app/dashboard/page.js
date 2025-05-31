@@ -223,7 +223,7 @@ export default function Dashboard() {
 													<img src="/images/dashboard/likes-icon.svg" />
 													<div className="content-box counter-section-info1">
 														<div className="number" data-speed={1000} data-to={dashboardData?.data?.property_like_count}><CountetNumber count={dashboardData?.data?.property_like_count} /></div>
-														<h5>Likes</h5>
+														<h5>Total Likes</h5>
 														<span className={ (dashboardData?.data?.property_like_yesterday.flag == 1)?`success`: `error`} >{dashboardData?.data?.property_like_yesterday.text} from yesterday</span>
 													</div>
 												</div>
